@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoursesRoot>
+    <course>Spanish 1</course>
+    <course>Spanish 2</course>
+    <course>Spanish 3</course>
+    <course/>
+</CoursesRoot>
+<?xml version="1.0" encoding="utf-8"?>
+<GradingCriteriaRoot>
+    <gradingCriteria>
+        <name>Nose picking ability</name>
+        <criteriaItem>
+            <name>Average at picking his nose</name>
+            <level>2</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Below average at picking his nose</name>
+            <level>3</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Excellent at picking his nose</name>
+            <level>0</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Poor at picking his nose</name>
+            <level>4</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Good at picking his nose</name>
+            <level>1</level>
+        </criteriaItem>
+    </gradingCriteria>
+    <gradingCriteria>
+        <name>Butt picking ability</name>
+        <criteriaItem>
+            <name>Average at picking his butt</name>
+            <level>2</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Below average at picking his butt</name>
+            <level>3</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Excellent at picking his butt</name>
+            <level>0</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Poor at picking his butt</name>
+            <level>4</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Good at picking his butt</name>
+            <level>1</level>
+        </criteriaItem>
+    </gradingCriteria>
+    <gradingCriteria>
+        <name>Listening Skills</name>
+        <criteriaItem>
+            <name>[StudentName] is average at listening.</name>
+            <level>2</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>[StudentName] is below average at listening.</name>
+            <level>3</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>[StudentName] is excellent at listening.</name>
+            <level>0</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>[StudentName] is poor at listening.</name>
+            <level>4</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>[StudentName is above average at listening.</name>
+            <level>1</level>
+        </criteriaItem>
+    </gradingCriteria>
+    <gradingCriteria>
+        <name>Speaking Skills</name>
+        <criteriaItem>
+            <name>[StudentName] is average at speaking.</name>
+            <level>2</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>[StudentName] is below average at speaking.</name>
+            <level>3</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>[StudentName] is excellent at speaking.</name>
+            <level>0</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>[StudentName] is poor at speaking.</name>
+            <level>4</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>[StudentName is above average at speaking.</name>
+            <level>1</level>
+        </criteriaItem>
+    </gradingCriteria>
+</GradingCriteriaRoot>
+<?xml version="1.0" encoding="utf-8"?>
+<StudentsRoot>
+    <student>
+        <firstName>Jeff</firstName>
+        <middleName>C</middleName>
+        <lastName>Mexican</lastName>
+        <Courses>
+            <course>Spanish 1</course>
+            <course>Spanish 2</course>
+        </Courses>
+        <Evals>
+            <eval>
+                <name>Jeffs 1st semester eval</name>
+                <criteriaItem>
+                    <value>Average at picking his nose</value>
+                    <parentItem>Nose picking ability</parentItem>
+                    <level>2</level>
+                </criteriaItem>
+                <customTextItemNode>
+                    <value>Spends time in bathroom</value>
+                </customTextItemNode>
+            </eval>
+            <eval>
+                <name>Jeffs 2nd semester eval</name>
+                <criteriaItem>
+                    <value>Excellent at picking his butt</value>
+                    <parentItem>Butt picking ability</parentItem>
+                    <level>0</level>
+                </criteriaItem>
+                <customTextItemNode>
+                    <value>Never uses bathroom</value>
+                </customTextItemNode>
+            </eval>
+        </Evals>
+    </student>
+    <student>
+        <firstName>Hairy</firstName>
+        <middleName>J</middleName>
+        <lastName>Houdini</lastName>
+        <Courses>
+            <course>Spanish 3</course>
+        </Courses>
+        <Evals/>
+    </student>
+    <student>
+        <firstName>Jim</firstName>
+        <middleName>F</middleName>
+        <lastName>Wonderman</lastName>
+        <Courses>
+            <course>Spanish 3</course>
+        </Courses>
+        <Evals/>
+    </student>
+    <student>
+        <firstName>Ganny</firstName>
+        <middleName>F</middleName>
+        <lastName>Smith</lastName>
+        <Courses>
+            <course>Spanish 1</course>
+        </Courses>
+        <Evals/>
+    </student>
+    <student>
+        <firstName>Diana</firstName>
+        <middleName>C</middleName>
+        <lastName>Amundson</lastName>
+        <Courses>
+            <course>Spanish 2</course>
+        </Courses>
+        <Evals/>
+    </student>
+    <student>
+        <firstName>Lebron</firstName>
+        <middleName>Y</middleName>
+        <lastName>James</lastName>
+        <Courses>
+            <course>Spanish 1</course>
+        </Courses>
+        <Evals/>
+    </student>
+    <student>
+        <firstName>J.R.</firstName>
+        <middleName>S</middleName>
+        <lastName>Smithy</lastName>
+        <Courses>
+            <course>Spanish 1</course>
+        </Courses>
+        <Evals/>
+    </student>
+    <student>
+        <firstName>Ronald</firstName>
+        <middleName>B</middleName>
+        <lastName>McDonald</lastName>
+        <Courses>
+            <course>Spanish 3</course>
+        </Courses>
+        <Evals/>
+    </student>
+    <student>
+        <firstName>Griffin</firstName>
+        <middleName>G</middleName>
+        <lastName>GaGriffen</lastName>
+        <Courses>
+            <course>Spanish 2</course>
+        </Courses>
+        <Evals/>
+    </student>
+</StudentsRoot>

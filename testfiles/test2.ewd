@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoursesRoot>
+    <course>Spanish 1</course>
+    <course>Spanish 2</course>
+    <course>Spanish 3</course>
+</CoursesRoot>
+<?xml version="1.0" encoding="utf-8"?>
+<GradingCriteriaRoot>
+    <gradingCriteria>
+        <name>Nose picking ability</name>
+        <criteriaItem>
+            <name>Average at picking his nose</name>
+            <level>2</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Below average at picking his nose</name>
+            <level>3</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Excellent at picking his nose</name>
+            <level>0</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Poor at picking his nose</name>
+            <level>4</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Good at picking his nose</name>
+            <level>1</level>
+        </criteriaItem>
+    </gradingCriteria>
+    <gradingCriteria>
+        <name>Butt picking ability</name>
+        <criteriaItem>
+            <name>Average at picking his butt</name>
+            <level>2</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Below average at picking his butt</name>
+            <level>3</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Excellent at picking his butt</name>
+            <level>0</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Poor at picking his butt</name>
+            <level>4</level>
+        </criteriaItem>
+        <criteriaItem>
+            <name>Good at picking his butt</name>
+            <level>1</level>
+        </criteriaItem>
+    </gradingCriteria>
+</GradingCriteriaRoot>
+<?xml version="1.0" encoding="utf-8"?>
+<StudentsRoot>
+    <student>
+        <firstName>Jeff</firstName>
+        <middleName>C</middleName>
+        <lastName>Mexican</lastName>
+        <Courses>
+            <course>Spanish 1</course>
+            <course>Spanish 2</course>
+        </Courses>
+        <Evals>
+            <eval>
+                <name>Jeffs 1st semester eval</name>
+                <criteriaItem>
+                    <value>Average at picking his nose</value>
+                    <parentItem>Nose picking ability</parentItem>
+                    <level>2</level>
+                </criteriaItem>
+                <customTextItemNode>
+                    <value>Spends time in bathroom</value>
+                </customTextItemNode>
+            </eval>
+            <eval>
+                <name>Jeffs 2nd semester eval</name>
+                <criteriaItem>
+                    <value>Excellent at picking his butt</value>
+                    <parentItem>Butt picking ability</parentItem>
+                    <level>0</level>
+                </criteriaItem>
+                <customTextItemNode>
+                    <value>Never uses bathroom</value>
+                </customTextItemNode>
+            </eval>
+        </Evals>
+    </student>
+    <student>
+        <firstName>Hairy</firstName>
+        <middleName>J</middleName>
+        <lastName>Houdini</lastName>
+        <Courses>
+            <course>Spanish 3</course>
+        </Courses>
+        <Evals/>
+    </student>
+</StudentsRoot>
