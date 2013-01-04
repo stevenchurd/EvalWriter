@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef VISITORELEMENT_H
 #define VISITORELEMENT_H
 

@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef SAVEVISITOR_H
 #define SAVEVISITOR_H
 

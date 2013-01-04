@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef STUDENT_H
 #define STUDENT_H
 

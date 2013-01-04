@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef QEXPANDABLEITEMDELEGATE_H
 #define QEXPANDABLEITEMDELEGATE_H
 

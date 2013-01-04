@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef CRITERIAITEM_H
 #define CRITERIAITEM_H
 

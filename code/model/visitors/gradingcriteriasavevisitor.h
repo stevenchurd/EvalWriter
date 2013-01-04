@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef _GRADINGCRITERIASAVEVISITOR_H_
 #define _GRADINGCRITERIASAVEVISITOR_H_
 

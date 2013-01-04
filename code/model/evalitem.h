@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef EVALITEM_H
 #define EVALITEM_H
 

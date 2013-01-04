@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef QCOURSESLISTMODEL_H
 #define QCOURSESLISTMODEL_H
 

@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef VISITOR_H
 #define VISITOR_H
 

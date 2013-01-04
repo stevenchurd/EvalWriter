@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef STUDENTSAVEVISITOR_H
 #define STUDENTSAVEVISITOR_H
 

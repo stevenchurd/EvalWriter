@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef FILELOGGER_H
 #define FILELOGGER_H
 

@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef GRADINGCRITERIA_H
 #define GRADINGCRITERIA_H
 

@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef STUDENTPROPERTYTREEPARSER_H
 #define STUDENTPROPERTYTREEPARSER_H
 

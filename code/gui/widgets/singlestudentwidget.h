@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef SINGLESTUDENTWIDGET_H
 #define SINGLESTUDENTWIDGET_H
 

@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef COURSESPROPERTYTREEPARSER_H
 #define COURSESPROPERTYTREEPARSER_H
 

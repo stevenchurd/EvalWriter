@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef QSTUDENTTABLEMODEL_H
 #define QSTUDENTTABLEMODEL_H
 

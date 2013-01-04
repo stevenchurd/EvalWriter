@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef XMLNODENAMES_H
 #define XMLNODENAMES_H
 

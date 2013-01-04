@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef _COURSESAVEVISITOR_H_
 #define _COURSESAVEVISITOR_H_
 

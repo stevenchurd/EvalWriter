@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #ifndef QGRADINGCRITERIAMODEL_H
 #define QGRADINGCRITERIAMODEL_H
 
