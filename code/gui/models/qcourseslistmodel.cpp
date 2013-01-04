@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #include "qcourseslistmodel.h"
 
 int QCoursesListModel::rowCount(const QModelIndex &) const

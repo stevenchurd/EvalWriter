@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #include <sstream>
 
 #include "studentpropertytreeparser.h"
@@ -8,10 +10,6 @@
 #include "model/criteriaitem.h"
 #include "model/gradingcriteria.h"
 #include "model/customtextitem.h"
-
-
-
-
 
 void StudentPropertyTreeParser::parseCustomTextNode(
         boost::property_tree::ptree& pt,

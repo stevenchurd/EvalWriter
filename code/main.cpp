@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #include <QApplication>
 #include <QVector>
 #include "mainwindow.h"

@@ -1,3 +1,4 @@
+// (C) Copyright Steven Hurd 2013
 
 #include "model/visitors/savevisitor.h"
 #include <boost/property_tree/xml_parser.hpp>

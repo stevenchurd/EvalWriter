@@ -1,3 +1,4 @@
+// (C) Copyright Steven Hurd 2013
 
 #include "gradingcriteriasavevisitor.h"
 #include "model/criteriaitem.h"

@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #include "qstudenttablemodel.h"
 
 #include <QStringList>

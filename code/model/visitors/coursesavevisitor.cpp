@@ -1,3 +1,4 @@
+// (C) Copyright Steven Hurd 2013
 
 #include "coursesavevisitor.h"
 #include "model/course.h"

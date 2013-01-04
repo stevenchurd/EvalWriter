@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #include "gui/widgets/singlestudentwidget.h"
 #include "model/student.h"
 #include "model/eval.h"

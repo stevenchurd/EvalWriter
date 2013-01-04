@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #include "qevaluationmodel.h"
 #if 0
 int QEvaluationModel::rowCount(const QModelIndex &parent) const

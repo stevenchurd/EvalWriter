@@ -1,3 +1,5 @@
+// (C) Copyright Steven Hurd 2013
+
 #include "course.h"
 
 Course::Course(std::string courseName) :

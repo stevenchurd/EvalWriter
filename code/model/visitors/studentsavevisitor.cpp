@@ -1,3 +1,4 @@
+// (C) Copyright Steven Hurd 2013
 
 #include "studentsavevisitor.h"
 #include <boost/foreach.hpp>
