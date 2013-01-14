@@ -22,6 +22,9 @@ public:
 
     virtual ~QCoursesListModel() {}
 
+    enum CourseRoles {
+        NameRole = Qt::UserRole + 1
+    };
 
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;
@@ -35,6 +38,8 @@ public:
 
     bool insertRows(int row, int count, const QModelIndex &parent);
     bool removeRows(int row, int count, const QModelIndex &parent);
+
+    QHash<int,QByteArray> roleNames() const;
 
 private:
     QVector<boost::shared_ptr<Course> >& m_courses;

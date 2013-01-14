@@ -1,8 +1,21 @@
 import QtQuick 2.0
 
 Rectangle {
-    width: 100
+    Row {
+        id: buttons
+        anchors { left: parent.left; bottom: parent.bottom; margins: 20 }
+        spacing: 10
+
+        TextButton {
+            text: "Delete"
+        }
+
+        TextButton {
+            text: "Modify"
+        }
+    }
+
+    width: 400
     height: 400
-    color: "#001dff"
     border.color: "black"
 }

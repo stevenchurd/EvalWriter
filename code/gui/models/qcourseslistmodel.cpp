@@ -16,7 +16,7 @@ QVariant QCoursesListModel::data(const QModelIndex &index, int role) const
     if (index.row() >= m_courses.size())
         return QVariant();
 
-    if (role == Qt::DisplayRole || role == Qt::EditRole)
+    if (role == Qt::DisplayRole || role == Qt::EditRole || role == NameRole)
         return QString::fromStdString(
                     m_courses.at(index.row())->getCourseName());
     else
@@ -87,4 +87,12 @@ bool QCoursesListModel::removeRows(int row, int count, const QModelIndex &)
 
     endRemoveRows();
     return true;
+}
+
+
+QHash<int, QByteArray> QCoursesListModel::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[NameRole] = "name";
+    return roles;
 }

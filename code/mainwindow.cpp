@@ -113,8 +113,8 @@ void MainWindow::loadFile()
         m_currentOpenFile = fileName;
 
         /* update data changed */
-        setGradingCriteriaListView();
-//        setCoursesView();
+        /*setGradingCriteriaListView();*/
+        setCoursesView();
     }
 }
 

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets
+QT       += core gui widgets declarative quick
 
 TARGET = EvalWriter
 TEMPLATE = app
@@ -68,4 +68,10 @@ INCLUDEPATH += $$(BOOST_INCLUDE_PATH) \
     ./
 
 OTHER_FILES += \
-    gui/qml/test.qml
+    gui/qml/test.qml \
+    gui/qml/modelprototype.qml \
+    gui/qml/TextButton.qml \
+    gui/qml/CourseListDelegate.qml \
+    gui/qml/CommonListView.qml
+
+
