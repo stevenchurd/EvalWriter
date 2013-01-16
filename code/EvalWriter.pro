@@ -71,7 +71,8 @@ OTHER_FILES += \
     gui/qml/test.qml \
     gui/qml/modelprototype.qml \
     gui/qml/TextButton.qml \
-    gui/qml/CourseListDelegate.qml \
-    gui/qml/CommonListView.qml
+    gui/qml/CommonListView.qml \
+    gui/qml/CommonListDelegate.qml \
+    gui/qml/CourseListDelegateItem.qml
 
 
