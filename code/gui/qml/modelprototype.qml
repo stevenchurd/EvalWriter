@@ -32,7 +32,7 @@ Rectangle {
             hiddenRectangle.visible = true
             clv.focus = false
             hiddenRectangle.focus = true
-            //clv.highlight.destroy()
+            clv.highlight = "red"
         }
     }
 }

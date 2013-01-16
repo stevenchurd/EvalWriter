@@ -8,12 +8,12 @@ Rectangle {
     anchors.fill: parent
 
     ListView {
-        anchors.fill: parent
         id: list
+
+        anchors.fill: parent
         focus: true
         highlight: Rectangle {
             color: "lightsteelblue"
-            width: parent.width
         }
     }
 }

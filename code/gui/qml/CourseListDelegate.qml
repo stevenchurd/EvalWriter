@@ -1,14 +1,31 @@
 import QtQuick 2.0
 
 Component {
-    id: courseListDelegate
+    id: cld
 
     Item {
-        width: 50
+        id: courseItem
+
+        width: 100
         height: 50
 
         Rectangle {
-            Text { text: name }
+
+            anchors.fill: parent
+            border.color: "black"
+            color: "transparent"
+
+            Text {
+                text: name
+                renderType: Text.NativeRendering
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: courseItem.ListView.view.currentIndex = index
+            }
         }
     }
 }
+
+
