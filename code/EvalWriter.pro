@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     gui/widgets/singlestudentwidget.cpp \
     gui/models/qgradingcriteriamodel.cpp \
     gui/delegates/qexpandabledelegatehelper.cpp \
-    gui/delegates/qexpandableitemdelegate.cpp
+    gui/delegates/qexpandableitemdelegate.cpp \
+    gui/models/qgradingcriteriatreemodel.cpp
 
 HEADERS  += mainwindow.h \
     evalexceptions.h \
@@ -60,7 +61,8 @@ HEADERS  += mainwindow.h \
     gui/widgets/singlestudentwidget.h \
     gui/models/qgradingcriteriamodel.h \
     gui/delegates/qexpandabledelegatehelper.h \
-    gui/delegates/qexpandableitemdelegate.h
+    gui/delegates/qexpandableitemdelegate.h \
+    gui/models/qgradingcriteriatreemodel.h
 
 FORMS    +=
 
@@ -68,11 +70,17 @@ INCLUDEPATH += $$(BOOST_INCLUDE_PATH) \
     ./
 
 OTHER_FILES += \
-    gui/qml/test.qml \
-    gui/qml/modelprototype.qml \
     gui/qml/TextButton.qml \
     gui/qml/CommonListView.qml \
     gui/qml/CommonListDelegate.qml \
-    gui/qml/CourseListDelegateItem.qml
+    gui/qml/CourseListDelegateItem.qml \
+    gui/qml/TreeViewDelegate.qml \
+    gui/qml/Scrollbar.qml \
+    gui/qml/GradingCriteriaModelPrototype.qml \
+    gui/qml/main.qml \
+    gui/qml/CourseListPrototype.qml
+
+RESOURCES += \
+    images.qrc
 
 

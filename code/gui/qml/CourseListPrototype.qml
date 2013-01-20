@@ -11,8 +11,8 @@ Rectangle {
 
         CommonListView {
             id: clv
-            modelName: courseModel
-            delegateName: CommonListDelegate{ itemsToHold: CourseListDelegateItem{} }
+            model: courseModel
+            delegate: CommonListDelegate{ itemsToHold: CourseListDelegateItem{} }
         }
     }
 
