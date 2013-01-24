@@ -1,5 +1,6 @@
 
 #include "qgradingcriteriatreemodel.h"
+#include "evalexceptions.h"
 
 
 QGradingCriteriaTreeModel::QGradingCriteriaTreeModel(QVector<boost::shared_ptr<GradingCriteria> > &gc,
@@ -26,7 +27,7 @@ void QGradingCriteriaTreeModel::buildList(void)
                                       ci->getCriteriaItemLevel())));
         }
 
-        m_listItems.append(newItem);
+        m_listItems.push_back(newItem);
     }
 }
 
@@ -158,21 +159,21 @@ QHash<int, QByteArray> QGradingCriteriaTreeModel::roleNames() const
     return roleNames;
 }
 
-void QGradingCriteriaTreeModel::removeItem(int numIndex)
+
+void QGradingCriteriaTreeModel::removeGradingCriteria(int numIndex)
 {
     if (numIndex > (m_listItems.size()-1))
         return;
 
+    if(m_listItems[numIndex]->isGradingCriteria() != true)
+        throw GenericModelException("Item was expected to be Grading criteria but was not: " + numIndex);
+
     int last = numIndex;
 
-    // first see if this is a grading criteria
-    if(m_listItems[numIndex]->level == 0 && m_listItems[numIndex]->isOpened)
+    if(m_listItems[numIndex]->isOpened)
     {
         // determine how many children need to be removed as well
         last += m_listItems[numIndex]->numChildren();
-    }
-    else
-    {
     }
 
     QModelIndex modelIndex = index(numIndex);
@@ -188,6 +189,46 @@ void QGradingCriteriaTreeModel::removeItem(int numIndex)
         --last;
     }
 
+    endRemoveRows();
+
+    //TODO
+}
+
+
+void QGradingCriteriaTreeModel::removeCriteriaItem(int numIndex)
+{
+    if (numIndex > (m_listItems.size()-1))
+        return;
+
+    if(m_listItems[numIndex]->isGradingCriteria() == true)
+        throw GenericModelException("Item was not expected to be Grading criteria: " + numIndex);
+
+    // first find the first parent before this item
+    int parentIndex = -1;
+
+    for(int i = numIndex-1; i >= 0 && parentIndex == -1; --i)
+    {
+        if(m_listItems[i]->isGradingCriteria())
+        {
+            parentIndex = i;
+        }
+    }
+
+    if(parentIndex == -1)
+    {
+        throw ItemNotFoundException("Parent for current item not found: " + numIndex);
+    }
+
+    m_listItems[parentIndex]->removeChild(numIndex-parentIndex-1);
+
+    QModelIndex parentModelIndex = index(parentIndex);
+    QModelIndex modelIndex = index(numIndex);
+
+    emit dataChanged(parentModelIndex, parentModelIndex);
+    emit dataChanged(modelIndex, modelIndex);
+
+    beginRemoveRows(QModelIndex(), numIndex, numIndex);
+    m_listItems.removeAt(numIndex);
     endRemoveRows();
 
 

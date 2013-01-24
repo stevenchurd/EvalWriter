@@ -93,7 +93,7 @@ void SingleStudentWidget::setStudentWidget(boost::shared_ptr<Student> student)
 
     BOOST_FOREACH(std::string courseName, courseNames)
     {
-        qCourseNames.append(QString::fromStdString(courseName));
+        qCourseNames.push_back(QString::fromStdString(courseName));
     }
 
     m_courseListWidget->addItems(qCourseNames);

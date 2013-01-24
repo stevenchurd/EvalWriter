@@ -38,4 +38,11 @@ public:
 };
 
 
+class GenericModelException : public std::runtime_error
+{
+public:
+    GenericModelException(std::string const& msg) : runtime_error(msg) {}
+    virtual ~GenericModelException() {}
+};
+
 #endif // EVALEXCEPTIONS_H

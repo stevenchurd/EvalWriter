@@ -75,15 +75,15 @@ OTHER_FILES += \
     gui/qml/CommonListView.qml \
     gui/qml/CommonListDelegate.qml \
     gui/qml/CourseListDelegateItem.qml \
-    gui/qml/TreeViewDelegate.qml \
     gui/qml/Scrollbar.qml \
     gui/qml/GradingCriteriaModelPrototype.qml \
     gui/qml/main.qml \
     gui/qml/CourseListPrototype.qml \
     gui/qml/VerticalSplitter.qml \
     gui/qml/GradingCriteriaRow.qml \
-    gui/qml/TreeViewDelegate2.qml \
-    gui/qml/CriteriaItemRow.qml
+    gui/qml/CriteriaItemRow.qml \
+    gui/qml/TreeViewDelegateObsolete.qml \
+    gui/qml/TreeViewDelegate.qml
 
 RESOURCES += \
     images.qrc

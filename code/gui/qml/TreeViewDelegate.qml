@@ -4,99 +4,51 @@ Item {
     id: wrapper
 
     width: parent.width
-    height: loaderElement.height
+    height: (isGradingCriteria) ? gcRow.height : ciRow.height
 
     MouseArea {
         anchors.fill: parent
         onClicked: wrapper.ListView.view.currentIndex = index
     }
 
-    // this is the line between the items
-//    Rectangle {
-//        height: 1
-//        border.width: (isGradingCriteria) ? 1 : 0
-//        anchors.top: parent.top
-//        anchors.left: parent.left
-//        anchors.right: parent.right
-//        color: "#d0d0d0"
-//    }
-
-    Row {
-        Item {
-            id: nodeOpenElement
-
-            anchors.verticalCenter: parent.verticalCenter
-            height: 24
-            width: {(isGradingCriteria) ? 32 : 50}
-
-            Image {
-                id: triangleOpenImage
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: { (isOpened) ?
-                                     gradingCriteriaModel.closeItem(index) :
-                                     gradingCriteriaModel.openItem(index) }
-                }
+    Connections {
+        target: gcRow
+        onExpandClicked: {
+            if(isOpened)
+            {
+                wrapper.ListView.view.model.closeItem(index)
+                wrapper.ListView.view.currentIndex = index
             }
-
-            states: [
-                State {
-                    name: "openedNode"
-                    when: (hasChildren)&&(isOpened)
-
-                    PropertyChanges {
-                        target: triangleOpenImage
-                        source: "qrc:Files/arrowdown.png"
-                    }
-                },
-                State {
-                    name: "closedNode"
-                    when: (hasChildren)&&(!isOpened)
-
-                    PropertyChanges {
-                        target: triangleOpenImage
-                        source: "qrc:Files/arrowright.png"
-                    }
-                }
-            ]
+            else
+            {
+                wrapper.ListView.view.model.openItem(index)
+                wrapper.ListView.view.currentIndex = index
+            }
         }
 
-        Loader {
-            id: loaderElement
-            width: wrapper.width - nodeOpenElement.width
-
-            sourceComponent: textElement
-
-        }
+        onDeleteClicked: { wrapper.ListView.view.model.removeGradingCriteria(index) }
     }
 
-    Component {
-        id: textElement
-        Text {
-            id: nameTextElement
+    Connections {
+        target: ciRow
 
-            text:{(isGradingCriteria) ? (string + " (" + numChildren + ")") : (string)}
-            font.pointSize:{(isGradingCriteria) ? 16: 10}
-            wrapMode: Text.WordWrap
-            verticalAlignment: "AlignVCenter"
-            renderType: Text.NativeRendering
+        onDeleteClicked: { wrapper.ListView.view.model.removeCriteriaItem(index) }
+    }
 
-//            Rectangle {
-//                width: parent.width
-//                height: parent.height
-//                color: "transparent"
-//                border.color: "lightgray"
-//            }
+    GradingCriteriaRow {
+        id: gcRow
+        text: string + " (" + numChildren + ")"
+        buttonsVisible: wrapper.ListView.view.currentIndex === index
+        expandable: hasChildren
+        visible: isGradingCriteria
+        expanded: isOpened
+    }
 
-            Image {
-                id: addImage
-                source: "qrc:Files/arrowright.png"
-                anchors.right: parent.right
-                visible: (wrapper.ListView.view.currentIndex === index)
-            }
-        }
-   }
+    CriteriaItemRow {
+        id: ciRow
+        text: string
+        buttonsVisible: wrapper.ListView.view.currentIndex === index
+        visible: isGradingCriteria === false
+        criteriaLevelIndicator: criteriaLevel
+    }
 }

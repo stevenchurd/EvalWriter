@@ -33,8 +33,13 @@ public:
 
     void addChild(boost::shared_ptr<GradingCriteriaTreeModelItem> child)
     {
-        children.append(child);
+        children.push_back(child);
         adjustChildrenLevels();
+    }
+
+    void removeChild(int index)
+    {
+        children.remove(index);
     }
 
     QString name;
@@ -64,7 +69,8 @@ public:
 public slots:
     void openItem(int numIndex);
     void closeItem(int numIndex);
-    void removeItem(int numIndex);
+    void removeGradingCriteria(int numIndex);
+    void removeCriteriaItem(int numIndex);
     void addGradingCriteria(QString name, QList<QMap<QString, int> > criteriaItems);
     void addCriteriaItem(QString name, int level);
     void modifyGradingCriteriaName(QString name);
