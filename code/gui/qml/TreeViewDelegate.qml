@@ -3,100 +3,100 @@ import QtQuick 2.0
 Item {
     id: wrapper
 
-    height: 50
-    width: treeView.width
+    width: parent.width
+    height: loaderElement.height
 
     MouseArea {
         anchors.fill: parent
         onClicked: wrapper.ListView.view.currentIndex = index
     }
 
-    Rectangle {
-        height: 1
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        color: "#d0d0d0"
-    }
+    // this is the line between the items
+//    Rectangle {
+//        height: 1
+//        border.width: (isGradingCriteria) ? 1 : 0
+//        anchors.top: parent.top
+//        anchors.left: parent.left
+//        anchors.right: parent.right
+//        color: "#d0d0d0"
+//    }
 
-    Item {
-        id: levelMarginElement
+    Row {
+        Item {
+            id: nodeOpenElement
 
-        width: (level>5?6:level)*32 + 5
-        anchors.left: parent.left
-    }
+            anchors.verticalCenter: parent.verticalCenter
+            height: 24
+            width: {(isGradingCriteria) ? 32 : 50}
 
-    Item {
-        id: nodeOpenElement
+            Image {
+                id: triangleOpenImage
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
 
-        anchors.left: levelMarginElement.right
-        anchors.verticalCenter: wrapper.verticalCenter
-        height: 24
-        state: "leafNode"
-
-        Image {
-            id: triangleOpenImage
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: { (isOpened) ?
-                                 gradingCriteriaModel.closeItem(index) :
-                                 gradingCriteriaModel.openItem(index) }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: { (isOpened) ?
+                                     gradingCriteriaModel.closeItem(index) :
+                                     gradingCriteriaModel.openItem(index) }
+                }
             }
+
+            states: [
+                State {
+                    name: "openedNode"
+                    when: (hasChildren)&&(isOpened)
+
+                    PropertyChanges {
+                        target: triangleOpenImage
+                        source: "qrc:Files/arrowdown.png"
+                    }
+                },
+                State {
+                    name: "closedNode"
+                    when: (hasChildren)&&(!isOpened)
+
+                    PropertyChanges {
+                        target: triangleOpenImage
+                        source: "qrc:Files/arrowright.png"
+                    }
+                }
+            ]
         }
 
-        states: [
-            State {
-                name: "leafNode"
-                when: !hasChildren
-                PropertyChanges {
-                    target: nodeOpenElement
-                    visible: false
-                    width: 0
-                }
-            },
-            State {
-                name: "openedNode"
-                when: (hasChildren)&&(isOpened)
-                PropertyChanges {
-                    target: nodeOpenElement
-                    visible: true
-                    width: 32
-                }
+        Loader {
+            id: loaderElement
+            width: wrapper.width - nodeOpenElement.width
 
-                PropertyChanges {
-                    target: triangleOpenImage
-                    source: "qrc:Files/arrowdown.png"
-                }
-            },
-            State {
-                name: "closedNode"
-                when: (hasChildren)&&(!isOpened)
-                PropertyChanges {
-                    target: nodeOpenElement
-                    visible: true
-                    width: 32
-                }
+            sourceComponent: textElement
 
-                PropertyChanges {
-                    target: triangleOpenImage
-                    source: "qrc:Files/arrowright.png"
-                }
+        }
+    }
+
+    Component {
+        id: textElement
+        Text {
+            id: nameTextElement
+
+            text:{(isGradingCriteria) ? (string + " (" + numChildren + ")") : (string)}
+            font.pointSize:{(isGradingCriteria) ? 16: 10}
+            wrapMode: Text.WordWrap
+            verticalAlignment: "AlignVCenter"
+            renderType: Text.NativeRendering
+
+//            Rectangle {
+//                width: parent.width
+//                height: parent.height
+//                color: "transparent"
+//                border.color: "lightgray"
+//            }
+
+            Image {
+                id: addImage
+                source: "qrc:Files/arrowright.png"
+                anchors.right: parent.right
+                visible: (wrapper.ListView.view.currentIndex === index)
             }
-        ]
-    }
-
-    Text {
-        id: nameTextElement
-
-        text: string
-        font.pointSize: {(hasChildren) ? 20 : 12}
-        verticalAlignment: "AlignVCenter"
-        anchors.left: nodeOpenElement.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        renderType: Text.NativeRendering
-    }
-
+        }
+   }
 }

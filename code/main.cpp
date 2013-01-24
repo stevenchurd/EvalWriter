@@ -1,10 +1,12 @@
 // (C) Copyright Steven Hurd 2013
 
-#include <QGuiApplication>
+#include <QApplication>
 #include <QVector>
 #include <QQuickView>
 #include <QQmlContext>
 #include <QFileDialog>
+#include <QQmlEngine>
+#include <QQmlComponent>
 
 #include "mainwindow.h"
 #include "utilities/filelogger.h"
@@ -28,7 +30,7 @@ void loadFile()
 {
     boost::property_tree::ptree loadPt;
 
-    QString fileName = "E:/Users/Admin/Documents/test5.ewd";
+    QString fileName = "G:/GitRepos/EvalWriter/testfiles/test5.ewd";
 
     if(!fileName.isEmpty())
     {
@@ -59,28 +61,41 @@ void loadFile()
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication a(argc, argv);
-
     loadFile();
 
     try {
 #if 0
-        // first read data from files
-        MainWindow w;
-        w.show();
-        return a.exec();
-#endif
+        QApplication app(argc, argv);
+        QQmlEngine engine;
+        QQmlComponent component(&engine);
+        component.loadUrl(QUrl::fromLocalFile("C:/Qt/Qt5.0.0/Tools/QtCreator/bin/EvalWriter/EvalWriter-Qml-prototype/code/gui/qml/main.qml"));
+        if ( !component.isReady() ) {
+            qWarning("%s", qPrintable(component.errorString()));
+            return -1;
+        }
+        QObject *topLevel = component.create();
+        QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+        if ( !window ) {
+            qWarning("Error: Your root item has to be a Window.");
+            return -1;
+        }
+        window->show();
+        return app.exec();
+#else
+        QApplication a(argc, argv);
 
         QGradingCriteriaTreeModel gcTreeModel(m_gradingCriteria);
         QCoursesListModel coursesModel(m_courses);
         QQuickView view(QUrl::fromLocalFile("G:/GitRepos/EvalWriter/code/gui/qml/main.qml"));
         QQmlContext* context = view.rootContext();
+        view.setResizeMode(QQuickView::SizeRootObjectToView);
         context->setContextProperty("courseModel", &coursesModel);
         context->setContextProperty("gradingCriteriaModel", &gcTreeModel);
 
         view.show();
 
         return a.exec();
+#endif
 
     } catch(std::exception& e) {
         FileLogger::getInst()->log(e.what());

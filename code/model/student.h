@@ -8,7 +8,6 @@
 #include "visitors/visitorelement.h"
 #include "visitors/visitor.h"
 #include "course.h"
-#include <boost/foreach.hpp>
 
 //forward declarations
 class Eval;

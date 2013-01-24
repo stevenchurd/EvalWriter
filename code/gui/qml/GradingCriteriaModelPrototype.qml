@@ -14,7 +14,7 @@ Rectangle {
 
             anchors.fill: parent
 
-            delegate: TreeViewDelegate{}
+            delegate: TreeViewDelegate2{}
             model: gradingCriteriaModel
         }
         Scrollbar {

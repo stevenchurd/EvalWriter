@@ -14,6 +14,10 @@
             <level>2</level>
         </criteriaItem>
         <criteriaItem>
+            <name>This is a really long category item that talks a lot about the student.  We need to be able to display this entire text without losing any of it because how else will someone know what they are selecting when the click on the item?</name>
+            <level>2</level>
+        </criteriaItem>
+        <criteriaItem>
             <name>Below average at picking his nose</name>
             <level>3</level>
         </criteriaItem>
@@ -29,6 +33,9 @@
             <name>Good at picking his nose</name>
             <level>1</level>
         </criteriaItem>
+    </gradingCriteria>
+    <gradingCriteria>
+        <name>This is a really long grading category name with a lot of stuff in it.  Blah blah blah, yadda, yadda, yadda.  Some more stuff that somehow needs to be displayed with some more things that probably should be accessable somehow.</name>
     </gradingCriteria>
     <gradingCriteria>
         <name>Butt picking ability</name>
@@ -54,6 +61,9 @@
         </criteriaItem>
     </gradingCriteria>
     <gradingCriteria>
+        <name>Nonverbal Skills</name>
+    </gradingCriteria>
+    <gradingCriteria>
         <name>Listening Skills</name>
         <criteriaItem>
             <name>[StudentName] is average at listening.</name>
@@ -72,7 +82,7 @@
             <level>4</level>
         </criteriaItem>
         <criteriaItem>
-            <name>[StudentName is above average at listening.</name>
+            <name>[StudentName] is above average at listening.</name>
             <level>1</level>
         </criteriaItem>
     </gradingCriteria>
@@ -95,7 +105,7 @@
             <level>4</level>
         </criteriaItem>
         <criteriaItem>
-            <name>[StudentName is above average at speaking.</name>
+            <name>[StudentName] is above average at speaking.</name>
             <level>1</level>
         </criteriaItem>
     </gradingCriteria>

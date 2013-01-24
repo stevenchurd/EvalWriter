@@ -1,8 +1,9 @@
 // (C) Copyright Steven Hurd 2013
 
-#include <boost/foreach.hpp>
 #include "student.h"
 #include "eval.h"
+
+#include "boost/shared_ptr.hpp"
 
 Student::UniqueStudentId Student::s_idCounter = 0;
 

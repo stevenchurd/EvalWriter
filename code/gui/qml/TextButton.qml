@@ -10,7 +10,7 @@ Rectangle {
     width: label.width + 20; height: label.height + 6
     border.color: "gray"
     border.width: 1
-    color: "white"
+    color: "transparent"
 
     MouseArea {
         id: mouseArea
@@ -18,7 +18,7 @@ Rectangle {
         onClicked: { container.clicked() }
         hoverEnabled: true
         onEntered: { container.color = "lightgray" }
-        onExited: { container.color = "white" }
+        onExited: { container.color = "transparent" }
     }
 
     Text {
@@ -29,6 +29,6 @@ Rectangle {
     states: State {
         name: "pressed"
         when: mouseArea.pressed
-        PropertyChanges { target: container; color: "#99FFFF" }
+        PropertyChanges { target: container; color: "darkgray" }
     }
 }

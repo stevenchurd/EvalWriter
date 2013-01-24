@@ -8,14 +8,16 @@
 
 #include "model/visitors/visitorelement.h"
 #include "model/gradingcriteria.h"
+#include "gui/utilities/qflattree.h"
 #endif
 
 
 class GradingCriteriaTreeModelItem
 {
 public:
-    GradingCriteriaTreeModelItem(QString name_ = QString())
+    GradingCriteriaTreeModelItem(QString name_ = QString(), int criteriaLevel_ = 0)
         : name(name_),
+          criteriaLevel(criteriaLevel_),
           level(0),
           isOpened(false)
     {}
@@ -38,9 +40,14 @@ public:
     QString name;
     int level;
     bool isOpened;
+    int criteriaLevel;
     QVector<boost::shared_ptr<GradingCriteriaTreeModelItem> > children;
+
     inline bool hasChildren() {return !children.empty();}
+    inline int numChildren() { return children.size(); }
+    inline bool isGradingCriteria() { return level == 0; }
 };
+
 
 
 class QGradingCriteriaTreeModel : public QAbstractListModel
@@ -57,9 +64,16 @@ public:
 public slots:
     void openItem(int numIndex);
     void closeItem(int numIndex);
+    void removeItem(int numIndex);
+    void addGradingCriteria(QString name, QList<QMap<QString, int> > criteriaItems);
+    void addCriteriaItem(QString name, int level);
+    void modifyGradingCriteriaName(QString name);
+    void modifyCriteriaItem(QString text, int level);
 
 private:
     Q_DISABLE_COPY(QGradingCriteriaTreeModel)
+
+    void buildList(void);
 
     QList<boost::shared_ptr<GradingCriteriaTreeModelItem> > m_listItems;
     QVector<boost::shared_ptr<GradingCriteria> >& m_gcItems;
@@ -69,7 +83,10 @@ private:
         StringRole = Qt::UserRole+1,
         LevelRole,
         IsOpenedRole,
-        HasChildrenRole
+        IsGradingCriteriaRole,
+        HasChildrenRole,
+        NumChildrenRole,
+        CriteriaLevelRole
     };
 };
 

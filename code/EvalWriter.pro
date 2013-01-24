@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets declarative quick
+QT       += core gui widgets declarative quick qml
 
 TARGET = EvalWriter
 TEMPLATE = app
@@ -62,7 +62,8 @@ HEADERS  += mainwindow.h \
     gui/models/qgradingcriteriamodel.h \
     gui/delegates/qexpandabledelegatehelper.h \
     gui/delegates/qexpandableitemdelegate.h \
-    gui/models/qgradingcriteriatreemodel.h
+    gui/models/qgradingcriteriatreemodel.h \
+    gui/utilities/qflattree.h
 
 FORMS    +=
 
@@ -78,9 +79,11 @@ OTHER_FILES += \
     gui/qml/Scrollbar.qml \
     gui/qml/GradingCriteriaModelPrototype.qml \
     gui/qml/main.qml \
-    gui/qml/CourseListPrototype.qml
+    gui/qml/CourseListPrototype.qml \
+    gui/qml/VerticalSplitter.qml \
+    gui/qml/GradingCriteriaRow.qml \
+    gui/qml/TreeViewDelegate2.qml \
+    gui/qml/CriteriaItemRow.qml
 
 RESOURCES += \
     images.qrc
-
-
