@@ -72,6 +72,7 @@ Rectangle {
 
             font.pointSize: 10
             wrapMode: Text.WordWrap
+            renderType: Text.NativeRendering
         }
 
         TextButton{

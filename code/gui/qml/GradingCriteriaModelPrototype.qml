@@ -1,24 +1,19 @@
 import QtQuick 2.0
 
 Rectangle {
-    width: 500
-    height: 500
+    id: screenContainer
 
-    Rectangle {
-        id: screenContainer
+    anchors.fill: parent
+
+    CommonListView {
+        id: treeView
 
         anchors.fill: parent
 
-        CommonListView {
-            id: treeView
-
-            anchors.fill: parent
-
-            delegate: TreeViewDelegate{}
-            model: gradingCriteriaModel
-        }
-        Scrollbar {
-            target: treeView
-        }
+        delegate: TreeViewDelegate{}
+        model: gradingCriteriaModel
+    }
+    Scrollbar {
+        target: treeView
     }
 }
