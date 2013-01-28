@@ -13,8 +13,10 @@
 #include "model/course.h"
 #include "model/student.h"
 #include "model/gradingcriteria.h"
+#include "gui/models/qcriteriaitemlistmodel.h"
 #include "gui/models/qcourseslistmodel.h"
 #include "gui/models/qgradingcriteriatreemodel.h"
+#include "gui/models/qgradingcriteriamodel.h"
 #include "utilities/coursespropertytreeparser.h"
 #include "utilities/gradingcriteriapropertytreeparser.h"
 #include "utilities/studentpropertytreeparser.h"
@@ -84,13 +86,13 @@ int main(int argc, char *argv[])
 #else
         QApplication a(argc, argv);
 
-        QGradingCriteriaTreeModel gcTreeModel(m_gradingCriteria);
+        QGradingCriteriaModel gcModel(m_gradingCriteria);
         QCoursesListModel coursesModel(m_courses);
         QQuickView view(QUrl::fromLocalFile("G:/GitRepos/EvalWriter/code/gui/qml/main.qml"));
         QQmlContext* context = view.rootContext();
         view.setResizeMode(QQuickView::SizeRootObjectToView);
         context->setContextProperty("courseModel", &coursesModel);
-        context->setContextProperty("gradingCriteriaModel", &gcTreeModel);
+        context->setContextProperty("gradingCriteriaModel", &gcModel);
 
         view.show();
 

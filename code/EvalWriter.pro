@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     gui/models/qgradingcriteriamodel.cpp \
     gui/delegates/qexpandabledelegatehelper.cpp \
     gui/delegates/qexpandableitemdelegate.cpp \
-    gui/models/qgradingcriteriatreemodel.cpp
+    gui/models/qgradingcriteriatreemodel.cpp \
+    gui/models/qcriteriaitemlistmodel.cpp
 
 HEADERS  += mainwindow.h \
     evalexceptions.h \
@@ -63,7 +64,8 @@ HEADERS  += mainwindow.h \
     gui/delegates/qexpandabledelegatehelper.h \
     gui/delegates/qexpandableitemdelegate.h \
     gui/models/qgradingcriteriatreemodel.h \
-    gui/utilities/qflattree.h
+    gui/utilities/qflattree.h \
+    gui/models/qcriteriaitemlistmodel.h
 
 FORMS    +=
 
@@ -83,7 +85,9 @@ OTHER_FILES += \
     gui/qml/GradingCriteriaRow.qml \
     gui/qml/CriteriaItemRow.qml \
     gui/qml/TreeViewDelegateObsolete.qml \
-    gui/qml/TreeViewDelegate.qml
+    gui/qml/TreeViewDelegate.qml \
+    gui/qml/GradingCriteriaModel.qml \
+    gui/qml/GradingCriteriaDelegate.qml
 
 RESOURCES += \
     images.qrc

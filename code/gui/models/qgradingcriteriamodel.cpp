@@ -8,6 +8,10 @@ QGradingCriteriaModel::QGradingCriteriaModel(
         QVector<boost::shared_ptr<GradingCriteria> > &gradingCriteria, QObject *parent) :
     QAbstractItemModel(parent), m_gradingCriteria(gradingCriteria)
 {
+    foreach(boost::shared_ptr<GradingCriteria> gc, m_gradingCriteria)
+    {
+        m_criteriaItemListModels.push_back(new QCriteriaItemListModel(gc, this));
+    }
 }
 
 
@@ -69,6 +73,7 @@ QVariant QGradingCriteriaModel::data(const QModelIndex &index, int role) const
     switch(role)
     {
         case Qt::DisplayRole:
+        case StringRole:
         {
             if(index.internalPointer() != 0)
             {
@@ -110,7 +115,14 @@ QModelIndex QGradingCriteriaModel::parent(const QModelIndex &child) const
 }
 
 
-QVariant QGradingCriteriaModel::headerData(int /*section*/, Qt::Orientation /*orientation*/, int /*role*/) const
+QHash<int,QByteArray> QGradingCriteriaModel::roleNames() const
 {
-    return QVariant();
+    static QHash<int, QByteArray> roleNames;
+
+    if (roleNames.isEmpty())
+    {
+        roleNames[StringRole] = "gradingCriteriaString";
+    }
+
+    return roleNames;
 }
