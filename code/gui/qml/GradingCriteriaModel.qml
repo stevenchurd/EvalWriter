@@ -8,14 +8,12 @@ Item {
     CommonListView {
         id: gradingCriteriaList
 
-        width: parent.width
-        height: parent.height
-
+        anchors.fill: parent
         model: gradingCriteriaModel
-        delegate: GradingCriteriaDelegate{
-            id: gcDelegate
-        }
+        delegate: GradingCriteriaDelegate{}
+        spacing: 5
     }
+
 
     Scrollbar {
         target: gradingCriteriaList

@@ -9,11 +9,16 @@ Rectangle {
 
     signal deleteClicked
     signal modifyClicked
+    signal itemClicked
 
     width: parent.width - 50
     height: criteriaText.height + 5
-    anchors.verticalCenter: parent.verticalCenter
     color: "transparent"
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: itemClicked()
+    }
 
     Row {
         id: rowContainer

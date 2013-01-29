@@ -87,6 +87,10 @@ QVariant QGradingCriteriaModel::data(const QModelIndex &index, int role) const
             break;
         }
 
+        case NumCriteriaItemsRole:
+            return QVariant::fromValue(m_gradingCriteria[index.row()]->getNumCriteriaItems());
+            break;
+
         default:
             return QVariant();
             break;
@@ -122,6 +126,7 @@ QHash<int,QByteArray> QGradingCriteriaModel::roleNames() const
     if (roleNames.isEmpty())
     {
         roleNames[StringRole] = "gradingCriteriaString";
+        roleNames[NumCriteriaItemsRole] = "numCriteriaItems";
     }
 
     return roleNames;

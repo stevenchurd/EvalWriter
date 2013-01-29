@@ -21,7 +21,8 @@ class QGradingCriteriaModel : public QAbstractItemModel
 public:
 
     enum GradingCriteriaRoles {
-        StringRole = Qt::UserRole + 1
+        StringRole = Qt::UserRole + 1,
+        NumCriteriaItemsRole
     };
 
     QGradingCriteriaModel(QVector<boost::shared_ptr<GradingCriteria> >& gradingCriteria,

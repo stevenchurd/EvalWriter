@@ -12,11 +12,17 @@ Rectangle {
     signal addClicked
     signal deleteClicked
     signal modifyClicked
+    signal headerClicked
 
     width: parent.width - 50
     height: gradingCriteriaText.height + 10
     anchors.horizontalCenter: parent.horizontalCenter
     color: "transparent"
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: headerClicked()
+    }
 
     Row {
         id: rowContainer
