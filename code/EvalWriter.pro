@@ -78,14 +78,11 @@ OTHER_FILES += \
     gui/qml/CommonListDelegate.qml \
     gui/qml/CourseListDelegateItem.qml \
     gui/qml/Scrollbar.qml \
-    gui/qml/GradingCriteriaModelPrototype.qml \
     gui/qml/main.qml \
     gui/qml/CourseListPrototype.qml \
     gui/qml/VerticalSplitter.qml \
     gui/qml/GradingCriteriaRow.qml \
     gui/qml/CriteriaItemRow.qml \
-    gui/qml/TreeViewDelegateObsolete.qml \
-    gui/qml/TreeViewDelegate.qml \
     gui/qml/GradingCriteriaModel.qml \
     gui/qml/GradingCriteriaDelegate.qml
 
