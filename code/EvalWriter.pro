@@ -84,7 +84,10 @@ OTHER_FILES += \
     gui/qml/GradingCriteriaRow.qml \
     gui/qml/CriteriaItemRow.qml \
     gui/qml/GradingCriteriaModel.qml \
-    gui/qml/GradingCriteriaDelegate.qml
+    gui/qml/GradingCriteriaDelegate.qml \
+    gui/qml/YesNoDialog.qml \
+    gui/qml/WizardLoader.qml \
+    gui/qml/Dialog.qml
 
 RESOURCES += \
     images.qrc

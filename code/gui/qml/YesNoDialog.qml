@@ -10,12 +10,7 @@ Dialog {
         id: yesNoContainer
 
         Column {
-
-            height: 100
-            width: 200
             spacing: 15
-
-            anchors.centerIn: parent
 
             Text {
                 id: question
@@ -31,11 +26,13 @@ Dialog {
                 TextButton {
                     id: yesButton
                     text: "Yes"
+                    onClicked: yesClicked()
                 }
 
                 TextButton {
                     id: noButton
                     text: "No"
+                    onClicked: noClicked()
                 }
             }
         }

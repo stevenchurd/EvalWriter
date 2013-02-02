@@ -11,21 +11,9 @@ Rectangle {
         GradingCriteriaModel{}
     }
 
+
+    // this is expected to be globally accessable as a means of loading wizard pages
     WizardLoader {
         id: wizardContent
     }
-
-    Component {
-        id: yesNo
-        YesNoDialog {
-            id: yesNoDialog
-            dialogText: "Do you wish to continue?"
-
-            Component.onCompleted: yesNoDialog.onCanceled.connect(wizardContent.close)
-
-        }
-    }
-
-    Component.onCompleted: wizardContent.initialSourceComponent = yesNo
-
 }

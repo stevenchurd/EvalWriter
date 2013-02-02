@@ -1,49 +1,40 @@
 import QtQuick 2.0
 
 Rectangle {
+    id: wrapper
+
     property alias source: dialogContent.source
     property alias sourceComponent: dialogContent.sourceComponent
 
     signal canceled
 
     anchors.centerIn: parent
-    height: dialogContent.height
-    width: dialogContent.width
+    height: dialogContent.height + dialogHeader.height + 30
+    width: dialogContent.width + 30
 
     border.color: "black"
     radius: 3
     antialiasing: true
 
-    Column {
-        Rectangle {
-            id: dialogHeader
+    Rectangle {
+        id: dialogHeader
 
-            width: dialogContent.width
-            height: cancelButton.height
+        width: wrapper.width
+        height: cancelButton.height
+        color: "transparent"
+        anchors.top: parent.top
 
-            color: "lightblue"
-            radius: 3
-            antialiasing: true
-
-            TextButton {
-                id: cancelButton
-                text: "X"
-                onClicked: canceled()
-                anchors.top: parent.top
-                anchors.right: parent.right
-            }
+        TextButton {
+            id: cancelButton
+            text: "X"
+            onClicked: canceled()
+            anchors.top: parent.top
+            anchors.right: parent.right
         }
+    }
 
-        Rectangle {
-            width: dialogContent.width
-            height: 1
-
-            border.color: "lightgray"
-        }
-
-        Loader {
-            id: dialogContent
-
-        }
+    Loader {
+        id: dialogContent
+        anchors.centerIn: parent
     }
 }

@@ -1,8 +1,7 @@
 import QtQuick 2.0
 
 Item {
-    property alias initialSourceComponent: pageLoader.sourceComponent
-    property alias initialSource: pageLoader.source
+    property alias sourceComponent: pageLoader.sourceComponent
 
     anchors.fill: parent
 
@@ -18,7 +17,13 @@ Item {
         anchors.centerIn: parent
     }
 
-    Component.onCompleted: { screenContent.enabled = false }
+    Component.onCompleted: { wizardContent.visible = false }
+
+    function show()
+    {
+        wizardContent.visible = true
+        screenContent.enabled = false
+    }
 
     function close()
     {

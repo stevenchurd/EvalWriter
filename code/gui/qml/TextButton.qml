@@ -7,7 +7,8 @@ Rectangle {
 
     signal clicked
 
-    width: label.width + 20; height: label.height + 6
+    width: label.width + 20
+    height: label.height + 6
     border.color: "gray"
     border.width: 1
     color: "transparent"
@@ -24,6 +25,7 @@ Rectangle {
     Text {
         id: label
         anchors.centerIn: parent
+        renderType: Text.NativeRendering
     }
 
     states: State {

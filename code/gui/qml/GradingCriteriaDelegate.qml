@@ -21,7 +21,10 @@ Column {
             wrapper.ListView.view.currentIndex = index
         }
 
-        onDeleteClicked: { wrapper.ListView.view.model.removeGradingCriteria(index) }
+        onDeleteClicked: {
+            wizardContent.sourceComponent = isDeleteGradingCriteriaOkDialog
+            wizardContent.show()
+        }
         onHeaderClicked: { wrapper.ListView.view.currentIndex = index }
     }
 
@@ -46,22 +49,67 @@ Column {
             buttonsVisible: index === itemSelected
 
             Component.onCompleted: {
-                onItemClicked.connect(selectItem)
-                onDeleteClicked.connect(deleteItem)
+                onItemClicked.connect(selectCriteriaItem)
+            }
+
+            onDeleteClicked: {
+                wizardContent.sourceComponent = isDeleteCriteriaItemOkDialog
+                wizardContent.show()
             }
         }
     }
 
-    function selectItem(sublistIndex)
+    function selectCriteriaItem(sublistIndex)
     {
         wrapper.ListView.view.currentIndex = index
         itemSelected = (wrapper.ListView.view.currentIndex === index) ? (sublistIndex) : -1
     }
 
-    function deleteItem(sublistIndex)
+    function deleteCriteriaItem()
     {
-        wrapper.ListView.view.model.removeCriteriaItem(index, sublistIndex)
+        wrapper.ListView.view.model.removeCriteriaItem(index, itemSelected)
+    }
+
+    function deleteGradingCriteria()
+    {
+        wrapper.ListView.view.model.removeGradingCriteria(index)
     }
 
     onFocusChanged: { itemSelected = -1 }
+
+
+
+    // wizard component specifications
+    Component {
+        id: isDeleteGradingCriteriaOkDialog
+        YesNoDialog {
+            id: dialog
+            dialogText: "Do you want to delete this item?\n\nIf you delete this item, all evaluations that use these\nelements will be converted to custom text items."
+
+            Component.onCompleted:
+            {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onNoClicked.connect(wizardContent.close)
+                dialog.onYesClicked.connect(deleteGradingCriteria)
+                dialog.onYesClicked.connect(wizardContent.close)
+            }
+        }
+    }
+
+    Component {
+        id: isDeleteCriteriaItemOkDialog
+        YesNoDialog {
+            id: dialog
+            dialogText: "Do you want to delete this item?\n\nIf you delete this item, any evaluations that use this item\nwill be converted to a custom text item."
+
+            Component.onCompleted:
+            {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onNoClicked.connect(wizardContent.close)
+                dialog.onYesClicked.connect(deleteCriteriaItem)
+                dialog.onYesClicked.connect(wizardContent.close)
+            }
+        }
+    }
+
 }
