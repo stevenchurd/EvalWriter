@@ -35,8 +35,6 @@ Column {
     }
 
     Repeater {
-        id: repeaterItem
-
         width: parent.width
 
         model: wrapper.ListView.view.model.criteriaItemModel(index)
