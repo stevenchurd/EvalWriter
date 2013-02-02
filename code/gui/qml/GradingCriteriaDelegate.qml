@@ -24,6 +24,7 @@ Column {
         buttonsVisible: wrapper.ListView.view.currentIndex === index
         expandable: numCriteriaItems > 0
         onExpandedChanged: { itemSelected = -1 }
+        expanded: isExpanded
     }
 
     Repeater {
@@ -31,7 +32,7 @@ Column {
 
         width: parent.width
 
-        model: gradingCriteriaModel.criteriaItemModel(index)
+        model: wrapper.ListView.view.model.criteriaItemModel(index)
         delegate: CriteriaItemRow {
             width: parent.width - 40
             text: criteriaString
@@ -39,7 +40,10 @@ Column {
             visible: gcRow.expanded
             buttonsVisible: index === itemSelected
 
-            Component.onCompleted: onItemClicked.connect(selectItem)
+            Component.onCompleted: {
+                onItemClicked.connect(selectItem)
+                onDeleteClicked.connect(deleteItem)
+            }
         }
     }
 
@@ -47,6 +51,11 @@ Column {
     {
         wrapper.ListView.view.currentIndex = index
         itemSelected = (wrapper.ListView.view.currentIndex === index) ? (sublistIndex) : -1
+    }
+
+    function deleteItem(sublistIndex)
+    {
+        wrapper.ListView.view.model.removeCriteriaItem(index, sublistIndex)
     }
 
     onFocusChanged: { itemSelected = -1 }

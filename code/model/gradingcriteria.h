@@ -26,6 +26,7 @@ public:
     int getNumCriteriaItems(void);
 
     void removeCriteriaItem(EvalItem::ItemUniqueIdType id) ;
+    void removeCriteriaItemAt(unsigned int pos);
 
     void updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::string itemStr) ;
     void updateCriteriaItem(EvalItem::ItemUniqueIdType id, CriteriaItem::CriteriaItemLevelType level) ;

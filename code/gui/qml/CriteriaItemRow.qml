@@ -7,8 +7,8 @@ Rectangle {
     property int criteriaLevelIndicator
     property bool buttonsVisible
 
-    signal deleteClicked
-    signal modifyClicked
+    signal deleteClicked(int index)
+    signal modifyClicked(int index)
     signal itemClicked(int index)
 
     height: criteriaText.height + 5
@@ -84,7 +84,7 @@ Rectangle {
             text: "Modify"
             anchors.top: parent.top
             visible: buttonsVisible
-            onClicked: modifyClicked()
+            onClicked: modifyClicked(index)
         }
 
         TextButton{
@@ -92,7 +92,7 @@ Rectangle {
             text: "Delete"
             anchors.top: parent.top
             visible: buttonsVisible
-            onClicked: deleteClicked()
+            onClicked: deleteClicked(index)
         }
     }
 }

@@ -29,6 +29,9 @@ public:
 
     QHash<int,QByteArray> roleNames() const;
 
+public slots:
+    void removeCriteriaItem(int row);
+
 private:
     boost::shared_ptr<GradingCriteria> m_gradingCriteria;
 };

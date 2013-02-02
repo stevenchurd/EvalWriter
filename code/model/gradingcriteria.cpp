@@ -27,6 +27,15 @@ void GradingCriteria::removeCriteriaItem(EvalItem::ItemUniqueIdType id)
 }
 
 
+void GradingCriteria::removeCriteriaItemAt(unsigned int pos)
+{
+    if(pos > m_criteriaItems.size())
+        throw ItemNotFoundException("Invalid item for removal: " + pos);
+
+    m_criteriaItems.erase(m_criteriaItems.begin() + pos);
+}
+
+
 int GradingCriteria::getNumCriteriaItems(void)
 {
     return m_criteriaItems.size();

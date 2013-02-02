@@ -14,7 +14,7 @@
 #include "model/gradingcriteria.h"
 #endif
 
-class QGradingCriteriaModel : public QAbstractItemModel
+class QGradingCriteriaModel : public QAbstractListModel
 {
     Q_OBJECT
 
@@ -22,7 +22,8 @@ public:
 
     enum GradingCriteriaRoles {
         StringRole = Qt::UserRole + 1,
-        NumCriteriaItemsRole
+        NumCriteriaItemsRole,
+        IsExpandedRole
     };
 
     QGradingCriteriaModel(QVector<boost::shared_ptr<GradingCriteria> >& gradingCriteria,
@@ -31,21 +32,30 @@ public:
 
     Q_INVOKABLE QObject* criteriaItemModel(const int& index) const
     {
+        if(index > m_criteriaItemListModels.size() || index < 0)
+            return nullptr;
+
         return static_cast<QObject*>(m_criteriaItemListModels[index]);
     }
 
     /* functions inherited from QAbstractItemModel */
     Qt::ItemFlags flags(const QModelIndex &index) const;
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
     int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
-    QModelIndex parent(const QModelIndex &child) const;
     QHash<int,QByteArray> roleNames() const;
+
+public slots:
+    void expandRow(int row);
+    void collapseRow(int row);
+
+    // actions that change model data
+    void removeGradingCriteria(int row);
+    void removeCriteriaItem(int row, int subrow);
 
 private:
     QVector<boost::shared_ptr<GradingCriteria> >& m_gradingCriteria;
     QVector<QCriteriaItemListModel*> m_criteriaItemListModels;
+    QVector<bool> m_rowExpanded;
 };
 
 #endif // QGRADINGCRITERIAMODEL_H

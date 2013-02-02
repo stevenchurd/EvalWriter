@@ -6,7 +6,7 @@ QCriteriaItemListModel::QCriteriaItemListModel(boost::shared_ptr<GradingCriteria
 {
 }
 
-int QCriteriaItemListModel::rowCount(const QModelIndex &parent) const
+int QCriteriaItemListModel::rowCount(const QModelIndex &/*parent*/) const
 {
     return m_gradingCriteria->getNumCriteriaItems();
 }
@@ -52,4 +52,12 @@ QHash<int,QByteArray> QCriteriaItemListModel::roleNames() const
    }
 
     return roleNames;
+}
+
+
+void QCriteriaItemListModel::removeCriteriaItem(int row)
+{
+    beginRemoveRows(QModelIndex(), row, row);
+    m_gradingCriteria->removeCriteriaItemAt(row);
+    endRemoveRows();
 }
