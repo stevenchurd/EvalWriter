@@ -5,12 +5,12 @@ Column {
 
     width: parent.width
 
-    property alias areCIVisible: gcRow.expanded
+    property int itemSelected: -1
 
     Connections {
         target: gcRow
         onExpandClicked: {
-            gcRow.expanded = !gcRow.expanded
+            gcRow.expanded = (gcRow.expanded) ? false : true
             wrapper.ListView.view.currentIndex = index
         }
 
@@ -23,20 +23,31 @@ Column {
         text: gradingCriteriaString + " (" + numCriteriaItems + ")"
         buttonsVisible: wrapper.ListView.view.currentIndex === index
         expandable: numCriteriaItems > 0
+        onExpandedChanged: { itemSelected = -1 }
     }
 
     Repeater {
+        id: repeaterItem
+
         width: parent.width
 
         model: gradingCriteriaModel.criteriaItemModel(index)
-        CriteriaItemRow {
-            id: ciRow
-            width: parent.width
+        delegate: CriteriaItemRow {
+            width: parent.width - 40
             text: criteriaString
             criteriaLevelIndicator: criteriaLevel
-            visible: areCIVisible
+            visible: gcRow.expanded
+            buttonsVisible: index === itemSelected
+
+            Component.onCompleted: onItemClicked.connect(selectItem)
         }
-
-
     }
+
+    function selectItem(sublistIndex)
+    {
+        wrapper.ListView.view.currentIndex = index
+        itemSelected = (wrapper.ListView.view.currentIndex === index) ? (sublistIndex) : -1
+    }
+
+    onFocusChanged: { itemSelected = -1 }
 }

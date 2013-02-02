@@ -9,15 +9,14 @@ Rectangle {
 
     signal deleteClicked
     signal modifyClicked
-    signal itemClicked
+    signal itemClicked(int index)
 
-    width: parent.width - 50
     height: criteriaText.height + 5
     color: "transparent"
 
     MouseArea {
         anchors.fill: parent
-        onClicked: itemClicked()
+        onClicked: itemClicked(index)
     }
 
     Row {
