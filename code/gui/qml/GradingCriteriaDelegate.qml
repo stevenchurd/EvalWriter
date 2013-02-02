@@ -10,7 +10,14 @@ Column {
     Connections {
         target: gcRow
         onExpandClicked: {
-            gcRow.expanded = (gcRow.expanded) ? false : true
+            if(gcRow.expanded)
+            {
+                wrapper.ListView.view.model.collapseRow(index)
+            }
+            else
+            {
+                wrapper.ListView.view.model.expandRow(index)
+            }
             wrapper.ListView.view.currentIndex = index
         }
 
