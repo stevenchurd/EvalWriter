@@ -6,6 +6,7 @@ Column {
     width: parent.width
 
     property int itemSelected: -1
+    property string itemSelectedString
 
     Connections {
         target: gcRow
@@ -52,8 +53,16 @@ Column {
                 onItemClicked.connect(selectCriteriaItem)
             }
 
+            onItemClicked: {
+                itemSelectedString = criteriaString
+            }
+
             onDeleteClicked: {
                 wizardContent.sourceComponent = isDeleteCriteriaItemOkDialog
+                wizardContent.show()
+            }
+            onModifyClicked: {
+                wizardContent.sourceComponent = modifyCriteriaItemDialog
                 wizardContent.show()
             }
         }
@@ -63,6 +72,14 @@ Column {
     {
         wrapper.ListView.view.currentIndex = index
         itemSelected = (wrapper.ListView.view.currentIndex === index) ? (sublistIndex) : -1
+    }
+
+    function addCriteriaItem(newText)
+    {
+    }
+
+    function modifyCriteriaItem(newText)
+    {
     }
 
     function deleteCriteriaItem()
@@ -102,12 +119,26 @@ Column {
             id: dialog
             dialogText: "Do you want to delete this item?\n\nIf you delete this item, any evaluations that use this item\nwill be converted to a custom text item."
 
-            Component.onCompleted:
-            {
+            Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)
                 dialog.onNoClicked.connect(wizardContent.close)
                 dialog.onYesClicked.connect(deleteCriteriaItem)
                 dialog.onYesClicked.connect(wizardContent.close)
+            }
+        }
+    }
+
+    Component {
+        id: modifyCriteriaItemDialog
+        TextEditDialog {
+            id: dialog
+            startingText: itemSelectedString
+
+            Component.onCompleted: {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onAddClicked.connect(wizardContent.close)
+                dialog.onModifyClicked.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
             }
         }
     }

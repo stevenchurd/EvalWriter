@@ -32,7 +32,6 @@ SOURCES += main.cpp\
     gui/models/qgradingcriteriamodel.cpp \
     gui/delegates/qexpandabledelegatehelper.cpp \
     gui/delegates/qexpandableitemdelegate.cpp \
-    gui/models/qgradingcriteriatreemodel.cpp \
     gui/models/qcriteriaitemlistmodel.cpp
 
 HEADERS  += mainwindow.h \
@@ -87,7 +86,8 @@ OTHER_FILES += \
     gui/qml/GradingCriteriaDelegate.qml \
     gui/qml/YesNoDialog.qml \
     gui/qml/WizardLoader.qml \
-    gui/qml/Dialog.qml
+    gui/qml/Dialog.qml \
+    gui/qml/TextEditDialog.qml
 
 RESOURCES += \
     images.qrc
