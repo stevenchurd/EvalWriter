@@ -1,8 +1,8 @@
 #include "qcriteriaitemlistmodel.h"
 
-QCriteriaItemListModel::QCriteriaItemListModel(boost::shared_ptr<GradingCriteria> gradingCriteria,
+QCriteriaItemListModel::QCriteriaItemListModel(boost::shared_ptr<GradingCriteria> gradingCriteria, int parentIndex,
                    QObject* parent) :
-    QAbstractListModel(parent), m_gradingCriteria(gradingCriteria)
+    QAbstractListModel(parent), m_parentIndex(parentIndex), m_gradingCriteria(gradingCriteria)
 {
 }
 
@@ -60,4 +60,6 @@ void QCriteriaItemListModel::removeCriteriaItem(int row)
     beginRemoveRows(QModelIndex(), row, row);
     m_gradingCriteria->removeCriteriaItemAt(row);
     endRemoveRows();
+
+    emit dataChanged(m_parentIndex);
 }

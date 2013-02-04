@@ -62,7 +62,6 @@ HEADERS  += mainwindow.h \
     gui/models/qgradingcriteriamodel.h \
     gui/delegates/qexpandabledelegatehelper.h \
     gui/delegates/qexpandableitemdelegate.h \
-    gui/models/qgradingcriteriatreemodel.h \
     gui/utilities/qflattree.h \
     gui/models/qcriteriaitemlistmodel.h
 

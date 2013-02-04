@@ -6,7 +6,7 @@ Column {
     width: parent.width
 
     property int itemSelected: -1
-    property string itemSelectedString
+    property int gcIndex: index
 
     Connections {
         target: gcRow
@@ -48,24 +48,12 @@ Column {
             criteriaLevelIndicator: criteriaLevel
             visible: gcRow.expanded
             buttonsVisible: index === itemSelected
+            model: wrapper.ListView.view.model.criteriaItemModel(gcIndex)
 
             Component.onCompleted: {
                 onItemClicked.connect(selectCriteriaItem)
             }
-
-            onItemClicked: {
-                itemSelectedString = criteriaString
-            }
-
-            onDeleteClicked: {
-                wizardContent.sourceComponent = isDeleteCriteriaItemOkDialog
-                wizardContent.show()
-            }
-            onModifyClicked: {
-                wizardContent.sourceComponent = modifyCriteriaItemDialog
-                wizardContent.show()
-            }
-        }
+      }
     }
 
     function selectCriteriaItem(sublistIndex)
@@ -74,26 +62,12 @@ Column {
         itemSelected = (wrapper.ListView.view.currentIndex === index) ? (sublistIndex) : -1
     }
 
-    function addCriteriaItem(newText)
-    {
-    }
-
-    function modifyCriteriaItem(newText)
-    {
-    }
-
-    function deleteCriteriaItem()
-    {
-        wrapper.ListView.view.model.removeCriteriaItem(index, itemSelected)
-    }
-
     function deleteGradingCriteria()
     {
         wrapper.ListView.view.model.removeGradingCriteria(index)
     }
 
     onFocusChanged: { itemSelected = -1 }
-
 
 
     // wizard component specifications
@@ -112,35 +86,4 @@ Column {
             }
         }
     }
-
-    Component {
-        id: isDeleteCriteriaItemOkDialog
-        YesNoDialog {
-            id: dialog
-            dialogText: "Do you want to delete this item?\n\nIf you delete this item, any evaluations that use this item\nwill be converted to a custom text item."
-
-            Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onNoClicked.connect(wizardContent.close)
-                dialog.onYesClicked.connect(deleteCriteriaItem)
-                dialog.onYesClicked.connect(wizardContent.close)
-            }
-        }
-    }
-
-    Component {
-        id: modifyCriteriaItemDialog
-        TextEditDialog {
-            id: dialog
-            startingText: itemSelectedString
-
-            Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onAddClicked.connect(wizardContent.close)
-                dialog.onModifyClicked.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
-            }
-        }
-    }
-
 }

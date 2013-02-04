@@ -45,12 +45,13 @@ public:
     QHash<int,QByteArray> roleNames() const;
 
 public slots:
+    void criteriaListDataChanged(int row);
+
     void expandRow(int row);
     void collapseRow(int row);
 
     // actions that change model data
     void removeGradingCriteria(int row);
-    void removeCriteriaItem(int row, int subrow);
 
 private:
     QVector<boost::shared_ptr<GradingCriteria> >& m_gradingCriteria;

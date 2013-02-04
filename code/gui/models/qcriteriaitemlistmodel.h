@@ -13,7 +13,7 @@ class QCriteriaItemListModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    QCriteriaItemListModel(boost::shared_ptr<GradingCriteria> gradingCriteria,
+    QCriteriaItemListModel(boost::shared_ptr<GradingCriteria> gradingCriteria, int parentIndex,
                        QObject* parent = 0);
 
     virtual ~QCriteriaItemListModel() {}
@@ -32,8 +32,12 @@ public:
 public slots:
     void removeCriteriaItem(int row);
 
+signals:
+    void dataChanged(int parentIndex);
+
 private:
     boost::shared_ptr<GradingCriteria> m_gradingCriteria;
+    int m_parentIndex;
 };
 
 #endif // QCRITERIAITEMMODEL_H

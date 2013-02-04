@@ -8,10 +8,15 @@ QGradingCriteriaModel::QGradingCriteriaModel(
         QVector<boost::shared_ptr<GradingCriteria> > &gradingCriteria, QObject *parent) :
     QAbstractListModel(parent), m_gradingCriteria(gradingCriteria)
 {
+    int i = 0;
     foreach(boost::shared_ptr<GradingCriteria> gc, m_gradingCriteria)
     {
-        m_criteriaItemListModels.push_back(new QCriteriaItemListModel(gc, this));
+        m_criteriaItemListModels.push_back(new QCriteriaItemListModel(gc, i, this));
         m_rowExpanded.push_back(false);
+
+        connect(m_criteriaItemListModels.back(), SIGNAL(dataChanged(int)),
+                this, SLOT(criteriaListDataChanged(int)));
+        ++i;
     }
 }
 
@@ -76,6 +81,12 @@ QHash<int,QByteArray> QGradingCriteriaModel::roleNames() const
 }
 
 
+void QGradingCriteriaModel::criteriaListDataChanged(int row)
+{
+    emit dataChanged(index(row), index(row));
+}
+
+
 void QGradingCriteriaModel::expandRow(int row)
 {
     QModelIndex qmi = index(row);
@@ -99,19 +110,5 @@ void QGradingCriteriaModel::removeGradingCriteria(int row)
     m_criteriaItemListModels.remove(row);
     m_rowExpanded.remove(row);
     endRemoveRows();
-}
-
-void QGradingCriteriaModel::removeCriteriaItem(int row, int subrow)
-{
-    // remove it from the contained model
-    m_criteriaItemListModels[row]->removeCriteriaItem(subrow);
-
-    if(m_gradingCriteria[row]->getNumCriteriaItems() <= 0)
-    {
-        m_rowExpanded[row] = false;
-    }
-
-    QModelIndex qmi = index(row);
-    emit dataChanged(qmi, qmi);
 }
 

@@ -13,6 +13,8 @@
 #include <QTreeView>
 #include <QMenuBar>
 #include <QHeaderView>
+#include <QQuickView>
+#include <QQmlContext>
 
 #include "utilities/coursespropertytreeparser.h"
 #include "utilities/gradingcriteriapropertytreeparser.h"
@@ -113,8 +115,7 @@ void MainWindow::loadFile()
         m_currentOpenFile = fileName;
 
         /* update data changed */
-        /*setGradingCriteriaListView();*/
-        setCoursesView();
+        setGradingCriteriaListView();
     }
 }
 
@@ -168,19 +169,13 @@ void MainWindow::setStudentsView(boost::shared_ptr<Course> course)
 
 void MainWindow::setGradingCriteriaListView()
 {
-    QTreeView* treeView = new QTreeView(this);
-    QAbstractItemDelegate* itemDelegate = new QExpandableItemDelegate(treeView);
-    new QExpandableDelegateHelper(treeView);
-    QAbstractItemModel* gcModel = new QGradingCriteriaModel(m_gradingCriteria);
-    QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
+    QGradingCriteriaModel gcModel(m_gradingCriteria);
+    QQuickView view(QUrl::fromLocalFile("../EvalWriter/code/gui/qml/main.qml"));
+    QQmlContext* context = view.rootContext();
+    view.setResizeMode(QQuickView::SizeRootObjectToView);
+    context->setContextProperty("gradingCriteriaModel", &gcModel);
 
-    proxyModel->setSourceModel(gcModel);
-    proxyModel->sort(0);
-    treeView->setModel(proxyModel);
-    treeView->setItemDelegate(itemDelegate);
-    treeView->setAnimated(true);
-
-    setCentralWidget(treeView);
+    //setCentralWidget(view);
 }
 
 

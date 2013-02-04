@@ -6,6 +6,7 @@ Dialog {
     property int textInputWidth: 300
     property int textInputHeight: 100
     property bool isModifyVisible: true
+    property Component optionalItem
 
     signal addClicked(string newText)
     signal modifyClicked(string newText)
@@ -41,6 +42,10 @@ Dialog {
                     selectionColor: "steelblue"
                     focus: true
                 }
+            }
+
+            Loader {
+                sourceComponent: optionalItem
             }
 
             Row {

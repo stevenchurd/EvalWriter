@@ -6,9 +6,8 @@ Rectangle {
     property alias text: criteriaText.text
     property int criteriaLevelIndicator
     property bool buttonsVisible
+    property var model
 
-    signal deleteClicked(int index)
-    signal modifyClicked(int index)
     signal itemClicked(int index)
 
     height: criteriaText.height + 5
@@ -84,7 +83,10 @@ Rectangle {
             text: "Modify"
             anchors.top: parent.top
             visible: buttonsVisible
-            onClicked: modifyClicked(index)
+            onClicked: {
+                wizardContent.sourceComponent = modifyCriteriaItemDialog
+                wizardContent.show()
+            }
         }
 
         TextButton{
@@ -92,7 +94,52 @@ Rectangle {
             text: "Delete"
             anchors.top: parent.top
             visible: buttonsVisible
-            onClicked: deleteClicked(index)
+            onClicked: {
+                wizardContent.sourceComponent = isDeleteCriteriaItemOkDialog
+                wizardContent.show()
+            }
         }
     }
+
+    function deleteCriteriaItem()
+    {
+        model.removeCriteriaItem(index)
+    }
+
+    function modifyCriteriaItem(newText)
+    {
+    }
+
+    // component definitions
+    Component {
+        id: isDeleteCriteriaItemOkDialog
+        YesNoDialog {
+            id: dialog
+            dialogText: "Do you want to delete this item?\n\nIf you delete this item, any evaluations that use this item\nwill be converted to a custom text item."
+
+            Component.onCompleted: {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onNoClicked.connect(wizardContent.close)
+                dialog.onYesClicked.connect(deleteCriteriaItem)
+                dialog.onYesClicked.connect(wizardContent.close)
+            }
+        }
+    }
+
+    Component {
+        id: modifyCriteriaItemDialog
+        TextEditDialog {
+            id: dialog
+            explanationText: "Modifying existing items will change them in all evaluations\ninwhich they are used.  If you do not with to do this\nyou may add this as a new item."
+            startingText: text
+
+            Component.onCompleted: {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onAddClicked.connect(wizardContent.close)
+                dialog.onModifyClicked.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
+            }
+        }
+    }
+
 }

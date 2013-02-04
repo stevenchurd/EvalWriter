@@ -91,7 +91,6 @@ int main(int argc, char *argv[])
         QQuickView view(QUrl::fromLocalFile("G:/GitRepos/EvalWriter/code/gui/qml/main.qml"));
         QQmlContext* context = view.rootContext();
         view.setResizeMode(QQuickView::SizeRootObjectToView);
-        context->setContextProperty("courseModel", &coursesModel);
         context->setContextProperty("gradingCriteriaModel", &gcModel);
 
         view.show();
