@@ -8,7 +8,6 @@
 
 #include "model/visitors/visitorelement.h"
 #include "model/gradingcriteria.h"
-#include "gui/utilities/qflattree.h"
 #endif
 
 
