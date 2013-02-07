@@ -4,14 +4,17 @@
 #include "model/criteriaitem.h"
 #include "model/gradingcriteria.h"
 
-QGradingCriteriaModel::QGradingCriteriaModel(
-        QVector<boost::shared_ptr<GradingCriteria> > &gradingCriteria, QObject *parent) :
-    QAbstractListModel(parent), m_gradingCriteria(gradingCriteria)
+QGradingCriteriaModel::QGradingCriteriaModel(QVector<boost::shared_ptr<GradingCriteria> > &gradingCriteria,
+                                             QVector<boost::shared_ptr<Student> > &students,
+                                             QObject *parent) :
+    QAbstractListModel(parent),
+    m_gradingCriteria(gradingCriteria),
+    m_students(students)
 {
     int i = 0;
     foreach(boost::shared_ptr<GradingCriteria> gc, m_gradingCriteria)
     {
-        m_criteriaItemListModels.push_back(new QCriteriaItemListModel(gc, i, this));
+        m_criteriaItemListModels.push_back(new QCriteriaItemListModel(gc, students, i, this));
         m_rowExpanded.push_back(false);
 
         connect(m_criteriaItemListModels.back(), SIGNAL(dataChanged(int)),

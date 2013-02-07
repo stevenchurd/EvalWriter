@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
 #else
         QApplication a(argc, argv);
 
-        QGradingCriteriaModel gcModel(m_gradingCriteria);
+        QGradingCriteriaModel gcModel(m_gradingCriteria, m_students);
         QCoursesListModel coursesModel(m_courses);
         QQuickView view(QUrl::fromLocalFile("G:/GitRepos/EvalWriter/code/gui/qml/main.qml"));
         QQmlContext* context = view.rootContext();

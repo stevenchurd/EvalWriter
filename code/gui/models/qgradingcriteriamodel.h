@@ -27,6 +27,7 @@ public:
     };
 
     QGradingCriteriaModel(QVector<boost::shared_ptr<GradingCriteria> >& gradingCriteria,
+                          QVector<boost::shared_ptr<Student> >& students,
                           QObject* parent = 0);
     virtual ~QGradingCriteriaModel(void) {}
 
@@ -55,6 +56,7 @@ public slots:
 
 private:
     QVector<boost::shared_ptr<GradingCriteria> >& m_gradingCriteria;
+    QVector<boost::shared_ptr<Student> >& m_students;
     QVector<QCriteriaItemListModel*> m_criteriaItemListModels;
     QVector<bool> m_rowExpanded;
 };

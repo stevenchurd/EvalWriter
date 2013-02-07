@@ -26,14 +26,13 @@ void Eval::addEvalItem(boost::shared_ptr<EvalItem> evalItem)
 
 void Eval::removeEvalItem(EvalItem::ItemUniqueIdType itemId)
 {
-    for(std::list<boost::shared_ptr<EvalItem> >::iterator it = m_evalItems.begin();
-        it != m_evalItems.end(); it++)
-    {
-        if((*it)->getUniqueId() == itemId)
-        {
-            it = m_evalItems.erase(it) ;
-        }
-    }
+    std::remove_if(m_evalItems.begin(), m_evalItems.end(), EvalItem::hasId(itemId));
+}
+
+
+void Eval::replaceEvalItem(boost::shared_ptr<EvalItem> newItem, int oldId)
+{
+    std::replace_if(m_evalItems.begin(), m_evalItems.end(), EvalItem::hasId(oldId), newItem);
 }
 
 

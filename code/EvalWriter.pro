@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     gui/models/qgradingcriteriamodel.cpp \
     gui/delegates/qexpandabledelegatehelper.cpp \
     gui/delegates/qexpandableitemdelegate.cpp \
-    gui/models/qcriteriaitemlistmodel.cpp
+    gui/models/qcriteriaitemlistmodel.cpp \
+    model/visitors/replacecriteriaitemvisitor.cpp
 
 HEADERS  += mainwindow.h \
     evalexceptions.h \
@@ -63,7 +64,8 @@ HEADERS  += mainwindow.h \
     gui/delegates/qexpandabledelegatehelper.h \
     gui/delegates/qexpandableitemdelegate.h \
     gui/utilities/qflattree.h \
-    gui/models/qcriteriaitemlistmodel.h
+    gui/models/qcriteriaitemlistmodel.h \
+    model/visitors/replacecriteriaitemvisitor.h
 
 FORMS    +=
 

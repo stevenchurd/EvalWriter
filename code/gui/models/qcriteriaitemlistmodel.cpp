@@ -1,8 +1,17 @@
 #include "qcriteriaitemlistmodel.h"
+#include "model/visitors/replacecriteriaitemvisitor.h"
+#include "model/customtextitem.h"
+#include "model/student.h"
 
-QCriteriaItemListModel::QCriteriaItemListModel(boost::shared_ptr<GradingCriteria> gradingCriteria, int parentIndex,
-                   QObject* parent) :
-    QAbstractListModel(parent), m_parentIndex(parentIndex), m_gradingCriteria(gradingCriteria)
+QCriteriaItemListModel::QCriteriaItemListModel(
+        boost::shared_ptr<GradingCriteria> gradingCriteria,
+        QVector<boost::shared_ptr<Student> >& students,
+        int parentIndex,
+        QObject* parent) :
+    QAbstractListModel(parent),
+    m_gradingCriteria(gradingCriteria),
+    m_students(students),
+    m_parentIndex(parentIndex)
 {
 }
 
@@ -58,7 +67,22 @@ QHash<int,QByteArray> QCriteriaItemListModel::roleNames() const
 void QCriteriaItemListModel::removeCriteriaItem(int row)
 {
     beginRemoveRows(QModelIndex(), row, row);
+
+    boost::shared_ptr<EvalItem> oldItem = m_gradingCriteria->getCriteriaItem(row);
+    boost::shared_ptr<EvalItem> newCustomTextItem = boost::shared_ptr<EvalItem>(new CustomTextItem(oldItem->getItemStr()));
+
+    // first remove from the item
     m_gradingCriteria->removeCriteriaItemAt(row);
+
+    //now transform the removed criteria item to a custom text item in any evals it might
+    //have existed in
+    ReplaceCriteriaItemVisitor rciv(newCustomTextItem, oldItem->getUniqueId());
+
+    BOOST_FOREACH(boost::shared_ptr<Student> student, m_students)
+    {
+        student->accept(rciv);
+    }
+
     endRemoveRows();
 
     emit dataChanged(m_parentIndex);
