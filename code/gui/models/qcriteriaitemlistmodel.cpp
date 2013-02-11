@@ -64,6 +64,14 @@ QHash<int,QByteArray> QCriteriaItemListModel::roleNames() const
 }
 
 
+void QCriteriaItemListModel::addCriteriaItem(QString string, int level)
+{
+    beginResetModel();
+    m_gradingCriteria->addCriteriaItem(string.toStdString(), static_cast<CriteriaItem::CriteriaItemLevelType>(level));
+    endResetModel();
+}
+
+
 void QCriteriaItemListModel::removeCriteriaItem(int row)
 {
     beginRemoveRows(QModelIndex(), row, row);
@@ -86,4 +94,14 @@ void QCriteriaItemListModel::removeCriteriaItem(int row)
     endRemoveRows();
 
     emit dataChanged(m_parentIndex);
+}
+
+
+void QCriteriaItemListModel::modifyCriteriaItem(int row, QString string, int level)
+{
+    beginResetModel();
+    m_gradingCriteria->getCriteriaItem(row)->setItemStr(string.toStdString());
+    m_gradingCriteria->getCriteriaItem(row)->setCriteriaItemLevelValue(
+                static_cast<CriteriaItem::CriteriaItemLevelType>(level));
+    endResetModel();
 }

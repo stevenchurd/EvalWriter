@@ -3,22 +3,17 @@ import QtQuick 2.0
 Item {
     id: delegateItem
 
-    property alias itemsToHold: container.children
+    property alias itemsToHold: container.sourceComponent
+    height: container.height
+    width: parent.width
 
-    width: 100
-    height: 50
-
-    Rectangle {
+    Loader {
         id: container
+    }
 
+    MouseArea {
         anchors.fill: parent
-        border.color: "black"
-        color: "transparent"
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: delegateItem.ListView.view.currentIndex = index
-        }
+        onClicked: delegateItem.ListView.view.currentIndex = index
     }
 }
 

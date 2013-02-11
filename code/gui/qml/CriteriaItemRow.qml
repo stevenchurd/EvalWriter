@@ -106,8 +106,14 @@ Rectangle {
         model.removeCriteriaItem(index)
     }
 
-    function modifyCriteriaItem(newText)
+    function modifyCriteriaItem(newText, level)
     {
+        model.modifyCriteriaItem(index, newText, level)
+    }
+
+    function sendAddCriteriaItem(text, level)
+    {
+        model.addCriteriaItem(text, level)
     }
 
     // component definitions
@@ -128,18 +134,19 @@ Rectangle {
 
     Component {
         id: modifyCriteriaItemDialog
-        TextEditDialog {
+        CriteriaItemDialog {
             id: dialog
             explanationText: "Modifying existing items will change them in all evaluations\ninwhich they are used.  If you do not with to do this\nyou may add this as a new item."
             startingText: text
 
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)
-                dialog.onAddClicked.connect(wizardContent.close)
                 dialog.onModifyClicked.connect(wizardContent.close)
+                dialog.onModifyClicked.connect(modifyCriteriaItem)
                 dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onAddClicked.connect(sendAddCriteriaItem)
+                dialog.onAddClicked.connect(wizardContent.close)
             }
         }
     }
-
 }

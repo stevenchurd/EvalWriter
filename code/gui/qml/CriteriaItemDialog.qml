@@ -6,10 +6,9 @@ Dialog {
     property int textInputWidth: 300
     property int textInputHeight: 100
     property bool isModifyVisible: true
-    property Component optionalItem
 
-    signal addClicked(string newText)
-    signal modifyClicked(string newText)
+    signal addClicked(string newText, int level)
+    signal modifyClicked(string newText, int level)
     signal cancelClicked
 
     Component {
@@ -44,8 +43,36 @@ Dialog {
                 }
             }
 
-            Loader {
-                sourceComponent: optionalItem
+            Rectangle {
+                height: 100
+                width: parent.width
+                CommonListView {
+                    id: criteriaLevelSelector
+                    anchors.fill: parent
+                    model: 5
+                    delegate: CommonListDelegate {
+                        itemsToHold: Text {
+                            text: {
+                                switch(index+1)
+                                {
+                                    case 1:
+                                        return "Excellent"
+                                    case 2:
+                                        return "Above Average"
+                                    case 3:
+                                        return "Average"
+                                    case 4:
+                                        return "Below Average"
+                                    case 5:
+                                        return "Poor"
+                                    default:
+                                        return "Invalid"
+                                }
+                            }
+                            renderType: Text.NativeRendering
+                        }
+                    }
+                }
             }
 
             Row {
@@ -55,13 +82,13 @@ Dialog {
                 TextButton {
                     id: addButton
                     text: "Add New"
-                    onClicked: addClicked(question.text)
+                    onClicked: addClicked(question.text, criteriaLevelSelector.currentIndex)
                 }
 
                 TextButton {
                     id: modifyButton
                     text: "Modify Existing"
-                    onClicked: modifyClicked(question.text)
+                    onClicked: modifyClicked(question.text, criteriaLevelSelector.currentIndex)
                     visible: isModifyVisible
                 }
 

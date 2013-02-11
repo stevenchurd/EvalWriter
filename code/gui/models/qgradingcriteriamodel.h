@@ -53,6 +53,7 @@ public slots:
 
     // actions that change model data
     void removeGradingCriteria(int row);
+    void addCriteriaItem(int row, QString string, int level);
 
 private:
     QVector<boost::shared_ptr<GradingCriteria> >& m_gradingCriteria;

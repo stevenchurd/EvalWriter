@@ -108,6 +108,15 @@ void QGradingCriteriaModel::collapseRow(int row)
 
 void QGradingCriteriaModel::removeGradingCriteria(int row)
 {
+    // prior to removing the grading criteria, remove
+    // it's underlying criteria items.  This will gracefully
+    // handle the replacement of criteria items in the underlying
+    // evaluation data with custom text items
+    while(m_gradingCriteria[row]->getNumCriteriaItems() != 0)
+    {
+        m_criteriaItemListModels[row]->removeCriteriaItem(0);
+    }
+
     beginRemoveRows(QModelIndex(), row, row);
     m_gradingCriteria.remove(row);
     m_criteriaItemListModels.remove(row);
@@ -115,3 +124,8 @@ void QGradingCriteriaModel::removeGradingCriteria(int row)
     endRemoveRows();
 }
 
+
+void QGradingCriteriaModel::addCriteriaItem(int row, QString string, int level)
+{
+    m_criteriaItemListModels[row]->addCriteriaItem(string, level);
+}

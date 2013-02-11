@@ -67,6 +67,11 @@ Column {
         wrapper.ListView.view.model.removeGradingCriteria(index)
     }
 
+    function addNewCriteriaItem(text, level)
+    {
+        wrapper.ListView.view.model.addCriteriaItem(index, text, level);
+    }
+
     onFocusChanged: { itemSelected = -1 }
 
 

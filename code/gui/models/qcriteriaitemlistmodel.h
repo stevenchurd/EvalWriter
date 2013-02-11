@@ -32,7 +32,9 @@ public:
     QHash<int,QByteArray> roleNames() const;
 
 public slots:
+    void addCriteriaItem(QString string, int level);
     void removeCriteriaItem(int row);
+    void modifyCriteriaItem(int row, QString string, int level);
 
 signals:
     void dataChanged(int parentIndex);
