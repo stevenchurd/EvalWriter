@@ -17,4 +17,5 @@ void ReplaceCriteriaItemVisitor::visit(Student& student)
 
 void ReplaceCriteriaItemVisitor::visit(Eval& eval)
 {
+    eval.replaceEvalItem(m_newEvalItem, m_oldId);
 }

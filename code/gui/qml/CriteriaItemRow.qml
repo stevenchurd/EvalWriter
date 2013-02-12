@@ -4,7 +4,7 @@ Rectangle {
     id: decorativeRect
 
     property alias text: criteriaText.text
-    property int criteriaLevelIndicator
+    property int criteriaLevelValue
     property bool buttonsVisible
     property var model
 
@@ -43,7 +43,7 @@ Rectangle {
 
             function getColor()
             {
-                switch(criteriaLevelIndicator)
+                switch(criteriaLevelValue)
                 {
                     case 0:
                         return "green"
@@ -134,10 +134,11 @@ Rectangle {
 
     Component {
         id: modifyCriteriaItemDialog
-        CriteriaItemDialog {
+        CriteriaItemEditDialog {
             id: dialog
             explanationText: "Modifying existing items will change them in all evaluations\ninwhich they are used.  If you do not with to do this\nyou may add this as a new item."
             startingText: text
+            currentLevel: criteriaLevelValue
 
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)

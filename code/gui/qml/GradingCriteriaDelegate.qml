@@ -22,10 +22,6 @@ Column {
             wrapper.ListView.view.currentIndex = index
         }
 
-        onDeleteClicked: {
-            wizardContent.sourceComponent = isDeleteGradingCriteriaOkDialog
-            wizardContent.show()
-        }
         onHeaderClicked: { wrapper.ListView.view.currentIndex = index }
     }
 
@@ -36,6 +32,7 @@ Column {
         expandable: numCriteriaItems > 0
         onExpandedChanged: { itemSelected = -1 }
         expanded: isExpanded
+        model: wrapper.ListView.view.model
     }
 
     Repeater {
@@ -45,7 +42,7 @@ Column {
         delegate: CriteriaItemRow {
             width: parent.width - 40
             text: criteriaString
-            criteriaLevelIndicator: criteriaLevel
+            criteriaLevelValue: criteriaLevel
             visible: gcRow.expanded
             buttonsVisible: index === itemSelected
             model: wrapper.ListView.view.model.criteriaItemModel(gcIndex)
@@ -62,33 +59,7 @@ Column {
         itemSelected = (wrapper.ListView.view.currentIndex === index) ? (sublistIndex) : -1
     }
 
-    function deleteGradingCriteria()
-    {
-        wrapper.ListView.view.model.removeGradingCriteria(index)
-    }
-
-    function addNewCriteriaItem(text, level)
-    {
-        wrapper.ListView.view.model.addCriteriaItem(index, text, level);
-    }
-
     onFocusChanged: { itemSelected = -1 }
 
 
-    // wizard component specifications
-    Component {
-        id: isDeleteGradingCriteriaOkDialog
-        YesNoDialog {
-            id: dialog
-            dialogText: "Do you want to delete this item?\n\nIf you delete this item, all evaluations that use these\nelements will be converted to custom text items."
-
-            Component.onCompleted:
-            {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onNoClicked.connect(wizardContent.close)
-                dialog.onYesClicked.connect(deleteGradingCriteria)
-                dialog.onYesClicked.connect(wizardContent.close)
-            }
-        }
-    }
 }

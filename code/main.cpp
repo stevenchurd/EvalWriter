@@ -32,7 +32,7 @@ void loadFile()
 {
     boost::property_tree::ptree loadPt;
 
-    QString fileName = "G:/GitRepos/EvalWriter/testfiles/test5.ewd";
+    QString fileName = "../testfiles/test5.ewd";
 
     if(!fileName.isEmpty())
     {
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 
         QGradingCriteriaModel gcModel(m_gradingCriteria, m_students);
         QCoursesListModel coursesModel(m_courses);
-        QQuickView view(QUrl::fromLocalFile("G:/GitRepos/EvalWriter/code/gui/qml/main.qml"));
+        QQuickView view(QUrl::fromLocalFile("../code/gui/qml/main.qml"));
         QQmlContext* context = view.rootContext();
         view.setResizeMode(QQuickView::SizeRootObjectToView);
         context->setContextProperty("gradingCriteriaModel", &gcModel);

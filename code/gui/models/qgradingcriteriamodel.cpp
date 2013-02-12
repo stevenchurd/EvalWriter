@@ -128,4 +128,6 @@ void QGradingCriteriaModel::removeGradingCriteria(int row)
 void QGradingCriteriaModel::addCriteriaItem(int row, QString string, int level)
 {
     m_criteriaItemListModels[row]->addCriteriaItem(string, level);
+    expandRow(row);
+    emit dataChanged(index(row), index(row));
 }

@@ -7,11 +7,9 @@ Rectangle {
     property bool buttonsVisible
     property bool expandable
     property bool expanded
+    property var model
 
     signal expandClicked
-    signal addClicked
-    signal deleteClicked
-    signal modifyClicked
     signal headerClicked
 
     width: parent.width - 50
@@ -57,7 +55,10 @@ Rectangle {
             text: "Add Item"
             anchors.top: parent.top
             visible: buttonsVisible
-            onClicked: addClicked()
+            onClicked: {
+                wizardContent.sourceComponent = addCriteriaItemDialog
+                wizardContent.show()
+            }
         }
 
         TextButton {
@@ -73,7 +74,54 @@ Rectangle {
             text: "Delete"
             anchors.top: parent.top
             visible: buttonsVisible
-            onClicked: deleteClicked()
+            onClicked: {
+                wizardContent.sourceComponent = isDeleteGradingCriteriaOkDialog
+                wizardContent.show()
+            }
         }
     }
+
+    function deleteGradingCriteria()
+    {
+        model.removeGradingCriteria(index)
+    }
+
+    function addNewCriteriaItem(text, level)
+    {
+        model.addCriteriaItem(index, text, level);
+    }
+
+    // wizard component specifications
+    Component {
+        id: isDeleteGradingCriteriaOkDialog
+        YesNoDialog {
+            id: dialog
+            dialogText: "Do you want to delete this item?\n\nIf you delete this item, all evaluations that use these\nelements will be converted to custom text items."
+
+            Component.onCompleted:
+            {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onNoClicked.connect(wizardContent.close)
+                dialog.onYesClicked.connect(deleteGradingCriteria)
+                dialog.onYesClicked.connect(wizardContent.close)
+            }
+        }
+    }
+
+    Component {
+        id: addCriteriaItemDialog
+        CriteriaItemEditDialog {
+            id: dialog
+            isModifyVisible: false
+
+            Component.onCompleted: {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onAddClicked.connect(addNewCriteriaItem)
+                dialog.onAddClicked.connect(wizardContent.close)
+            }
+        }
+    }
+
+
 }

@@ -88,7 +88,9 @@ OTHER_FILES += \
     gui/qml/YesNoDialog.qml \
     gui/qml/WizardLoader.qml \
     gui/qml/Dialog.qml \
-    gui/qml/CriteriaItemDialog.qml
+    gui/qml/CriteriaItemDialog.qml \
+    gui/qml/GradingCriteriaEditDialog.qml \
+    gui/qml/CriteriaItemEditDialog.qml
 
 RESOURCES += \
     images.qrc
