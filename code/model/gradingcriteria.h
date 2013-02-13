@@ -13,6 +13,7 @@ public:
     virtual ~GradingCriteria() {}
 
     std::string getCriteriaName(void) const { return m_criteriaName; }
+    void setCriteriaName(const std::string name) { m_criteriaName = name; }
 
     EvalItem::ItemUniqueIdType addCriteriaItem(std::string descStr,
                         CriteriaItem::CriteriaItemLevelType level) ;

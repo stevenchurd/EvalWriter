@@ -22,7 +22,10 @@ Column {
             wrapper.ListView.view.currentIndex = index
         }
 
-        onHeaderClicked: { wrapper.ListView.view.currentIndex = index }
+        onHeaderClicked: {
+            itemSelected = -1
+            wrapper.ListView.view.currentIndex = index
+        }
     }
 
     GradingCriteriaRow {
