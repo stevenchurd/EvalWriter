@@ -88,10 +88,11 @@ int main(int argc, char *argv[])
 
         QGradingCriteriaModel gcModel(m_gradingCriteria, m_students);
         QCoursesListModel coursesModel(m_courses);
-        QQuickView view(QUrl::fromLocalFile("../code/gui/qml/main.qml"));
+        QQuickView view;
         QQmlContext* context = view.rootContext();
         view.setResizeMode(QQuickView::SizeRootObjectToView);
         context->setContextProperty("gradingCriteriaModel", &gcModel);
+        view.setSource(QUrl::fromLocalFile("../code/gui/qml/main.qml"));
 
         view.show();
 

@@ -31,6 +31,8 @@ public:
 
     QHash<int,QByteArray> roleNames() const;
 
+    void updateParentIndex(const int index) { m_parentIndex = index; }
+
 public slots:
     void addCriteriaItem(QString string, int level);
     void removeCriteriaItem(int row);

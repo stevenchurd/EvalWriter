@@ -121,6 +121,14 @@ void QGradingCriteriaModel::removeGradingCriteria(int row)
     m_gradingCriteria.remove(row);
     m_criteriaItemListModels.remove(row);
     m_rowExpanded.remove(row);
+
+    int i = 0;
+    foreach(QCriteriaItemListModel* c, m_criteriaItemListModels)
+    {
+        c->updateParentIndex(i);
+        ++i;
+    }
+
     endRemoveRows();
 }
 
@@ -129,5 +137,12 @@ void QGradingCriteriaModel::addCriteriaItem(int row, QString string, int level)
 {
     m_criteriaItemListModels[row]->addCriteriaItem(string, level);
     expandRow(row);
+    emit dataChanged(index(row), index(row));
+}
+
+
+void QGradingCriteriaModel::modifyGradingCriteria(int row, QString string)
+{
+    m_gradingCriteria[row]->setCriteriaName(string.toStdString());
     emit dataChanged(index(row), index(row));
 }

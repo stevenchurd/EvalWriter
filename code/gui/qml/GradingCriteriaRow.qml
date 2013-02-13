@@ -66,7 +66,10 @@ Rectangle {
             text: "Modify"
             anchors.top: parent.top
             visible: buttonsVisible
-            onClicked: modifyClicked()
+            onClicked: {
+                wizardContent.sourceComponent = modifyGradingCriteriaDialog
+                wizardContent.show()
+            }
         }
 
         TextButton {
@@ -89,6 +92,11 @@ Rectangle {
     function addNewCriteriaItem(text, level)
     {
         model.addCriteriaItem(index, text, level);
+    }
+
+    function modifyGradingCriteria(text)
+    {
+        model.modifyGradingCriteria(index, text);
     }
 
     // wizard component specifications
@@ -119,6 +127,22 @@ Rectangle {
                 dialog.onCancelClicked.connect(wizardContent.close)
                 dialog.onAddClicked.connect(addNewCriteriaItem)
                 dialog.onAddClicked.connect(wizardContent.close)
+            }
+        }
+    }
+
+    Component {
+        id: modifyGradingCriteriaDialog
+        GradingCriteriaEditDialog {
+            id: dialog
+            startingText: gradingCriteriaString
+            explanationText: "Change the category name to:"
+
+            Component.onCompleted: {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(modifyGradingCriteria)
+                dialog.onOkClicked.connect(wizardContent.close)
             }
         }
     }
