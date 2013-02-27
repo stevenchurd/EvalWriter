@@ -131,6 +131,16 @@
                 <customTextItemNode>
                     <value>Spends time in bathroom</value>
                 </customTextItemNode>
+        	<criteriaItem>
+	            <value>This is a really long category item that talks a lot about the student.  We need to be able to display this entire text without losing any of it because how else will someone know what they are selecting when the click on the item?</value>
+		    <parentItem>Nose picking ability</parentItem>
+	            <level>2</level>
+       		</criteriaItem>
+	        <criteriaItem>
+        	    <value>[StudentName] is excellent at speaking.</value>
+		    <parentItem>Speaking Skills</parentItem>
+	            <level>0</level>
+	        </criteriaItem>
             </eval>
             <eval>
                 <name>Jeffs 2nd semester eval</name>

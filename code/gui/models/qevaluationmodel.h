@@ -23,18 +23,19 @@ public:
 
     virtual ~QEvaluationModel() {}
 
+    enum EvaluationRoles{
+        StringRole = Qt::UserRole + 1,
+        LevelRole
+    };
+
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation,
-                        int role) const;
 
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool setData(const QModelIndex &index, const QVariant &value,
-                 int role = Qt::EditRole);
+    QHash<int,QByteArray> roleNames() const;
 
-    bool insertRows(int row, int count, const QModelIndex &parent);
-    bool removeRows(int row, int count, const QModelIndex &parent);
+public slots:
+    void move(int srcIndex, int destIndex);
 
 private:
     boost::shared_ptr<Eval> m_eval;

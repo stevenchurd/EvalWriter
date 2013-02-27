@@ -1,8 +1,8 @@
 // (C) Copyright Steven Hurd 2013
 
 #include "qevaluationmodel.h"
-#if 0
-int QEvaluationModel::rowCount(const QModelIndex &parent) const
+
+int QEvaluationModel::rowCount(const QModelIndex &/*parent*/) const
 {
     return m_eval->getNumEvalItems();
 }
@@ -10,38 +10,59 @@ int QEvaluationModel::rowCount(const QModelIndex &parent) const
 
 QVariant QEvaluationModel::data(const QModelIndex &index, int role) const
 {
-    return QVariant();
+    if (!index.isValid())
+        return QVariant();
+
+    if (index.row() >= m_eval->getNumEvalItems())
+        return QVariant();
+
+    boost::shared_ptr<EvalItem> item = m_eval->getEvalItem(index.row());
+
+    switch(role)
+    {
+        case Qt::DisplayRole:
+        case StringRole:
+            return QVariant::fromValue(
+                        QString::fromStdString(item->getItemStr()));
+            break;
+
+        case LevelRole:
+            //return QVariant::fromValue(static_cast<int>(item->getCriteriaItemLevel()));
+            return QVariant();
+            break;
+
+        default:
+            return QVariant();
+            break;
+    }
+
 }
 
 
-QVariant QEvaluationModel::headerData(int section, Qt::Orientation orientation,
-                    int role) const
+QHash<int,QByteArray> QEvaluationModel::roleNames() const
 {
-    return QVariant();
+    static QHash<int, QByteArray> roleNames;
+
+    if (roleNames.isEmpty())
+    {
+        roleNames[StringRole] = "evalItemString";
+        roleNames[LevelRole] = "evalItemLevel";
+   }
+
+    return roleNames;
+
 }
 
 
-Qt::ItemFlags QEvaluationModel::flags(const QModelIndex &index) const
+void QEvaluationModel::move(int srcIndex, int destIndex)
 {
-    return Qt::NoItemFlags;
+    if(srcIndex != destIndex)
+    {
+        int destRow = (srcIndex < destIndex) ? destIndex+1 : destIndex;
+        if(!beginMoveRows(QModelIndex(), srcIndex, srcIndex, QModelIndex(), destRow))
+           return;
+
+        m_eval->moveEvalItem(srcIndex, destIndex);
+        endMoveRows();
+    }
 }
-
-
-bool setData(const QModelIndex &index, const QVariant &value,
-             int role = Qt::EditRole)
-{
-    return false;
-}
-
-
-bool QEvaluationModel::insertRows(int row, int count, const QModelIndex &parent)
-{
-    return false;
-}
-
-
-bool QEvaluationModel::removeRows(int row, int count, const QModelIndex &parent)
-{
-    return false;
-}
-#endif

@@ -36,7 +36,7 @@ void GradingCriteria::removeCriteriaItemAt(unsigned int pos)
 }
 
 
-int GradingCriteria::getNumCriteriaItems(void)
+int GradingCriteria::getNumCriteriaItems(void) const
 {
     return m_criteriaItems.size();
 }
@@ -64,7 +64,7 @@ boost::shared_ptr<CriteriaItem> GradingCriteria::getCriteriaItem(
 }
 
 
-boost::shared_ptr<CriteriaItem> GradingCriteria::getCriteriaItem(unsigned int index)
+boost::shared_ptr<CriteriaItem> GradingCriteria::getCriteriaItem(unsigned int index) const
 {
     if(index > m_criteriaItems.size())
     {
