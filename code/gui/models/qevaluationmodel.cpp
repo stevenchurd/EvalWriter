@@ -14,7 +14,7 @@ QVariant QEvaluationModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     if (index.row() >= m_eval->getNumEvalItems())
-        return QVariant();
+    return QVariant();
 
     boost::shared_ptr<EvalItem> item = m_eval->getEvalItem(index.row());
 
@@ -81,7 +81,7 @@ void QEvaluationModel::move(int srcIndex, int destIndex)
 
         m_eval->moveEvalItem(srcIndex, destIndex);
         endMoveRows();
-    }
+}
 }
 
 
@@ -122,7 +122,7 @@ void QEvaluationModel::editItemString(int row, QString string)
 {
     boost::shared_ptr<EvalItem> ei = m_eval->getEvalItem(row);
     if(ei->isItemEditable())
-    {
+{
         ei->setItemStr(string.toStdString());
         emit dataChanged(index(row), index(row));
     }
