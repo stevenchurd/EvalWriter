@@ -5,12 +5,13 @@ MouseArea {
 
     property int visualIndex: VisualDataModel.itemsIndex
 
-    width: 120; height: 80
+    width: stringWidth(evalItemString)
+    height: 80
     drag.target: icon
 
     Rectangle {
         id: icon
-        width: 115
+        width: stringWidth(evalItemString)
         height: 75
         clip: true
         anchors {
@@ -28,6 +29,7 @@ MouseArea {
 
         Text {
             anchors.fill: parent
+            width: stringWidth(evalItemString)
 
             text: evalItemString
             renderType: Text.NativeRendering
@@ -58,4 +60,12 @@ MouseArea {
             evalModel.move(drag.source.visualIndex, delegateRoot.visualIndex)
         }
     }
+
+    function stringWidth(s)
+    {
+        return Math.min(String(s).length * 5, 250);
+    }
 }
+
+
+

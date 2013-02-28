@@ -92,7 +92,8 @@ OTHER_FILES += \
     gui/qml/GradingCriteriaEditDialog.qml \
     gui/qml/CriteriaItemEditDialog.qml \
     gui/qml/EvalModel.qml \
-    gui/qml/EvalItemDelegate.qml
+    gui/qml/EvalItemDelegate.qml \
+    gui/qml/FlowListView.qml
 
 RESOURCES += \
     images.qrc
