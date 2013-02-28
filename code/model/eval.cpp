@@ -2,6 +2,10 @@
 
 #include "eval.h"
 
+#ifdef _DEBUG
+#include <QDebug>
+#endif
+
 Eval::Eval(std::string evalName) :
     m_evalName(evalName)
 {
@@ -10,7 +14,7 @@ Eval::Eval(std::string evalName) :
 void Eval::getPrintableEvalString(std::stringstream& ss)
 {
 
-    for(std::vector<boost::shared_ptr<EvalItem> >::iterator it = m_evalItems.begin();
+    for(auto it = m_evalItems.begin();
         it != m_evalItems.end(); it++)
     {
         ss << (*it)->getItemStr();
@@ -24,26 +28,31 @@ void Eval::addEvalItem(boost::shared_ptr<EvalItem> evalItem)
 }
 
 
-void Eval::removeEvalItem(EvalItem::ItemUniqueIdType itemId)
+void Eval::removeEvalItemAt(int row)
 {
-    std::remove_if(m_evalItems.begin(), m_evalItems.end(), EvalItem::hasId(itemId));
+    m_evalItems.erase(std::next(m_evalItems.begin(), row));
 }
 
 
 void Eval::moveEvalItem(int oldPosition, int newPosition)
 {
-    // if the old position is to the left of the new position, rotate left
-    if(oldPosition < newPosition)
+    if(oldPosition+1 == newPosition || oldPosition-1 == newPosition)
     {
+        std::iter_swap(std::next(m_evalItems.begin(), oldPosition),
+                       std::next(m_evalItems.begin(), newPosition));
+    }
+    else if(oldPosition < newPosition)
+    {
+        // if the old position is to the left of the new position, rotate left
         std::rotate(std::next(m_evalItems.begin(), oldPosition),
-                    std::next(m_evalItems.begin(),oldPosition+1),
-                    std::next(m_evalItems.begin(), newPosition));
+                    std::next(m_evalItems.begin(), oldPosition+1),
+                    std::next(m_evalItems.begin(), newPosition+1));
     }
     else if(oldPosition > newPosition)
     {
         // if it's to the right rotate right
-        std::rotate(std::next(m_evalItems.rbegin(), m_evalItems.size()-oldPosition),
-                    std::next(m_evalItems.rbegin(), m_evalItems.size()-oldPosition+1),
+        std::rotate(std::next(m_evalItems.rbegin(), m_evalItems.size()-oldPosition-1),
+                    std::next(m_evalItems.rbegin(), m_evalItems.size()-oldPosition),
                     std::next(m_evalItems.rbegin(), m_evalItems.size()-newPosition));
     }
 }
@@ -51,7 +60,7 @@ void Eval::moveEvalItem(int oldPosition, int newPosition)
 
 void Eval::replaceEvalItem(boost::shared_ptr<EvalItem> newItem, int oldId)
 {
-    std::replace_if(m_evalItems.begin(), m_evalItems.end(), EvalItem::hasId(oldId), newItem);
+    std::replace_if(m_evalItems.begin(), m_evalItems.end(), hasId(oldId), newItem);
 }
 
 
@@ -73,3 +82,17 @@ void Eval::acceptChildren(Visitor& visitor)
         evalItem->accept(visitor);
     }
 }
+
+
+#ifdef _DEBUG
+    void Eval::printItems(void)
+    {
+        qDebug("____________________________");
+
+        BOOST_FOREACH(boost::shared_ptr<EvalItem> evalItem, m_evalItems)
+        {
+            qDebug("%d: %s", evalItem->getUniqueId(), evalItem->getItemStr());
+        }
+        qDebug("____________________________");
+    }
+#endif

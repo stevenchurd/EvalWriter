@@ -9,8 +9,11 @@
 class CustomTextItem : public EvalItem
 {
 public:
-    CustomTextItem(std::string text) : EvalItem(text) {}
+    CustomTextItem(std::string text) : EvalItem(text, true) {}
     virtual ~CustomTextItem() {}
+
+    // virtual override functions
+    virtual std::string getItemTitleStr(void) const { return "Custom Text"; }
 
     /*
      * VisitorElement functions

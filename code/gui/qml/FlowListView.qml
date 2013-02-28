@@ -22,6 +22,7 @@ Flickable {
     Flow {
         id: flow
         width: parent.width
+        spacing: 10
 
         Repeater {
             id: repeater

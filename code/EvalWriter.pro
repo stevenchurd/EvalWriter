@@ -93,7 +93,9 @@ OTHER_FILES += \
     gui/qml/CriteriaItemEditDialog.qml \
     gui/qml/EvalModel.qml \
     gui/qml/EvalItemDelegate.qml \
-    gui/qml/FlowListView.qml
+    gui/qml/FlowListView.qml \
+    gui/qml/utilities.js \
+    gui/qml/CustomTextItemEditDialog.qml
 
 RESOURCES += \
     images.qrc

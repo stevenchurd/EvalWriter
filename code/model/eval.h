@@ -26,7 +26,7 @@ public:
     void getPrintableEvalString(std::stringstream &ss) ;
 
     void addEvalItem(boost::shared_ptr<EvalItem> evalItem) ;
-    void removeEvalItem(EvalItem::ItemUniqueIdType itemId) ;
+    void removeEvalItemAt(int index);
     void moveEvalItem(int oldPosition, int newPosition) ;
     void replaceEvalItem(boost::shared_ptr<EvalItem> newItem, int oldId);
 
@@ -39,6 +39,10 @@ public:
      */
     void accept(Visitor& visitor) { visitor.visit(*this); }
     void acceptChildren(Visitor& visitor);
+
+#ifdef _DEBUG
+    void printItems(void);
+#endif
 
 private:
     std::string m_evalName;

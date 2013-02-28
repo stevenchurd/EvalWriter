@@ -17,9 +17,13 @@ public:
         BELOW_AVERAGE,
         POOR
     };
-
+    static_assert(INVALID_ITEM_LEVEL != EXCELLENT, "INVALID_ITEM_LEVEL must not be the same as the first enum value.");
 
     CriteriaItem(std::string parentName, std::string itemStr, CriteriaItemLevelType level);
+
+    // virtual override functions
+    virtual std::string getItemTitleStr(void) const override { return getParentCriteriaName(); }
+    virtual int getItemLevel(void) const override { return getCriteriaItemLevel(); }
 
     std::string getParentCriteriaName(void) const { return m_parentCriteriaName; }
 

@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "utilities.js" as JsUtil
 
 Rectangle {
     id: decorativeRect
@@ -39,26 +40,7 @@ Rectangle {
 
             border.color: "black"
             antialiasing: true
-            color: getColor()
-
-            function getColor()
-            {
-                switch(criteriaLevelValue)
-                {
-                    case 0:
-                        return "green"
-                    case 1:
-                        return "lightgreen"
-                    case 2:
-                        return "yellow"
-                    case 3:
-                        return "#ff6666"
-                    case 4:
-                        return "red"
-                    default:
-                        break;
-                }
-            }
+            color: JsUtil.getEvalItemColor(criteriaLevelValue)
             radius: width*.5
         }
 

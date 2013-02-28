@@ -25,7 +25,10 @@ public:
 
     enum EvaluationRoles{
         StringRole = Qt::UserRole + 1,
-        LevelRole
+        LevelRole,
+        SelectedRole,
+        TitleRole,
+        InPlaceEditable
     };
 
     /* virtual functions from QAbstractListModel */
@@ -36,9 +39,16 @@ public:
 
 public slots:
     void move(int srcIndex, int destIndex);
+    void removeItem(int row);
+    void selectItem(int row);
+    void deselectItem(int row);
+    void deselectAllItems(void);
+
+    void editItemString(int row, QString string);
 
 private:
     boost::shared_ptr<Eval> m_eval;
+    std::list<int> m_selected;
 };
 
 #endif // QEVALUATIONMODEL_H

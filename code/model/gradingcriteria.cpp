@@ -23,7 +23,7 @@ void GradingCriteria::removeCriteriaItem(EvalItem::ItemUniqueIdType id)
 {
     std::remove_if(m_criteriaItems.begin(),
                    m_criteriaItems.end(),
-                   EvalItem::hasId(id)) ;
+                   hasId(id)) ;
 }
 
 
@@ -79,7 +79,7 @@ void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::str
 {
     std::vector<boost::shared_ptr<CriteriaItem> >::iterator it ;
 
-    it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), EvalItem::hasId(id)) ;
+    it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
 
     if(it == m_criteriaItems.end())
     {
@@ -94,7 +94,7 @@ void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, Criteria
 {
     std::vector<boost::shared_ptr<CriteriaItem> >::iterator it ;
 
-    it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), EvalItem::hasId(id)) ;
+    it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
 
     if(it == m_criteriaItems.end())
     {
@@ -109,7 +109,7 @@ void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::str
 {
     std::vector<boost::shared_ptr<CriteriaItem> >::iterator it ;
 
-    it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), EvalItem::hasId(id)) ;
+    it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
 
     if(it == m_criteriaItems.end())
     {
