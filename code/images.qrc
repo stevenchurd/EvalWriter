@@ -2,5 +2,6 @@
     <qresource prefix="/Files">
         <file>arrowdown.png</file>
         <file>arrowright.png</file>
+        <file>arrow.png</file>
     </qresource>
 </RCC>

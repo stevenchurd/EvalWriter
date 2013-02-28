@@ -9,7 +9,7 @@ Rectangle{
     anchors.rightMargin: -10
 
     width: 10
-    height: parent.height
+    height: :w.height
     clip: true
 
     property QtObject firstRect;
@@ -19,17 +19,17 @@ Rectangle{
 
     function moveSplitterTo(x)
     {
-        if(x > 0 && x < parent.width - splitterRect.width)
+        if(x > 0 && x < :w.width - splitterRect.width)
         {
             firstRect.width = x;
-            secondRect.width = parent.width - firstRect.width - splitterRect.width;
+            secondRect.width = :w.width - firstRect.width - splitterRect.width;
         }
     }
 
     function maximizeRect(x)
     {
-        firstRect.width = x===0 ? parent.width - splitterRect.width : 0
-        secondRect.width = x===0 ? 0 : parent.width - splitterRect.width
+        firstRect.width = x===0 ? :w.width - splitterRect.width : 0
+        secondRect.width = x===0 ? 0 : :w.width - splitterRect.width
     }
 
     Component.onCompleted: {

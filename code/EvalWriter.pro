@@ -90,7 +90,9 @@ OTHER_FILES += \
     gui/qml/Dialog.qml \
     gui/qml/CriteriaItemDialog.qml \
     gui/qml/GradingCriteriaEditDialog.qml \
-    gui/qml/CriteriaItemEditDialog.qml
+    gui/qml/CriteriaItemEditDialog.qml \
+    gui/qml/ContextMenu.qml \
+    gui/qml/Focus.qml
 
 RESOURCES += \
     images.qrc

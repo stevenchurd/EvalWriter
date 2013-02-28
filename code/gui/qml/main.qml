@@ -5,10 +5,7 @@ Rectangle {
     width: 800
     height: 600
 
-    Item {
-        id: screenContent
-        anchors.fill: parent
-        GradingCriteriaModel{}
+    Focus {
     }
 
     // this is expected to be globally accessable as a means of loading wizard pages

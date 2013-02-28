@@ -1,21 +1,32 @@
 import QtQuick 2.0
 
-Item {
-    id: wrapper
+FocusScope {
+    property alias interactive: gradingCriteriaList.interactive
 
     anchors.fill: parent
 
-    CommonListView {
-        id: gradingCriteriaList
-
-        anchors.fill: parent
-        model: gradingCriteriaModel
-        delegate: GradingCriteriaDelegate{}
-        spacing: 5
+    onActiveFocusChanged: {
+        if (activeFocus)
+            mainView.state = ""
     }
 
+    Item {
+        id: wrapper
 
-    Scrollbar {
-        target: gradingCriteriaList
+        anchors.fill: parent
+
+        CommonListView {
+            id: gradingCriteriaList
+
+            anchors.fill: parent
+            model: gradingCriteriaModel
+            delegate: GradingCriteriaDelegate{}
+            spacing: 5
+        }
+
+
+        Scrollbar {
+            target: gradingCriteriaList
+        }
     }
 }
