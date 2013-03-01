@@ -41,6 +41,8 @@ Dialog {
                     selectByMouse: true
                     selectionColor: "steelblue"
                     focus: true
+
+                    Component.onCompleted: selectAll()
                 }
             }
 

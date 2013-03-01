@@ -36,5 +36,6 @@ Rectangle {
     Loader {
         id: dialogContent
         anchors.centerIn: parent
+        focus: true
     }
 }
