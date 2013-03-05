@@ -95,7 +95,8 @@ OTHER_FILES += \
     gui/qml/EvalItemDelegate.qml \
     gui/qml/FlowListView.qml \
     gui/qml/utilities.js \
-    gui/qml/CustomTextItemEditDialog.qml
+    gui/qml/CustomTextItemEditDialog.qml \
+    gui/qml/EvalEditor.qml
 
 RESOURCES += \
     images.qrc
