@@ -5,6 +5,7 @@ Rectangle {
 
     property alias text: gradingCriteriaText.text
     property bool buttonsVisible
+    property bool editable
     property bool expandable
     property bool expanded
     property var model
@@ -44,7 +45,7 @@ Rectangle {
 
         Text {
             id: gradingCriteriaText
-            width: {parent.width - openArrow.width - addButton.width - modifyButton.width - deleteButton.width - (rowContainer.spacing*4)}
+            width: calculateTextWidth()
 
             font.pointSize: 16
             wrapMode: Text.WordWrap
@@ -147,5 +148,16 @@ Rectangle {
         }
     }
 
+    function calculateTextWidth()
+    {
+        if(decorativeRect.editable === true)
+        {
+            return rowContainer.width - openArrow.width - addButton.width - modifyButton.width - deleteButton.width - (rowContainer.spacing*4)
+        }
+        else
+        {
+            return rowContainer.width - openArrow.width - (rowContainer.spacing)
+        }
+    }
 
 }

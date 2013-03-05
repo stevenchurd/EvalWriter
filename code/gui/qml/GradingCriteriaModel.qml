@@ -3,6 +3,8 @@ import QtQuick 2.0
 Item {
     id: wrapper
 
+    property bool editable: false
+
     anchors.fill: parent
 
     CommonListView {
@@ -10,7 +12,7 @@ Item {
 
         anchors.fill: parent
         model: gradingCriteriaModel
-        delegate: GradingCriteriaDelegate{}
+        delegate: GradingCriteriaDelegate{ editable: wrapper.editable }
         spacing: 5
     }
 
