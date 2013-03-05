@@ -5,6 +5,7 @@ Column {
 
     width: parent.width
 
+    property bool editable: false
     property int itemSelected: -1
     property int gcIndex: index
 
@@ -31,7 +32,8 @@ Column {
     GradingCriteriaRow {
         id: gcRow
         text: gradingCriteriaString + " (" + numCriteriaItems + ")"
-        buttonsVisible: wrapper.ListView.view.currentIndex === index
+        buttonsVisible: wrapper.editable && wrapper.ListView.view.currentIndex === index
+        editable: wrapper.editable
         expandable: numCriteriaItems > 0
         onExpandedChanged: { itemSelected = -1 }
         expanded: isExpanded
@@ -47,7 +49,8 @@ Column {
             text: criteriaString
             criteriaLevelValue: criteriaLevel
             visible: gcRow.expanded
-            buttonsVisible: index === itemSelected
+            editable: wrapper.editable
+            buttonsVisible: wrapper.editable && index === itemSelected
             model: wrapper.ListView.view.model.criteriaItemModel(gcIndex)
 
             Component.onCompleted: {

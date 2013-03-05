@@ -5,6 +5,7 @@ Rectangle {
 
     property alias text: criteriaText.text
     property int criteriaLevelValue
+    property bool editable: false
     property bool buttonsVisible
     property var model
 
@@ -64,14 +65,7 @@ Rectangle {
 
         Text {
             id: criteriaText
-            width: {
-                parent.width -
-                        indentRect.width -
-                        levelIndicator.width -
-                        modifyButton.width -
-                        deleteButton.width -
-                        (rowContainer.spacing*4)
-            }
+            width: calculateTextWidth()
 
             font.pointSize: 10
             wrapMode: Text.WordWrap
@@ -98,6 +92,23 @@ Rectangle {
                 wizardContent.sourceComponent = isDeleteCriteriaItemOkDialog
                 wizardContent.show()
             }
+        }
+    }
+
+    function calculateTextWidth()
+    {
+        if(decorativeRect.editable === true)
+        {
+            return rowContainer.width -
+                    indentRect.width -
+                    levelIndicator.width -
+                    modifyButton.width -
+                    deleteButton.width -
+                    (rowContainer.spacing*4)
+        }
+        else
+        {
+            return rowContainer.width - indentRect.width - levelIndicator.width - (rowContainer.spacing*2)
         }
     }
 
