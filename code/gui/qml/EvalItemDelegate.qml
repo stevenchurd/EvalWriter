@@ -21,7 +21,7 @@ MouseArea {
             horizontalCenter: parent.horizontalCenter;
             verticalCenter: parent.verticalCenter
         }
-        color: (evalItemSelected) ? "lightgray" : "white"
+        color: (evalItemSelected) ? "lightsteelblue" : "white"
         border.color: "black"
         radius: 3
 
@@ -110,6 +110,7 @@ MouseArea {
         anchors { fill: parent; margins: 15 }
 
         onEntered: {
+            console.log("entered eval drop area")
             delegateRoot.VisualDataModel.model.model.move(drag.source.visualIndex, delegateRoot.visualIndex)
         }
     }

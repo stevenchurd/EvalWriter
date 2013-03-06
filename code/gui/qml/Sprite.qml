@@ -6,8 +6,7 @@ Rectangle {
     height: 62
 
     color: "red"
-
-    MouseArea {
-        anchors.fill: parent
-    }
+    Drag.active: true
+    Drag.hotSpot.x: 10
+    Drag.hotSpot.y: 10
 }

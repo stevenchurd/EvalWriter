@@ -8,7 +8,7 @@ Item {
     anchors.fill: parent
     anchors.margins: 5
 
-    CommonListView {
+    ListView {
         id: gradingCriteriaList
 
         height: parent.height

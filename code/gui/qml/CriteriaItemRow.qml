@@ -23,13 +23,17 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         onClicked: itemClicked(index)
-        onPressed:
-        {
+        onPressed: {
+            gradingCriteriaList.interactive = false
             itemClicked(index)
             ItemCreator.startDrag(mouse)
+
         }
         onPositionChanged: ItemCreator.continueDrag(mouse);
-        onReleased: ItemCreator.endDrag(mouse);
+        onReleased: {
+            ItemCreator.endDrag(mouse);
+            gradingCriteriaList.interactive = true
+        }
     }
 
     Row {
