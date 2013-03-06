@@ -6,18 +6,21 @@ Item {
     property bool editable: false
 
     anchors.fill: parent
+    anchors.margins: 5
 
     CommonListView {
         id: gradingCriteriaList
 
-        anchors.fill: parent
+        height: parent.height
+        width: parent.width - (scrollbar.width+5)
+
         model: gradingCriteriaModel
         delegate: GradingCriteriaDelegate{ editable: wrapper.editable }
         spacing: 5
     }
 
-
     Scrollbar {
+        id: scrollbar
         target: gradingCriteriaList
     }
 }

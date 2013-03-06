@@ -1,62 +1,74 @@
 import QtQuick 2.0
 
-Column {
+Rectangle {
     id: wrapper
-
-    width: parent.width
-
     property bool editable: false
     property int itemSelected: -1
     property int gcIndex: index
 
-    Connections {
-        target: gcRow
-        onExpandClicked: {
-            if(gcRow.expanded)
-            {
-                wrapper.ListView.view.model.collapseRow(index)
-            }
-            else
-            {
-                wrapper.ListView.view.model.expandRow(index)
-            }
-            wrapper.ListView.view.currentIndex = index
-        }
+    width: parent.width
+    height: column.height
+    border.color: "black"
+    border.width: (wrapper.ListView.view.currentIndex === index) ? 2 : 1
+    radius: 5
+    smooth: true
+    clip: true
 
-        onHeaderClicked: {
-            itemSelected = -1
-            wrapper.ListView.view.currentIndex = index
-        }
-    }
+    Column {
+        id: column
 
-    GradingCriteriaRow {
-        id: gcRow
-        text: gradingCriteriaString + " (" + numCriteriaItems + ")"
-        buttonsVisible: wrapper.editable && wrapper.ListView.view.currentIndex === index
-        editable: wrapper.editable
-        expandable: numCriteriaItems > 0
-        onExpandedChanged: { itemSelected = -1 }
-        expanded: isExpanded
-        model: wrapper.ListView.view.model
-    }
-
-    Repeater {
         width: parent.width
 
-        model: wrapper.ListView.view.model.criteriaItemModel(index)
-        delegate: CriteriaItemRow {
-            width: parent.width - 40
-            text: criteriaString
-            criteriaLevelValue: criteriaLevel
-            visible: gcRow.expanded
-            editable: wrapper.editable
-            buttonsVisible: wrapper.editable && index === itemSelected
-            model: wrapper.ListView.view.model.criteriaItemModel(gcIndex)
-
-            Component.onCompleted: {
-                onItemClicked.connect(selectCriteriaItem)
+        Connections {
+            target: gcRow
+            onExpandClicked: {
+                if(gcRow.expanded)
+                {
+                    wrapper.ListView.view.model.collapseRow(index)
+                }
+                else
+                {
+                    wrapper.ListView.view.model.expandRow(index)
+                }
+                wrapper.ListView.view.currentIndex = index
             }
-      }
+
+            onHeaderClicked: {
+                itemSelected = -1
+                wrapper.ListView.view.currentIndex = index
+            }
+        }
+
+        GradingCriteriaRow {
+            id: gcRow
+            text: gradingCriteriaString + " (" + numCriteriaItems + ")"
+            buttonsVisible: wrapper.editable && wrapper.ListView.view.currentIndex === index
+            editable: wrapper.editable
+            expandable: numCriteriaItems > 0
+            onExpandedChanged: { itemSelected = -1 }
+            expanded: isExpanded
+            model: wrapper.ListView.view.model
+        }
+
+        Repeater {
+            width: parent.width
+
+            model: wrapper.ListView.view.model.criteriaItemModel(index)
+            delegate: CriteriaItemRow {
+                width: parent.width
+                text: criteriaString
+                criteriaLevelValue: criteriaLevel
+                visible: gcRow.expanded
+                editable: wrapper.editable
+                buttonsVisible: wrapper.editable && index === itemSelected
+                isSelected: index === itemSelected
+                model: wrapper.ListView.view.model.criteriaItemModel(gcIndex)
+
+                Component.onCompleted: {
+                    onItemClicked.connect(selectCriteriaItem)
+                }
+            }
+        }
     }
 
     function selectCriteriaItem(sublistIndex)
@@ -66,6 +78,4 @@ Column {
     }
 
     onFocusChanged: { itemSelected = -1 }
-
-
 }

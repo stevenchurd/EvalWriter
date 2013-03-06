@@ -13,8 +13,8 @@ Rectangle {
     signal expandClicked
     signal headerClicked
 
-    width: parent.width - 50
-    height: gradingCriteriaText.height + 10
+    width: parent.width
+    height: gradingCriteriaText.height
     anchors.horizontalCenter: parent.horizontalCenter
     color: "transparent"
 

@@ -13,7 +13,7 @@ Item {
     Rectangle {
         height: parent.height
         width: 1
-        border.color: black
+        border.color: "black"
     }
 
     Item {

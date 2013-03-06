@@ -12,10 +12,10 @@ Rectangle {
 
     anchors.top: target.top
     anchors.bottom: target.bottom
-    anchors.right: target.right
+    anchors.left: target.right
     anchors.topMargin: 5
     anchors.bottomMargin: 5
-    anchors.rightMargin: 5
+    anchors.leftMargin: 5
 
     //visible: (track.height == slider.height) ? false : true //TODO: !visible -> width: 0 (but creates a binding loop)
 

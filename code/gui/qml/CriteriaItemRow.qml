@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import "utilities.js" as JsUtil
+import "itemCreation.js" as ItemCreator
 
 Rectangle {
     id: decorativeRect
@@ -8,16 +9,27 @@ Rectangle {
     property int criteriaLevelValue
     property bool editable: false
     property bool buttonsVisible
+    property bool isSelected
     property var model
 
     signal itemClicked(int index)
 
-    height: criteriaText.height + 5
-    color: "transparent"
+    height: criteriaText.height
+    color: (isSelected) ? "lightsteelblue" : "transparent"
+    border.color: "lightgray"
+    clip: true
+    smooth: true
 
     MouseArea {
         anchors.fill: parent
         onClicked: itemClicked(index)
+        onPressed:
+        {
+            itemClicked(index)
+            ItemCreator.startDrag(mouse)
+        }
+        onPositionChanged: ItemCreator.continueDrag(mouse);
+        onReleased: ItemCreator.endDrag(mouse);
     }
 
     Row {
@@ -27,17 +39,10 @@ Rectangle {
         spacing: 10
 
         Rectangle {
-            id: indentRect
-            width: 40
-            height: parent.height
-            color: "transparent"
-        }
-
-        Rectangle {
             id: levelIndicator
             width: 7
-            height: parent.height
-            anchors.verticalCenter: parent.verticalCenter
+            height: rowContainer.height
+            anchors.verticalCenter: rowContainer.verticalCenter
 
             border.color: "black"
             antialiasing: true
@@ -82,7 +87,6 @@ Rectangle {
         if(decorativeRect.editable === true)
         {
             return rowContainer.width -
-                    indentRect.width -
                     levelIndicator.width -
                     modifyButton.width -
                     deleteButton.width -
@@ -90,7 +94,7 @@ Rectangle {
         }
         else
         {
-            return rowContainer.width - indentRect.width - levelIndicator.width - (rowContainer.spacing*2)
+            return rowContainer.width - levelIndicator.width - (rowContainer.spacing*2)
         }
     }
 
