@@ -16,8 +16,10 @@ class QEvaluationModel : public QAbstractListModel
    Q_OBJECT
 
 public:
-    QEvaluationModel(boost::shared_ptr<Eval> eval, QObject* parent = 0) :
-        QAbstractListModel(parent), m_eval(eval)
+    QEvaluationModel(boost::shared_ptr<Eval> eval,
+                     QVector<boost::shared_ptr<GradingCriteria> >& gc,
+                     QObject* parent = 0) :
+        QAbstractListModel(parent), m_eval(eval), m_gradingCriteria(gc)
     {
     }
 
@@ -38,6 +40,7 @@ public:
     QHash<int,QByteArray> roleNames() const;
 
 public slots:
+    void addCriteriaItem(int index, int uniqueId);
     void move(int srcIndex, int destIndex);
     void removeItem(int row);
     void selectItem(int row);
@@ -48,6 +51,7 @@ public slots:
 
 private:
     boost::shared_ptr<Eval> m_eval;
+    QVector<boost::shared_ptr<GradingCriteria> >& m_gradingCriteria;
     std::list<int> m_selected;
 };
 

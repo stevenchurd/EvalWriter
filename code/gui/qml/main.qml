@@ -9,7 +9,7 @@ Rectangle {
         id: screenContent
         anchors.fill: parent
         EvalEditor{}
-   }
+    }
 
     // this is expected to be globally accessable as a means of loading wizard pages
     WizardLoader {

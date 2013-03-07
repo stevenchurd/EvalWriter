@@ -8,9 +8,14 @@ Rectangle {
     property alias text: criteriaText.text
     property int criteriaLevelValue
     property bool editable: false
-    property bool buttonsVisible
-    property bool isSelected
+    property bool buttonsVisible: false
+    property bool isSelected: true
     property var model
+
+    // this is only used when creating dummy rows for dragging that
+    // look just like the original item but don't have the underlying
+    // model connection
+    property var itemUniqueId: uniqueId
 
     signal itemClicked(int index)
 
@@ -26,8 +31,7 @@ Rectangle {
         onPressed: {
             gradingCriteriaList.interactive = false
             itemClicked(index)
-            ItemCreator.startDrag(mouse)
-
+            ItemCreator.startDrag(mouse, decorativeRect)
         }
         onPositionChanged: ItemCreator.continueDrag(mouse);
         onReleased: {

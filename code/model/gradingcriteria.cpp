@@ -46,9 +46,7 @@ boost::shared_ptr<CriteriaItem> GradingCriteria::getCriteriaItem(
         std::string criteriaName,
         CriteriaItem::CriteriaItemLevelType level)
 {
-    std::vector<boost::shared_ptr<CriteriaItem> >::iterator it ;
-
-    it = std::find_if(m_criteriaItems.begin(),
+    auto it = std::find_if(m_criteriaItems.begin(),
                       m_criteriaItems.end(),
                       findCriteriaItem(criteriaName, m_criteriaName, level));
 
@@ -75,11 +73,23 @@ boost::shared_ptr<CriteriaItem> GradingCriteria::getCriteriaItem(unsigned int in
 }
 
 
+bool GradingCriteria::getCriteriaItemById(EvalItem::ItemUniqueIdType id, boost::shared_ptr<CriteriaItem>& gc) const
+{
+    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id));
+
+    if(it != m_criteriaItems.end())
+    {
+        gc = *it;
+        return true;
+    }
+
+    return false;
+}
+
+
 void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::string itemStr)
 {
-    std::vector<boost::shared_ptr<CriteriaItem> >::iterator it ;
-
-    it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
+    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
 
     if(it == m_criteriaItems.end())
     {
@@ -92,9 +102,7 @@ void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::str
 
 void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, CriteriaItem::CriteriaItemLevelType level)
 {
-    std::vector<boost::shared_ptr<CriteriaItem> >::iterator it ;
-
-    it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
+    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
 
     if(it == m_criteriaItems.end())
     {
@@ -107,9 +115,7 @@ void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, Criteria
 
 void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::string itemStr, CriteriaItem::CriteriaItemLevelType level)
 {
-    std::vector<boost::shared_ptr<CriteriaItem> >::iterator it ;
-
-    it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
+    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
 
     if(it == m_criteriaItems.end())
     {

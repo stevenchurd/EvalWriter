@@ -26,6 +26,7 @@ public:
     void getPrintableEvalString(std::stringstream &ss) ;
 
     void addEvalItem(boost::shared_ptr<EvalItem> evalItem) ;
+    void addEvalItemAt(int index, boost::shared_ptr<EvalItem> evalItem);
     void removeEvalItemAt(int index);
     void moveEvalItem(int oldPosition, int newPosition) ;
     void replaceEvalItem(boost::shared_ptr<EvalItem> newItem, int oldId);

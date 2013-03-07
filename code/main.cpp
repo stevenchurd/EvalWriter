@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
         // set up models
         QGradingCriteriaModel gcModel(m_gradingCriteria, m_students);
         m_students[0]->getEvals(std::inserter(studentEvals, studentEvals.begin()));
-        QEvaluationModel evalModel(studentEvals[0]);
+        QEvaluationModel evalModel(studentEvals[0], m_gradingCriteria);
         QCoursesListModel coursesModel(m_courses);
 
         // set up view with QML main

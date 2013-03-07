@@ -5,6 +5,15 @@ Item {
 
     anchors.fill: parent
 
+    DropArea {
+        anchors.fill: parent
+        keys: ["add"]
+
+        onDropped: {
+            root.model.model.addCriteriaItem(root.findNearestItemIndex(drop.x, drop.y), drop.source.itemUniqueId)
+        }
+    }
+
     FlowListView {
         id: root
         anchors.fill: parent
@@ -14,6 +23,7 @@ Item {
         }
 
         model: VisualDataModel {
+            id: visualDataModel
             model: evalModel
             delegate: EvalItemDelegate{ }
         }

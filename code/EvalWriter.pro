@@ -97,8 +97,7 @@ OTHER_FILES += \
     gui/qml/utilities.js \
     gui/qml/CustomTextItemEditDialog.qml \
     gui/qml/EvalEditor.qml \
-    gui/qml/itemCreation.js \
-    gui/qml/Sprite.qml
+    gui/qml/itemCreation.js
     gui/qml/EvalItemDelegate.qml
 
 RESOURCES += \

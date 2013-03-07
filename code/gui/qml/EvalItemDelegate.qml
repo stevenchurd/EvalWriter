@@ -31,6 +31,7 @@ MouseArea {
         Drag.source: delegateRoot
         Drag.hotSpot.x: 36
         Drag.hotSpot.y: 36
+        Drag.keys: ["move"]
 
         Item {
             id: topRow
@@ -107,11 +108,21 @@ MouseArea {
     }
 
     DropArea {
-        anchors { fill: parent; margins: 15 }
+        anchors.fill: delegateRoot
+
+        keys: ["move", "add"]
 
         onEntered: {
-            console.log("entered eval drop area")
-            delegateRoot.VisualDataModel.model.model.move(drag.source.visualIndex, delegateRoot.visualIndex)
+            if(drag.keys[0] === "move")
+            {
+                delegateRoot.VisualDataModel.model.model.move(drag.source.visualIndex, delegateRoot.visualIndex)
+            }
+        }
+        onDropped: {
+            if(drop.keys[0] === "add")
+            {
+                delegateRoot.VisualDataModel.model.model.addCriteriaItem(index, drop.source.itemUniqueId)
+            }
         }
     }
 

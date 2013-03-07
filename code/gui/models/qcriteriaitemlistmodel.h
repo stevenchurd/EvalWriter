@@ -22,7 +22,8 @@ public:
 
     enum CriteriaItemRoles {
         StringRole = Qt::UserRole + 1,
-        LevelRole
+        LevelRole,
+        UniqueIdRole
     };
 
     /* virtual functions from QAbstractListModel */

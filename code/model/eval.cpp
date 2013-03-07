@@ -28,9 +28,15 @@ void Eval::addEvalItem(boost::shared_ptr<EvalItem> evalItem)
 }
 
 
-void Eval::removeEvalItemAt(int row)
+void Eval::addEvalItemAt(int index, boost::shared_ptr<EvalItem> evalItem)
 {
-    m_evalItems.erase(std::next(m_evalItems.begin(), row));
+    m_evalItems.insert(std::next(m_evalItems.begin(), index), evalItem);
+}
+
+
+void Eval::removeEvalItemAt(int index)
+{
+    m_evalItems.erase(std::next(m_evalItems.begin(), index));
 }
 
 

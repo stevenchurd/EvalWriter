@@ -23,6 +23,7 @@ public:
             CriteriaItem::CriteriaItemLevelType level);
 
     boost::shared_ptr<CriteriaItem> getCriteriaItem(unsigned int index) const;
+    bool getCriteriaItemById(EvalItem::ItemUniqueIdType id, boost::shared_ptr<CriteriaItem> &gc) const;
 
     int getNumCriteriaItems(void) const;
 

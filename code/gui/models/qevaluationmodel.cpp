@@ -1,6 +1,7 @@
 // (C) Copyright Steven Hurd 2013
 
 #include "qevaluationmodel.h"
+#include "model/gradingcriteria.h"
 
 int QEvaluationModel::rowCount(const QModelIndex &/*parent*/) const
 {
@@ -67,7 +68,27 @@ QHash<int,QByteArray> QEvaluationModel::roleNames() const
    }
 
     return roleNames;
+}
 
+
+void QEvaluationModel::addCriteriaItem(int destIndex, int uniqueId)
+{
+    boost::shared_ptr<CriteriaItem> item;
+
+    for(auto it = m_gradingCriteria.begin(); it != m_gradingCriteria.end(); ++it)
+    {
+        if((*it)->getCriteriaItemById(uniqueId, item) == true)
+        {
+            break;
+        }
+    }
+
+    if(destIndex <= m_eval->getNumEvalItems())
+    {
+        beginInsertRows(QModelIndex(), destIndex, destIndex);
+        m_eval->addEvalItemAt(destIndex, item);
+        endInsertRows();
+    }
 }
 
 

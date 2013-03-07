@@ -43,6 +43,10 @@ QVariant QCriteriaItemListModel::data(const QModelIndex &index, int role) const
             return QVariant::fromValue(static_cast<int>(ci->getCriteriaItemLevel()));
             break;
 
+        case UniqueIdRole:
+            return QVariant::fromValue(ci->getUniqueId());
+            break;
+
         default:
             return QVariant();
             break;
@@ -58,6 +62,7 @@ QHash<int,QByteArray> QCriteriaItemListModel::roleNames() const
     {
         roleNames[StringRole] = "criteriaString";
         roleNames[LevelRole] = "criteriaLevel";
+        roleNames[UniqueIdRole] = "uniqueId";
    }
 
     return roleNames;
