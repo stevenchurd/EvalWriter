@@ -47,7 +47,7 @@ public slots:
     void deselectItem(int row);
     void deselectAllItems(void);
 
-    void editItemString(int row, QString string);
+    void editItemString(int row, QString title, QString string);
 
 private:
     boost::shared_ptr<Eval> m_eval;

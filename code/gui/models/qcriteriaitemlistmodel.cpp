@@ -82,7 +82,8 @@ void QCriteriaItemListModel::removeCriteriaItem(int row)
     beginRemoveRows(QModelIndex(), row, row);
 
     boost::shared_ptr<EvalItem> oldItem = m_gradingCriteria->getCriteriaItem(row);
-    boost::shared_ptr<EvalItem> newCustomTextItem = boost::shared_ptr<EvalItem>(new CustomTextItem(oldItem->getItemStr()));
+    boost::shared_ptr<EvalItem> newCustomTextItem = boost::shared_ptr<EvalItem>(
+                new CustomTextItem(oldItem->getItemTitleStr(), oldItem->getItemStr()));
 
     // first remove from the item
     m_gradingCriteria->removeCriteriaItemAt(row);

@@ -22,11 +22,14 @@ public:
     virtual ~EvalItem() {}
 
     virtual std::string getItemTitleStr(void) const { return ""; }
+    virtual void setItemTitleStr(const std::string title){}
+
     virtual int getItemLevel(void) const { return INVALID_ITEM_LEVEL; }
     bool isItemEditable(void) const { return m_itemEditable; }
 
     std::string getItemStr(void) const { return m_itemStr; }
     void setItemStr(const std::string str) { m_itemStr = str; }
+
 
     ItemUniqueIdType getUniqueId(void) const { return m_uniqueItemId; }
 

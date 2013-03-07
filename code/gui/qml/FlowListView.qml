@@ -2,9 +2,8 @@ import QtQuick 2.0
 
 Flickable {
     id: flowListView
-    anchors.fill: parent
 
-    contentWidth: parent.width;
+    contentWidth: width;
     contentHeight: flow.childrenRect.height
 
     property alias count: repeater.count

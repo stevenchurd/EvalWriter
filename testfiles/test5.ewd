@@ -129,6 +129,7 @@
                     <level>2</level>
                 </criteriaItem>
                 <customTextItemNode>
+		    <title>Bathroom time</title>
                     <value>Spends time in bathroom</value>
                 </customTextItemNode>
         	<criteriaItem>
@@ -150,6 +151,7 @@
                     <level>0</level>
                 </criteriaItem>
                 <customTextItemNode>
+		    <title>Bathroom time</title>
                     <value>Never uses bathroom</value>
                 </customTextItemNode>
             </eval>

@@ -10,12 +10,6 @@ Item {
         GradingCriteriaModel{}
     }
 
-    Rectangle {
-        height: parent.height
-        width: 1
-        border.color: "black"
-    }
-
     Item {
         id: rightColumn
         height: parent.height

@@ -3,10 +3,11 @@ import QtQuick 2.0
 Dialog {
     property string dialogText
     property string startingText
+    property string startingTitle
     property int textInputWidth: 300
     property int textInputHeight: 100
 
-    signal editClicked(string newText)
+    signal editClicked(string newTitle, string newText)
     signal cancelClicked
 
     Component {
@@ -19,6 +20,27 @@ Dialog {
                 text: dialogText
                 renderType: Text.NativeRendering
                 anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            Rectangle {
+                width: textInputWidth
+                height: 25
+                border.color: "black"
+                clip: true
+
+                TextEdit {
+                    id: customTextTitle
+                    anchors.fill: parent
+                    textMargin: 5
+
+                    wrapMode: TextEdit.NoWrap
+                    renderType: TextEdit.NativeRendering
+                    text: startingTitle
+                    selectByMouse: true
+                    selectionColor: "steelblue"
+                    focus: false
+                    onActiveFocusChanged: if(focus) {selectAll()}
+                }
             }
 
             Rectangle {
@@ -39,6 +61,7 @@ Dialog {
                     selectByMouse: true
                     selectionColor: "steelblue"
                     focus: true
+                    onActiveFocusChanged: if(focus) {selectAll()}
 
                     Component.onCompleted: selectAll()
                 }
@@ -51,7 +74,7 @@ Dialog {
                 TextButton {
                     id: editButton
                     text: "Edit"
-                    onClicked: editClicked(customTextItem.text)
+                    onClicked: editClicked(customTextTitle.text, customTextItem.text)
                 }
 
                 TextButton {

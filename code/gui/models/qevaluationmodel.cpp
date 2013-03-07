@@ -139,12 +139,13 @@ void QEvaluationModel::deselectAllItems(void)
 }
 
 
-void QEvaluationModel::editItemString(int row, QString string)
+void QEvaluationModel::editItemString(int row, QString title, QString string)
 {
     boost::shared_ptr<EvalItem> ei = m_eval->getEvalItem(row);
     if(ei->isItemEditable())
 {
         ei->setItemStr(string.toStdString());
+        ei->setItemTitleStr(title.toStdString());
         emit dataChanged(index(row), index(row));
     }
 }

@@ -6,9 +6,9 @@ Rectangle {
 
     clip: true
     color: "#b3b3b3"
-    width: 17
-    radius: 10
+    width: 10
     smooth: true
+    antialiasing: true
 
     anchors.top: target.top
     anchors.bottom: target.bottom
@@ -71,7 +71,6 @@ Rectangle {
             color: "#343434"
             smooth: true
             width: parent.width
-            radius: 10
 
             anchors.bottom: (target.visibleArea.yPosition > 1)? parent.bottom: undefined
             height: {

@@ -7,7 +7,7 @@ MouseArea {
     property int visualIndex: VisualDataModel.itemsIndex
 
     width: stringWidth(evalItemString)
-    height: 80
+    height: 80 /* TODO: making item bigger to fit text can be done here */
     drag.target: icon
 
     onClicked: toggleItemSelection()
@@ -15,7 +15,7 @@ MouseArea {
     Rectangle {
         id: icon
         width: stringWidth(evalItemString)
-        height: 75
+        height: delegateRoot.height
         clip: true
         anchors {
             horizontalCenter: parent.horizontalCenter;
@@ -29,8 +29,8 @@ MouseArea {
 
         Drag.active: delegateRoot.drag.active
         Drag.source: delegateRoot
-        Drag.hotSpot.x: 36
-        Drag.hotSpot.y: 36
+        Drag.hotSpot.x: width/2
+        Drag.hotSpot.y: height/2
         Drag.keys: ["move"]
 
         Item {
@@ -95,7 +95,7 @@ MouseArea {
                 when: icon.Drag.active
                 ParentChange {
                     target: icon
-                    parent: root
+                    parent: flowListView
                 }
 
                 AnchorChanges {
@@ -149,9 +149,9 @@ MouseArea {
         delegateRoot.VisualDataModel.model.model.removeItem(index)
     }
 
-    function editCustomTextItem(newString)
+    function editCustomTextItem(newTitle, newString)
     {
-        delegateRoot.VisualDataModel.model.model.editItemString(index, newString);
+        delegateRoot.VisualDataModel.model.model.editItemString(index, newTitle, newString);
     }
 
     // wizard component definitions
@@ -177,6 +177,7 @@ MouseArea {
             id: dialog
             dialogText: "Edit the custom text item:"
             startingText: evalItemString
+            startingTitle: evalItemTitle
 
             Component.onCompleted:
             {

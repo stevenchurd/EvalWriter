@@ -4,19 +4,25 @@ Item {
     id: wrapper
 
     anchors.fill: parent
+    anchors.margins: 5
 
     DropArea {
-        anchors.fill: parent
+        anchors.fill: flowListView
         keys: ["add"]
 
         onDropped: {
-            root.model.model.addCriteriaItem(root.findNearestItemIndex(drop.x, drop.y), drop.source.itemUniqueId)
+            if(flowListView.findNearestItemIndex(drop.x, drop.y) !== -1)
+            {
+                flowListView.model.model.addCriteriaItem(flowListView.findNearestItemIndex(drop.x, drop.y), drop.source.itemUniqueId)
+            }
         }
     }
 
     FlowListView {
-        id: root
-        anchors.fill: parent
+        id: flowListView
+
+        height: parent.height
+        width: wrapper.width - (scrollbar.width + 5)
 
         displaced: Transition {
             NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad }
@@ -25,7 +31,12 @@ Item {
         model: VisualDataModel {
             id: visualDataModel
             model: evalModel
-            delegate: EvalItemDelegate{ }
+            delegate: EvalItemDelegateFull{ }
         }
+    }
+
+    Scrollbar {
+        id: scrollbar
+        target: flowListView
     }
 }

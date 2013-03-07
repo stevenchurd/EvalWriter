@@ -40,16 +40,19 @@ function createItem() {
                                                      "criteriaLevelValue": copiedItem.criteriaLevelValue,
                                                      "isSelected": false,
                                                      "opacity":.9,
-                                                     "Drag.active": true,
-                                                     "Drag.hotSpot.x": startingMouse.x,
-                                                     "Drag.hotSpot.y": startingMouse.y,
-                                                     "Drag.keys": "add"
-                });
+                                                     "visible": false });
 
         if(draggedItem === null)
         {
             console.log("Error creating object")
+            return
         }
+
+        draggedItem.Drag.active = true
+        draggedItem.Drag.hotSpot.x = startingMouse.x
+        draggedItem.Drag.hotSpot.y = startingMouse.y
+        draggedItem.Drag.keys = "add"
+
     } else if (itemComponent.status == Component.Error) {
         draggedItem = null;
         console.log("error creating component");
@@ -63,8 +66,8 @@ function continueDrag(mouse)
         return;
 
     draggedItem.visible = true
-    draggedItem.x = mouse.x + posnInWindow.x - startingMouse.x;
-    draggedItem.y = mouse.y + posnInWindow.y - startingMouse.y;
+    draggedItem.x = mouse.x + posnInWindow.x - startingMouse.x
+    draggedItem.y = mouse.y + posnInWindow.y - startingMouse.y
 }
 
 function endDrag(mouse)
@@ -73,6 +76,15 @@ function endDrag(mouse)
         return;
 
     draggedItem.Drag.drop();
+
+    draggedItem.destroy();
+    draggedItem = null;
+}
+
+function cancelDrag()
+{
+    if(draggedItem == null)
+        return;
 
     draggedItem.destroy();
     draggedItem = null;
