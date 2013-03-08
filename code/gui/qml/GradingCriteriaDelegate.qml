@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Rectangle {
     id: wrapper
-    property bool editable: false
+    property bool editable
     property int itemSelected: -1
     property int gcIndex: index
 

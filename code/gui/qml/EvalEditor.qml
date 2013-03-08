@@ -7,7 +7,7 @@ Item {
         id: leftColumn
         height: parent.height
         width: parent.width/3
-        GradingCriteriaModel{}
+        GradingCriteriaModel{ editable: false }
     }
 
     Item {

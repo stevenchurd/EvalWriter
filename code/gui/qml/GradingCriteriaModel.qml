@@ -3,7 +3,7 @@ import QtQuick 2.0
 Item {
     id: wrapper
 
-    property bool editable: false
+    property bool editable
 
     anchors.fill: parent
     anchors.margins: 5

@@ -39,7 +39,7 @@ function createItem() {
                                                      "text": copiedItem.text,
                                                      "criteriaLevelValue": copiedItem.criteriaLevelValue,
                                                      "isSelected": false,
-                                                     "color": "white",
+                                                     "color": "lightsteelblue",
                                                      "border.color": "black",
                                                      "visible": false });
 

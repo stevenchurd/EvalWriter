@@ -30,20 +30,32 @@ Rectangle {
 
         onClicked: itemClicked(index)
         onPressed: {
-            gradingCriteriaList.interactive = false
             itemClicked(index)
-            ItemCreator.startDrag(mouse, decorativeRect)
+            if(!editable)
+            {
+                gradingCriteriaList.interactive = false
+                ItemCreator.startDrag(mouse, decorativeRect)
+            }
         }
         onPositionChanged: {
-            ItemCreator.continueDrag(mouse)
+            if(!editable)
+            {
+                ItemCreator.continueDrag(mouse)
+            }
         }
         onCanceled: {
-            ItemCreator.cancelDrag()
-            gradingCriteriaList.interactive = true
+            if(!editable)
+            {
+                ItemCreator.cancelDrag()
+                gradingCriteriaList.interactive = true
+            }
         }
         onReleased: {
-            ItemCreator.endDrag(mouse)
-            gradingCriteriaList.interactive = true
+            if(!editable)
+            {
+                ItemCreator.endDrag(mouse)
+                gradingCriteriaList.interactive = true
+            }
         }
     }
 
