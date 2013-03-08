@@ -29,7 +29,6 @@ Item {
         }
 
         model: VisualDataModel {
-            id: visualDataModel
             model: evalModel
             delegate: EvalItemDelegateFull{ }
         }
