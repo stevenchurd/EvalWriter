@@ -3,6 +3,20 @@
 #include "qevaluationmodel.h"
 #include "model/gradingcriteria.h"
 
+QEvaluationModel::QEvaluationModel(boost::shared_ptr<Eval> eval,
+                 QVector<boost::shared_ptr<GradingCriteria> >& gc,
+                 QObject* parent) :
+    QAbstractListModel(parent), m_eval(eval), m_gradingCriteria(gc)
+{
+}
+
+
+QString QEvaluationModel::getEvalTitle() const
+{
+    return QString::fromStdString(m_eval->getEvalName());
+}
+
+
 int QEvaluationModel::rowCount(const QModelIndex &/*parent*/) const
 {
     return m_eval->getNumEvalItems();
@@ -92,7 +106,7 @@ void QEvaluationModel::addCriteriaItem(int destIndex, int uniqueId)
 }
 
 
-void QEvaluationModel::move(int srcIndex, int destIndex)
+void QEvaluationModel::moveEvalItem(int srcIndex, int destIndex)
 {
     if(srcIndex != destIndex)
     {
@@ -102,7 +116,7 @@ void QEvaluationModel::move(int srcIndex, int destIndex)
 
         m_eval->moveEvalItem(srcIndex, destIndex);
         endMoveRows();
-}
+    }
 }
 
 

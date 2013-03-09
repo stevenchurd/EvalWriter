@@ -6,16 +6,21 @@ MouseArea {
 
     property int visualIndex: VisualDataModel.itemsIndex
 
-    width: stringWidth(evalItemString)
-    height: 80 /* TODO: making item bigger to fit text can be done here */
-    drag.target: icon
+    width: 0
+    Component.onCompleted: width = calculateDelegateWidth()
+    height: (evalItemSelected) ? (fitHeight()) : 80
+    drag.target: itemRect
 
     onClicked: toggleItemSelection()
 
+    Behavior on height {
+        NumberAnimation { duration: 100 }
+    }
+
     Rectangle {
-        id: icon
-        width: stringWidth(evalItemString)
+        id: itemRect
         height: delegateRoot.height
+        width: delegateRoot.width
         clip: true
         anchors {
             horizontalCenter: parent.horizontalCenter;
@@ -23,7 +28,6 @@ MouseArea {
         }
         color: (evalItemSelected) ? "lightsteelblue" : "white"
         border.color: "black"
-        radius: 3
 
         Drag.onActiveChanged: if(!evalItemSelected) { toggleItemSelection() }
 
@@ -33,13 +37,28 @@ MouseArea {
         Drag.hotSpot.y: height/2
         Drag.keys: ["move"]
 
+        Rectangle {
+            id: colorIndicator
+            height: parent.height
+            width: 5
+            border.color: "black"
+            color: JsUtil.getEvalItemColor(evalItemLevel)
+        }
+
         Item {
             id: topRow
             height: removeButton.height
-            width: parent.width
+            width: parent.width-colorIndicator.width
+            anchors.left: colorIndicator.right
+            anchors.leftMargin: 5
 
             Text {
+                id: titleTextArea
+                anchors.verticalCenter: parent.verticalCenter
+                clip: true
+
                 text: evalItemTitle
+                width: parent.width - buttonsWidth()
                 font.bold: true
                 renderType: Text.NativeRendering
             }
@@ -67,39 +86,30 @@ MouseArea {
             }
         }
 
-        Row {
+        Text {
             id: bottomRow
-            height: parent.height - topRow.height
-            width: parent.width
+            height: parent.height - topRow.height -5
+            width: parent.width - colorIndicator.width - 8
+            anchors.left: colorIndicator.right
             anchors.top: topRow.bottom
+            anchors.leftMargin: 3
+            anchors.topMargin: 5
 
-            Rectangle {
-                id: colorIndicator
-                height: parent.height
-                width: 5
-                border.color: "black"
-                color: JsUtil.getEvalItemColor(evalItemLevel)
-            }
-
-            Text {
-                height: parent.height
-                width: parent.width-colorIndicator.width
-                text: evalItemString
-                renderType: Text.NativeRendering
-                wrapMode: Text.WordWrap
-            }
+            text: evalItemString
+            renderType: Text.NativeRendering
+            wrapMode: Text.WordWrap
         }
 
         states: [
             State {
-                when: icon.Drag.active
+                when: itemRect.Drag.active
                 ParentChange {
-                    target: icon
+                    target: itemRect
                     parent: flowListView
                 }
 
                 AnchorChanges {
-                    target: icon;
+                    target: itemRect;
                     anchors.horizontalCenter: undefined;
                     anchors.verticalCenter: undefined
                 }
@@ -115,7 +125,7 @@ MouseArea {
         onEntered: {
             if(drag.keys[0] === "move")
             {
-                delegateRoot.VisualDataModel.model.model.move(drag.source.visualIndex, delegateRoot.visualIndex)
+                delegateRoot.VisualDataModel.model.model.moveEvalItem(drag.source.visualIndex, delegateRoot.visualIndex)
             }
         }
         onDropped: {
@@ -126,9 +136,32 @@ MouseArea {
         }
     }
 
-    function stringWidth(s)
+    function buttonsWidth()
     {
-        return Math.min(String(s).length * 5, 250);
+        return ((evalItemIsEditable) ? editButton.width : 0) + removeButton.width
+    }
+
+    function calculateDelegateWidth()
+    {
+        // absolute max width is 250
+        // height is always 80
+        var titleWidth = titleTextArea.paintedWidth + buttonsWidth() + colorIndicator.width + 5
+        var textWidth = bottomRow.paintedWidth + colorIndicator.width + 5
+
+        var fittedWidth = Math.max(titleWidth, textWidth)
+        fittedWidth = Math.min(fittedWidth, 250)
+
+        return fittedWidth
+    }
+
+    function fitHeight()
+    {
+        if(bottomRow.paintedHeight > bottomRow.height)
+        {
+            return bottomRow.paintedHeight+topRow.height + 8
+        }
+
+        return delegateRoot.height
     }
 
     function toggleItemSelection()

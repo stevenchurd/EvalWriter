@@ -10,9 +10,12 @@ Rectangle {
     height: column.height
     border.color: "black"
     border.width: (wrapper.ListView.view.currentIndex === index) ? 2 : 1
-    radius: 5
     smooth: true
     clip: true
+
+    Behavior on height {
+        NumberAnimation { duration: 100 }
+    }
 
     Column {
         id: column

@@ -74,7 +74,6 @@ Rectangle {
             border.color: "black"
             antialiasing: true
             color: JsUtil.getEvalItemColor(criteriaLevelValue)
-            radius: width*.5
         }
 
         Text {

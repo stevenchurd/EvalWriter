@@ -18,10 +18,7 @@ class QEvaluationModel : public QAbstractListModel
 public:
     QEvaluationModel(boost::shared_ptr<Eval> eval,
                      QVector<boost::shared_ptr<GradingCriteria> >& gc,
-                     QObject* parent = 0) :
-        QAbstractListModel(parent), m_eval(eval), m_gradingCriteria(gc)
-    {
-    }
+                     QObject* parent = 0);
 
     virtual ~QEvaluationModel() {}
 
@@ -33,6 +30,8 @@ public:
         InPlaceEditable
     };
 
+    Q_INVOKABLE QString getEvalTitle() const;
+
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
@@ -41,7 +40,7 @@ public:
 
 public slots:
     void addCriteriaItem(int index, int uniqueId);
-    void move(int srcIndex, int destIndex);
+    void moveEvalItem(int srcIndex, int destIndex);
     void removeItem(int row);
     void selectItem(int row);
     void deselectItem(int row);

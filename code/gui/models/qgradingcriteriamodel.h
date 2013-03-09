@@ -31,13 +31,7 @@ public:
                           QObject* parent = 0);
     virtual ~QGradingCriteriaModel(void) {}
 
-    Q_INVOKABLE QObject* criteriaItemModel(const int& index) const
-    {
-        if(index > m_criteriaItemListModels.size() || index < 0)
-            return nullptr;
-
-        return static_cast<QObject*>(m_criteriaItemListModels[index]);
-    }
+    Q_INVOKABLE QObject* criteriaItemModel(const int& index) const;
 
     /* functions inherited from QAbstractItemModel */
     Qt::ItemFlags flags(const QModelIndex &index) const;
