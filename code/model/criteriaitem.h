@@ -63,13 +63,13 @@ public:
         findEvalItem(itemName), m_parentName(parentName), m_level(level) {}
     virtual ~findCriteriaItem() {}
 
-    bool operator() (const CriteriaItem& criteriaItem) {
+    bool operator() (const CriteriaItem& criteriaItem) const {
         return (criteriaItem.getItemStr() == m_itemName &&
                 criteriaItem.getParentCriteriaName() == m_parentName &&
                 criteriaItem.getCriteriaItemLevel() == m_level);
     }
 
-    bool operator() (const boost::shared_ptr<CriteriaItem>& criteriaItem) {
+    bool operator() (const boost::shared_ptr<CriteriaItem>& criteriaItem) const {
         return (criteriaItem->getItemStr() == m_itemName &&
                 criteriaItem->getParentCriteriaName() == m_parentName &&
                 criteriaItem->getCriteriaItemLevel() == m_level);

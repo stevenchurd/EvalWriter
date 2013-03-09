@@ -66,20 +66,17 @@ private:
 template <typename OutputIterator>
 void Student::getCourseNames(OutputIterator dest)
 {
-    BOOST_FOREACH(boost::shared_ptr<Course> course, m_courses)
-    {
-        dest++ = course->getCourseName();
-    }
+    std::for_each(m_courses.begin(), m_courses.end(),
+                  [&dest] (boost::shared_ptr<Course> course) {
+                      dest++ = course->getCourseName();
+                  });
 }
 
 
 template <typename OutputIterator>
 void Student::getEvals(OutputIterator dest)
 {
-    BOOST_FOREACH(boost::shared_ptr<Eval> eval, m_evals)
-    {
-        dest++ = eval;
-    }
+    std::copy(m_evals.begin(), m_evals.end(), dest);
 }
 
 

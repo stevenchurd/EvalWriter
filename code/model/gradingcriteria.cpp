@@ -129,10 +129,10 @@ void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::str
 
 void GradingCriteria::acceptChildren(Visitor& visitor)
 {
-    BOOST_FOREACH(boost::shared_ptr<CriteriaItem> ci, m_criteriaItems)
-    {
-        ci->accept(visitor);
-    }
+    std::for_each(m_criteriaItems.begin(), m_criteriaItems.end(),
+                  [&visitor](boost::shared_ptr<CriteriaItem> ci) {
+                      ci->accept(visitor);
+                  });
 }
 
 

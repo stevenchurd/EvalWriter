@@ -92,10 +92,10 @@ void QCriteriaItemListModel::removeCriteriaItem(int row)
     //have existed in
     ReplaceCriteriaItemVisitor rciv(newCustomTextItem, oldItem->getUniqueId());
 
-    BOOST_FOREACH(boost::shared_ptr<Student> student, m_students)
-    {
-        student->accept(rciv);
-    }
+    std::for_each(m_students.begin(), m_students.end(),
+                  [&rciv] (boost::shared_ptr<Student> student) {
+                      student->accept(rciv);
+                  });
 
     endRemoveRows();
 

@@ -83,10 +83,10 @@ boost::shared_ptr<EvalItem> Eval::getEvalItem(unsigned int index) const
 
 void Eval::acceptChildren(Visitor& visitor)
 {
-    BOOST_FOREACH(boost::shared_ptr<EvalItem> evalItem, m_evalItems)
-    {
-        evalItem->accept(visitor);
-    }
+    std::for_each(m_evalItems.begin(), m_evalItems.end(),
+                  [&visitor](boost::shared_ptr<EvalItem> evalItem){
+                      evalItem->accept(visitor);
+                  });
 }
 
 
@@ -95,10 +95,12 @@ void Eval::acceptChildren(Visitor& visitor)
     {
         qDebug("____________________________");
 
-        BOOST_FOREACH(boost::shared_ptr<EvalItem> evalItem, m_evalItems)
-        {
-            qDebug("%d: %s", evalItem->getUniqueId(), evalItem->getItemStr());
-        }
-        qDebug("____________________________");
+        std::for_each(m_evalItems.begin(), m_evalItems.end(),
+                    [](boost::shared_ptr<EvalItem> evalItem) {
+                        qDebug() << "UniqueId: " << evalItem->getUniqueId() <<
+                                    " Item: " << QString::fromStdString(evalItem->getItemStr());
+                    });
+
+       qDebug("____________________________");
     }
 #endif

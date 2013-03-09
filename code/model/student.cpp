@@ -32,13 +32,9 @@ void Student::addCourse(boost::shared_ptr<Course> course)
 
 void Student::acceptChildren(Visitor& visitor)
 {
-    BOOST_FOREACH(boost::shared_ptr<Course> course, m_courses)
-    {
-        course->accept(visitor);
-    }
+    std::for_each(m_courses.begin(), m_courses.end(),
+                  [&visitor](boost::shared_ptr<Course> course) { course->accept(visitor); });
 
-    BOOST_FOREACH(boost::shared_ptr<Eval> eval, m_evals)
-    {
-        eval->accept(visitor);
-    }
+    std::for_each(m_evals.begin(), m_evals.end(),
+                  [&visitor](boost::shared_ptr<Eval> eval) { eval->accept(visitor); });
 }
