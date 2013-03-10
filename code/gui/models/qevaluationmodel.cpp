@@ -17,6 +17,14 @@ QString QEvaluationModel::getEvalTitle() const
 }
 
 
+QString QEvaluationModel::getFullEvalText() const
+{
+    std::stringstream ss;
+    m_eval->getPrintableEvalString(ss);
+    return QString::fromStdString(ss.str());
+}
+
+
 int QEvaluationModel::rowCount(const QModelIndex &/*parent*/) const
 {
     return m_eval->getNumEvalItems();

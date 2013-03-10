@@ -5,9 +5,22 @@ MouseArea {
     id: delegateRoot
 
     property int visualIndex: VisualDataModel.itemsIndex
+    property string currentViewType
 
     Component.onCompleted: width = calculateDelegateWidth()
-    height: (evalItemSelected) ? (fitHeight()) : 80
+    height: {
+        if(currentViewType === "largeDelegateView")
+        {
+            if(evalItemSelected)
+                return fitHeight()
+            else
+                return 80
+        }
+        else if(currentViewType === "smallDelegateView")
+        {
+            return topRow.height
+        }
+    }
     drag.target: itemRect
 
     onCanceled: itemRect.Drag.cancel()

@@ -31,6 +31,7 @@ public:
     };
 
     Q_INVOKABLE QString getEvalTitle() const;
+    Q_INVOKABLE QString getFullEvalText() const;
 
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;

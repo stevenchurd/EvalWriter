@@ -1,6 +1,7 @@
 // (C) Copyright Steven Hurd 2013
 
 #include "eval.h"
+#include <boost/algorithm/string.hpp>
 
 #ifdef _DEBUG
 #include <QDebug>
@@ -13,11 +14,10 @@ Eval::Eval(std::string evalName) :
 
 void Eval::getPrintableEvalString(std::stringstream& ss)
 {
-
     for(auto it = m_evalItems.begin();
         it != m_evalItems.end(); it++)
     {
-        ss << (*it)->getItemStr();
+        ss << boost::algorithm::trim_copy((*it)->getItemStr()) << "  ";
     }
 }
 
