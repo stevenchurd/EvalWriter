@@ -6,14 +6,18 @@ MouseArea {
 
     property int visualIndex: VisualDataModel.itemsIndex
 
-    width: 0
     Component.onCompleted: width = calculateDelegateWidth()
     height: (evalItemSelected) ? (fitHeight()) : 80
     drag.target: itemRect
 
+    onCanceled: itemRect.Drag.cancel()
     onClicked: toggleItemSelection()
 
     Behavior on height {
+        NumberAnimation { duration: 100 }
+    }
+
+    Behavior on width {
         NumberAnimation { duration: 100 }
     }
 
@@ -88,11 +92,11 @@ MouseArea {
 
         Text {
             id: bottomRow
-            height: parent.height - topRow.height -5
-            width: parent.width - colorIndicator.width - 8
+            height: parent.height - topRow.height - 8
+            width: parent.width - colorIndicator.width - 10
             anchors.left: colorIndicator.right
             anchors.top: topRow.bottom
-            anchors.leftMargin: 3
+            anchors.leftMargin: 5
             anchors.topMargin: 5
 
             text: evalItemString
@@ -105,7 +109,7 @@ MouseArea {
                 when: itemRect.Drag.active
                 ParentChange {
                     target: itemRect
-                    parent: flowListView
+                    parent: screenContainer
                 }
 
                 AnchorChanges {
@@ -185,6 +189,7 @@ MouseArea {
     function editCustomTextItem(newTitle, newString)
     {
         delegateRoot.VisualDataModel.model.model.editItemString(index, newTitle, newString);
+        delegateRoot.width = calculateDelegateWidth()
     }
 
     // wizard component definitions
