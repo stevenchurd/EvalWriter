@@ -9,7 +9,7 @@ Rectangle {
         height: 150
         width: 200
 
-        CommonListView {
+        ListView {
             id: clv
             model: courseModel
             delegate: CommonListDelegate{ itemsToHold: CourseListDelegateItem{} }

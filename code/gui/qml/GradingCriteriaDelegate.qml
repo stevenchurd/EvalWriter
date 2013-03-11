@@ -1,13 +1,26 @@
 import QtQuick 2.0
 
-Column {
+Rectangle {
     id: wrapper
-
-    width: parent.width
-
-    property bool editable: false
+    property bool editable
     property int itemSelected: -1
     property int gcIndex: index
+
+    width: parent.width
+    height: column.height
+    border.color: "black"
+    border.width: (wrapper.ListView.view.currentIndex === index) ? 2 : 1
+    smooth: true
+    clip: true
+
+    Behavior on height {
+        NumberAnimation { duration: 100 }
+    }
+
+    Column {
+        id: column
+
+        width: parent.width
 
     Connections {
         target: gcRow
@@ -45,18 +58,20 @@ Column {
 
         model: wrapper.ListView.view.model.criteriaItemModel(index)
         delegate: CriteriaItemRow {
-            width: parent.width - 40
+                width: parent.width
             text: criteriaString
             criteriaLevelValue: criteriaLevel
             visible: gcRow.expanded
             editable: wrapper.editable
             buttonsVisible: wrapper.editable && index === itemSelected
+                isSelected: index === itemSelected
             model: wrapper.ListView.view.model.criteriaItemModel(gcIndex)
 
             Component.onCompleted: {
                 onItemClicked.connect(selectCriteriaItem)
             }
       }
+    }
     }
 
     function selectCriteriaItem(sublistIndex)
@@ -66,6 +81,4 @@ Column {
     }
 
     onFocusChanged: { itemSelected = -1 }
-
-
 }

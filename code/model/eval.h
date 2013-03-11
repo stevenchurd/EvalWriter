@@ -4,7 +4,7 @@
 #define EVAL_H
 
 #include <boost/shared_ptr.hpp>
-#include <list>
+#include <vector>
 #include <sstream>
 #include <iostream>
 #include "evalitem.h"
@@ -26,11 +26,14 @@ public:
     void getPrintableEvalString(std::stringstream &ss) ;
 
     void addEvalItem(boost::shared_ptr<EvalItem> evalItem) ;
-    void removeEvalItem(EvalItem::ItemUniqueIdType itemId) ;
-    void moveEvalItem(int oldPosition, int newPos) ;
+    void addEvalItemAt(int index, boost::shared_ptr<EvalItem> evalItem);
+    void removeEvalItemAt(int index);
+    void moveEvalItem(int oldPosition, int newPosition) ;
     void replaceEvalItem(boost::shared_ptr<EvalItem> newItem, int oldId);
 
-    size_t getNumEvalItems(void) { return m_evalItems.size(); }
+    int getNumEvalItems(void) { return m_evalItems.size(); }
+
+    boost::shared_ptr<EvalItem> getEvalItem(unsigned int index) const;
 
     /*
      * Visitor interface functions
@@ -38,10 +41,14 @@ public:
     void accept(Visitor& visitor) { visitor.visit(*this); }
     void acceptChildren(Visitor& visitor);
 
+#ifdef _DEBUG
+    void printItems(void);
+#endif
+
 private:
     std::string m_evalName;
 
-    std::list<boost::shared_ptr<EvalItem> > m_evalItems;
+    std::vector<boost::shared_ptr<EvalItem> > m_evalItems;
 
     // disable copy constructor and assignment
     Eval(const Eval&);

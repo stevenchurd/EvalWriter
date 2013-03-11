@@ -16,28 +16,43 @@ class QEvaluationModel : public QAbstractListModel
    Q_OBJECT
 
 public:
-    QEvaluationModel(boost::shared_ptr<Eval> eval, QObject* parent = 0) :
-        QAbstractListModel(parent), m_eval(eval)
-    {
-    }
+    QEvaluationModel(boost::shared_ptr<Eval> eval,
+                     QVector<boost::shared_ptr<GradingCriteria> >& gc,
+                     QObject* parent = 0);
 
     virtual ~QEvaluationModel() {}
+
+    enum EvaluationRoles{
+        StringRole = Qt::UserRole + 1,
+        LevelRole,
+        SelectedRole,
+        TitleRole,
+        InPlaceEditable
+    };
+
+    Q_INVOKABLE QString getEvalTitle() const;
+    Q_INVOKABLE QString getFullEvalText() const;
 
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation,
-                        int role) const;
 
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool setData(const QModelIndex &index, const QVariant &value,
-                 int role = Qt::EditRole);
+    QHash<int,QByteArray> roleNames() const;
 
-    bool insertRows(int row, int count, const QModelIndex &parent);
-    bool removeRows(int row, int count, const QModelIndex &parent);
+public slots:
+    void addCriteriaItem(int index, int uniqueId);
+    void moveEvalItem(int srcIndex, int destIndex);
+    void removeItem(int row);
+    void selectItem(int row);
+    void deselectItem(int row);
+    void deselectAllItems(void);
+
+    void editItemString(int row, QString title, QString string);
 
 private:
     boost::shared_ptr<Eval> m_eval;
+    QVector<boost::shared_ptr<GradingCriteria> >& m_gradingCriteria;
+    std::list<int> m_selected;
 };
 
 #endif // QEVALUATIONMODEL_H

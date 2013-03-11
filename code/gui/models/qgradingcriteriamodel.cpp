@@ -24,6 +24,15 @@ QGradingCriteriaModel::QGradingCriteriaModel(QVector<boost::shared_ptr<GradingCr
 }
 
 
+QObject* QGradingCriteriaModel::criteriaItemModel(const int& index) const
+{
+    if(index > m_criteriaItemListModels.size() || index < 0)
+        return nullptr;
+
+    return static_cast<QObject*>(m_criteriaItemListModels[index]);
+}
+
+
 Qt::ItemFlags QGradingCriteriaModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())

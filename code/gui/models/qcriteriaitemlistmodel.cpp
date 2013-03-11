@@ -43,6 +43,10 @@ QVariant QCriteriaItemListModel::data(const QModelIndex &index, int role) const
             return QVariant::fromValue(static_cast<int>(ci->getCriteriaItemLevel()));
             break;
 
+        case UniqueIdRole:
+            return QVariant::fromValue(ci->getUniqueId());
+            break;
+
         default:
             return QVariant();
             break;
@@ -58,6 +62,7 @@ QHash<int,QByteArray> QCriteriaItemListModel::roleNames() const
     {
         roleNames[StringRole] = "criteriaString";
         roleNames[LevelRole] = "criteriaLevel";
+        roleNames[UniqueIdRole] = "uniqueId";
    }
 
     return roleNames;
@@ -77,7 +82,8 @@ void QCriteriaItemListModel::removeCriteriaItem(int row)
     beginRemoveRows(QModelIndex(), row, row);
 
     boost::shared_ptr<EvalItem> oldItem = m_gradingCriteria->getCriteriaItem(row);
-    boost::shared_ptr<EvalItem> newCustomTextItem = boost::shared_ptr<EvalItem>(new CustomTextItem(oldItem->getItemStr()));
+    boost::shared_ptr<EvalItem> newCustomTextItem = boost::shared_ptr<EvalItem>(
+                new CustomTextItem(oldItem->getItemTitleStr(), oldItem->getItemStr()));
 
     // first remove from the item
     m_gradingCriteria->removeCriteriaItemAt(row);
@@ -86,10 +92,10 @@ void QCriteriaItemListModel::removeCriteriaItem(int row)
     //have existed in
     ReplaceCriteriaItemVisitor rciv(newCustomTextItem, oldItem->getUniqueId());
 
-    BOOST_FOREACH(boost::shared_ptr<Student> student, m_students)
-    {
-        student->accept(rciv);
-    }
+    std::for_each(m_students.begin(), m_students.end(),
+                  [&rciv] (boost::shared_ptr<Student> student) {
+                      student->accept(rciv);
+                  });
 
     endRemoveRows();
 

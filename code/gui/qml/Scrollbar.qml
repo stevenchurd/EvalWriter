@@ -6,16 +6,16 @@ Rectangle {
 
     clip: true
     color: "#b3b3b3"
-    width: 17
-    radius: 10
+    width: 10
     smooth: true
+    antialiasing: true
 
     anchors.top: target.top
     anchors.bottom: target.bottom
-    anchors.right: target.right
+    anchors.left: target.right
     anchors.topMargin: 5
     anchors.bottomMargin: 5
-    anchors.rightMargin: 5
+    anchors.leftMargin: 5
 
     //visible: (track.height == slider.height) ? false : true //TODO: !visible -> width: 0 (but creates a binding loop)
 
@@ -71,7 +71,6 @@ Rectangle {
             color: "#343434"
             smooth: true
             width: parent.width
-            radius: 10
 
             anchors.bottom: (target.visibleArea.yPosition > 1)? parent.bottom: undefined
             height: {

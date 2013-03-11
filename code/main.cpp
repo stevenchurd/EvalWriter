@@ -17,6 +17,7 @@
 #include "gui/models/qcourseslistmodel.h"
 #include "gui/models/qgradingcriteriatreemodel.h"
 #include "gui/models/qgradingcriteriamodel.h"
+#include "gui/models/qevaluationmodel.h"
 #include "utilities/coursespropertytreeparser.h"
 #include "utilities/gradingcriteriapropertytreeparser.h"
 #include "utilities/studentpropertytreeparser.h"
@@ -85,15 +86,25 @@ int main(int argc, char *argv[])
         return app.exec();
 #else
         QApplication a(argc, argv);
+        QVector<boost::shared_ptr<Eval> > studentEvals;
 
+        // set up models
         QGradingCriteriaModel gcModel(m_gradingCriteria, m_students);
+        m_students[0]->getEvals(std::inserter(studentEvals, studentEvals.begin()));
+        QEvaluationModel evalModel(studentEvals[0], m_gradingCriteria);
         QCoursesListModel coursesModel(m_courses);
-        QQuickView view;
-        QQmlContext* context = view.rootContext();
-        view.setResizeMode(QQuickView::SizeRootObjectToView);
-        context->setContextProperty("gradingCriteriaModel", &gcModel);
-        view.setSource(QUrl::fromLocalFile("../code/gui/qml/main.qml"));
 
+        // set up view with QML main
+        QQuickView view;
+
+        // set context properties of view
+        QQmlContext* context = view.rootContext();
+        context->setContextProperty("gradingCriteriaModel", &gcModel);
+        context->setContextProperty("evalModel", &evalModel);
+
+        // set view properties
+        view.setSource(QUrl::fromLocalFile("../code/gui/qml/main.qml"));
+        view.setResizeMode(QQuickView::SizeRootObjectToView);
         view.show();
 
         return a.exec();

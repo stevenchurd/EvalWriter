@@ -23,7 +23,7 @@ void GradingCriteria::removeCriteriaItem(EvalItem::ItemUniqueIdType id)
 {
     std::remove_if(m_criteriaItems.begin(),
                    m_criteriaItems.end(),
-                   EvalItem::hasId(id)) ;
+                   hasId(id)) ;
 }
 
 
@@ -36,7 +36,7 @@ void GradingCriteria::removeCriteriaItemAt(unsigned int pos)
 }
 
 
-int GradingCriteria::getNumCriteriaItems(void)
+int GradingCriteria::getNumCriteriaItems(void) const
 {
     return m_criteriaItems.size();
 }
@@ -46,9 +46,7 @@ boost::shared_ptr<CriteriaItem> GradingCriteria::getCriteriaItem(
         std::string criteriaName,
         CriteriaItem::CriteriaItemLevelType level)
 {
-    std::vector<boost::shared_ptr<CriteriaItem> >::iterator it ;
-
-    it = std::find_if(m_criteriaItems.begin(),
+    auto it = std::find_if(m_criteriaItems.begin(),
                       m_criteriaItems.end(),
                       findCriteriaItem(criteriaName, m_criteriaName, level));
 
@@ -64,7 +62,7 @@ boost::shared_ptr<CriteriaItem> GradingCriteria::getCriteriaItem(
 }
 
 
-boost::shared_ptr<CriteriaItem> GradingCriteria::getCriteriaItem(unsigned int index)
+boost::shared_ptr<CriteriaItem> GradingCriteria::getCriteriaItem(unsigned int index) const
 {
     if(index > m_criteriaItems.size())
     {
@@ -75,11 +73,23 @@ boost::shared_ptr<CriteriaItem> GradingCriteria::getCriteriaItem(unsigned int in
 }
 
 
+bool GradingCriteria::getCriteriaItemById(EvalItem::ItemUniqueIdType id, boost::shared_ptr<CriteriaItem>& gc) const
+{
+    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id));
+
+    if(it != m_criteriaItems.end())
+    {
+        gc = *it;
+        return true;
+    }
+
+    return false;
+}
+
+
 void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::string itemStr)
 {
-    std::vector<boost::shared_ptr<CriteriaItem> >::iterator it ;
-
-    it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), EvalItem::hasId(id)) ;
+    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
 
     if(it == m_criteriaItems.end())
     {
@@ -92,9 +102,7 @@ void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::str
 
 void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, CriteriaItem::CriteriaItemLevelType level)
 {
-    std::vector<boost::shared_ptr<CriteriaItem> >::iterator it ;
-
-    it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), EvalItem::hasId(id)) ;
+    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
 
     if(it == m_criteriaItems.end())
     {
@@ -107,9 +115,7 @@ void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, Criteria
 
 void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::string itemStr, CriteriaItem::CriteriaItemLevelType level)
 {
-    std::vector<boost::shared_ptr<CriteriaItem> >::iterator it ;
-
-    it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), EvalItem::hasId(id)) ;
+    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
 
     if(it == m_criteriaItems.end())
     {
@@ -123,10 +129,10 @@ void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::str
 
 void GradingCriteria::acceptChildren(Visitor& visitor)
 {
-    BOOST_FOREACH(boost::shared_ptr<CriteriaItem> ci, m_criteriaItems)
-    {
-        ci->accept(visitor);
-    }
+    std::for_each(m_criteriaItems.begin(), m_criteriaItems.end(),
+                  [&visitor](boost::shared_ptr<CriteriaItem> ci) {
+                      ci->accept(visitor);
+                  });
 }
 
 

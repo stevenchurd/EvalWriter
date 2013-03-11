@@ -15,7 +15,8 @@ Item {
     Loader {
         id:pageLoader
         anchors.centerIn: parent
-    }
+        focus: true
+   }
 
     Component.onCompleted: { wizardContent.visible = false }
 
@@ -27,7 +28,19 @@ Item {
 
     function close()
     {
+        wizardContent.sourceComponent = emptyComponent
         wizardContent.visible = false
         screenContent.enabled = true
+    }
+
+    Component {
+        id: emptyComponent
+        Rectangle {
+            color: "transparent"
+
+            visible: false
+            height:1
+            width:1
+        }
     }
 }

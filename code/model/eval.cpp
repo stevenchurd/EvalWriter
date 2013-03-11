@@ -1,6 +1,11 @@
 // (C) Copyright Steven Hurd 2013
 
 #include "eval.h"
+#include <boost/algorithm/string.hpp>
+
+#ifdef _DEBUG
+#include <QDebug>
+#endif
 
 Eval::Eval(std::string evalName) :
     m_evalName(evalName)
@@ -9,11 +14,10 @@ Eval::Eval(std::string evalName) :
 
 void Eval::getPrintableEvalString(std::stringstream& ss)
 {
-
-    for(std::list<boost::shared_ptr<EvalItem> >::iterator it = m_evalItems.begin();
+    for(auto it = m_evalItems.begin();
         it != m_evalItems.end(); it++)
     {
-        ss << (*it)->getItemStr();
+        ss << boost::algorithm::trim_copy((*it)->getItemStr()) << "  ";
     }
 }
 
@@ -24,22 +28,79 @@ void Eval::addEvalItem(boost::shared_ptr<EvalItem> evalItem)
 }
 
 
-void Eval::removeEvalItem(EvalItem::ItemUniqueIdType itemId)
+void Eval::addEvalItemAt(int index, boost::shared_ptr<EvalItem> evalItem)
 {
-    std::remove_if(m_evalItems.begin(), m_evalItems.end(), EvalItem::hasId(itemId));
+    m_evalItems.insert(std::next(m_evalItems.begin(), index), evalItem);
+}
+
+
+void Eval::removeEvalItemAt(int index)
+{
+    m_evalItems.erase(std::next(m_evalItems.begin(), index));
+}
+
+
+void Eval::moveEvalItem(int oldPosition, int newPosition)
+{
+    if(oldPosition+1 == newPosition || oldPosition-1 == newPosition)
+    {
+        std::iter_swap(std::next(m_evalItems.begin(), oldPosition),
+                       std::next(m_evalItems.begin(), newPosition));
+    }
+    else if(oldPosition < newPosition)
+    {
+        // if the old position is to the left of the new position, rotate left
+        std::rotate(std::next(m_evalItems.begin(), oldPosition),
+                    std::next(m_evalItems.begin(), oldPosition+1),
+                    std::next(m_evalItems.begin(), newPosition+1));
+    }
+    else if(oldPosition > newPosition)
+    {
+        // if it's to the right rotate right
+        std::rotate(std::next(m_evalItems.rbegin(), m_evalItems.size()-oldPosition-1),
+                    std::next(m_evalItems.rbegin(), m_evalItems.size()-oldPosition),
+                    std::next(m_evalItems.rbegin(), m_evalItems.size()-newPosition));
+    }
 }
 
 
 void Eval::replaceEvalItem(boost::shared_ptr<EvalItem> newItem, int oldId)
 {
-    std::replace_if(m_evalItems.begin(), m_evalItems.end(), EvalItem::hasId(oldId), newItem);
+    std::replace_if(m_evalItems.begin(), m_evalItems.end(), hasId(oldId), newItem);
+}
+
+
+boost::shared_ptr<EvalItem> Eval::getEvalItem(unsigned int index) const
+{
+    if(index > m_evalItems.size())
+    {
+        throw ItemNotFoundException("Item not found: " + index);
+    }
+
+    return m_evalItems[index];
 }
 
 
 void Eval::acceptChildren(Visitor& visitor)
 {
-    BOOST_FOREACH(boost::shared_ptr<EvalItem> evalItem, m_evalItems)
-    {
-        evalItem->accept(visitor);
-    }
+    std::for_each(m_evalItems.begin(), m_evalItems.end(),
+                  [&visitor](boost::shared_ptr<EvalItem> evalItem){
+                      evalItem->accept(visitor);
+                  });
 }
+
+
+#ifdef _DEBUG
+    void Eval::printItems(void)
+    {
+        qDebug("____________________________");
+
+        std::for_each(m_evalItems.begin(), m_evalItems.end(),
+                    [](boost::shared_ptr<EvalItem> evalItem) {
+                        qDebug() << "UniqueId: " << evalItem->getUniqueId() <<
+                                    " Item: " << QString::fromStdString(evalItem->getItemStr());
+                    });
+
+       qDebug("____________________________");
+    }
+#endif

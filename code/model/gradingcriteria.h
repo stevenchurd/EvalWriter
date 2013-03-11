@@ -22,9 +22,10 @@ public:
             std::string criteriaName,
             CriteriaItem::CriteriaItemLevelType level);
 
-    boost::shared_ptr<CriteriaItem> getCriteriaItem(unsigned int index);
+    boost::shared_ptr<CriteriaItem> getCriteriaItem(unsigned int index) const;
+    bool getCriteriaItemById(EvalItem::ItemUniqueIdType id, boost::shared_ptr<CriteriaItem> &gc) const;
 
-    int getNumCriteriaItems(void);
+    int getNumCriteriaItems(void) const;
 
     void removeCriteriaItem(EvalItem::ItemUniqueIdType id) ;
     void removeCriteriaItemAt(unsigned int pos);

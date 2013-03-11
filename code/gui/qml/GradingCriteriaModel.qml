@@ -3,21 +3,24 @@ import QtQuick 2.0
 Item {
     id: wrapper
 
-    property bool editable: false
+    property bool editable
 
     anchors.fill: parent
+    anchors.margins: 5
 
-    CommonListView {
+    ListView {
         id: gradingCriteriaList
 
-        anchors.fill: parent
+        height: parent.height
+        width: parent.width - (scrollbar.width+5)
+
         model: gradingCriteriaModel
         delegate: GradingCriteriaDelegate{ editable: wrapper.editable }
         spacing: 5
     }
 
-
     Scrollbar {
+        id: scrollbar
         target: gradingCriteriaList
     }
 }

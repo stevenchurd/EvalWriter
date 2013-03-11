@@ -1,4 +1,6 @@
 import QtQuick 2.0
+import "utilities.js" as JsUtil
+import "itemCreation.js" as ItemCreator
 
 Rectangle {
     id: decorativeRect
@@ -6,17 +8,55 @@ Rectangle {
     property alias text: criteriaText.text
     property int criteriaLevelValue
     property bool editable: false
-    property bool buttonsVisible
+    property bool buttonsVisible: false
+    property bool isSelected: true
     property var model
+
+    // this is only used when creating dummy rows for dragging that
+    // look just like the original item but don't have the underlying
+    // model connection
+    property var itemUniqueId: uniqueId
 
     signal itemClicked(int index)
 
-    height: criteriaText.height + 5
-    color: "transparent"
+    height: criteriaText.height
+    color: (isSelected) ? "lightsteelblue" : "transparent"
+    border.color: "lightgray"
+    clip: true
+    smooth: true
 
     MouseArea {
         anchors.fill: parent
+
         onClicked: itemClicked(index)
+        onPressed: {
+            itemClicked(index)
+            if(!editable)
+            {
+                gradingCriteriaList.interactive = false
+                ItemCreator.startDrag(mouse, decorativeRect)
+            }
+        }
+        onPositionChanged: {
+            if(!editable)
+            {
+                ItemCreator.continueDrag(mouse)
+            }
+        }
+        onCanceled: {
+            if(!editable)
+            {
+                ItemCreator.cancelDrag()
+                gradingCriteriaList.interactive = true
+            }
+        }
+        onReleased: {
+            if(!editable)
+            {
+                ItemCreator.endDrag(mouse)
+                gradingCriteriaList.interactive = true
+            }
+        }
     }
 
     Row {
@@ -26,41 +66,14 @@ Rectangle {
         spacing: 10
 
         Rectangle {
-            id: indentRect
-            width: 40
-            height: parent.height
-            color: "transparent"
-        }
-
-        Rectangle {
             id: levelIndicator
             width: 7
-            height: parent.height
-            anchors.verticalCenter: parent.verticalCenter
+            height: rowContainer.height
+            anchors.verticalCenter: rowContainer.verticalCenter
 
             border.color: "black"
             antialiasing: true
-            color: getColor()
-
-            function getColor()
-            {
-                switch(criteriaLevelValue)
-                {
-                    case 0:
-                        return "green"
-                    case 1:
-                        return "lightgreen"
-                    case 2:
-                        return "yellow"
-                    case 3:
-                        return "#ff6666"
-                    case 4:
-                        return "red"
-                    default:
-                        break;
-                }
-            }
-            radius: width*.5
+            color: JsUtil.getEvalItemColor(criteriaLevelValue)
         }
 
         Text {
@@ -100,7 +113,6 @@ Rectangle {
         if(decorativeRect.editable === true)
         {
             return rowContainer.width -
-                    indentRect.width -
                     levelIndicator.width -
                     modifyButton.width -
                     deleteButton.width -
@@ -108,7 +120,7 @@ Rectangle {
         }
         else
         {
-            return rowContainer.width - indentRect.width - levelIndicator.width - (rowContainer.spacing*2)
+            return rowContainer.width - levelIndicator.width - (rowContainer.spacing*2)
         }
     }
 

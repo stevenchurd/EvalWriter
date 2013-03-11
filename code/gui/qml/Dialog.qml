@@ -13,7 +13,6 @@ Rectangle {
     width: dialogContent.width + 30
 
     border.color: "black"
-    radius: 3
     antialiasing: true
 
     Rectangle {
@@ -36,5 +35,6 @@ Rectangle {
     Loader {
         id: dialogContent
         anchors.centerIn: parent
+        focus: true
     }
 }

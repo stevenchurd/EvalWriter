@@ -8,7 +8,10 @@ Rectangle {
     Item {
         id: screenContent
         anchors.fill: parent
-        GradingCriteriaModel{}
+        EvalEditor{}
+//        GradingCriteriaModel{
+//            editable: true
+//        }
     }
 
     // this is expected to be globally accessable as a means of loading wizard pages
