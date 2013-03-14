@@ -38,6 +38,7 @@ SOURCES += main.cpp\
     gui/models/qstudentslistmodel.cpp \
     gui/models/qevalslistmodel.cpp \
     gui/models/qmainnavigationmodel.cpp
+    model/evalset.cpp \
 
 HEADERS  += mainwindow.h \
     evalexceptions.h \
@@ -73,6 +74,7 @@ HEADERS  += mainwindow.h \
     gui/models/qstudentslistmodel.h \
     gui/models/qevalslistmodel.h \
     gui/models/qmainnavigationmodel.h
+    model/evalset.h \
 
 FORMS    +=
 
@@ -104,7 +106,9 @@ OTHER_FILES += \
     gui/qml/CustomTextItemEditDialog.qml \
     gui/qml/EvalEditor.qml \
     gui/qml/itemCreation.js \
-    gui/qml/EvalItemDelegate.qml
+    gui/qml/EvalItemDelegate.qml \
+    gui/qml/MainNavigationModel.qml \
+    gui/qml/SideListDelegate.qml
 
 RESOURCES += \
     images.qrc

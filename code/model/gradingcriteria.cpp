@@ -5,7 +5,7 @@
 #include "gradingcriteria.h"
 #include "criteriaitem.h"
 
-GradingCriteria::GradingCriteria(std::string criteriaName) :
+GradingCriteria::GradingCriteria(std::string criteriaName) : VisitorElement(),
     m_criteriaName(criteriaName)
 {
 }

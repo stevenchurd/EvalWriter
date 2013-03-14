@@ -4,7 +4,7 @@
 
 EvalItem::ItemUniqueIdType EvalItem::s_itemCounter = 0;
 
-EvalItem::EvalItem(std::string str, bool editable) :
+EvalItem::EvalItem(std::string str, bool editable) : VisitorElement(),
     m_itemEditable(editable), m_itemStr(str)
 {
     m_uniqueItemId = s_itemCounter++;

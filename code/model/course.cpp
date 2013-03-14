@@ -2,7 +2,7 @@
 
 #include "course.h"
 
-Course::Course(std::string courseName) :
+Course::Course(std::string courseName) : VisitorElement(),
     m_name(courseName)
 {
 }

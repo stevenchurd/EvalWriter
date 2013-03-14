@@ -8,7 +8,7 @@
 Student::UniqueStudentId Student::s_idCounter = 0;
 
 
-Student::Student(std::string firstName, std::string middleName, std::string lastName) :
+Student::Student(std::string firstName, std::string middleName, std::string lastName) : VisitorElement(),
     m_firstName(firstName), m_middleName(middleName), m_lastName(lastName)
 {
     m_id = s_idCounter++ ;

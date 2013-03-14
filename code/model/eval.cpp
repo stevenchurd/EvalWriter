@@ -7,7 +7,7 @@
 #include <QDebug>
 #endif
 
-Eval::Eval(std::string evalName) :
+Eval::Eval(std::string evalName) : VisitorElement(),
     m_evalName(evalName)
 {
 }
