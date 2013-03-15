@@ -39,9 +39,7 @@ SOURCES += main.cpp\
     gui/models/qevalslistmodel.cpp \
     gui/models/qmainnavigationmodel.cpp \
     gui/models/qevalsetslistmodel.cpp \
-    model/evalset.cpp \
-    model/visitors/collectstudentsbycoursevisitor.cpp
-    model/evalset.cpp \
+    model/evalset.cpp
 
 HEADERS  += mainwindow.h \
     evalexceptions.h \
@@ -78,9 +76,7 @@ HEADERS  += mainwindow.h \
     gui/models/qevalslistmodel.h \
     gui/models/qmainnavigationmodel.h \
     gui/models/qevalsetslistmodel.h \
-    model/evalset.h \
-    model/visitors/collectstudentsbycoursevisitor.h
-    model/evalset.h \
+    model/evalset.h
 
 FORMS    +=
 
