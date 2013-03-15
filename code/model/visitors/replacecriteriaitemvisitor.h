@@ -3,6 +3,12 @@
 
 #include "visitor.h"
 
+#include "model/evalitem.h"
+
+class Student;
+class Eval;
+class Course;
+
 class ReplaceCriteriaItemVisitor : public Visitor
 {
 public:

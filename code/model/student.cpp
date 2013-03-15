@@ -30,6 +30,12 @@ void Student::addCourse(boost::shared_ptr<Course> course)
 }
 
 
+bool Student::isInCourse(boost::shared_ptr<Course> course) const
+{
+    return (std::find(m_courses.begin(), m_courses.end(), course) != m_courses.end());
+}
+
+
 void Student::acceptChildren(Visitor& visitor)
 {
     std::for_each(m_courses.begin(), m_courses.end(),

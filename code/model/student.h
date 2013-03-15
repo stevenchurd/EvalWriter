@@ -38,6 +38,11 @@ public:
     template <typename OutputIterator>
     void getEvals(OutputIterator dest);
 
+    template <typename OutputIterator>
+    void getCourses(OutputIterator dest);
+
+    bool isInCourse(boost::shared_ptr<Course> course) const;
+
     /*
      * VisitorElement functions
      */
@@ -79,23 +84,28 @@ void Student::getEvals(OutputIterator dest)
     std::copy(m_evals.begin(), m_evals.end(), dest);
 }
 
+template <typename OutputIterator>
+void Student::getCourses(OutputIterator dest)
+{
+    std::copy(m_courses.begin(), m_courses.end(), dest);
+}
+
 
 
 /*
  * Predicate definitions
  */
 
- class hasStudentName {
-     std::string m_fn, m_mn, m_ln;
- public:
-     hasStudentName(std::string fn, std::string mn, std::string ln) :
-         m_fn(fn), m_mn(mn), m_ln(ln) {}
-     bool operator()(const Student& student) {
-         return (m_fn.compare(student.getFirstName()) &&
-                 m_mn.compare(student.getMiddleName()) &&
-                 m_ln.compare(student.getLastName()));
-     }
- };
-
+class hasStudentName {
+    std::string m_fn, m_mn, m_ln;
+public:
+    hasStudentName(std::string fn, std::string mn, std::string ln) :
+        m_fn(fn), m_mn(mn), m_ln(ln) {}
+    bool operator()(const Student& student) {
+        return (m_fn.compare(student.getFirstName()) &&
+                m_mn.compare(student.getMiddleName()) &&
+                m_ln.compare(student.getLastName()));
+    }
+};
 
 #endif // STUDENT_H

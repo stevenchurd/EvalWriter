@@ -14,6 +14,8 @@ public:
 
     virtual ~EvalSet() {}
 
+    std::string getEvalSetName(void) const { return m_evalSetName; }
+
     void addEval(boost::shared_ptr<Eval> eval);
     boost::shared_ptr<Eval> getEval(unsigned int) const;
     void removeEval(unsigned int);
