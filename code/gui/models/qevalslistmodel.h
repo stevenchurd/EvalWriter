@@ -1,5 +1,5 @@
-#ifndef QevalLISTMODEL_H
-#define QevalLISTMODEL_H
+#ifndef QEVALLISTMODEL_H
+#define QEVALLISTMODEL_H
 
 #include <QVector>
 #include "qgenericlistmodel.h"
@@ -25,4 +25,4 @@ private:
 };
 
 
-#endif // QevalLISTMODEL_H
+#endif // QEVALLISTMODEL_H

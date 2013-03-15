@@ -123,7 +123,7 @@ void MainWindow::loadFile()
 void MainWindow::setCoursesView()
 {
     QListView* listView = new QListView(this);
-    QAbstractListModel* coursesModel = new QCoursesListModel(m_courses);
+//    QAbstractListModel* coursesModel = new QCoursesListModel(m_courses);
 
     listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     listView->setDragEnabled(true);
@@ -131,7 +131,7 @@ void MainWindow::setCoursesView()
     listView->setDropIndicatorShown(true);
     listView->setDragDropMode(QAbstractItemView::InternalMove);
 
-    listView->setModel(coursesModel);
+    //listView->setModel(coursesModel);
 
     connect(listView, SIGNAL(clicked(const QModelIndex&)),
             this, SLOT(courseSelected(const QModelIndex&)));

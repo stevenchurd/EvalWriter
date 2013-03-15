@@ -4,7 +4,7 @@
 #include <QAbstractListModel>
 #include <tuple>
 
-#include "qgenericlistmodel.h"
+class QGenericListModel;
 
 class QMainNavigationModel : public QAbstractListModel
 {
@@ -17,19 +17,17 @@ public:
     };
 
     Q_INVOKABLE QObject* getSubModel(int index) const;
-    void addSubModel(std::string displayString, std::shared_ptr<QGenericListModel> listModel);
+    void addSubModel(std::string displayString, QGenericListModel* listModel);
 
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
     QHash<int,QByteArray> roleNames() const;
-    
+
 private:
 
-    std::vector<std::tuple<std::string, std::shared_ptr<QGenericListModel> > > m_submodels;
-
-    
+    std::vector<std::tuple<std::string, QGenericListModel*> > m_submodels;
 };
 
 #endif // QMAINNAVIGATIONMODEL_H

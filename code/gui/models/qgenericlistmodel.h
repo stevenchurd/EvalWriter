@@ -3,6 +3,8 @@
 
 #include <QAbstractListModel>
 
+#include "qmainnavigationmodel.h"
+
 #ifndef Q_MOC_RUN
 #include <boost/shared_ptr.hpp>
 #endif
@@ -26,6 +28,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     QHash<int,QByteArray> roleNames() const;
+
+    virtual boost::shared_ptr<QMainNavigationModel> constructMainNavigationModel(int index) const = 0;
 
 private:
     virtual std::string getItemString(int index) const = 0;

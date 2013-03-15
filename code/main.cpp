@@ -15,9 +15,13 @@
 #include "model/gradingcriteria.h"
 #include "gui/models/qcriteriaitemlistmodel.h"
 #include "gui/models/qcourseslistmodel.h"
+#include "gui/models/qstudentslistmodel.h"
+#include "gui/models/qevalslistmodel.h"
 #include "gui/models/qgradingcriteriatreemodel.h"
 #include "gui/models/qgradingcriteriamodel.h"
 #include "gui/models/qevaluationmodel.h"
+#include "gui/models/qmainnavigationmodel.h"
+#include "gui/models/qgenericlistmodel.h"
 #include "utilities/coursespropertytreeparser.h"
 #include "utilities/gradingcriteriapropertytreeparser.h"
 #include "utilities/studentpropertytreeparser.h"
@@ -88,11 +92,23 @@ int main(int argc, char *argv[])
         QApplication a(argc, argv);
         QVector<boost::shared_ptr<Eval> > studentEvals;
 
+        auto coursesBeginLamda = [](){ return m_students.begin(); };
+        auto coursesEndLamda = [](){ return m_students.end(); };
+
         // set up models
         QGradingCriteriaModel gcModel(m_gradingCriteria, m_students);
         m_students[0]->getEvals(std::inserter(studentEvals, studentEvals.begin()));
         QEvaluationModel evalModel(studentEvals[0], m_gradingCriteria);
-        QCoursesListModel coursesModel(m_courses);
+
+        QGenericListModel* coursesModel =
+                new QCoursesListModel<decltype(coursesBeginLamda), decltype(coursesEndLamda)>
+                    (m_courses, coursesBeginLamda, coursesEndLamda);
+
+        QGenericListModel* studentsModel = new QStudentsListModel(m_students);
+
+        boost::shared_ptr<QMainNavigationModel> mainModel(new QMainNavigationModel());
+        mainModel->addSubModel("Courses", coursesModel);
+        mainModel->addSubModel("Students", studentsModel);
 
         // set up view with QML main
         QQuickView view;
@@ -101,6 +117,7 @@ int main(int argc, char *argv[])
         QQmlContext* context = view.rootContext();
         context->setContextProperty("gradingCriteriaModel", &gcModel);
         context->setContextProperty("evalModel", &evalModel);
+        context->setContextProperty("mainModel", mainModel.get());
 
         // set view properties
         view.setSource(QUrl::fromLocalFile("../code/gui/qml/main.qml"));

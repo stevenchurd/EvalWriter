@@ -1,19 +1,24 @@
 #include "qmainnavigationmodel.h"
+#include "qgenericlistmodel.h"
 
 QMainNavigationModel::QMainNavigationModel(QObject *parent) :
     QAbstractListModel(parent)
 {
 }
 
-
 QObject* QMainNavigationModel::getSubModel(int index) const
 {
-    return static_cast<QObject*>(std::get<1>(m_submodels[index]).get());
+    if(index > static_cast<int>(m_submodels.size()) || index < 0)
+        return nullptr;
+
+    return static_cast<QObject*>(std::get<1>(m_submodels[index]));
 }
 
 
-void QMainNavigationModel::addSubModel(std::string displayString, std::shared_ptr<QGenericListModel> listModel)
+void QMainNavigationModel::addSubModel(std::string displayString, QGenericListModel* listModel)
 {
+    // reparent model
+    listModel->setParent(this);
     m_submodels.push_back(std::make_tuple(displayString, listModel));
 }
 

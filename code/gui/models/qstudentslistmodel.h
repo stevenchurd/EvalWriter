@@ -5,7 +5,7 @@
 #include "qgenericlistmodel.h"
 
 #ifndef Q_MOC_RUN
-#include "model/course.h"
+#include "model/student.h"
 #endif
 
 class QStudentsListModel : public QGenericListModel
@@ -17,6 +17,8 @@ public:
 
     virtual ~QStudentsListModel() {}
 
+    virtual boost::shared_ptr<QMainNavigationModel> constructMainNavigationModel(int index) const;
+
 private:
     QVector<boost::shared_ptr<Student> >& m_students;
 
@@ -24,5 +26,7 @@ private:
     virtual int getNumItems() const;
 };
 
+
+boost::shared_ptr<QMainNavigationModel> constructMainNavigationModel(boost::shared_ptr<Student> student);
 
 #endif // QSTUDENTLISTMODEL_H

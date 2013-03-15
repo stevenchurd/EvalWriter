@@ -31,7 +31,7 @@ public:
                           QObject* parent = 0);
     virtual ~QGradingCriteriaModel(void) {}
 
-    Q_INVOKABLE QObject* criteriaItemModel(const int& index) const;
+    Q_INVOKABLE QObject* getCriteriaItemModel(const int& index) const;
 
     /* functions inherited from QAbstractItemModel */
     Qt::ItemFlags flags(const QModelIndex &index) const;

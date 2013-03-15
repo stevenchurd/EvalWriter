@@ -24,7 +24,7 @@ QGradingCriteriaModel::QGradingCriteriaModel(QVector<boost::shared_ptr<GradingCr
 }
 
 
-QObject* QGradingCriteriaModel::criteriaItemModel(const int& index) const
+QObject* QGradingCriteriaModel::getCriteriaItemModel(const int& index) const
 {
     if(index > m_criteriaItemListModels.size() || index < 0)
         return nullptr;
