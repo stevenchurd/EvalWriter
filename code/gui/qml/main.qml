@@ -8,7 +8,8 @@ Rectangle {
     Item {
         id: screenContent
         anchors.fill: parent
-        EvalEditor{}
+        MainNavigationModel{}
+//        EvalEditor{}
 //        GradingCriteriaModel{
 //            editable: true
 //        }
