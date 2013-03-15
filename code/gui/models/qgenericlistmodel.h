@@ -18,9 +18,10 @@ public:
 
     virtual ~QGenericListModel() {}
 
-    enum EvaluationRoles{
+    enum GenericListRoles {
         StringRole = Qt::UserRole + 1,
-        ColorRole
+        ColorRole,
+        EndOfGenericListRoles
     };
 
     /* virtual functions from QAbstractListModel */

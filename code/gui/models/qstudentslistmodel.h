@@ -19,6 +19,8 @@ public:
 
     virtual boost::shared_ptr<QMainNavigationModel> constructMainNavigationModel(int index) const;
 
+    boost::shared_ptr<Student> getStudent(int index) const;
+
 private:
     QVector<boost::shared_ptr<Student> >& m_students;
 

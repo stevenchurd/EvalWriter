@@ -15,7 +15,7 @@ QObject* QMainNavigationModel::getSubModel(int index) const
 }
 
 
-void QMainNavigationModel::addSubModel(std::string displayString, QGenericListModel* listModel)
+void QMainNavigationModel::addSubModel(std::string displayString, QAbstractItemModel* listModel)
 {
     // reparent model
     listModel->setParent(this);

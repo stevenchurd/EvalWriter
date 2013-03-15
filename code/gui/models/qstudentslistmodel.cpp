@@ -6,10 +6,16 @@ QStudentsListModel::QStudentsListModel(QVector<boost::shared_ptr<Student> >& stu
 }
 
 
-boost::shared_ptr<QMainNavigationModel> QStudentsListModel::constructMainNavigationModel(int index) const
+boost::shared_ptr<QMainNavigationModel> QStudentsListModel::constructMainNavigationModel(int /*index*/) const
 {
     //TODO: correct
     return boost::shared_ptr<QMainNavigationModel>(new QMainNavigationModel());
+}
+
+
+boost::shared_ptr<Student> QStudentsListModel::getStudent(int index) const
+{
+    return m_students[index];
 }
 
 

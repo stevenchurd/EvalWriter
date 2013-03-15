@@ -21,6 +21,7 @@
 #include "gui/models/qgradingcriteriamodel.h"
 #include "gui/models/qevaluationmodel.h"
 #include "gui/models/qmainnavigationmodel.h"
+#include "gui/models/qstudentsortfilterproxymodel.h"
 #include "gui/models/qgenericlistmodel.h"
 #include "utilities/coursespropertytreeparser.h"
 #include "utilities/gradingcriteriapropertytreeparser.h"
@@ -92,23 +93,15 @@ int main(int argc, char *argv[])
         QApplication a(argc, argv);
         QVector<boost::shared_ptr<Eval> > studentEvals;
 
-        auto coursesBeginLamda = [](){ return m_students.begin(); };
-        auto coursesEndLamda = [](){ return m_students.end(); };
-
         // set up models
         QGradingCriteriaModel gcModel(m_gradingCriteria, m_students);
         m_students[0]->getEvals(std::inserter(studentEvals, studentEvals.begin()));
         QEvaluationModel evalModel(studentEvals[0], m_gradingCriteria);
 
-        QGenericListModel* coursesModel =
-                new QCoursesListModel<decltype(coursesBeginLamda), decltype(coursesEndLamda)>
-                    (m_courses, coursesBeginLamda, coursesEndLamda);
-
+        QGenericListModel* coursesModel = new QCoursesListModel(m_courses, m_students);
         QGenericListModel* studentsModel = new QStudentsListModel(m_students);
 
-        boost::shared_ptr<QMainNavigationModel> mainModel(new QMainNavigationModel());
-        mainModel->addSubModel("Courses", coursesModel);
-        mainModel->addSubModel("Students", studentsModel);
+        boost::shared_ptr<QMainNavigationModel> mainModel = coursesModel->constructMainNavigationModel(2);
 
         // set up view with QML main
         QQuickView view;

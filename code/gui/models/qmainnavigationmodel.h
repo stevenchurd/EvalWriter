@@ -17,7 +17,7 @@ public:
     };
 
     Q_INVOKABLE QObject* getSubModel(int index) const;
-    void addSubModel(std::string displayString, QGenericListModel* listModel);
+    void addSubModel(std::string displayString, QAbstractItemModel *listModel);
 
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;
@@ -27,7 +27,7 @@ public:
 
 private:
 
-    std::vector<std::tuple<std::string, QGenericListModel*> > m_submodels;
+    std::vector<std::tuple<std::string, QAbstractItemModel*> > m_submodels;
 };
 
 #endif // QMAINNAVIGATIONMODEL_H
