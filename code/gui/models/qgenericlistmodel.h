@@ -30,6 +30,7 @@ public:
 
     QHash<int,QByteArray> roleNames() const;
 
+public slots:
     virtual boost::shared_ptr<QMainNavigationModel> constructMainNavigationModel(int index) const = 0;
 
 private:

@@ -1,6 +1,7 @@
 #include "qevalslistmodel.h"
 
-QEvalsListModel::QEvalsListModel(QVector<boost::shared_ptr<Eval> >& evals, QObject* parent) :
+QEvalsListModel::QEvalsListModel(QVector<boost::shared_ptr<Eval> >& evals,
+                                 QObject* parent) :
     QGenericListModel(parent), m_evals(evals)
 {
 }

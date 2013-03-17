@@ -13,7 +13,8 @@ class QEvalsListModel : public QGenericListModel
     Q_OBJECT
 
 public:
-    QEvalsListModel(QVector<boost::shared_ptr<Eval> >& evals, QObject* parent = 0);
+    QEvalsListModel(QVector<boost::shared_ptr<Eval> >& evals,
+                    QObject* parent = 0);
 
     virtual ~QEvalsListModel() {}
 

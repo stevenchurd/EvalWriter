@@ -72,25 +72,7 @@ int main(int argc, char *argv[])
     loadFile();
 
     try {
-#if 0
-        QApplication app(argc, argv);
-        QQmlEngine engine;
-        QQmlComponent component(&engine);
-        component.loadUrl(QUrl::fromLocalFile("C:/Qt/Qt5.0.0/Tools/QtCreator/bin/EvalWriter/EvalWriter-Qml-prototype/code/gui/qml/main.qml"));
-        if ( !component.isReady() ) {
-            qWarning("%s", qPrintable(component.errorString()));
-            return -1;
-        }
-        QObject *topLevel = component.create();
-        QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
-        if ( !window ) {
-            qWarning("Error: Your root item has to be a Window.");
-            return -1;
-        }
-        window->show();
-        return app.exec();
-#else
-        QApplication a(argc, argv);
+       QApplication a(argc, argv);
         QVector<boost::shared_ptr<Eval> > studentEvals;
 
         // set up models
@@ -98,19 +80,25 @@ int main(int argc, char *argv[])
         m_students[0]->getEvals(std::inserter(studentEvals, studentEvals.begin()));
         QEvaluationModel evalModel(studentEvals[0], m_gradingCriteria);
 
-        QGenericListModel* coursesModel = new QCoursesListModel(m_courses, m_students);
-        QGenericListModel* studentsModel = new QStudentsListModel(m_students);
-
-        boost::shared_ptr<QMainNavigationModel> mainModel = coursesModel->constructMainNavigationModel(2);
-
         // set up view with QML main
         QQuickView view;
 
         // set context properties of view
         QQmlContext* context = view.rootContext();
+
+        QGenericListModel* coursesModel = new QCoursesListModel( m_courses, m_students);
+        QGenericListModel* studentsModel = new QStudentsListModel(m_students, m_courses);
+
+        QMainNavigationModel* mainModel = new QMainNavigationModel();
+        mainModel->addSubModel("Courses", coursesModel);
+        mainModel->addSubModel("Students", studentsModel);
+
+        boost::shared_ptr<QMainNavigationModel> courseSubmodel = coursesModel->constructMainNavigationModel(0);
+
+        context->setContextProperty("mainModel", courseSubmodel.get());
+
         context->setContextProperty("gradingCriteriaModel", &gcModel);
         context->setContextProperty("evalModel", &evalModel);
-        context->setContextProperty("mainModel", mainModel.get());
 
         // set view properties
         view.setSource(QUrl::fromLocalFile("../code/gui/qml/main.qml"));
@@ -118,7 +106,6 @@ int main(int argc, char *argv[])
         view.show();
 
         return a.exec();
-#endif
 
     } catch(std::exception& e) {
         FileLogger::getInst()->log(e.what());

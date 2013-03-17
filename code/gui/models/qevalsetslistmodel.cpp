@@ -3,7 +3,8 @@
 #include "qevalsetslistmodel.h"
 
 
-QEvalSetsListModel::QEvalSetsListModel(QVector<boost::shared_ptr<EvalSet> >& evalsets, QObject* parent) :
+QEvalSetsListModel::QEvalSetsListModel(QVector<boost::shared_ptr<EvalSet> >& evalsets,
+                                       QObject* parent) :
     QGenericListModel(parent), m_evalsets(evalsets)
 {
 }

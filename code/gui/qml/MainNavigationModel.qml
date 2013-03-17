@@ -2,7 +2,6 @@ import QtQuick 2.0
 
 Rectangle {
     anchors.fill: parent
-    color: "red"
 
     ListView {
         id: navList
@@ -23,13 +22,15 @@ Rectangle {
         height: parent.height
         width: parent.width - navList.width
         model: mainModel.getSubModel(navList.currentIndex)
-        delegate: Rectangle {
+        delegate: MouseArea {
             height: 60
             width: 500
 
             Text {
                 text: displayString
             }
+
+            onClicked: mainModel.getSubModel(navList.currentIndex).constructMainNavigationModel(index)
         }
     }
 }

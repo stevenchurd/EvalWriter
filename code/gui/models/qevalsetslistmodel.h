@@ -15,7 +15,8 @@ class QEvalSetsListModel : public QGenericListModel
     Q_OBJECT
 
 public:
-    QEvalSetsListModel(QVector<boost::shared_ptr<EvalSet> >& evalsets, QObject* parent = 0);
+    QEvalSetsListModel(QVector<boost::shared_ptr<EvalSet> >& evalsets,
+                       QObject* parent = 0);
 
     virtual ~QEvalSetsListModel() {}
 
