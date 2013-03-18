@@ -9,11 +9,14 @@ QStudentSortFilterProxyModel::QStudentSortFilterProxyModel(
 {
 }
 
-bool QStudentSortFilterProxyModel::filterAcceptsRow(int source_row,
+bool QStudentSortFilterProxyModel::filterAcceptsRow(int /*source_row*/,
                                 const QModelIndex &/*source_parent*/) const
 {
+#if 0
     QStudentsListModel* slm = dynamic_cast<QStudentsListModel*>(sourceModel());
     boost::shared_ptr<Student> student = slm->getStudent(source_row);
 
     return student->isInCourse(m_course);
+#endif
+    return false;
 }

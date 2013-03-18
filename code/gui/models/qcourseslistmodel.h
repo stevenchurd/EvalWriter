@@ -14,12 +14,13 @@ class QCoursesListModel : public QGenericListModel
 {
 public:
     QCoursesListModel(QObject* parent = 0);
+    QCoursesListModel(boost::shared_ptr<Student> student, QObject* parent = 0);
 
     virtual ~QCoursesListModel() {}
 
-    virtual boost::shared_ptr<QMainNavigationModel> constructMainNavigationModel(int index) const;
-
 private:
+    boost::shared_ptr<Student> m_student;
+
     virtual std::string getItemString(int index) const;
     virtual int getNumItems() const;
 };

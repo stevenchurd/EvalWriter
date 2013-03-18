@@ -1,19 +1,19 @@
 #include "qevalslistmodel.h"
+#include "utilities/persistentdatamanager.h"
 
-QEvalsListModel::QEvalsListModel(QVector<boost::shared_ptr<Eval> >& evals,
-                                 QObject* parent) :
-    QGenericListModel(parent), m_evals(evals)
+QEvalsListModel::QEvalsListModel(boost::shared_ptr<Student> student, QObject* parent) :
+    QGenericListModel(parent), m_student(student)
 {
 }
 
 
 std::string QEvalsListModel::getItemString(int index) const
 {
-    return m_evals[index]->getEvalName();
+    return elementAt<Eval>(m_student->evalsBegin(), index)->getEvalName();
 }
 
 
 int QEvalsListModel::getNumItems() const
 {
-    return m_evals.size();
+    return m_student->getNumEvals();
 }

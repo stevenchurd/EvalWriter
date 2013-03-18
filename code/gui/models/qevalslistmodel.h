@@ -6,6 +6,7 @@
 
 #ifndef Q_MOC_RUN
 #include "model/eval.h"
+#include "model/student.h"
 #endif
 
 class QEvalsListModel : public QGenericListModel
@@ -13,13 +14,12 @@ class QEvalsListModel : public QGenericListModel
     Q_OBJECT
 
 public:
-    QEvalsListModel(QVector<boost::shared_ptr<Eval> >& evals,
-                    QObject* parent = 0);
+    QEvalsListModel(boost::shared_ptr<Student> student, QObject* parent = 0);
 
     virtual ~QEvalsListModel() {}
 
 private:
-    QVector<boost::shared_ptr<Eval> >& m_evals;
+    boost::shared_ptr<Student> m_student;
 
     virtual std::string getItemString(int index) const;
     virtual int getNumItems() const;

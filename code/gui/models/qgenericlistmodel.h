@@ -30,9 +30,6 @@ public:
 
     QHash<int,QByteArray> roleNames() const;
 
-public slots:
-    virtual boost::shared_ptr<QMainNavigationModel> constructMainNavigationModel(int index) const = 0;
-
 private:
     virtual std::string getItemString(int index) const = 0;
     virtual int getColorIndicator(int /*index*/) const { return -1; }

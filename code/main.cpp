@@ -35,12 +35,10 @@ int main(int argc, char *argv[])
 
     try {
         QApplication a(argc, argv);
-        QVector<boost::shared_ptr<Eval> > studentEvals;
 
         // set up models
         QGradingCriteriaModel gcModel;
-        (*PDM().studentsBegin())->getEvals(std::inserter(studentEvals, studentEvals.begin()));
-        QEvaluationModel evalModel(studentEvals[0]);
+        QEvaluationModel evalModel(*(*PDM().studentsBegin())->evalsBegin());
 
         // set up view with QML main
         QQuickView view;
@@ -48,8 +46,8 @@ int main(int argc, char *argv[])
         // set context properties of view
         QQmlContext* context = view.rootContext();
 
-        QGenericListModel* coursesModel = new QCoursesListModel();
-        QGenericListModel* studentsModel = new QStudentsListModel() ;
+        QGenericListModel* coursesModel = new QCoursesListModel(*(PDM().studentsBegin()+2));
+        QGenericListModel* studentsModel = new QStudentsListModel(*(PDM().coursesBegin()+2)) ;
 
         QMainNavigationModel* mainModel = new QMainNavigationModel();
         mainModel->addSubModel("Courses", coursesModel);

@@ -14,6 +14,19 @@ Student::Student(std::string firstName, std::string middleName, std::string last
     m_id = s_idCounter++ ;
 }
 
+
+std::vector<boost::shared_ptr<Eval> >::const_iterator Student::evalsBegin()
+{
+    return m_evals.begin();
+}
+
+
+std::vector<boost::shared_ptr<Eval> >::const_iterator Student::evalsEnd()
+{
+    return m_evals.end();
+}
+
+
 boost::shared_ptr<Eval> Student::addEval(std::string evalName)
 {
     boost::shared_ptr<Eval> eval(new Eval(evalName)) ;
@@ -21,6 +34,18 @@ boost::shared_ptr<Eval> Student::addEval(std::string evalName)
     m_evals.push_back(eval) ;
 
     return eval;
+}
+
+
+std::vector<boost::shared_ptr<Course> >::const_iterator Student::coursesBegin()
+{
+    return m_courses.begin();
+}
+
+
+std::vector<boost::shared_ptr<Course> >::const_iterator Student::coursesEnd()
+{
+    return m_courses.end();
 }
 
 

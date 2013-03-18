@@ -15,13 +15,11 @@ class QEvalSetsListModel : public QGenericListModel
     Q_OBJECT
 
 public:
-    QEvalSetsListModel(QVector<boost::shared_ptr<EvalSet> >& evalsets,
-                       QObject* parent = 0);
+    QEvalSetsListModel(QObject* parent = 0);
 
     virtual ~QEvalSetsListModel() {}
 
 private:
-    QVector<boost::shared_ptr<EvalSet> >& m_evalsets;
 
     virtual std::string getItemString(int index) const;
     virtual int getNumItems() const;

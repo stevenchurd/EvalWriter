@@ -7,27 +7,51 @@ QStudentsListModel::QStudentsListModel(QObject* parent) :
 }
 
 
-boost::shared_ptr<QMainNavigationModel> QStudentsListModel::constructMainNavigationModel(int /*index*/) const
+QStudentsListModel::QStudentsListModel(boost::shared_ptr<Course> course, QObject* parent) :
+    QGenericListModel(parent), m_course(course)
 {
-    //TODO: correct
-    return boost::shared_ptr<QMainNavigationModel>(new QMainNavigationModel());
 }
 
 
 std::string QStudentsListModel::getItemString(int index) const
 {
-    auto student = elementAt<Student>(PDM().studentsBegin(), index);
+    boost::shared_ptr<Student> student;
+    if(m_course == nullptr)
+    {
+        student = elementAt<Student>(PDM().studentsBegin(), index);
+    }
+    else
+    {
+        int i = 0;
+        student = *std::find_if(PDM().studentsBegin(), PDM().studentsEnd(),
+                     [&index, &i, this] (boost::shared_ptr<Student> vectStudent)->bool
+        {
+            if(vectStudent->isInCourse(m_course))
+            {
+                i++;
+                return i-1 == index;
+            }
+
+            return false;
+        });
+    }
+
     return student->getFirstName() + " " + student->getMiddleName() + " " + student->getLastName();
 }
 
 
 int QStudentsListModel::getNumItems() const
 {
-    return std::distance(PDM().studentsBegin(), PDM().studentsEnd());
-}
-
-
-boost::shared_ptr<Student> QStudentsListModel::getStudent(int index) const
-{
-    return elementAt<Student>(PDM().studentsBegin(), index);
+    if(m_course == nullptr)
+    {
+        return std::distance(PDM().studentsBegin(), PDM().studentsEnd());
+    }
+    else
+    {
+        return std::count_if(PDM().studentsBegin(), PDM().studentsEnd(),
+                             [this] (boost::shared_ptr<Student> student)
+        {
+            return student->isInCourse(m_course);
+        });
+    }
 }

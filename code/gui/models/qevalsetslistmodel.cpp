@@ -1,22 +1,21 @@
 // (C) Copyright Steven Hurd 2013
 
 #include "qevalsetslistmodel.h"
+#include "utilities/persistentdatamanager.h"
 
-
-QEvalSetsListModel::QEvalSetsListModel(QVector<boost::shared_ptr<EvalSet> >& evalsets,
-                                       QObject* parent) :
-    QGenericListModel(parent), m_evalsets(evalsets)
+QEvalSetsListModel::QEvalSetsListModel(QObject* parent) :
+    QGenericListModel(parent)
 {
 }
 
 
 std::string QEvalSetsListModel::getItemString(int index) const
 {
-    return m_evalsets[index]->getEvalSetName();
+    return elementAt<EvalSet>(PDM().evalSetsBegin(), index)->getEvalSetName();
 }
 
 
 int QEvalSetsListModel::getNumItems() const
 {
-    return m_evalsets.size();
+    return std::distance(PDM().evalSetsBegin(), PDM().evalSetsEnd());
 }

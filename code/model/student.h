@@ -3,7 +3,7 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-#include <list>
+#include <vector>
 #include <boost/shared_ptr.hpp>
 #include "visitors/visitorelement.h"
 #include "visitors/visitor.h"
@@ -27,20 +27,25 @@ public:
     std::string getMiddleName(void) const { return m_middleName; }
     std::string getLastName (void) const { return m_lastName; }
 
-    boost::shared_ptr<Eval> addEval(std::string evalName) ;
-    void addCourse(boost::shared_ptr<Course> course) ;
-
     UniqueStudentId getUniqueId(void) { return m_id; }
 
+    /*
+     * Eval functions
+     */
+    boost::shared_ptr<Eval> addEval(std::string evalName) ;
+    int getNumEvals(void) { return m_evals.size(); }
+    std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin();
+    std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd();
+
+    /*
+     * Course functions
+     */
     template <typename OutputIterator>
     void getCourseNames(OutputIterator dest);
 
-    template <typename OutputIterator>
-    void getEvals(OutputIterator dest);
-
-    template <typename OutputIterator>
-    void getCourses(OutputIterator dest);
-
+    std::vector<boost::shared_ptr<Course> >::const_iterator coursesBegin();
+    std::vector<boost::shared_ptr<Course> >::const_iterator coursesEnd();
+    void addCourse(boost::shared_ptr<Course> course) ;
     bool isInCourse(boost::shared_ptr<Course> course) const;
 
     /*
@@ -55,8 +60,8 @@ private:
     std::string m_lastName ;
     std::string m_middleName ;
 
-    std::list<boost::shared_ptr<Eval> > m_evals ;
-    std::list<boost::shared_ptr<Course> > m_courses ;
+    std::vector<boost::shared_ptr<Eval> > m_evals ;
+    std::vector<boost::shared_ptr<Course> > m_courses ;
 
     UniqueStudentId m_id ;
     static UniqueStudentId s_idCounter ;
@@ -72,24 +77,11 @@ template <typename OutputIterator>
 void Student::getCourseNames(OutputIterator dest)
 {
     std::for_each(m_courses.begin(), m_courses.end(),
-                  [&dest] (boost::shared_ptr<Course> course) {
-                      dest++ = course->getCourseName();
-                  });
+                  [&dest] (boost::shared_ptr<Course> course)
+    {
+        dest++ = course->getCourseName();
+    });
 }
-
-
-template <typename OutputIterator>
-void Student::getEvals(OutputIterator dest)
-{
-    std::copy(m_evals.begin(), m_evals.end(), dest);
-}
-
-template <typename OutputIterator>
-void Student::getCourses(OutputIterator dest)
-{
-    std::copy(m_courses.begin(), m_courses.end(), dest);
-}
-
 
 
 /*
