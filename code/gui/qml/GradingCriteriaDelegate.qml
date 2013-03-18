@@ -56,7 +56,7 @@ Rectangle {
     Repeater {
         width: parent.width
 
-        model: wrapper.ListView.view.model.criteriaItemModel(index)
+        model: wrapper.ListView.view.model.getCriteriaItemModel(index)
         delegate: CriteriaItemRow {
                 width: parent.width
             text: criteriaString
@@ -65,7 +65,7 @@ Rectangle {
             editable: wrapper.editable
             buttonsVisible: wrapper.editable && index === itemSelected
                 isSelected: index === itemSelected
-            model: wrapper.ListView.view.model.criteriaItemModel(gcIndex)
+            model: wrapper.ListView.view.model.getCriteriaItemModel(gcIndex)
 
             Component.onCompleted: {
                 onItemClicked.connect(selectCriteriaItem)

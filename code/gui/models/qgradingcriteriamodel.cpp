@@ -4,23 +4,26 @@
 #include "model/criteriaitem.h"
 #include "model/gradingcriteria.h"
 
-QGradingCriteriaModel::QGradingCriteriaModel(QVector<boost::shared_ptr<GradingCriteria> > &gradingCriteria,
-                                             QVector<boost::shared_ptr<Student> > &students,
-                                             QObject *parent) :
-    QAbstractListModel(parent),
-    m_gradingCriteria(gradingCriteria),
-    m_students(students)
+#include "utilities/persistentdatamanager.h"
+
+QGradingCriteriaModel::QGradingCriteriaModel(QObject *parent) :
+    QAbstractListModel(parent)
 {
     int i = 0;
-    foreach(boost::shared_ptr<GradingCriteria> gc, m_gradingCriteria)
+    std::for_each(PDM().gradingCriteriaBegin(),
+                  PDM().gradingCriteriaEnd(),
+                  [&i, this](const boost::shared_ptr<GradingCriteria>& gc)
     {
-        m_criteriaItemListModels.push_back(new QCriteriaItemListModel(gc, students, i, this));
-        m_rowExpanded.push_back(false);
+        auto newModel = std::make_tuple(new QCriteriaItemListModel(gc, i, this), false);
 
-        connect(m_criteriaItemListModels.back(), SIGNAL(dataChanged(int)),
+        m_criteriaItemListModels.push_back(newModel);
+
+        connect(std::get<0>(newModel), SIGNAL(dataChanged(int)),
                 this, SLOT(criteriaListDataChanged(int)));
         ++i;
+
     }
+    );
 }
 
 
@@ -29,7 +32,7 @@ QObject* QGradingCriteriaModel::getCriteriaItemModel(const int& index) const
     if(index > m_criteriaItemListModels.size() || index < 0)
         return nullptr;
 
-    return static_cast<QObject*>(m_criteriaItemListModels[index]);
+    return static_cast<QObject*>(std::get<0>(m_criteriaItemListModels[index]));
 }
 
 
@@ -44,7 +47,8 @@ Qt::ItemFlags QGradingCriteriaModel::flags(const QModelIndex &index) const
 
 int QGradingCriteriaModel::rowCount(const QModelIndex &/*parent*/) const
 {
-    return m_gradingCriteria.size();
+    return std::distance(PDM().gradingCriteriaBegin(),
+                         PDM().gradingCriteriaEnd());
 }
 
 
@@ -53,22 +57,24 @@ QVariant QGradingCriteriaModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() > m_gradingCriteria.size() || index.row() < 0)
+    if (index.row() > rowCount(QModelIndex()) || index.row() < 0)
         return QVariant();
+
+    boost::shared_ptr<GradingCriteria> gc = *(std::next(PDM().gradingCriteriaBegin(), index.row()));
 
     switch(role)
     {
         case Qt::DisplayRole:
         case StringRole:
-            return QString::fromStdString(m_gradingCriteria[index.row()]->getCriteriaName());
+            return QString::fromStdString(gc->getCriteriaName());
             break;
 
         case NumCriteriaItemsRole:
-            return QVariant::fromValue(m_gradingCriteria[index.row()]->getNumCriteriaItems());
+            return QVariant::fromValue(gc->getNumCriteriaItems());
             break;
 
         case IsExpandedRole:
-            return QVariant::fromValue(m_rowExpanded[index.row()]);
+            return QVariant::fromValue(std::get<1>(m_criteriaItemListModels[index.row()]));
             break;
 
         default:
@@ -102,7 +108,7 @@ void QGradingCriteriaModel::criteriaListDataChanged(int row)
 void QGradingCriteriaModel::expandRow(int row)
 {
     QModelIndex qmi = index(row);
-    m_rowExpanded[row] = true;
+    std::get<1>(m_criteriaItemListModels[row]) = true;
     dataChanged(qmi, qmi);
 }
 
@@ -110,33 +116,36 @@ void QGradingCriteriaModel::expandRow(int row)
 void QGradingCriteriaModel::collapseRow(int row)
 {
     QModelIndex qmi = index(row);
-    m_rowExpanded[row] = false;
+    std::get<1>(m_criteriaItemListModels[row]) = false;
     dataChanged(qmi, qmi);
 }
 
 
 void QGradingCriteriaModel::removeGradingCriteria(int row)
 {
+    boost::shared_ptr<GradingCriteria> gc = elementAt<GradingCriteria>(PDM().gradingCriteriaBegin(), row);
+
     // prior to removing the grading criteria, remove
     // it's underlying criteria items.  This will gracefully
     // handle the replacement of criteria items in the underlying
     // evaluation data with custom text items
-    while(m_gradingCriteria[row]->getNumCriteriaItems() != 0)
+    while(gc->getNumCriteriaItems() != 0)
     {
-        m_criteriaItemListModels[row]->removeCriteriaItem(0);
+        std::get<0>(m_criteriaItemListModels[row])->removeCriteriaItem(0);
     }
 
     beginRemoveRows(QModelIndex(), row, row);
-    m_gradingCriteria.remove(row);
+
+    PDM().remove(iterAt<GradingCriteria>(PDM().gradingCriteriaBegin(), row));
     m_criteriaItemListModels.remove(row);
-    m_rowExpanded.remove(row);
 
     int i = 0;
-    foreach(QCriteriaItemListModel* c, m_criteriaItemListModels)
+    std::for_each(m_criteriaItemListModels.begin(), m_criteriaItemListModels.end(),
+                  [&i, this] (std::tuple<QCriteriaItemListModel*, bool> row)
     {
-        c->updateParentIndex(i);
+        std::get<0>(row)->updateParentIndex(i);
         ++i;
-    }
+    });
 
     endRemoveRows();
 }
@@ -144,7 +153,7 @@ void QGradingCriteriaModel::removeGradingCriteria(int row)
 
 void QGradingCriteriaModel::addCriteriaItem(int row, QString string, int level)
 {
-    m_criteriaItemListModels[row]->addCriteriaItem(string, level);
+    std::get<0>(m_criteriaItemListModels[row])->addCriteriaItem(string, level);
     expandRow(row);
     emit dataChanged(index(row), index(row));
 }
@@ -152,6 +161,8 @@ void QGradingCriteriaModel::addCriteriaItem(int row, QString string, int level)
 
 void QGradingCriteriaModel::modifyGradingCriteria(int row, QString string)
 {
-    m_gradingCriteria[row]->setCriteriaName(string.toStdString());
+    boost::shared_ptr<GradingCriteria> gc = elementAt<GradingCriteria>(PDM().gradingCriteriaBegin(), row);
+
+    gc->setCriteriaName(string.toStdString());
     emit dataChanged(index(row), index(row));
 }

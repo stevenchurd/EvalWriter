@@ -8,8 +8,13 @@
 #include <QQmlEngine>
 #include <QQmlComponent>
 
+#ifdef _DEBUG
+#include <QDebug>
+#endif
+
 #include "mainwindow.h"
 #include "utilities/filelogger.h"
+#include "utilities/persistentdatamanager.h"
 #include "model/course.h"
 #include "model/student.h"
 #include "model/gradingcriteria.h"
@@ -23,62 +28,19 @@
 #include "gui/models/qmainnavigationmodel.h"
 #include "gui/models/qstudentsortfilterproxymodel.h"
 #include "gui/models/qgenericlistmodel.h"
-#include "utilities/coursespropertytreeparser.h"
-#include "utilities/gradingcriteriapropertytreeparser.h"
-#include "utilities/studentpropertytreeparser.h"
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-
-
-QVector<boost::shared_ptr<Course> > m_courses;
-QVector<boost::shared_ptr<GradingCriteria> > m_gradingCriteria;
-QVector<boost::shared_ptr<Student> > m_students;
-
-void loadFile()
-{
-    boost::property_tree::ptree loadPt;
-
-    QString fileName = "../testfiles/test5.ewd";
-
-    if(!fileName.isEmpty())
-    {
-        boost::property_tree::xml_parser::read_xml(fileName.toStdString(), loadPt);
-
-        m_courses.clear();
-        m_gradingCriteria.clear();
-        m_students.clear();
-
-        CoursesPropertyTreeParser ptreeParser;
-        ptreeParser.parseTree(loadPt, std::inserter(m_courses, m_courses.begin()));
-
-        GradingCriteriaPropertyTreeParser gcPtParser;
-        gcPtParser.parseTree(loadPt, std::inserter(m_gradingCriteria, m_gradingCriteria.begin()));
-
-        StudentPropertyTreeParser studentPtParser;
-        studentPtParser.parseTree(loadPt,
-                                  std::inserter(m_students, m_students.begin()),
-                                  m_courses.begin(),
-                                  m_courses.end(),
-                                  m_gradingCriteria.begin(),
-                                  m_gradingCriteria.end());
-    }
-}
-
-
-
 
 int main(int argc, char *argv[])
 {
-    loadFile();
+    PDM().loadFile("../testfiles/test5.ewd");
 
     try {
-       QApplication a(argc, argv);
+        QApplication a(argc, argv);
         QVector<boost::shared_ptr<Eval> > studentEvals;
 
         // set up models
-        QGradingCriteriaModel gcModel(m_gradingCriteria, m_students);
-        m_students[0]->getEvals(std::inserter(studentEvals, studentEvals.begin()));
-        QEvaluationModel evalModel(studentEvals[0], m_gradingCriteria);
+        QGradingCriteriaModel gcModel;
+        (*PDM().studentsBegin())->getEvals(std::inserter(studentEvals, studentEvals.begin()));
+        QEvaluationModel evalModel(studentEvals[0]);
 
         // set up view with QML main
         QQuickView view;
@@ -86,16 +48,14 @@ int main(int argc, char *argv[])
         // set context properties of view
         QQmlContext* context = view.rootContext();
 
-        QGenericListModel* coursesModel = new QCoursesListModel( m_courses, m_students);
-        QGenericListModel* studentsModel = new QStudentsListModel(m_students, m_courses);
+        QGenericListModel* coursesModel = new QCoursesListModel();
+        QGenericListModel* studentsModel = new QStudentsListModel() ;
 
         QMainNavigationModel* mainModel = new QMainNavigationModel();
         mainModel->addSubModel("Courses", coursesModel);
         mainModel->addSubModel("Students", studentsModel);
 
-        boost::shared_ptr<QMainNavigationModel> courseSubmodel = coursesModel->constructMainNavigationModel(0);
-
-        context->setContextProperty("mainModel", courseSubmodel.get());
+        context->setContextProperty("mainModel", mainModel);
 
         context->setContextProperty("gradingCriteriaModel", &gcModel);
         context->setContextProperty("evalModel", &evalModel);

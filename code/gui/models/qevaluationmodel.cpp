@@ -3,10 +3,11 @@
 #include "qevaluationmodel.h"
 #include "model/gradingcriteria.h"
 
+#include "utilities/persistentdatamanager.h"
+
 QEvaluationModel::QEvaluationModel(boost::shared_ptr<Eval> eval,
-                 QVector<boost::shared_ptr<GradingCriteria> >& gc,
                  QObject* parent) :
-    QAbstractListModel(parent), m_eval(eval), m_gradingCriteria(gc)
+    QAbstractListModel(parent), m_eval(eval)
 {
 }
 
@@ -97,7 +98,8 @@ void QEvaluationModel::addCriteriaItem(int destIndex, int uniqueId)
 {
     boost::shared_ptr<CriteriaItem> item;
 
-    for(auto it = m_gradingCriteria.begin(); it != m_gradingCriteria.end(); ++it)
+    for(auto it = PDM().gradingCriteriaBegin();
+        it != PDM().gradingCriteriaEnd(); ++it)
     {
         if((*it)->getCriteriaItemById(uniqueId, item) == true)
         {

@@ -17,7 +17,6 @@ class QEvaluationModel : public QAbstractListModel
 
 public:
     QEvaluationModel(boost::shared_ptr<Eval> eval,
-                     QVector<boost::shared_ptr<GradingCriteria> >& gc,
                      QObject* parent = 0);
 
     virtual ~QEvaluationModel() {}
@@ -51,7 +50,6 @@ public slots:
 
 private:
     boost::shared_ptr<Eval> m_eval;
-    QVector<boost::shared_ptr<GradingCriteria> >& m_gradingCriteria;
     std::list<int> m_selected;
 };
 

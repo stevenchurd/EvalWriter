@@ -1,7 +1,8 @@
 #include "qstudentslistmodel.h"
+#include "utilities/persistentdatamanager.h"
 
-QStudentsListModel::QStudentsListModel(QVector<boost::shared_ptr<Student> >& students, QObject* parent) :
-    QGenericListModel(parent), m_students(students)
+QStudentsListModel::QStudentsListModel(QObject* parent) :
+    QGenericListModel(parent)
 {
 }
 
@@ -13,19 +14,20 @@ boost::shared_ptr<QMainNavigationModel> QStudentsListModel::constructMainNavigat
 }
 
 
-boost::shared_ptr<Student> QStudentsListModel::getStudent(int index) const
-{
-    return m_students[index];
-}
-
-
 std::string QStudentsListModel::getItemString(int index) const
 {
-    return m_students[index]->getFirstName() + " " + m_students[index]->getMiddleName() + " " + m_students[index]->getLastName();
+    auto student = elementAt<Student>(PDM().studentsBegin(), index);
+    return student->getFirstName() + " " + student->getMiddleName() + " " + student->getLastName();
 }
 
 
 int QStudentsListModel::getNumItems() const
 {
-    return m_students.size();
+    return std::distance(PDM().studentsBegin(), PDM().studentsEnd());
+}
+
+
+boost::shared_ptr<Student> QStudentsListModel::getStudent(int index) const
+{
+    return elementAt<Student>(PDM().studentsBegin(), index);
 }

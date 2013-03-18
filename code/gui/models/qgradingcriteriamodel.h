@@ -6,6 +6,8 @@
 #include <QAbstractItemModel>
 #include <QVector>
 
+#include <tuple>
+
 #include "gui/models/qcriteriaitemlistmodel.h"
 
 #ifndef Q_MOC_RUN
@@ -26,9 +28,7 @@ public:
         IsExpandedRole
     };
 
-    QGradingCriteriaModel(QVector<boost::shared_ptr<GradingCriteria> >& gradingCriteria,
-                          QVector<boost::shared_ptr<Student> >& students,
-                          QObject* parent = 0);
+    QGradingCriteriaModel(QObject* parent = 0);
     virtual ~QGradingCriteriaModel(void) {}
 
     Q_INVOKABLE QObject* getCriteriaItemModel(const int& index) const;
@@ -51,10 +51,8 @@ public slots:
     void modifyGradingCriteria(int row, QString string);
 
 private:
-    QVector<boost::shared_ptr<GradingCriteria> >& m_gradingCriteria;
-    QVector<boost::shared_ptr<Student> >& m_students;
-    QVector<QCriteriaItemListModel*> m_criteriaItemListModels;
-    QVector<bool> m_rowExpanded;
+    // tuple contains sub-list model and a boolean indicating if it is expanded
+    QVector<std::tuple<QCriteriaItemListModel*, bool> > m_criteriaItemListModels;
 };
 
 #endif // QGRADINGCRITERIAMODEL_H

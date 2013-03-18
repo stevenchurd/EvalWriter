@@ -169,6 +169,7 @@ void MainWindow::setStudentsView(boost::shared_ptr<Course> course)
 
 void MainWindow::setGradingCriteriaListView()
 {
+#if 0
     QGradingCriteriaModel gcModel(m_gradingCriteria, m_students);
     QQuickView view(QUrl::fromLocalFile("../EvalWriter/code/gui/qml/main.qml"));
     QQmlContext* context = view.rootContext();
@@ -176,6 +177,7 @@ void MainWindow::setGradingCriteriaListView()
     context->setContextProperty("gradingCriteriaModel", &gcModel);
 
     //setCentralWidget(view);
+#endif
 }
 
 

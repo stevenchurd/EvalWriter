@@ -3,23 +3,17 @@
 #include "qcourseslistmodel.h"
 #include "qstudentsortfilterproxymodel.h"
 #include "qstudentslistmodel.h"
+#include "utilities/persistentdatamanager.h"
 
-QCoursesListModel::QCoursesListModel(QVector<boost::shared_ptr<Course> >& courses,
-                  QVector<boost::shared_ptr<Student> >& globalStudents,
-                  QObject* parent) :
-    QGenericListModel(parent), m_courses(courses), m_students(globalStudents)
+QCoursesListModel::QCoursesListModel(QObject* parent) :
+    QGenericListModel(parent)
 {
 }
 
 
-boost::shared_ptr<QMainNavigationModel> QCoursesListModel::constructMainNavigationModel(int index) const
+boost::shared_ptr<QMainNavigationModel> QCoursesListModel::constructMainNavigationModel(int /*index*/) const
 {
-    QStudentSortFilterProxyModel* proxyModel = new QStudentSortFilterProxyModel(m_courses[index]);
-    QStudentsListModel* studentListModel = new QStudentsListModel(m_students);
-    proxyModel->setSourceModel(studentListModel);
-
     boost::shared_ptr<QMainNavigationModel> navModel(new QMainNavigationModel());
-    navModel->addSubModel("Students", proxyModel);
 
     return navModel;
 }
@@ -27,11 +21,14 @@ boost::shared_ptr<QMainNavigationModel> QCoursesListModel::constructMainNavigati
 
 std::string QCoursesListModel::getItemString(int index) const
 {
-    return m_courses[index]->getCourseName();
+    boost::shared_ptr<Course> course;
+    course = *(std::next(PDM().coursesBegin(), index));
+    return course->getCourseName();
 }
 
 
 int QCoursesListModel::getNumItems() const
 {
-    return m_courses.size();
+    return std::distance(PDM().coursesBegin(),
+                         PDM().coursesEnd());
 }

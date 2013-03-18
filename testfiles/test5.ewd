@@ -3,7 +3,6 @@
     <course>Spanish 1</course>
     <course>Spanish 2</course>
     <course>Spanish 3</course>
-    <course/>
 </CoursesRoot>
 <?xml version="1.0" encoding="utf-8"?>
 <GradingCriteriaRoot>

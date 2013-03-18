@@ -2,15 +2,13 @@
 #include "model/visitors/replacecriteriaitemvisitor.h"
 #include "model/customtextitem.h"
 #include "model/student.h"
+#include "utilities/persistentdatamanager.h"
 
-QCriteriaItemListModel::QCriteriaItemListModel(
-        boost::shared_ptr<GradingCriteria> gradingCriteria,
-        QVector<boost::shared_ptr<Student> >& students,
+QCriteriaItemListModel::QCriteriaItemListModel(boost::shared_ptr<GradingCriteria> gradingCriteria,
         int parentIndex,
         QObject* parent) :
     QAbstractListModel(parent),
     m_gradingCriteria(gradingCriteria),
-    m_students(students),
     m_parentIndex(parentIndex)
 {
 }
@@ -92,10 +90,11 @@ void QCriteriaItemListModel::removeCriteriaItem(int row)
     //have existed in
     ReplaceCriteriaItemVisitor rciv(newCustomTextItem, oldItem->getUniqueId());
 
-    std::for_each(m_students.begin(), m_students.end(),
-                  [&rciv] (boost::shared_ptr<Student> student) {
-                      student->accept(rciv);
-                  });
+    std::for_each(PDM().studentsBegin(), PDM().studentsEnd(),
+                  [&rciv] (boost::shared_ptr<Student> student)
+    {
+        student->accept(rciv);
+    });
 
     endRemoveRows();
 

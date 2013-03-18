@@ -13,7 +13,7 @@ class QStudentsListModel : public QGenericListModel
     Q_OBJECT
 
 public:
-    QStudentsListModel(QVector<boost::shared_ptr<Student> >& students, QObject* parent = 0);
+    QStudentsListModel(QObject* parent = 0);
 
     virtual ~QStudentsListModel() {}
 
@@ -22,7 +22,6 @@ public:
     boost::shared_ptr<Student> getStudent(int index) const;
 
 private:
-    QVector<boost::shared_ptr<Student> >& m_students;
 
     virtual std::string getItemString(int index) const;
     virtual int getNumItems() const;
