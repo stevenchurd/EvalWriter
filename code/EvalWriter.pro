@@ -26,12 +26,7 @@ SOURCES += main.cpp\
     utilities/filelogger.cpp \
     gui/models/qcourseslistmodel.cpp \
     gui/models/qevaluationmodel.cpp \
-    gui/models/qstudenttablemodel.cpp \
-    gui/models/qstudentsortfilterproxymodel.cpp \
-    gui/widgets/singlestudentwidget.cpp \
     gui/models/qgradingcriteriamodel.cpp \
-    gui/delegates/qexpandabledelegatehelper.cpp \
-    gui/delegates/qexpandableitemdelegate.cpp \
     gui/models/qcriteriaitemlistmodel.cpp \
     model/visitors/replacecriteriaitemvisitor.cpp \
     gui/models/qgenericlistmodel.cpp \
@@ -64,12 +59,7 @@ HEADERS  += mainwindow.h \
     utilities/filelogger.h \
     gui/models/qcourseslistmodel.h \
     gui/models/qevaluationmodel.h \
-    gui/models/qstudenttablemodel.h \
-    gui/models/qstudentsortfilterproxymodel.h \
-    gui/widgets/singlestudentwidget.h \
     gui/models/qgradingcriteriamodel.h \
-    gui/delegates/qexpandabledelegatehelper.h \
-    gui/delegates/qexpandableitemdelegate.h \
     gui/models/qcriteriaitemlistmodel.h \
     model/visitors/replacecriteriaitemvisitor.h \
     gui/models/qgenericlistmodel.h \

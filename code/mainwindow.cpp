@@ -1,5 +1,6 @@
 // (C) Copyright Steven Hurd 2013
 
+#if 0 //TODO: This is here for reference for now...remove later
 #include "mainwindow.h"
 
 #include <QFileDialog>
@@ -289,3 +290,4 @@ void MainWindow::studentSelected(const QModelIndex & index)
     }
 }
 
+#endif
