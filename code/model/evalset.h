@@ -17,12 +17,14 @@ public:
     std::string getEvalSetName(void) const { return m_evalSetName; }
 
     void addEval(boost::shared_ptr<Eval> eval);
-    boost::shared_ptr<Eval> getEval(unsigned int) const;
-    void removeEval(unsigned int);
+
+    std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin(void);
+    std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd(void);
 
     void addEvalSet(boost::shared_ptr<EvalSet> evalSet);
-    boost::shared_ptr<EvalSet> getEvalSet(unsigned int) const;
-    void removeEvalSet(unsigned int);
+
+    std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsBegin(void);
+    std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsEnd(void);
 
     /*
      * VisitorElement functions
@@ -32,7 +34,7 @@ public:
 
 private:
     std::string m_evalSetName;
-    std::vector<boost::shared_ptr<Eval> > m_evalSet;
+    std::vector<boost::shared_ptr<Eval> > m_evals;
     std::vector<boost::shared_ptr<EvalSet> > m_subEvalSets;
 
     // disable copy constructor and assignment

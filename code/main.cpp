@@ -26,7 +26,6 @@
 #include "gui/models/qgradingcriteriamodel.h"
 #include "gui/models/qevaluationmodel.h"
 #include "gui/models/qmainnavigationmodel.h"
-#include "gui/models/qstudentsortfilterproxymodel.h"
 #include "gui/models/qgenericlistmodel.h"
 
 int main(int argc, char *argv[])
@@ -48,13 +47,14 @@ int main(int argc, char *argv[])
 
         QGenericListModel* coursesModel = new QCoursesListModel(*(PDM().studentsBegin()+2));
         QGenericListModel* studentsModel = new QStudentsListModel(*(PDM().coursesBegin()+2)) ;
+        QGenericListModel* evalsModel = new QEvalsListModel(*(PDM().studentsBegin()));
 
         QMainNavigationModel* mainModel = new QMainNavigationModel();
         mainModel->addSubModel("Courses", coursesModel);
         mainModel->addSubModel("Students", studentsModel);
+        mainModel->addSubModel("Evals", evalsModel);
 
         context->setContextProperty("mainModel", mainModel);
-
         context->setContextProperty("gradingCriteriaModel", &gcModel);
         context->setContextProperty("evalModel", &evalModel);
 
