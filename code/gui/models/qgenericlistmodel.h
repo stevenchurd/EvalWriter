@@ -21,8 +21,11 @@ public:
     enum GenericListRoles {
         StringRole = Qt::UserRole + 1,
         ColorRole,
+        SubModelType,
         EndOfGenericListRoles
     };
+
+    virtual Q_INVOKABLE QAbstractItemModel* getSubModelFromIndex(int index) = 0;
 
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;

@@ -1,5 +1,10 @@
 #include "qmainnavigationmodel.h"
 #include "qgenericlistmodel.h"
+#include "qcourseslistmodel.h"
+#include "qevalslistmodel.h"
+#include "qstudentslistmodel.h"
+#include "qevalsetslistmodel.h"
+
 
 QMainNavigationModel::QMainNavigationModel(QObject *parent) :
     QAbstractListModel(parent)
@@ -63,5 +68,45 @@ QHash<int,QByteArray> QMainNavigationModel::roleNames() const
     }
 
     return roleNames;
+}
+
+
+QAbstractItemModel* makeSubModel(boost::shared_ptr<Student> student)
+{
+    QMainNavigationModel* navModel = new QMainNavigationModel();
+
+    QCoursesListModel* coursesList = new QCoursesListModel(student);
+    QEvalsListModel* evalsList = new QEvalsListModel(student);
+
+    navModel->addSubModel("Courses", coursesList);
+    navModel->addSubModel("Evaluations", evalsList);
+
+    return navModel;
+}
+
+
+QAbstractItemModel* makeSubModel(boost::shared_ptr<Course> course)
+{
+    QMainNavigationModel* navModel = new QMainNavigationModel();
+
+    QStudentsListModel* studentsList = new QStudentsListModel(course);
+
+    navModel->addSubModel("Students", studentsList);
+
+    return navModel;
+}
+
+
+QAbstractItemModel* makeSubModel(boost::shared_ptr<EvalSet> evalSet)
+{
+    QMainNavigationModel* navModel = new QMainNavigationModel();
+
+    QEvalsListModel* evalsList = new QEvalsListModel(evalSet);
+    QEvalSetsListModel* evalSetsList = new QEvalSetsListModel(evalSet);
+
+    navModel->addSubModel("Evaluations", evalsList);
+    navModel->addSubModel("Evaluation Sets", evalSetsList);
+
+    return navModel;
 }
 

@@ -33,3 +33,16 @@ int QEvalSetsListModel::getNumItems() const
         return std::distance(m_evalSet->evalSetsBegin(), m_evalSet->evalSetsEnd());
     }
 }
+
+
+QAbstractItemModel* QEvalSetsListModel::getSubModelFromIndex(int index)
+{
+    if(m_evalSet == nullptr)
+    {
+        return makeSubModel(elementAt<EvalSet>(PDM().evalSetsBegin(), index));
+    }
+    else
+    {
+        return makeSubModel(elementAt<EvalSet>(m_evalSet->evalSetsBegin(), index));
+    }
+}

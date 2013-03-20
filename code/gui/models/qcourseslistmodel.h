@@ -21,6 +21,7 @@ public:
 private:
     boost::shared_ptr<Student> m_student;
 
+    virtual QAbstractItemModel* getSubModelFromIndex(int index);
     virtual std::string getItemString(int index) const;
     virtual int getNumItems() const;
 };

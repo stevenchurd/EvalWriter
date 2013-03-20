@@ -42,3 +42,16 @@ int QCoursesListModel::getNumItems() const
                              m_student->coursesEnd());
     }
 }
+
+
+QAbstractItemModel* QCoursesListModel::getSubModelFromIndex(int index)
+{
+    if(m_student == nullptr)
+    {
+        return makeSubModel(elementAt<Course>(PDM().coursesBegin(), index));
+    }
+    else
+    {
+        return makeSubModel(elementAt<Course>(m_student->coursesBegin(), index));
+    }
+}

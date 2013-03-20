@@ -55,3 +55,29 @@ int QStudentsListModel::getNumItems() const
         });
     }
 }
+
+
+QAbstractItemModel* QStudentsListModel::getSubModelFromIndex(int index)
+{
+    if(m_course == nullptr)
+    {
+        return makeSubModel(elementAt<Student>(PDM().studentsBegin(), index));
+    }
+    else
+    {
+        int i = 0;
+        boost::shared_ptr<Student> student = *std::find_if(PDM().studentsBegin(), PDM().studentsEnd(),
+                     [&index, &i, this] (boost::shared_ptr<Student> vectStudent)->bool
+        {
+            if(vectStudent->isInCourse(m_course))
+            {
+                i++;
+                return i-1 == index;
+            }
+
+            return false;
+        });
+
+        return makeSubModel(student);
+    }
+}

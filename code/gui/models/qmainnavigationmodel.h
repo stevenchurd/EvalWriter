@@ -4,6 +4,11 @@
 #include <QAbstractListModel>
 #include <tuple>
 
+#ifndef Q_MOC_RUN
+#include <boost/shared_ptr.hpp>
+#include "model/student.h"
+#endif
+
 class QGenericListModel;
 
 class QMainNavigationModel : public QAbstractListModel
@@ -29,5 +34,11 @@ private:
 
     std::vector<std::tuple<std::string, QAbstractItemModel*> > m_submodels;
 };
+
+
+QAbstractItemModel* makeSubModel(boost::shared_ptr<Student> student);
+QAbstractItemModel* makeSubModel(boost::shared_ptr<Course> course);
+QAbstractItemModel* makeSubModel(boost::shared_ptr<EvalSet> evalSet);
+
 
 #endif // QMAINNAVIGATIONMODEL_H
