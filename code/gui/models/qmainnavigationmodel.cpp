@@ -78,7 +78,7 @@ QAbstractItemModel* makeSubModel(boost::shared_ptr<Student> student)
     QCoursesListModel* coursesList = new QCoursesListModel(student);
     QEvalsListModel* evalsList = new QEvalsListModel(student);
 
-    navModel->addSubModel("Courses", coursesList);
+    navModel->addSubModel("Classes", coursesList);
     navModel->addSubModel("Evaluations", evalsList);
 
     return navModel;

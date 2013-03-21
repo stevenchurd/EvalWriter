@@ -46,15 +46,13 @@ int main(int argc, char *argv[])
         // set context properties of view
         QQmlContext* context = view.rootContext();
 
-        QGenericListModel* coursesModel = new QCoursesListModel(*(PDM().studentsBegin()+2));
-        QGenericListModel* studentsModel = new QStudentsListModel(*(PDM().coursesBegin()+2)) ;
-        QGenericListModel* evalsModel = new QEvalsListModel(*(PDM().studentsBegin()));
-        QGenericListModel* evalSetModel = new QEvalSetsListModel(*PDM().evalSetsBegin());
+        QGenericListModel* coursesModel = new QCoursesListModel();
+        QGenericListModel* studentsModel = new QStudentsListModel() ;
+        QGenericListModel* evalSetModel = new QEvalSetsListModel();
 
         QMainNavigationModel* mainModel = new QMainNavigationModel();
-        mainModel->addSubModel("Courses", coursesModel);
+        mainModel->addSubModel("Classes", coursesModel);
         mainModel->addSubModel("Students", studentsModel);
-        mainModel->addSubModel("Evals", evalsModel);
         mainModel->addSubModel("Evaluation Sets", evalSetModel);
 
         context->setContextProperty("mainModel", mainModel);

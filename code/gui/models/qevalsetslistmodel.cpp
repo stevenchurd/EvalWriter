@@ -3,6 +3,12 @@
 #include "qevalsetslistmodel.h"
 #include "utilities/persistentdatamanager.h"
 
+QEvalSetsListModel::QEvalSetsListModel(QObject* parent) :
+    QGenericListModel(parent)
+{
+}
+
+
 QEvalSetsListModel::QEvalSetsListModel(boost::shared_ptr<EvalSet> evalSet, QObject* parent) :
     QGenericListModel(parent), m_evalSet(evalSet)
 {

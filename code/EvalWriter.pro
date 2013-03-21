@@ -99,10 +99,11 @@ OTHER_FILES += \
     gui/qml/utilities.js \
     gui/qml/CustomTextItemEditDialog.qml \
     gui/qml/EvalEditor.qml \
-    gui/qml/itemCreation.js \
     gui/qml/EvalItemDelegate.qml \
     gui/qml/MainNavigationModel.qml \
-    gui/qml/SideListDelegate.qml
+    gui/qml/SideListDelegate.qml \
+    gui/qml/criteriaItemRowCreation.js \
+    gui/qml/pageCreator.js
 
 RESOURCES += \
     images.qrc

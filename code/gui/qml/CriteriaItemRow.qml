@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import "utilities.js" as JsUtil
-import "itemCreation.js" as ItemCreator
+import "criteriaItemRowCreation.js" as CriteriaItemRowCreator
 
 Rectangle {
     id: decorativeRect
@@ -34,26 +34,26 @@ Rectangle {
             if(!editable)
             {
                 gradingCriteriaList.interactive = false
-                ItemCreator.startDrag(mouse, decorativeRect)
+                CriteriaItemRowCreator.startDrag(mouse, decorativeRect)
             }
         }
         onPositionChanged: {
             if(!editable)
             {
-                ItemCreator.continueDrag(mouse)
+                CriteriaItemRowCreator.continueDrag(mouse)
             }
         }
         onCanceled: {
             if(!editable)
             {
-                ItemCreator.cancelDrag()
+                CriteriaItemRowCreator.cancelDrag()
                 gradingCriteriaList.interactive = true
             }
         }
         onReleased: {
             if(!editable)
             {
-                ItemCreator.endDrag(mouse)
+                CriteriaItemRowCreator.endDrag(mouse)
                 gradingCriteriaList.interactive = true
             }
         }
