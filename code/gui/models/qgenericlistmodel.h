@@ -25,7 +25,7 @@ public:
         EndOfGenericListRoles
     };
 
-    virtual Q_INVOKABLE QAbstractItemModel* getSubModelFromIndex(int index) = 0;
+    Q_INVOKABLE virtual QObject* getSubModelFromIndex(int index) = 0;
 
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;

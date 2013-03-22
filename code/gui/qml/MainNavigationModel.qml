@@ -1,7 +1,10 @@
 import QtQuick 2.0
+import "pageCreator.js" as PageCreator
 
 Rectangle {
+    id: wrapper
     anchors.fill: parent
+    property alias model: navList.model
 
     ListView {
         id: navList
@@ -12,8 +15,9 @@ Rectangle {
         height: 500
         width: 300
 
-        model: mainModel
         delegate: SideListDelegate{}
+
+        Component.onCompleted: currentIndex = 0
     }
 
     ListView {
@@ -21,7 +25,9 @@ Rectangle {
 
         height: parent.height
         width: parent.width - navList.width
-        model: mainModel.getSubModel(navList.currentIndex)
+        model: { console.log(navList.currentIndex)
+            return wrapper.model.getSubModel(navList.currentIndex)
+        }
         delegate: MouseArea {
             height: 60
             width: 500
@@ -30,7 +36,10 @@ Rectangle {
                 text: displayString
             }
 
-            onClicked: mainModel.getSubModel(navList.currentIndex).constructMainNavigationModel(index)
+            onClicked: {
+                pageLoader.sourceComponent = PageCreator.createModelByType(wrapper.model.getSubModelType(navList.currentIndex),
+                                                            wrapper.model.getSubModel(navList.currentIndex).getSubModelFromIndex(index))
+            }
         }
     }
 }

@@ -11,18 +11,28 @@
 
 class QGenericListModel;
 
+// we use these values in QML which is why we enumerate them explicitly
+enum SubModelType {
+    MainNavigation = 1,
+    Evaluation = 2
+};
+
 class QMainNavigationModel : public QAbstractListModel
 {
     Q_OBJECT
+
 public:
     explicit QMainNavigationModel(QObject *parent = 0);
 
     enum MainNavModelRoles {
-        StringRole = Qt::UserRole + 1
+        StringRole = Qt::UserRole + 1,
+        SubModelTypeRole
     };
 
     Q_INVOKABLE QObject* getSubModel(int index) const;
-    void addSubModel(std::string displayString, QAbstractItemModel *listModel);
+    Q_INVOKABLE int getSubModelType(int index) const;
+
+    void addSubModel(std::string displayString, QAbstractItemModel *listModel, SubModelType modelType);
 
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;
@@ -32,7 +42,7 @@ public:
 
 private:
 
-    std::vector<std::tuple<std::string, QAbstractItemModel*> > m_submodels;
+    std::vector<std::tuple<std::string, QAbstractItemModel*, SubModelType> > m_submodels;
 };
 
 

@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "pageCreator.js" as PageCreator
 
 Rectangle {
     id: screenContainer
@@ -8,7 +9,12 @@ Rectangle {
     Item {
         id: screenContent
         anchors.fill: parent
-        MainNavigationModel{}
+        Loader {
+            id: pageLoader
+        }
+//        MainNavigationModel {
+//            model: mainModel
+//        }
 //        EvalEditor{}
 //        GradingCriteriaModel{
 //            editable: true
@@ -19,4 +25,6 @@ Rectangle {
     WizardLoader {
         id: wizardContent
     }
+
+    Component.onCompleted: pageLoader.sourceComponent = PageCreator.createModel("MainNavigationModel.qml", mainModel)
 }

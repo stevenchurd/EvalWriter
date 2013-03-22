@@ -31,9 +31,9 @@
 
 int main(int argc, char *argv[])
 {
-    PDM().loadFile("../testfiles/test5.ewd");
-
     try {
+        PDM().loadFile("../testfiles/test5.ewd");
+
         QApplication a(argc, argv);
 
         // set up models
@@ -51,9 +51,9 @@ int main(int argc, char *argv[])
         QGenericListModel* evalSetModel = new QEvalSetsListModel();
 
         QMainNavigationModel* mainModel = new QMainNavigationModel();
-        mainModel->addSubModel("Classes", coursesModel);
-        mainModel->addSubModel("Students", studentsModel);
-        mainModel->addSubModel("Evaluation Sets", evalSetModel);
+        mainModel->addSubModel("Classes", coursesModel, MainNavigation);
+        mainModel->addSubModel("Students", studentsModel, MainNavigation);
+        mainModel->addSubModel("Evaluation Sets", evalSetModel, MainNavigation);
 
         context->setContextProperty("mainModel", mainModel);
         context->setContextProperty("gradingCriteriaModel", &gcModel);
