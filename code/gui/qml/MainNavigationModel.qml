@@ -4,7 +4,8 @@ import "pageCreator.js" as PageCreator
 Rectangle {
     id: wrapper
     anchors.fill: parent
-    property alias model: navList.model
+
+    property var model
 
     ListView {
         id: navList
@@ -15,6 +16,7 @@ Rectangle {
         height: 500
         width: 300
 
+        model: wrapper.model
         delegate: SideListDelegate{}
     }
 
@@ -34,8 +36,8 @@ Rectangle {
             }
 
             onClicked: {
-                pageLoader.sourceComponent = PageCreator.createModelByType(wrapper.model.getSubModelType(navList.currentIndex),
-                                                            wrapper.model.getSubModel(navList.currentIndex).getSubModelFromIndex(index))
+                pageStack.push(PageCreator.createModelByType(wrapper.model.getSubModelType(navList.currentIndex),
+                                                            wrapper.model.getSubModel(navList.currentIndex).getSubModelFromIndex(index)))
             }
         }
     }

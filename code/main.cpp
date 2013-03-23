@@ -50,14 +50,14 @@ int main(int argc, char *argv[])
         QGenericListModel* studentsModel = new QStudentsListModel() ;
         QGenericListModel* evalSetModel = new QEvalSetsListModel();
 
-        std::unique_ptr<QMainNavigationModel> mainModel(new QMainNavigationModel());
+        QMainNavigationModel* mainModel = new QMainNavigationModel();
         mainModel->addSubModel("Classes", coursesModel, MainNavigation);
         mainModel->addSubModel("Students", studentsModel, MainNavigation);
         mainModel->addSubModel("Evaluation Sets", evalSetModel, MainNavigation);
 
-        context->setContextProperty("mainModel", mainModel.get());
+        context->setContextProperty("mainModel", mainModel);
         context->setContextProperty("gradingCriteriaModel", &gcModel);
-        context->setContextProperty("evalModel", &evalModel);
+        //context->setContextProperty("evalModel", &evalModel);
 
         // set view properties
         view.setSource(QUrl::fromLocalFile("../code/gui/qml/main.qml"));

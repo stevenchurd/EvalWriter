@@ -1,3 +1,5 @@
+var createdComponents = []
+
 function createModelByType(modelType, cppModel)
 {
     switch(modelType)
@@ -20,12 +22,29 @@ function createModelByType(modelType, cppModel)
 function createModel(modelFile, cppModel) {
     var itemComponent = Qt.createComponent(modelFile);
 
+    createdComponents.push(itemComponent)
+
     if (itemComponent.status === Component.Ready) {
-        itemComponent.createObject(screenContainer, {"model": cppModel});
+        var newPage = itemComponent.createObject(null, {"model": cppModel});
 
     } else if (itemComponent.status === Component.Error) {
         console.log("error creating component");
         console.log(itemComponent.errorString());
     }
-    return itemComponent;
+
+    if(itemComponent === null)
+        console.log("Error, created invalid component")
+
+    return newPage
+}
+
+
+function destroyComponents()
+{
+    var item = createdComponents.pop()
+    while(item !== null)
+    {
+        item.destroy()
+        item = createdComponents.pop()
+    }
 }

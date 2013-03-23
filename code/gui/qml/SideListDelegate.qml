@@ -11,7 +11,6 @@ MouseArea {
         text: submodelName
     }
 
-    //Component.onCompleted: console.log(submodelName)
     onClicked: {
         wrapper.ListView.view.currentIndex = index
     }

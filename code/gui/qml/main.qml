@@ -6,22 +6,17 @@ Rectangle {
     width: 800
     height: 600
 
-    Item {
-        id: screenContent
+    PageStack {
+        id: pageStack
         anchors.fill: parent
-        Loader {
-            id: pageLoader
+
+        Component.onCompleted: {
+            pageStack.push(PageCreator.createModel("MainNavigationModel.qml", mainModel))
         }
-//        EvalEditor{}
-//        GradingCriteriaModel{
-//            editable: true
-//        }
     }
 
     // this is expected to be globally accessable as a means of loading wizard pages
     WizardLoader {
         id: wizardContent
     }
-
-    Component.onCompleted: pageLoader.sourceComponent = PageCreator.createModel("MainNavigationModel.qml", mainModel)
 }

@@ -4,6 +4,7 @@ Item {
     id: wrapper
 
     property string currentViewType: "largeDelegateView"
+    property var evalModel
 
     anchors.fill: parent
     anchors.margins: 5

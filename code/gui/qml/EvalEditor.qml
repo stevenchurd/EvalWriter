@@ -2,6 +2,7 @@ import QtQuick 2.0
 
 Item {
     anchors.fill: parent
+    property alias model: myeval.evalModel
 
     Item {
         id: leftColumn
@@ -15,6 +16,6 @@ Item {
         height: parent.height
         width: parent.width/3 * 2
         anchors.left: leftColumn.right
-        EvalModel{}
+        EvalModel{ id: myeval }
     }
 }
