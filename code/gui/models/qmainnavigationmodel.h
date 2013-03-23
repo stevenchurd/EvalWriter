@@ -23,6 +23,7 @@ class QMainNavigationModel : public QAbstractListModel
 
 public:
     explicit QMainNavigationModel(QObject *parent = 0);
+    virtual ~QMainNavigationModel() {}
 
     enum MainNavModelRoles {
         StringRole = Qt::UserRole + 1,

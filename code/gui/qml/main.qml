@@ -12,9 +12,6 @@ Rectangle {
         Loader {
             id: pageLoader
         }
-//        MainNavigationModel {
-//            model: mainModel
-//        }
 //        EvalEditor{}
 //        GradingCriteriaModel{
 //            editable: true

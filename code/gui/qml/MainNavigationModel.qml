@@ -16,8 +16,6 @@ Rectangle {
         width: 300
 
         delegate: SideListDelegate{}
-
-        Component.onCompleted: currentIndex = 0
     }
 
     ListView {
@@ -25,9 +23,8 @@ Rectangle {
 
         height: parent.height
         width: parent.width - navList.width
-        model: { console.log(navList.currentIndex)
-            return wrapper.model.getSubModel(navList.currentIndex)
-        }
+
+        model: wrapper.model.getSubModel(navList.currentIndex)
         delegate: MouseArea {
             height: 60
             width: 500
