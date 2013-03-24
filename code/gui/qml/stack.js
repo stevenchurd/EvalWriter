@@ -22,3 +22,13 @@ function top()
 {
     return stack[stack.length-1]
 }
+
+function get(i)
+{
+    return stack[i]
+}
+
+function count()
+{
+    return stack.length
+}

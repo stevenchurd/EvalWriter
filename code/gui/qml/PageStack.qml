@@ -4,7 +4,7 @@ import "stack.js" as Stack
 Rectangle {
     id: wrapper
 
-    anchors.fill: parent
+    signal pageChanged
 
     Rectangle {
         id: container
@@ -20,10 +20,57 @@ Rectangle {
     {
         Stack.push(page)
         container.setAsParent(page)
+        printTitles()
+        pageChanged()
     }
 
     function pop()
     {
-        var item = Stack.pop()
+        if(Stack.count() > 1)
+        {
+            var page = Stack.pop()
+            page.parent = null
+            page = Stack.top()
+            container.setAsParent(page)
+        }
+        printTitles()
+        pageChanged()
+    }
+
+    function popTo(i)
+    {
+        while(i < Stack.count()-1 && Stack.count() > 1)
+        {
+            var page = Stack.pop()
+            page.parent = null
+            page = Stack.top()
+            container.setAsParent(page)
+        }
+
+        printTitles()
+        pageChanged()
+    }
+
+    function getTitles()
+    {
+        var titles = []
+
+        for(var i = 0; i < Stack.count(); i++)
+        {
+            var item = Stack.get(i)
+            titles.push(item.getTitle())
+        }
+        return titles
+    }
+
+    function printTitles()
+    {
+        console.log("\nPageStack Titles")
+        for(var i = 0; i < Stack.count(); i++)
+        {
+            var item = Stack.get(i)
+            console.log(item.getTitle());
+        }
+        console.log("\n")
     }
 }

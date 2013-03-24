@@ -6,9 +6,17 @@ Rectangle {
     width: 800
     height: 600
 
+    NavigationBar {
+        id: navBar
+        height: 100
+        width: parent.width
+    }
+
     PageStack {
         id: pageStack
-        anchors.fill: parent
+        anchors.top: navBar.bottom
+        height: screenContainer.height - navBar.height
+        width: parent.width
 
         Component.onCompleted: {
             pageStack.push(PageCreator.createModel("MainNavigationModel.qml", mainModel))

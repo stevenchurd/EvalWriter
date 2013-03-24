@@ -105,7 +105,8 @@ OTHER_FILES += \
     gui/qml/criteriaItemRowCreation.js \
     gui/qml/pageCreator.js \
     gui/qml/PageStack.qml \
-    gui/qml/stack.js
+    gui/qml/stack.js \
+    gui/qml/NavigationBar.qml
 
 RESOURCES += \
     images.qrc
