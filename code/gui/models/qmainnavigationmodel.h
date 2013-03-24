@@ -22,7 +22,7 @@ class QMainNavigationModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    explicit QMainNavigationModel(QObject *parent = 0);
+    explicit QMainNavigationModel(QString modelTitle, QObject *parent = 0);
     virtual ~QMainNavigationModel() {}
 
     enum MainNavModelRoles {
@@ -32,6 +32,7 @@ public:
 
     Q_INVOKABLE QObject* getSubModel(int index) const;
     Q_INVOKABLE int getSubModelType(int index) const;
+    Q_INVOKABLE QString getModelTitle() const;
 
     void addSubModel(std::string displayString, QAbstractItemModel *listModel, SubModelType modelType);
 
@@ -43,6 +44,7 @@ public:
 
 private:
 
+    QString m_modelTitle;
     std::vector<std::tuple<std::string, QAbstractItemModel*, SubModelType> > m_submodels;
 };
 

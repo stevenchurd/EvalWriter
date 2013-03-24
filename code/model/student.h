@@ -25,7 +25,13 @@ public:
 
     std::string getFirstName(void) const { return m_firstName; }
     std::string getMiddleName(void) const { return m_middleName; }
-    std::string getLastName (void) const { return m_lastName; }
+    std::string getLastName(void) const { return m_lastName; }
+    std::string getDisplayName(void) const {
+        if(m_middleName.length() == 0)
+            return m_firstName + " " + m_lastName;
+
+        return m_firstName + " " + m_middleName + " " + m_lastName;
+    }
 
     UniqueStudentId getUniqueId(void) { return m_id; }
 

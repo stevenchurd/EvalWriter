@@ -41,5 +41,10 @@ Rectangle {
             }
         }
     }
+
+    function getTitle()
+    {
+        return wrapper.model.getModelTitle()
+    }
 }
 

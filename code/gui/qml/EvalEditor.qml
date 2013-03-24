@@ -18,4 +18,9 @@ Item {
         anchors.left: leftColumn.right
         EvalModel{ id: myeval }
     }
+
+    function getTitle()
+    {
+        return model.getEvalTitle()
+    }
 }

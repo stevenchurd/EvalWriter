@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
         QGenericListModel* studentsModel = new QStudentsListModel() ;
         QGenericListModel* evalSetModel = new QEvalSetsListModel();
 
-        QMainNavigationModel* mainModel = new QMainNavigationModel();
+        QMainNavigationModel* mainModel = new QMainNavigationModel("Home");
         mainModel->addSubModel("Classes", coursesModel, MainNavigation);
         mainModel->addSubModel("Students", studentsModel, MainNavigation);
         mainModel->addSubModel("Evaluation Sets", evalSetModel, MainNavigation);

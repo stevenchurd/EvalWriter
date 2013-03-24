@@ -6,10 +6,11 @@
 #include "qevalsetslistmodel.h"
 
 
-QMainNavigationModel::QMainNavigationModel(QObject *parent) :
-    QAbstractListModel(parent)
+QMainNavigationModel::QMainNavigationModel(QString modelTitle, QObject *parent) :
+    QAbstractListModel(parent), m_modelTitle(modelTitle)
 {
 }
+
 
 QObject* QMainNavigationModel::getSubModel(int index) const
 {
@@ -26,6 +27,12 @@ int QMainNavigationModel::getSubModelType(int index) const
         return -1;
 
     return static_cast<int>(std::get<2>(m_submodels[index]));
+}
+
+
+QString QMainNavigationModel::getModelTitle() const
+{
+    return m_modelTitle;
 }
 
 
@@ -87,7 +94,8 @@ QHash<int,QByteArray> QMainNavigationModel::roleNames() const
 
 QAbstractItemModel* makeSubModel(boost::shared_ptr<Student> student)
 {
-    QMainNavigationModel* navModel = new QMainNavigationModel();
+    QMainNavigationModel* navModel = new QMainNavigationModel(
+                QString::fromStdString(student->getDisplayName()));
 
     QCoursesListModel* coursesList = new QCoursesListModel(student);
     QEvalsListModel* evalsList = new QEvalsListModel(student);
@@ -101,7 +109,8 @@ QAbstractItemModel* makeSubModel(boost::shared_ptr<Student> student)
 
 QAbstractItemModel* makeSubModel(boost::shared_ptr<Course> course)
 {
-    QMainNavigationModel* navModel = new QMainNavigationModel();
+    QMainNavigationModel* navModel = new QMainNavigationModel(
+                QString::fromStdString(course->getCourseName()));
 
     QStudentsListModel* studentsList = new QStudentsListModel(course);
 
@@ -113,7 +122,8 @@ QAbstractItemModel* makeSubModel(boost::shared_ptr<Course> course)
 
 QAbstractItemModel* makeSubModel(boost::shared_ptr<EvalSet> evalSet)
 {
-    QMainNavigationModel* navModel = new QMainNavigationModel();
+    QMainNavigationModel* navModel = new QMainNavigationModel(
+                QString::fromStdString(evalSet->getEvalSetName()));
 
     QEvalsListModel* evalsList = new QEvalsListModel(evalSet);
     QEvalSetsListModel* evalSetsList = new QEvalSetsListModel(evalSet);
