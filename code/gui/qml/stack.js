@@ -32,3 +32,10 @@ function count()
 {
     return stack.length
 }
+
+
+function removeAt(i)
+{
+    var element = stack[i]
+    stack.splice(i, 1);
+}

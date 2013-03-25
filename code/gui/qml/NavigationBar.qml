@@ -19,6 +19,7 @@ Rectangle {
         anchors.fill: parent
 
         orientation: ListView.Horizontal
+        interactive: false
 
         model: titlesModel
         delegate: Text {

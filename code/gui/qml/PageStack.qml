@@ -18,6 +18,33 @@ Rectangle {
 
     function push(page)
     {
+        // first see if we are pushing a student or course MainNavigationPage
+        if(page.pageType === "StudentNavPage")
+        {
+            // if it's a student, see if we can take out any lower students
+            for(var i = Stack.count()-1; i > 0; i--)
+            {
+                var stackPage = Stack.get(i)
+                if(stackPage.pageType === "StudentNavPage")
+                {
+                    Stack.removeAt(i)
+                }
+            }
+        }
+
+        if(page.pageType === "CourseNavPage")
+        {
+            // if it's a student, see if we can take out any lower students
+            for(var j = Stack.count()-1; j > 0; j--)
+            {
+                var stackPage2 = Stack.get(j)
+                if(stackPage2.pageType === "CourseNavPage")
+                {
+                    Stack.removeAt(j)
+                }
+            }
+        }
+
         Stack.push(page)
         container.setAsParent(page)
         printTitles()

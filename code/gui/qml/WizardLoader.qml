@@ -23,14 +23,16 @@ Item {
     function show()
     {
         wizardContent.visible = true
-        screenContent.enabled = false
+        pageStack.enabled = false
+        navBar.enabled = false
     }
 
     function close()
     {
         wizardContent.sourceComponent = emptyComponent
         wizardContent.visible = false
-        screenContent.enabled = true
+        pageStack.enabled = true
+        navBar.enabled = true
     }
 
     Component {

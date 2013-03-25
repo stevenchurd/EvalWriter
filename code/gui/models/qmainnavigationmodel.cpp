@@ -36,7 +36,7 @@ QString QMainNavigationModel::getModelTitle() const
 }
 
 
-void QMainNavigationModel::addSubModel(std::string displayString, QAbstractItemModel* listModel, SubModelType modelType)
+void QMainNavigationModel::addSubModel(std::string displayString, QAbstractItemModel* listModel, ModelTypes::SubModelType modelType)
 {
     // reparent model
     listModel->setParent(this);
@@ -100,8 +100,8 @@ QAbstractItemModel* makeSubModel(boost::shared_ptr<Student> student)
     QCoursesListModel* coursesList = new QCoursesListModel(student);
     QEvalsListModel* evalsList = new QEvalsListModel(student);
 
-    navModel->addSubModel("Classes", coursesList, MainNavigation);
-    navModel->addSubModel("Evaluations", evalsList, Evaluation);
+    navModel->addSubModel("Classes", coursesList, ModelTypes::CourseList);
+    navModel->addSubModel("Evaluations", evalsList, ModelTypes::EvaluationList);
 
     return navModel;
 }
@@ -114,7 +114,7 @@ QAbstractItemModel* makeSubModel(boost::shared_ptr<Course> course)
 
     QStudentsListModel* studentsList = new QStudentsListModel(course);
 
-    navModel->addSubModel("Students", studentsList, MainNavigation);
+    navModel->addSubModel("Students", studentsList, ModelTypes::StudentList);
 
     return navModel;
 }
@@ -128,8 +128,8 @@ QAbstractItemModel* makeSubModel(boost::shared_ptr<EvalSet> evalSet)
     QEvalsListModel* evalsList = new QEvalsListModel(evalSet);
     QEvalSetsListModel* evalSetsList = new QEvalSetsListModel(evalSet);
 
-    navModel->addSubModel("Evaluations", evalsList, Evaluation);
-    navModel->addSubModel("Evaluation Sets", evalSetsList, MainNavigation);
+    navModel->addSubModel("Evaluations", evalsList, ModelTypes::EvaluationList);
+    navModel->addSubModel("Evaluation Sets", evalSetsList, ModelTypes::EvalSetList);
 
     return navModel;
 }

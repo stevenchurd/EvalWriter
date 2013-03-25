@@ -8,7 +8,7 @@ Rectangle {
 
     NavigationBar {
         id: navBar
-        height: 100
+        height: 50
         width: parent.width
     }
 

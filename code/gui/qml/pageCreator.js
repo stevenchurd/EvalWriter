@@ -4,14 +4,19 @@ function createModelByType(modelType, cppModel)
 {
     switch(modelType)
     {
-        case 1: // main navigation model
-            return createModel("MainNavigationModel.qml", cppModel);
-            break;
+        case 1: // StudentList = 1,
+            return createModel("MainNavigationModel.qml", cppModel, "StudentNavPage");
 
-        case 2: // evaluation model
-            return createModel("EvalEditor.qml", cppModel);
-            break;
+        case 2: // EvaluationList = 2,
+            return createModel("EvalEditor.qml", cppModel, "EvalEditorPage");
 
+        case 3: // CourseList = 3,
+            return createModel("MainNavigationModel.qml", cppModel, "CourseNavPage");
+
+        case 4: // EvalSetList = 4,
+            return createModel("MainNavigationModel.qml", cppModel, "EvalSetNavPage");
+
+        // GradingCriteria = 5
         default:
             console.log("No model type: " + modelType)
             break;
@@ -19,13 +24,13 @@ function createModelByType(modelType, cppModel)
 }
 
 
-function createModel(modelFile, cppModel) {
+function createModel(modelFile, cppModel, typeString) {
     var itemComponent = Qt.createComponent(modelFile);
 
     createdComponents.push(itemComponent)
 
     if (itemComponent.status === Component.Ready) {
-        var newPage = itemComponent.createObject(null, {"model": cppModel});
+        var newPage = itemComponent.createObject(null, {"model": cppModel, "pageType": typeString});
 
     } else if (itemComponent.status === Component.Error) {
         console.log("error creating component");

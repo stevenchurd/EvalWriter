@@ -12,10 +12,15 @@
 class QGenericListModel;
 
 // we use these values in QML which is why we enumerate them explicitly
+namespace ModelTypes {
 enum SubModelType {
-    MainNavigation = 1,
-    Evaluation = 2
+    StudentList = 1,
+    EvaluationList = 2,
+    CourseList = 3,
+    EvalSetList = 4,
+    GradingCriteria = 5
 };
+}
 
 class QMainNavigationModel : public QAbstractListModel
 {
@@ -34,7 +39,7 @@ public:
     Q_INVOKABLE int getSubModelType(int index) const;
     Q_INVOKABLE QString getModelTitle() const;
 
-    void addSubModel(std::string displayString, QAbstractItemModel *listModel, SubModelType modelType);
+    void addSubModel(std::string displayString, QAbstractItemModel *listModel, ModelTypes::SubModelType modelType);
 
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;
@@ -45,7 +50,7 @@ public:
 private:
 
     QString m_modelTitle;
-    std::vector<std::tuple<std::string, QAbstractItemModel*, SubModelType> > m_submodels;
+    std::vector<std::tuple<std::string, QAbstractItemModel*, ModelTypes::SubModelType> > m_submodels;
 };
 
 
