@@ -81,3 +81,11 @@ QAbstractItemModel* QStudentsListModel::getSubModelFromIndex(int index)
         return makeSubModel(student);
     }
 }
+
+
+QList<int> QStudentsListModel::getSubModelOperations()
+{
+    QList<int> opList;
+
+    return opList;
+}

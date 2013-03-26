@@ -55,3 +55,47 @@ QAbstractItemModel* QCoursesListModel::getSubModelFromIndex(int index)
         return makeSubModel(elementAt<Course>(m_student->coursesBegin(), index));
     }
 }
+
+
+QList<int> QCoursesListModel::getSubModelOperations()
+{
+    QList<int> opList;
+
+    if(m_student == nullptr)
+    {
+        opList.push_back(AddCourse);
+        opList.push_back(RemoveCourse);
+        opList.push_back(RenameCourse);
+    }
+    else
+    {
+        opList.push_back(AddExistingCourseToStudent);
+        opList.push_back(RemoveExistingCourseFromStudent);
+    }
+
+    return opList;
+}
+
+
+void QCoursesListModel::addCourse(QString courseName) const
+{
+    assert(m_student == nullptr);
+    boost::shared_ptr<Course> newCourse(new Course(courseName.toStdString()));
+
+    PDM().add(newCourse);
+}
+
+
+void QCoursesListModel::removeCourse(int index) const
+{
+    assert(m_student == nullptr);
+    PDM().remove(iterAt<Course>(PDM().coursesBegin(), index));
+}
+
+
+void QCoursesListModel::renameCourse(int index, QString courseName) const
+{
+    assert(m_student == nullptr);
+    boost::shared_ptr<Course> course = elementAt<Course>(PDM().coursesBegin(), index);
+    course->updateCourseName(courseName.toStdString());
+}

@@ -23,6 +23,7 @@ private:
     boost::shared_ptr<Course> m_course;
 
     virtual QAbstractItemModel* getSubModelFromIndex(int index);
+    virtual QList<int> getSubModelOperations();
     virtual std::string getItemString(int index) const;
     virtual int getNumItems() const;
 };

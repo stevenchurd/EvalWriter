@@ -3,7 +3,6 @@
 #ifndef QCOURSESLISTMODEL_H
 #define QCOURSESLISTMODEL_H
 
-#include <QVector>
 #include "qgenericlistmodel.h"
 
 #ifndef Q_MOC_RUN
@@ -12,16 +11,37 @@
 
 class QCoursesListModel : public QGenericListModel
 {
+    Q_OBJECT
+    Q_ENUMS(CoursesListOperations)
+
 public:
     QCoursesListModel(QObject* parent = 0);
     QCoursesListModel(boost::shared_ptr<Student> student, QObject* parent = 0);
 
     virtual ~QCoursesListModel() {}
 
+    enum CoursesListOperations {
+        AddCourse = ModelOperationRanges::CoursesListOperationsBegin,
+        RemoveCourse,
+        RenameCourse,
+        AddExistingCourseToStudent,
+        RemoveExistingCourseFromStudent,
+
+        EndOfEnum
+    };
+    static_assert(EndOfEnum < ModelOperationRanges::CoursesListOperationsEnd,
+                  "Too many items in enumeration");
+
+public slots:
+    void addCourse(QString courseName) const;
+    void removeCourse(int index) const;
+    void renameCourse(int index, QString courseName) const;
+
 private:
     boost::shared_ptr<Student> m_student;
 
     virtual QAbstractItemModel* getSubModelFromIndex(int index);
+    virtual QList<int> getSubModelOperations();
     virtual std::string getItemString(int index) const;
     virtual int getNumItems() const;
 };

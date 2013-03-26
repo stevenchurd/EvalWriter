@@ -59,3 +59,11 @@ QAbstractItemModel* QEvalsListModel::getSubModelFromIndex(int index)
     assert(false); //neither m_student or m_evalSet was valid
     throw GenericModelException("neither m_student or m_evalSet was valid");
 }
+
+
+QList<int> QEvalsListModel::getSubModelOperations()
+{
+    QList<int> opList;
+
+    return opList;
+}

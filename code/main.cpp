@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
 
         QApplication a(argc, argv);
 
+        qmlRegisterUncreatableType<QCoursesListModel>("CppEnums", 1, 0, "QCoursesListModel", "Need enum types");
         // set up models
         QGradingCriteriaModel gcModel;
         QEvaluationModel evalModel(*(*PDM().studentsBegin())->evalsBegin());

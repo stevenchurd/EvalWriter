@@ -52,3 +52,12 @@ QAbstractItemModel* QEvalSetsListModel::getSubModelFromIndex(int index)
         return makeSubModel(elementAt<EvalSet>(m_evalSet->evalSetsBegin(), index));
     }
 }
+
+
+QList<int> QEvalSetsListModel::getSubModelOperations()
+{
+    QList<int> opList;
+
+    return opList;
+}
+

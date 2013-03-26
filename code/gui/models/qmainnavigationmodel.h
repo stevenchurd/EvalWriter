@@ -22,6 +22,32 @@ enum SubModelType {
 };
 }
 
+namespace ModelOperationRanges {
+enum SubModelOperationRanges {
+    InvalidOperation = 0,
+
+    // CoursesList operations (1-10)
+    CoursesListOperationsBegin = 1,
+    CoursesListOperationsEnd = 10,
+
+    // StudentsList operations (11-20)
+    StudentsListOperationsBegin = 11,
+    StudentsListOperationsEnd = 20,
+
+    // EvalsList operations (21-30)
+    EvalsListOperationsBegin = 21,
+    EvalsListOperationsEnd = 30,
+
+    // EvalSetsList operations (31-40)
+    EvalSetsListOperationsBegin = 31,
+    EvalSetsListOperationsEnd = 40,
+
+    // Grading Griteria operations (41-50)
+    GradingCriteriaListOperationsBegin = 41,
+    GradingCriteriaListOperationsEnd = 50
+};
+}
+
 class QMainNavigationModel : public QAbstractListModel
 {
     Q_OBJECT

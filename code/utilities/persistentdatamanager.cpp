@@ -46,6 +46,18 @@ std::vector<boost::shared_ptr<Course> >::const_iterator PersistentDataManager::c
 }
 
 
+void PersistentDataManager::add(boost::shared_ptr<Course> newCourse)
+{
+    m_allCourses.push_back(newCourse);
+}
+
+
+void PersistentDataManager::remove(std::vector<boost::shared_ptr<Course> >::const_iterator it)
+{
+    m_allCourses.erase(it);
+}
+
+
 std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator PersistentDataManager::gradingCriteriaBegin(void) const
 {
     return m_allGradingCriteria.begin();
@@ -55,6 +67,12 @@ std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator PersistentDataM
 std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator PersistentDataManager::gradingCriteriaEnd(void) const
 {
     return m_allGradingCriteria.end();
+}
+
+
+void PersistentDataManager::remove(std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator it)
+{
+    m_allGradingCriteria.erase(it);
 }
 
 

@@ -1,4 +1,4 @@
-.pragma library
+Qt.include("MainNavigationModel.qml")
 
 function getEvalItemColor(level) {
     switch(level)
@@ -30,5 +30,20 @@ function isListModelType(modelType)
 
         case 5: //GradingCriteria
             return false
+    }
+}
+
+
+function getOperationString(operation)
+{
+    switch(operation) {
+        case QCoursesListModel.AddCourse:
+            return "Add New Course"
+
+        case QCoursesListModel.RemoveCourse:
+            return "Delete Course"
+
+        default:
+            return "Error: operation not matched"
     }
 }

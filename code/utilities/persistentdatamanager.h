@@ -30,17 +30,16 @@ public:
 
     std::vector<boost::shared_ptr<Course> >::const_iterator coursesBegin(void) const;
     std::vector<boost::shared_ptr<Course> >::const_iterator coursesEnd(void) const;
+    void add(boost::shared_ptr<Course> newCourse);
+    void remove(std::vector<boost::shared_ptr<Course> >::const_iterator it);
 
     std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator gradingCriteriaBegin(void) const;
     std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator gradingCriteriaEnd(void) const;
+    void remove(std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator it);
 
     std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsBegin(void) const;
     std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsEnd(void) const;
 
-    void remove(std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator it)
-    {
-        m_allGradingCriteria.erase(it);
-    }
 
 private:
     PersistentDataManager();

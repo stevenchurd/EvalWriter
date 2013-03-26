@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import "pageCreator.js" as PageCreator
 import "utilities.js" as JsUtil
+import CppEnums 1.0
 
 Rectangle {
     id: wrapper
