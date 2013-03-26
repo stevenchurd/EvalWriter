@@ -61,3 +61,50 @@ QList<int> QEvalSetsListModel::getSubModelOperations()
     return opList;
 }
 
+
+void QEvalSetsListModel::addEvalSet(QString evalSetName) const
+{
+    boost::shared_ptr<EvalSet> newEvalSet(new EvalSet(evalSetName.toStdString()));
+
+    if(m_evalSet == nullptr)
+    {
+        // add the new eval set to the global list
+        PDM().add(newEvalSet);
+    }
+    else
+    {
+        // otherwise add it as a sub-eval set
+        m_evalSet->addEvalSet(newEvalSet);
+    }
+}
+
+
+void QEvalSetsListModel::removeEvalSet(int index) const
+{
+    if(m_evalSet == nullptr)
+    {
+        PDM().remove(iterAt<EvalSet>(PDM().evalSetsBegin(), index));
+    }
+    else
+    {
+        m_evalSet->removeEvalSet(iterAt<EvalSet>(m_evalSet->evalSetsBegin(), index));
+    }
+}
+
+
+void QEvalSetsListModel::renameEvalSet(int index, QString evalSetName) const
+{
+    boost::shared_ptr<EvalSet> evalSet;
+
+    if(m_evalSet == nullptr)
+    {
+        evalSet = elementAt<EvalSet>(PDM().evalSetsBegin(), index);
+    }
+    else
+    {
+        evalSet = elementAt<EvalSet>(m_evalSet->evalSetsBegin(), index);
+    }
+
+    evalSet->updateEvalSetName(evalSetName.toStdString());
+}
+

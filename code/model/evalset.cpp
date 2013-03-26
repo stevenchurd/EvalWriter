@@ -14,12 +14,6 @@ void EvalSet::addEval(boost::shared_ptr<Eval> eval)
 }
 
 
-void EvalSet::addEvalSet(boost::shared_ptr<EvalSet> evalSet)
-{
-    m_subEvalSets.push_back(evalSet);
-}
-
-
 std::vector<boost::shared_ptr<Eval> >::const_iterator EvalSet::evalsBegin(void)
 {
     return m_evals.begin();
@@ -41,6 +35,18 @@ std::vector<boost::shared_ptr<EvalSet> >::const_iterator EvalSet::evalSetsBegin(
 std::vector<boost::shared_ptr<EvalSet> >::const_iterator EvalSet::evalSetsEnd(void)
 {
     return m_subEvalSets.end();
+}
+
+
+void EvalSet::addEvalSet(boost::shared_ptr<EvalSet> evalSet)
+{
+    m_subEvalSets.push_back(evalSet);
+}
+
+
+void EvalSet::removeEvalSet(std::vector<boost::shared_ptr<EvalSet> >::const_iterator it)
+{
+    m_subEvalSets.erase(it);
 }
 
 

@@ -43,6 +43,9 @@ function getOperationString(operation)
         case QCoursesListModel.RemoveCourse:
             return "Delete Course"
 
+        case QEvalSetsListModel.AddEvalSet:
+            return "Add Evaluation Set"
+
         default:
             return "Error: operation not matched"
     }

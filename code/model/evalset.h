@@ -15,13 +15,16 @@ public:
     virtual ~EvalSet() {}
 
     std::string getEvalSetName(void) const { return m_evalSetName; }
+    void updateEvalSetName(std::string newName) { m_evalSetName = newName; }
 
     void addEval(boost::shared_ptr<Eval> eval);
+    void removeEval(std::vector<boost::shared_ptr<Eval> >::const_iterator it);
 
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin(void);
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd(void);
 
     void addEvalSet(boost::shared_ptr<EvalSet> evalSet);
+    void removeEvalSet(std::vector<boost::shared_ptr<EvalSet> >::const_iterator it);
 
     std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsBegin(void);
     std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsEnd(void);

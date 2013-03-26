@@ -22,6 +22,11 @@ PersistentDataManager& PersistentDataManager::Instance(void)
 }
 
 
+
+
+//
+// Student functions
+//
 std::vector<boost::shared_ptr<Student> >::const_iterator PersistentDataManager::studentsBegin(void) const
 {
     return m_allStudents.begin();
@@ -34,6 +39,10 @@ std::vector<boost::shared_ptr<Student> >::const_iterator PersistentDataManager::
 }
 
 
+
+//
+// Course functions
+//
 std::vector<boost::shared_ptr<Course> >::const_iterator PersistentDataManager::coursesBegin(void) const
 {
     return m_allCourses.begin();
@@ -58,6 +67,11 @@ void PersistentDataManager::remove(std::vector<boost::shared_ptr<Course> >::cons
 }
 
 
+
+
+//
+// Grading Criteria function
+//
 std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator PersistentDataManager::gradingCriteriaBegin(void) const
 {
     return m_allGradingCriteria.begin();
@@ -76,6 +90,11 @@ void PersistentDataManager::remove(std::vector<boost::shared_ptr<GradingCriteria
 }
 
 
+
+
+//
+// Eval Set functions
+//
 std::vector<boost::shared_ptr<EvalSet> >::const_iterator PersistentDataManager::evalSetsBegin(void) const
 {
     return m_allEvalSets.begin();
@@ -87,6 +106,23 @@ std::vector<boost::shared_ptr<EvalSet> >::const_iterator PersistentDataManager::
     return m_allEvalSets.end();
 }
 
+
+void PersistentDataManager::add(boost::shared_ptr<EvalSet> newEvalSet)
+{
+    m_allEvalSets.push_back(newEvalSet);
+}
+
+
+void PersistentDataManager::remove(std::vector<boost::shared_ptr<EvalSet> >::const_iterator it)
+{
+    m_allEvalSets.erase(it);
+}
+
+
+
+//
+// Load and save functions
+//
 
 void PersistentDataManager::loadFile(std::string filename)
 {

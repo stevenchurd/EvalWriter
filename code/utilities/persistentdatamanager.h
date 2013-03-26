@@ -27,6 +27,8 @@ public:
 
     std::vector<boost::shared_ptr<Student> >::const_iterator studentsBegin(void) const;
     std::vector<boost::shared_ptr<Student> >::const_iterator studentsEnd(void) const;
+    void add(boost::shared_ptr<Student> newStudent);
+    void remove(std::vector<boost::shared_ptr<Student> >::const_iterator it);
 
     std::vector<boost::shared_ptr<Course> >::const_iterator coursesBegin(void) const;
     std::vector<boost::shared_ptr<Course> >::const_iterator coursesEnd(void) const;
@@ -35,10 +37,13 @@ public:
 
     std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator gradingCriteriaBegin(void) const;
     std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator gradingCriteriaEnd(void) const;
+    void add(boost::shared_ptr<GradingCriteria> newGradingCriteria);
     void remove(std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator it);
 
     std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsBegin(void) const;
     std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsEnd(void) const;
+    void add(boost::shared_ptr<EvalSet> newEvalSet);
+    void remove(std::vector<boost::shared_ptr<EvalSet> >::const_iterator it);
 
 
 private:
