@@ -7,7 +7,11 @@
 
 void CourseSaveVisitor::visit(Course& course)
 {
-    m_pt.add(coursesRootNode + separator + singleCourseNode, course.getCourseName());
+    boost::property_tree::ptree singleCoursePt;
+    singleCoursePt.add(elementNameNode, course.getCourseName());
+    singleCoursePt.add(elementUuidNode, course.getUuid());
+
+    m_pt.add_child(coursesRootNode + separator + singleCourseNode, singleCoursePt);
 }
 
 

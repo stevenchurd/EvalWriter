@@ -9,6 +9,8 @@ QT       += core gui widgets declarative quick qml
 TARGET = EvalWriter
 TEMPLATE = app
 
+DEFINES += _SCL_SECURE_NO_WARNINGS
+
 SOURCES += main.cpp\
     mainwindow.cpp \
     model/student.cpp \

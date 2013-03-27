@@ -2,8 +2,8 @@
 
 #include "course.h"
 
-Course::Course(std::string courseName) : VisitorElement(),
-    m_name(courseName)
+Course::Course(std::string courseName, boost::uuids::uuid objUuid) : VisitorElement(),
+    m_name(courseName), m_uuid(objUuid)
 {
 }
 

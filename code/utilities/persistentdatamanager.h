@@ -24,6 +24,7 @@ public:
     static PersistentDataManager& Instance(void);
 
     void loadFile(std::string filename);
+    void saveFile(std::string filename) const;
 
     std::vector<boost::shared_ptr<Student> >::const_iterator studentsBegin(void) const;
     std::vector<boost::shared_ptr<Student> >::const_iterator studentsEnd(void) const;

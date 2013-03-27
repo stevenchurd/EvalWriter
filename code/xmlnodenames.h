@@ -8,6 +8,7 @@ const std::string separator(".");
 const std::string elementNameNode("name");
 const std::string elementValueNode("value");
 const std::string elementTitleNode("title");
+const std::string elementUuidNode("uuid");
 
 
 // root nodes

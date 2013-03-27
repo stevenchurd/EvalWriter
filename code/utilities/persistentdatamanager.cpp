@@ -1,4 +1,10 @@
 #include "persistentdatamanager.h"
+#include "model/visitors/coursesavevisitor.h"
+#include "model/visitors/studentsavevisitor.h"
+#include "model/visitors/gradingcriteriasavevisitor.h"
+// TODO: Create eval set save visitor
+
+#include <iostream>
 
 PersistentDataManager::PersistentDataManager()
 {
@@ -7,6 +13,14 @@ PersistentDataManager::PersistentDataManager()
 
 PersistentDataManager::~PersistentDataManager()
 {
+    try
+    {
+        saveFile("../testfiles/test6.ewd");
+    }
+    catch(...)
+    {
+        // do nothing...destructors don't throw
+    }
 }
 
 
@@ -149,5 +163,42 @@ void PersistentDataManager::loadFile(std::string filename)
                                   m_allCourses.end(),
                                   m_allGradingCriteria.begin(),
                                   m_allGradingCriteria.end());
+    }
+}
+
+
+void PersistentDataManager::saveFile(std::string filename) const
+{
+    std::ofstream file;
+
+    if(filename.size() != 0)
+    {
+        file.open(filename);
+
+        CourseSaveVisitor csv;
+        std::for_each(m_allCourses.begin(), m_allCourses.end(),
+                      [&csv] (boost::shared_ptr<Course> singleCourse)
+        {
+            singleCourse->accept(csv);
+        });
+        csv.saveFile(file);
+
+        GradingCriteriaSaveVisitor gcsv;
+        std::for_each(m_allGradingCriteria.begin(), m_allGradingCriteria.end(),
+                      [&gcsv] (boost::shared_ptr<GradingCriteria> singleGradingCriteria)
+        {
+            singleGradingCriteria->accept(gcsv);
+        });
+        gcsv.saveFile(file);
+
+        StudentSaveVisitor ssv;
+        std::for_each(m_allStudents.begin(), m_allStudents.end(),
+                      [&ssv] (boost::shared_ptr<Student> singleStudent)
+        {
+            singleStudent->accept(ssv);
+        });
+        ssv.saveFile(file);
+
+        file.close();
     }
 }
