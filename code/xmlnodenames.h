@@ -34,6 +34,9 @@ const std::string singleStudentNode("student");
 const std::string singleEvalNode("eval");
 
 
+// eval set nodes
+const std::string evalSetNode("evalSet");
+
 
 // grading criteria nodes
 const std::string singleGradingCriteriaNode("gradingCriteria");

@@ -55,6 +55,12 @@ void EvalSet::removeEvalSet(std::vector<boost::shared_ptr<EvalSet> >::const_iter
 
 void EvalSet::acceptChildren(Visitor& visitor)
 {
+    std::for_each(m_subEvalSets.begin(), m_subEvalSets.end(),
+                  [&visitor] (boost::shared_ptr<EvalSet> evalSet)
+    {
+        evalSet->accept(visitor);
+    });
+
     std::for_each(m_evals.begin(), m_evals.end(),
                   [&visitor] (boost::shared_ptr<Eval> eval)
     {
