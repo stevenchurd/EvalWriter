@@ -6,16 +6,22 @@
 #include <vector>
 #include "criteriaitem.h"
 
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
+
 class GradingCriteria : public VisitorElement
 {
 public:
-    GradingCriteria(std::string criteriaName);
+    GradingCriteria(std::string criteriaName,
+                    boost::uuids::uuid objUuid = boost::uuids::random_generator()());
     virtual ~GradingCriteria() {}
 
     std::string getCriteriaName(void) const { return m_criteriaName; }
     void setCriteriaName(const std::string name) { m_criteriaName = name; }
 
-    EvalItem::ItemUniqueIdType addCriteriaItem(std::string descStr,
+    void addCriteriaItem(std::string descStr,
                         CriteriaItem::CriteriaItemLevelType level) ;
 
     boost::shared_ptr<CriteriaItem> getCriteriaItem(
@@ -23,16 +29,13 @@ public:
             CriteriaItem::CriteriaItemLevelType level);
 
     boost::shared_ptr<CriteriaItem> getCriteriaItem(unsigned int index) const;
-    bool getCriteriaItemById(EvalItem::ItemUniqueIdType id, boost::shared_ptr<CriteriaItem> &gc) const;
+    bool getCriteriaItemById(std::string id, boost::shared_ptr<CriteriaItem> &gc) const;
 
     int getNumCriteriaItems(void) const;
 
-    void removeCriteriaItem(EvalItem::ItemUniqueIdType id) ;
     void removeCriteriaItemAt(unsigned int pos);
 
-    void updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::string itemStr) ;
-    void updateCriteriaItem(EvalItem::ItemUniqueIdType id, CriteriaItem::CriteriaItemLevelType level) ;
-    void updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::string itemStr, CriteriaItem::CriteriaItemLevelType level) ;
+    std::string getUuid(void) const { return to_string(m_uuid); }
 
     /*
      * VisitorElement functions
@@ -43,6 +46,8 @@ public:
 private:
     std::string m_criteriaName ;
     std::vector<boost::shared_ptr<CriteriaItem> > m_criteriaItems;
+
+    boost::uuids::uuid m_uuid;
 
     // disable copy constructor and assignment
     GradingCriteria(const GradingCriteria&);

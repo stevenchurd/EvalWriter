@@ -11,3 +11,12 @@ void Course::updateCourseName(std::string newName)
 {
     m_name = newName ;
 }
+
+
+bool Course::operator ==(const Course& rhs) const
+{
+    if(rhs.getUuid() == this->getUuid())
+        return true;
+    else
+        return false;
+}

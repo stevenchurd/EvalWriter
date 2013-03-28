@@ -5,12 +5,17 @@
 
 #include "visitors/visitorelement.h"
 #include "eval.h"
+
 #include "boost/shared_ptr.hpp"
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 class EvalSet : public VisitorElement
 {
 public:
-    EvalSet(std::string name);
+    EvalSet(std::string name,
+            boost::uuids::uuid objUuid = boost::uuids::random_generator()());
 
     virtual ~EvalSet() {}
 
@@ -29,6 +34,8 @@ public:
     std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsBegin(void);
     std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsEnd(void);
 
+    std::string getUuid(void) const { return to_string(m_uuid); }
+
     /*
      * VisitorElement functions
      */
@@ -39,6 +46,8 @@ private:
     std::string m_evalSetName;
     std::vector<boost::shared_ptr<Eval> > m_evals;
     std::vector<boost::shared_ptr<EvalSet> > m_subEvalSets;
+
+    boost::uuids::uuid m_uuid;
 
     // disable copy constructor and assignment
     EvalSet(const EvalSet&);

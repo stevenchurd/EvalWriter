@@ -3,8 +3,9 @@
 #include "model/eval.h"
 #include "model/evalitem.h"
 
-ReplaceCriteriaItemVisitor::ReplaceCriteriaItemVisitor(boost::shared_ptr<EvalItem> evalItem, int oldId) :
-    Visitor(), m_newEvalItem(evalItem), m_oldId(oldId)
+ReplaceCriteriaItemVisitor::ReplaceCriteriaItemVisitor(boost::shared_ptr<EvalItem> evalItem,
+                                                       std::string oldUuid) :
+    Visitor(), m_newEvalItem(evalItem), m_oldUuid(oldUuid)
 {
 }
 
@@ -17,5 +18,5 @@ void ReplaceCriteriaItemVisitor::visit(Student& student)
 
 void ReplaceCriteriaItemVisitor::visit(Eval& eval)
 {
-    eval.replaceEvalItem(m_newEvalItem, m_oldId);
+    eval.replaceEvalItem(m_newEvalItem, m_oldUuid);
 }

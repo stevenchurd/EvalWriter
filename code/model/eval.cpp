@@ -7,8 +7,9 @@
 #include <QDebug>
 #endif
 
-Eval::Eval(std::string evalName) : VisitorElement(),
-    m_evalName(evalName)
+Eval::Eval(std::string evalName,
+           boost::uuids::uuid objUuid) :
+    VisitorElement(), m_evalName(evalName), m_uuid(objUuid)
 {
 }
 
@@ -64,9 +65,11 @@ void Eval::moveEvalItem(int oldPosition, int newPosition)
 }
 
 
-void Eval::replaceEvalItem(boost::shared_ptr<EvalItem> newItem, int oldId)
+void Eval::replaceEvalItem(boost::shared_ptr<EvalItem> newItem, std::string oldUuid)
 {
-    std::replace_if(m_evalItems.begin(), m_evalItems.end(), hasId(oldId), newItem);
+    std::replace_if(m_evalItems.begin(), m_evalItems.end(),
+                    [&oldUuid] (boost::shared_ptr<EvalItem> ei) { return (oldUuid == ei->getUuid()); },
+                    newItem);
 }
 
 
@@ -97,7 +100,7 @@ void Eval::acceptChildren(Visitor& visitor)
 
         std::for_each(m_evalItems.begin(), m_evalItems.end(),
                     [](boost::shared_ptr<EvalItem> evalItem) {
-                        qDebug() << "UniqueId: " << evalItem->getUniqueId() <<
+                        qDebug() << "UniqueId: " << QString::fromStdString(evalItem->getUuid()) <<
                                     " Item: " << QString::fromStdString(evalItem->getItemStr());
                     });
 

@@ -4,10 +4,15 @@
 #define STUDENT_H
 
 #include <vector>
-#include <boost/shared_ptr.hpp>
 #include "visitors/visitorelement.h"
 #include "visitors/visitor.h"
 #include "course.h"
+
+#include <boost/shared_ptr.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
 
 //forward declarations
 class Eval;
@@ -15,12 +20,12 @@ class Eval;
 class Student : public VisitorElement
 {
 public:
-    typedef unsigned int UniqueStudentId ;
 
     /*
      * Constructors/destructor
      */
-    Student(std::string firstName, std::string middleName, std::string lastName);
+    Student(std::string firstName, std::string middleName, std::string lastName,
+            boost::uuids::uuid objUuid = boost::uuids::random_generator()());
     virtual ~Student() {}
 
     std::string getFirstName(void) const { return m_firstName; }
@@ -33,7 +38,7 @@ public:
         return m_firstName + " " + m_middleName + " " + m_lastName;
     }
 
-    UniqueStudentId getUniqueId(void) { return m_id; }
+    std::string getUuid(void) const { return to_string(m_uuid); }
 
     /*
      * Eval functions
@@ -69,8 +74,7 @@ private:
     std::vector<boost::shared_ptr<Eval> > m_evals ;
     std::vector<boost::shared_ptr<Course> > m_courses ;
 
-    UniqueStudentId m_id ;
-    static UniqueStudentId s_idCounter ;
+    boost::uuids::uuid m_uuid;
 
     // disable copy constructor and assignment
     Student(const Student&);

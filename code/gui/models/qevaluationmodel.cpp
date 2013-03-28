@@ -94,14 +94,14 @@ QHash<int,QByteArray> QEvaluationModel::roleNames() const
 }
 
 
-void QEvaluationModel::addCriteriaItem(int destIndex, int uniqueId)
+void QEvaluationModel::addCriteriaItem(int destIndex, std::string uuid)
 {
     boost::shared_ptr<CriteriaItem> item;
 
     for(auto it = PDM().gradingCriteriaBegin();
         it != PDM().gradingCriteriaEnd(); ++it)
     {
-        if((*it)->getCriteriaItemById(uniqueId, item) == true)
+        if((*it)->getCriteriaItemById(uuid, item) == true)
         {
             break;
         }

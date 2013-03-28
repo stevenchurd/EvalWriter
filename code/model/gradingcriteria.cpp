@@ -5,25 +5,18 @@
 #include "gradingcriteria.h"
 #include "criteriaitem.h"
 
-GradingCriteria::GradingCriteria(std::string criteriaName) : VisitorElement(),
-    m_criteriaName(criteriaName)
+GradingCriteria::GradingCriteria(std::string criteriaName,
+                                 boost::uuids::uuid objUuid) :
+    VisitorElement(),
+    m_criteriaName(criteriaName),
+    m_uuid(objUuid)
 {
 }
 
-EvalItem::ItemUniqueIdType GradingCriteria::addCriteriaItem(std::string descStr, CriteriaItem::CriteriaItemLevelType level)
+void GradingCriteria::addCriteriaItem(std::string descStr, CriteriaItem::CriteriaItemLevelType level)
 {
     boost::shared_ptr<CriteriaItem> ci(new CriteriaItem(m_criteriaName, descStr, level));
     m_criteriaItems.push_back(ci);
-
-    return m_criteriaItems.back()->getUniqueId();
-}
-
-
-void GradingCriteria::removeCriteriaItem(EvalItem::ItemUniqueIdType id)
-{
-    std::remove_if(m_criteriaItems.begin(),
-                   m_criteriaItems.end(),
-                   hasId(id)) ;
 }
 
 
@@ -73,9 +66,11 @@ boost::shared_ptr<CriteriaItem> GradingCriteria::getCriteriaItem(unsigned int in
 }
 
 
-bool GradingCriteria::getCriteriaItemById(EvalItem::ItemUniqueIdType id, boost::shared_ptr<CriteriaItem>& gc) const
+bool GradingCriteria::getCriteriaItemById(std::string id, boost::shared_ptr<CriteriaItem>& gc) const
 {
-    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id));
+    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(),
+                           [&id] (boost::shared_ptr<CriteriaItem> ci) { return (ci->getUuid() == id); });
+
 
     if(it != m_criteriaItems.end())
     {
@@ -84,46 +79,6 @@ bool GradingCriteria::getCriteriaItemById(EvalItem::ItemUniqueIdType id, boost::
     }
 
     return false;
-}
-
-
-void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::string itemStr)
-{
-    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
-
-    if(it == m_criteriaItems.end())
-    {
-        throw ItemNotFoundException("Item not found by ID: " + id);
-    }
-
-    (*it)->setItemStr(itemStr) ;
-}
-
-
-void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, CriteriaItem::CriteriaItemLevelType level)
-{
-    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
-
-    if(it == m_criteriaItems.end())
-    {
-        throw ItemNotFoundException("Item not found by ID: " + id);
-    }
-
-    (*it)->setCriteriaItemLevelValue(level) ;
-}
-
-
-void GradingCriteria::updateCriteriaItem(EvalItem::ItemUniqueIdType id, std::string itemStr, CriteriaItem::CriteriaItemLevelType level)
-{
-    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(), hasId(id)) ;
-
-    if(it == m_criteriaItems.end())
-    {
-        throw ItemNotFoundException("Item not found by ID: " + id);
-    }
-
-    (*it)->setItemStr(itemStr) ;
-    (*it)->setCriteriaItemLevelValue(level) ;
 }
 
 

@@ -9,6 +9,7 @@
 
 void GradingCriteriaSaveVisitor::visit(GradingCriteria& gc)
 {
+    m_gradingCriteriaItemPt.put(elementUuidNode, gc.getUuid());
     m_gradingCriteriaItemPt.put(elementNameNode, gc.getCriteriaName());
 
 	// first visit the children of the grading criteria which
@@ -26,6 +27,7 @@ void GradingCriteriaSaveVisitor::visit(GradingCriteria& gc)
 void GradingCriteriaSaveVisitor::visit(CriteriaItem& ci)
 {
     boost::property_tree::ptree ciPt;
+    ciPt.add(elementUuidNode, ci.getUuid());
     ciPt.add(elementNameNode, ci.getItemStr());
     ciPt.add(criteriaItemLevelNode, ci.getCriteriaItemLevel()) ;
 

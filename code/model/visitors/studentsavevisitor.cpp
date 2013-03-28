@@ -24,6 +24,7 @@ void StudentSaveVisitor::visit(Student& student)
     // get all the student's course names
     student.getCourseNames(inserter(courseNames, courseNames.begin()));
 
+    newStudentNode.put(elementUuidNode, student.getUuid());
     newStudentNode.put(studentFirstNameNode, student.getFirstName());
     newStudentNode.put(studentMiddleNameNode, student.getMiddleName());
     newStudentNode.put(studentLastNameNode, student.getLastName());
@@ -43,12 +44,13 @@ void StudentSaveVisitor::visit(Student& student)
 
 void StudentSaveVisitor::visit(Course& course)
 {
-    m_coursesPt.add(singleCourseNode, course.getCourseName());
+    m_coursesPt.add(elementUuidNode, course.getUuid());
 }
 
 
 void StudentSaveVisitor::visit(Eval& eval)
 {
+    m_evalItemsPt.add(elementUuidNode, eval.getUuid());
     m_evalItemsPt.add(elementNameNode, eval.getEvalName());
 
     eval.acceptChildren(*this);
@@ -61,14 +63,22 @@ void StudentSaveVisitor::visit(Eval& eval)
 
 void StudentSaveVisitor::visit(CriteriaItem& ci)
 {
-    m_evalItemsPt.add(singleCriteriaItemNode + separator + elementValueNode, ci.getItemStr());
-    m_evalItemsPt.add(singleCriteriaItemNode + separator + criteriaItemParentItemNode, ci.getParentCriteriaName());
-    m_evalItemsPt.add(singleCriteriaItemNode + separator + criteriaItemLevelNode, ci.getCriteriaItemLevel());
+    boost::property_tree::ptree ciPt;
+
+    ciPt.add(elementUuidNode, ci.getUuid());
+
+    m_evalItemsPt.add_child(singleCriteriaItemNode, ciPt);
 }
 
 
 void StudentSaveVisitor::visit(CustomTextItem& ct)
 {
-    m_evalItemsPt.add(customTextItemNode + separator + elementValueNode, ct.getItemStr());
+    boost::property_tree::ptree ctPt;
+
+    ctPt.add(elementUuidNode, ct.getUuid());
+    ctPt.add(elementTitleNode, ct.getItemTitleStr());
+    ctPt.add(elementValueNode, ct.getItemStr());
+
+    m_evalItemsPt.add_child(customTextItemNode, ctPt);
 }
 

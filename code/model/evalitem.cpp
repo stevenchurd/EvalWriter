@@ -2,10 +2,9 @@
 
 #include "evalitem.h"
 
-EvalItem::ItemUniqueIdType EvalItem::s_itemCounter = 0;
-
-EvalItem::EvalItem(std::string str, bool editable) : VisitorElement(),
-    m_itemEditable(editable), m_itemStr(str)
+EvalItem::EvalItem(std::string str, bool editable,
+                   boost::uuids::uuid objUuid) :
+    VisitorElement(),
+    m_itemEditable(editable), m_itemStr(str), m_uuid(objUuid)
 {
-    m_uniqueItemId = s_itemCounter++;
 }

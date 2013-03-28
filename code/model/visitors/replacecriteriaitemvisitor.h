@@ -12,7 +12,7 @@ class Course;
 class ReplaceCriteriaItemVisitor : public Visitor
 {
 public:
-    ReplaceCriteriaItemVisitor(boost::shared_ptr<EvalItem> newEvalItem, int oldId);
+    ReplaceCriteriaItemVisitor(boost::shared_ptr<EvalItem> newEvalItem, std::string oldUuid);
 
     void visit(Student& );
     void visit(Eval& );
@@ -20,7 +20,7 @@ public:
 
 private:
     boost::shared_ptr<EvalItem> m_newEvalItem;
-    int m_oldId;
+    std::string m_oldUuid;
 };
 
 #endif // REPLACECRITERIAITEMVISITOR_H

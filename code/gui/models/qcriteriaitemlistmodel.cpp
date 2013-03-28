@@ -42,7 +42,8 @@ QVariant QCriteriaItemListModel::data(const QModelIndex &index, int role) const
             break;
 
         case UniqueIdRole:
-            return QVariant::fromValue(ci->getUniqueId());
+            return QVariant::fromValue(
+                        QString::fromStdString(ci->getUuid()));
             break;
 
         default:
@@ -88,7 +89,7 @@ void QCriteriaItemListModel::removeCriteriaItem(int row)
 
     //now transform the removed criteria item to a custom text item in any evals it might
     //have existed in
-    ReplaceCriteriaItemVisitor rciv(newCustomTextItem, oldItem->getUniqueId());
+    ReplaceCriteriaItemVisitor rciv(newCustomTextItem, oldItem->getUuid());
 
     std::for_each(PDM().studentsBegin(), PDM().studentsEnd(),
                   [&rciv] (boost::shared_ptr<Student> student)

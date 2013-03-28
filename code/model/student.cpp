@@ -5,13 +5,15 @@
 
 #include "boost/shared_ptr.hpp"
 
-Student::UniqueStudentId Student::s_idCounter = 0;
 
-
-Student::Student(std::string firstName, std::string middleName, std::string lastName) : VisitorElement(),
-    m_firstName(firstName), m_middleName(middleName), m_lastName(lastName)
+Student::Student(std::string firstName, std::string middleName, std::string lastName,
+                 boost::uuids::uuid objUuid) :
+    VisitorElement(),
+    m_firstName(firstName),
+    m_middleName(middleName),
+    m_lastName(lastName),
+    m_uuid(objUuid)
 {
-    m_id = s_idCounter++ ;
 }
 
 

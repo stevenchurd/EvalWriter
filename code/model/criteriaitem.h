@@ -7,6 +7,10 @@
 #include "evalitem.h"
 #include "model/visitors/visitor.h"
 
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
 class CriteriaItem : public EvalItem
 {
 public:
@@ -19,7 +23,8 @@ public:
     };
     static_assert(INVALID_ITEM_LEVEL != EXCELLENT, "INVALID_ITEM_LEVEL must not be the same as the first enum value.");
 
-    CriteriaItem(std::string parentName, std::string itemStr, CriteriaItemLevelType level);
+    CriteriaItem(std::string parentName, std::string itemStr, CriteriaItemLevelType level,
+                 boost::uuids::uuid objUuid = boost::uuids::random_generator()());
 
     // virtual override functions
     virtual std::string getItemTitleStr(void) const override { return getParentCriteriaName(); }

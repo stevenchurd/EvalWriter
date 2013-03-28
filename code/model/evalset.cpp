@@ -2,8 +2,11 @@
 
 #include "evalset.h"
 
-EvalSet::EvalSet(std::string name) : VisitorElement(),
-    m_evalSetName(name)
+EvalSet::EvalSet(std::string name,
+                 boost::uuids::uuid objUuid) :
+    VisitorElement(),
+    m_evalSetName(name),
+    m_uuid(objUuid)
 {
 }
 
