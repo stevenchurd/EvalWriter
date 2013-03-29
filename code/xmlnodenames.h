@@ -15,6 +15,7 @@ const std::string elementUuidNode("uuid");
 const std::string coursesRootNode("CoursesRoot");
 const std::string gradingCriteriaRootNode("GradingCriteriaRoot");
 const std::string studentRootNode("StudentsRoot");
+const std::string evalSetsRootNode("EvalSetsRoot");
 
 
 // course nodes

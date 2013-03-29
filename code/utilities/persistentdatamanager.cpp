@@ -2,7 +2,7 @@
 #include "model/visitors/coursesavevisitor.h"
 #include "model/visitors/studentsavevisitor.h"
 #include "model/visitors/gradingcriteriasavevisitor.h"
-// TODO: Create eval set save visitor
+#include "model/visitors/evalsetsavevisitor.h"
 
 #include <iostream>
 
@@ -164,6 +164,8 @@ void PersistentDataManager::loadFile(std::string filename)
                                   m_allGradingCriteria.begin(),
                                   m_allGradingCriteria.end());
     }
+
+    createEvalSets();
 }
 
 
@@ -199,6 +201,41 @@ void PersistentDataManager::saveFile(std::string filename) const
         });
         ssv.saveFile(file);
 
+        EvalSetSaveVisitor esv;
+        std::for_each(m_allEvalSets.begin(), m_allEvalSets.end(),
+                      [&esv] (boost::shared_ptr<EvalSet> singleEvalSet)
+        {
+            singleEvalSet->accept(esv);
+        });
+        esv.saveFile(file);
+
+
         file.close();
     }
+}
+
+
+void PersistentDataManager::createEvalSets(void)
+{
+    boost::shared_ptr<Student> jeff = m_allStudents[0];
+    boost::shared_ptr<Eval> jeffs1steval = *(jeff->evalsBegin());
+    boost::shared_ptr<Eval> jeffs2ndeval = *(jeff->evalsBegin()+1);
+
+    boost::shared_ptr<EvalSet> evalSet(new EvalSet("Test level 1"));
+    boost::shared_ptr<EvalSet> evalSet2(new EvalSet("Another Test level 1"));
+
+    boost::shared_ptr<EvalSet> evalSet3(new EvalSet("Another Test level 2"));
+    boost::shared_ptr<EvalSet> evalSet4(new EvalSet("Another Test level 3"));
+
+    evalSet->addEval(jeffs1steval);
+    evalSet->addEval(jeffs2ndeval);
+    evalSet2->addEval(jeffs2ndeval);
+    evalSet3->addEval(jeffs1steval);
+
+    evalSet->addEvalSet(evalSet3);
+    evalSet3->addEvalSet(evalSet4);
+
+    m_allEvalSets.push_back(evalSet);
+    m_allEvalSets.push_back(evalSet2);
+
 }

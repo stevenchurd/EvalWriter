@@ -59,6 +59,8 @@ private:
     std::vector<boost::shared_ptr<GradingCriteria> > m_allGradingCriteria;
 
 
+    // TODO: remove
+    void createEvalSets(void);
 
 };
 
