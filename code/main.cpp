@@ -31,7 +31,7 @@
 int main(int argc, char *argv[])
 {
     try {
-        PDM().loadFile("../testfiles/test5.ewd");
+        PDM().loadFile("../testfiles/test3.ewd");
 
         QApplication a(argc, argv);
 
@@ -40,7 +40,6 @@ int main(int argc, char *argv[])
 
         // set up models
         QGradingCriteriaModel gcModel;
-        QEvaluationModel evalModel(*(*PDM().studentsBegin())->evalsBegin());
 
         // set up view with QML main
         QQuickView view;
@@ -60,7 +59,6 @@ int main(int argc, char *argv[])
 
         context->setContextProperty("mainModel", mainModel);
         context->setContextProperty("gradingCriteriaModel", &gcModel);
-        //context->setContextProperty("evalModel", &evalModel);
 
         // set view properties
         view.setSource(QUrl::fromLocalFile("../code/gui/qml/main.qml"));

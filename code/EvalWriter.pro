@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     gui/models/qevalsetslistmodel.cpp \
     model/evalset.cpp \
     utilities/persistentdatamanager.cpp \
-    model/visitors/evalsetsavevisitor.cpp
+    model/visitors/evalsetsavevisitor.cpp \
+    utilities/evalsetpropertytreeparser.cpp
 
 HEADERS  += mainwindow.h \
     evalexceptions.h \
@@ -72,7 +73,8 @@ HEADERS  += mainwindow.h \
     gui/models/qevalsetslistmodel.h \
     model/evalset.h \
     utilities/persistentdatamanager.h \
-    model/visitors/evalsetsavevisitor.h
+    model/visitors/evalsetsavevisitor.h \
+    utilities/evalsetpropertytreeparser.h
 
 FORMS    +=
 

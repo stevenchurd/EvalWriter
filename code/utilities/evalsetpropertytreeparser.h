@@ -1,29 +1,25 @@
-// (C) Copyright Steven Hurd 2013
-
-#ifndef COURSESPROPERTYTREEPARSER_H
-#define COURSESPROPERTYTREEPARSER_H
+#ifndef EVALSETPROPERTYTREEPARSER_H
+#define EVALSETPROPERTYTREEPARSER_H
 
 #include <boost/property_tree/ptree.hpp>
-#include "xmlnodenames.h"
 
-class CoursesPropertyTreeParser
+class EvalSetPropertyTreeParser
 {
 public:
-    CoursesPropertyTreeParser() {}
-    virtual ~CoursesPropertyTreeParser() {}
+    EvalSetPropertyTreeParser();
+    virtual ~EvalSetPropertyTreeParser() {}
 
     template <typename OutputIterator>
     void parseTree(boost::property_tree::ptree& pt, OutputIterator& dest);
-
 };
 
 
 template <typename OutputIterator>
-void CoursesPropertyTreeParser::parseTree(boost::property_tree::ptree& pt,
-                                          OutputIterator& dest)
+void EvalSetPropertyTreeParser::parseTree(boost::property_tree::ptree& pt, OutputIterator& dest)
 {
+#if 0
     // if the tree is empty, just return
-    if(pt.empty() || pt.get_child_optional(coursesRootNode) == nullptr)
+    if(pt.empty())
         return;
 
     BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
@@ -51,6 +47,8 @@ void CoursesPropertyTreeParser::parseTree(boost::property_tree::ptree& pt,
         boost::shared_ptr<Course> course(new Course(courseName, courseUuid));
         dest++ = course;
     }
+#endif
 }
 
-#endif // COURSESPROPERTYTREEPARSER_H
+
+#endif // EVALSETPROPERTYTREEPARSER_H

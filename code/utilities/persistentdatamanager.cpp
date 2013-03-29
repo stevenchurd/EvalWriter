@@ -15,7 +15,7 @@ PersistentDataManager::~PersistentDataManager()
 {
     try
     {
-        saveFile("../testfiles/test6.ewd");
+        saveFile("../testfiles/test7.ewd");
     }
     catch(...)
     {
@@ -165,7 +165,7 @@ void PersistentDataManager::loadFile(std::string filename)
                                   m_allGradingCriteria.end());
     }
 
-    createEvalSets();
+    //createEvalSets();
 }
 
 

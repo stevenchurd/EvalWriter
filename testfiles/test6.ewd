@@ -153,8 +153,12 @@
         <middleName>C</middleName>
         <lastName>Mexican</lastName>
         <Courses>
-            <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
-            <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>
+            <course>
+                <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+            </course>
+            <course>
+                <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>
+            </course>
         </Courses>
         <Evals>
             <eval>
@@ -195,7 +199,9 @@
         <middleName>J</middleName>
         <lastName>Houdini</lastName>
         <Courses>
-            <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
+            <course>
+                <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
+            </course>
         </Courses>
         <Evals/>
     </student>
@@ -205,7 +211,9 @@
         <middleName>F</middleName>
         <lastName>Wonderman</lastName>
         <Courses>
-            <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
+            <course>
+                <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
+            </course>
         </Courses>
         <Evals/>
     </student>
@@ -215,7 +223,9 @@
         <middleName>F</middleName>
         <lastName>Smith</lastName>
         <Courses>
-            <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+            <course>
+                <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+            </course>
         </Courses>
         <Evals/>
     </student>
@@ -225,7 +235,9 @@
         <middleName>C</middleName>
         <lastName>Amundson</lastName>
         <Courses>
-            <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>
+            <course>
+                <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>
+            </course>
         </Courses>
         <Evals/>
     </student>
@@ -235,7 +247,9 @@
         <middleName>Y</middleName>
         <lastName>James</lastName>
         <Courses>
-            <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+            <course>
+                <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+            </course>
         </Courses>
         <Evals/>
     </student>
@@ -245,7 +259,9 @@
         <middleName>S</middleName>
         <lastName>Smithy</lastName>
         <Courses>
-            <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+            <course>
+                <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+            </course>
         </Courses>
         <Evals/>
     </student>
@@ -255,7 +271,9 @@
         <middleName>B</middleName>
         <lastName>McDonald</lastName>
         <Courses>
-            <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
+            <course>
+                <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
+            </course>
         </Courses>
         <Evals/>
     </student>
@@ -265,7 +283,9 @@
         <middleName>G</middleName>
         <lastName>GaGriffen</lastName>
         <Courses>
-            <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>
+            <course>
+                <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>
+            </course>
         </Courses>
         <Evals/>
     </student>

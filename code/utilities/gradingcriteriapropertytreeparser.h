@@ -4,6 +4,8 @@
 #define GRADINGCRITERIAPROPERTYTREEPARSER_H
 
 #include <boost/property_tree/ptree.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/string_generator.hpp>
 #include <boost/foreach.hpp>
 #include "xmlnodenames.h"
 
@@ -30,6 +32,10 @@ void GradingCriteriaPropertyTreeParser::parseTree(
         boost::property_tree::ptree& pt,
         OutputIterator& dest)
 {
+    // if the tree is empty, just return
+    if(pt.empty() || pt.get_child_optional(gradingCriteriaRootNode) == nullptr)
+        return;
+
     BOOST_FOREACH(const boost::property_tree::ptree::value_type &v,
                   pt.get_child(gradingCriteriaRootNode))
     {
@@ -52,25 +58,32 @@ void GradingCriteriaPropertyTreeParser::parseGradingCriteriaNode(
         boost::property_tree::ptree& pt, OutputIterator& dest)
 {
     std::string gcName;
+    boost::uuids::uuid gcUuid;
+    boost::uuids::string_generator gen;
 
     try{
         gcName = pt.get<std::string>(elementNameNode);
+        gcUuid = gen(pt.get<std::string>(elementUuidNode));
     } catch(boost::property_tree::ptree_error& pte) {
         throw InvalidXmlException(
-                    std::string("No name element found: ") + pte.what());
+                    std::string("Element not found: ") + pte.what());
     }
 
-    boost::shared_ptr<GradingCriteria> gc(new GradingCriteria(gcName));
+    boost::shared_ptr<GradingCriteria> gc(new GradingCriteria(gcName, gcUuid));
 
     for (boost::property_tree::ptree::const_iterator it = pt.begin(); it != pt.end(); ++it)
     {
         std::string itemName;
         CriteriaItem::CriteriaItemLevelType itemLevel;
+        boost::uuids::uuid itemUuid;
+        boost::uuids::string_generator gen;
 
-        if(it->first != singleCriteriaItemNode && it->first != elementNameNode)
+        // check the keys to make sure this is XML that we are expecting
+        if(it->first != singleCriteriaItemNode && it->first != elementNameNode &&
+                it->first != elementUuidNode)
         {
             throw InvalidXmlException(
-                        std::string("Expected criteria item node: ") + it->first);
+                        std::string("Unexpected key under gradingCriteria node: ") + it->first);
         }
 
         if(it->first == singleCriteriaItemNode)
@@ -79,12 +92,13 @@ void GradingCriteriaPropertyTreeParser::parseGradingCriteriaNode(
                 itemName = it->second.get<std::string>(elementNameNode);
                 itemLevel = static_cast<CriteriaItem::CriteriaItemLevelType>(
                             it->second.get<unsigned int>(criteriaItemLevelNode));
+                itemUuid = gen(it->second.get<std::string>(elementUuidNode));
             } catch(boost::property_tree::ptree_error& pte) {
                 throw InvalidXmlException(
                             std::string("Element not found: ") + pte.what());
             }
 
-            gc->addCriteriaItem(itemName, itemLevel);
+            gc->addExistingCriteriaItem(itemName, itemLevel, itemUuid);
         }
     }
 

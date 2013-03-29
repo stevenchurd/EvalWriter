@@ -24,11 +24,11 @@ public:
     void addCriteriaItem(std::string descStr,
                         CriteriaItem::CriteriaItemLevelType level) ;
 
-    boost::shared_ptr<CriteriaItem> getCriteriaItem(
-            std::string criteriaName,
-            CriteriaItem::CriteriaItemLevelType level);
+    void addExistingCriteriaItem(std::string descStr,
+                        CriteriaItem::CriteriaItemLevelType level,
+                        boost::uuids::uuid objUuid) ;
 
-    boost::shared_ptr<CriteriaItem> getCriteriaItem(unsigned int index) const;
+    boost::shared_ptr<CriteriaItem> getCriteriaItemAt(unsigned int index) const;
     bool getCriteriaItemById(std::string id, boost::shared_ptr<CriteriaItem> &gc) const;
 
     int getNumCriteriaItems(void) const;
@@ -53,29 +53,6 @@ private:
     GradingCriteria(const GradingCriteria&);
     GradingCriteria& operator= (const GradingCriteria&);
 };
-
-
-
-/*
- * Predicate definitions
- */
-
-class hasGradingCriteriaItem {
-    std::string m_gcName;
-public:
-    hasGradingCriteriaItem(std::string gcName) :
-        m_gcName(gcName) {}
-    bool operator()(const GradingCriteria& gc) {
-        return (gc.getCriteriaName() == m_gcName);
-    }
-    bool operator()(const boost::shared_ptr<GradingCriteria>& gc) {
-        return (gc->getCriteriaName() == m_gcName);
-    }
-};
-
-
-
-
 
 
 #endif // GRADINGCRITERIA_H

@@ -18,11 +18,7 @@ StudentSaveVisitor::StudentSaveVisitor() :
 
 void StudentSaveVisitor::visit(Student& student)
 {
-    std::list<std::string> courseNames;
     boost::property_tree::ptree newStudentNode;
-
-    // get all the student's course names
-    student.getCourseNames(inserter(courseNames, courseNames.begin()));
 
     newStudentNode.put(elementUuidNode, student.getUuid());
     newStudentNode.put(studentFirstNameNode, student.getFirstName());
@@ -44,7 +40,9 @@ void StudentSaveVisitor::visit(Student& student)
 
 void StudentSaveVisitor::visit(Course& course)
 {
-    m_coursesPt.add(elementUuidNode, course.getUuid());
+    boost::property_tree::ptree coursePt;
+    coursePt.add(elementUuidNode, course.getUuid());
+    m_coursesPt.add_child(singleCourseNode, coursePt);
 }
 
 

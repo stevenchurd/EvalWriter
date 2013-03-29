@@ -27,7 +27,7 @@ QVariant QCriteriaItemListModel::data(const QModelIndex &index, int role) const
     if (index.row() >= m_gradingCriteria->getNumCriteriaItems())
         return QVariant();
 
-    boost::shared_ptr<CriteriaItem> ci = m_gradingCriteria->getCriteriaItem(index.row());
+    boost::shared_ptr<CriteriaItem> ci = m_gradingCriteria->getCriteriaItemAt(index.row());
 
     switch(role)
     {
@@ -80,7 +80,7 @@ void QCriteriaItemListModel::removeCriteriaItem(int row)
 {
     beginRemoveRows(QModelIndex(), row, row);
 
-    boost::shared_ptr<EvalItem> oldItem = m_gradingCriteria->getCriteriaItem(row);
+    boost::shared_ptr<EvalItem> oldItem = m_gradingCriteria->getCriteriaItemAt(row);
     boost::shared_ptr<EvalItem> newCustomTextItem = boost::shared_ptr<EvalItem>(
                 new CustomTextItem(oldItem->getItemTitleStr(), oldItem->getItemStr()));
 
@@ -106,8 +106,8 @@ void QCriteriaItemListModel::removeCriteriaItem(int row)
 void QCriteriaItemListModel::modifyCriteriaItem(int row, QString string, int level)
 {
     beginResetModel();
-    m_gradingCriteria->getCriteriaItem(row)->setItemStr(string.toStdString());
-    m_gradingCriteria->getCriteriaItem(row)->setCriteriaItemLevelValue(
+    m_gradingCriteria->getCriteriaItemAt(row)->setItemStr(string.toStdString());
+    m_gradingCriteria->getCriteriaItemAt(row)->setCriteriaItemLevelValue(
                 static_cast<CriteriaItem::CriteriaItemLevelType>(level));
     endResetModel();
 }

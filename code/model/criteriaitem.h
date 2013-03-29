@@ -52,35 +52,4 @@ private:
 };
 
 
-/*
- * Predicate definitions
- */
-
-class findCriteriaItem : public findEvalItem
-{
-protected:
-    std::string m_parentName;
-    CriteriaItem::CriteriaItemLevelType m_level;
-
-public:
-    findCriteriaItem(std::string itemName, std::string parentName,
-                 CriteriaItem::CriteriaItemLevelType level) :
-        findEvalItem(itemName), m_parentName(parentName), m_level(level) {}
-    virtual ~findCriteriaItem() {}
-
-    bool operator() (const CriteriaItem& criteriaItem) const {
-        return (criteriaItem.getItemStr() == m_itemName &&
-                criteriaItem.getParentCriteriaName() == m_parentName &&
-                criteriaItem.getCriteriaItemLevel() == m_level);
-    }
-
-    bool operator() (const boost::shared_ptr<CriteriaItem>& criteriaItem) const {
-        return (criteriaItem->getItemStr() == m_itemName &&
-                criteriaItem->getParentCriteriaName() == m_parentName &&
-                criteriaItem->getCriteriaItemLevel() == m_level);
-    }
-};
-
-
-
 #endif // CRITERIAITEM_H

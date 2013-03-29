@@ -29,13 +29,9 @@ std::vector<boost::shared_ptr<Eval> >::const_iterator Student::evalsEnd()
 }
 
 
-boost::shared_ptr<Eval> Student::addEval(std::string evalName)
+void Student::addEval(boost::shared_ptr<Eval> newEval)
 {
-    boost::shared_ptr<Eval> eval(new Eval(evalName)) ;
-
-    m_evals.push_back(eval) ;
-
-    return eval;
+    m_evals.push_back(newEval) ;
 }
 
 

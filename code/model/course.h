@@ -39,24 +39,4 @@ private:
     Course& operator= (const Course&);
 };
 
-
-/*
- * Predicate definitions
- */
-
-class hasCourseName {
-    std::string m_courseName;
-public:
-    hasCourseName(std::string courseName) :
-        m_courseName(courseName) {}
-    bool operator()(const Course& course) {
-        return (course.getCourseName() == m_courseName);
-    }
-    bool operator()(const boost::shared_ptr<Course>& course) {
-        return (course->getCourseName() == m_courseName);
-    }
-
-};
-
-
 #endif // COURSE_H

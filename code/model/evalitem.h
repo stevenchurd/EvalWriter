@@ -46,24 +46,4 @@ private:
     EvalItem& operator= (const EvalItem&);
 };
 
-
-/*
- * Predicate definitions
- */
-
-class findEvalItem
-{
-protected:
-    std::string m_itemName;
-
-public:
-    findEvalItem(std::string itemName) :
-        m_itemName(itemName) {}
-    virtual ~findEvalItem(){}
-    bool operator() (const EvalItem& evalItem) {
-        return (evalItem.getItemStr() == m_itemName);
-    }
-};
-
-
 #endif // EVALITEM_H

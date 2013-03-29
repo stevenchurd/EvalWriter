@@ -17,16 +17,19 @@ void StudentPropertyTreeParser::parseCustomTextNode(
 {
     std::string customText;
     std::string customTextTitle;
+    boost::uuids::uuid ctUuid;
+    boost::uuids::string_generator gen;
 
     try {
         customText = pt.get<std::string>(elementValueNode);
         customTextTitle = pt.get<std::string>(elementTitleNode);
+        ctUuid = gen(pt.get<std::string>(elementUuidNode));
     } catch(boost::property_tree::ptree_error& pte) {
         throw InvalidXmlException(
                     std::string("Node not found: ") + pte.what());
     }
 
-    boost::shared_ptr<CustomTextItem> cti(new CustomTextItem(customTextTitle, customText));
+    boost::shared_ptr<CustomTextItem> cti(new CustomTextItem(customTextTitle, customText, ctUuid));
     eval->addEvalItem(cti);
 }
 

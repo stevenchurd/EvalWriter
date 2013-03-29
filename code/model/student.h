@@ -43,7 +43,7 @@ public:
     /*
      * Eval functions
      */
-    boost::shared_ptr<Eval> addEval(std::string evalName) ;
+    void addEval(boost::shared_ptr<Eval> newEval) ;
     int getNumEvals(void) { return m_evals.size(); }
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin();
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd();
@@ -51,9 +51,6 @@ public:
     /*
      * Course functions
      */
-    template <typename OutputIterator>
-    void getCourseNames(OutputIterator dest);
-
     std::vector<boost::shared_ptr<Course> >::const_iterator coursesBegin();
     std::vector<boost::shared_ptr<Course> >::const_iterator coursesEnd();
     void addCourse(boost::shared_ptr<Course> course) ;
@@ -80,34 +77,6 @@ private:
     Student(const Student&);
     Student& operator= (const Student&);
 
-};
-
-
-template <typename OutputIterator>
-void Student::getCourseNames(OutputIterator dest)
-{
-    std::for_each(m_courses.begin(), m_courses.end(),
-                  [&dest] (boost::shared_ptr<Course> course)
-    {
-        dest++ = course->getCourseName();
-    });
-}
-
-
-/*
- * Predicate definitions
- */
-
-class hasStudentName {
-    std::string m_fn, m_mn, m_ln;
-public:
-    hasStudentName(std::string fn, std::string mn, std::string ln) :
-        m_fn(fn), m_mn(mn), m_ln(ln) {}
-    bool operator()(const Student& student) {
-        return (m_fn.compare(student.getFirstName()) &&
-                m_mn.compare(student.getMiddleName()) &&
-                m_ln.compare(student.getLastName()));
-    }
 };
 
 #endif // STUDENT_H
