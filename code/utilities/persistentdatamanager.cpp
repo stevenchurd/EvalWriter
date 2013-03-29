@@ -224,18 +224,20 @@ void PersistentDataManager::createEvalSets(void)
     boost::shared_ptr<EvalSet> evalSet(new EvalSet("Test level 1"));
     boost::shared_ptr<EvalSet> evalSet2(new EvalSet("Another Test level 1"));
 
-    boost::shared_ptr<EvalSet> evalSet3(new EvalSet("Another Test level 2"));
-    boost::shared_ptr<EvalSet> evalSet4(new EvalSet("Another Test level 3"));
+    boost::shared_ptr<EvalSet> evalSet3(new EvalSet("Test level 2"));
+    boost::shared_ptr<EvalSet> evalSet4(new EvalSet("Test level 3"));
+    boost::shared_ptr<EvalSet> evalSet5(new EvalSet("Another Eval Set level 3"));
 
     evalSet->addEval(jeffs1steval);
     evalSet->addEval(jeffs2ndeval);
     evalSet2->addEval(jeffs2ndeval);
     evalSet3->addEval(jeffs1steval);
+    evalSet3->addEval(jeffs2ndeval);
 
     evalSet->addEvalSet(evalSet3);
     evalSet3->addEvalSet(evalSet4);
+    evalSet3->addEvalSet(evalSet5);
 
     m_allEvalSets.push_back(evalSet);
     m_allEvalSets.push_back(evalSet2);
-
 }
