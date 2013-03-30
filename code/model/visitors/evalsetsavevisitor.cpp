@@ -16,8 +16,8 @@ void EvalSetSaveVisitor::visit(EvalSet& evalSet)
     boost::property_tree::ptree evalSetPt;
 
     // put the evalSet title in before visiting the subtrees
-    evalSetPt.put(elementUuidNode, evalSet.getUuid());
-    evalSetPt.put(elementTitleNode, evalSet.getEvalSetName());
+    evalSetPt.put(xml_node_names::elementUuidNode, evalSet.getUuid());
+    evalSetPt.put(xml_node_names::elementTitleNode, evalSet.getEvalSetName());
 
     m_subTrees.push_back(evalSetPt);
 
@@ -28,11 +28,13 @@ void EvalSetSaveVisitor::visit(EvalSet& evalSet)
     m_subTrees.pop_back();
     if(m_subTrees.empty())
     {
-        m_pt.add_child(evalSetsRootNode + separator + singleEvalSetNode, evalSetPt);
+        m_pt.add_child(xml_node_names::evalSetsRootNode +
+                       xml_node_names::separator +
+                       xml_node_names::singleEvalSetNode, evalSetPt);
     }
     else
     {
-        m_subTrees.back().add_child(singleEvalSetNode, evalSetPt);
+        m_subTrees.back().add_child(xml_node_names::singleEvalSetNode, evalSetPt);
     }
 }
 
@@ -42,6 +44,6 @@ void EvalSetSaveVisitor::visit(Eval& eval)
     boost::property_tree::ptree evalPt;
 
     // add the GUID of the eval
-    evalPt.add(elementUuidNode, eval.getUuid());
-    m_subTrees.back().add_child(singleEvalNode, evalPt);
+    evalPt.add(xml_node_names::elementUuidNode, eval.getUuid());
+    m_subTrees.back().add_child(xml_node_names::singleEvalNode, evalPt);
 }

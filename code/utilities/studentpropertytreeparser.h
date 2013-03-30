@@ -81,16 +81,16 @@ void StudentPropertyTreeParser::parseTree(
         InputIterator2 gcIterLast)
 {
     // if the tree is empty, just return
-    if(pt.empty() || pt.get_child_optional(studentRootNode) == nullptr)
+    if(pt.empty() || pt.get_child_optional(xml_node_names::studentRootNode) == nullptr)
     {
         return;
     }
 
     BOOST_FOREACH(const boost::property_tree::ptree::value_type &v,
-                  pt.get_child(studentRootNode))
+                  pt.get_child(xml_node_names::studentRootNode))
     {
         // v.first is the name of the child.
-        if(v.first != singleStudentNode)
+        if(v.first != xml_node_names::singleStudentNode)
         {
             throw InvalidXmlException(
                         std::string("Expected student node: ") + v.first);
@@ -124,10 +124,10 @@ void StudentPropertyTreeParser::parseStudentNode(
     boost::uuids::string_generator gen;
 
     try{
-        firstName = pt.get<std::string>(studentFirstNameNode);
-        middleName = pt.get<std::string>(studentMiddleNameNode);
-        lastName = pt.get<std::string>(studentLastNameNode);
-        studentUuid = gen(pt.get<std::string>(elementUuidNode));
+        firstName = pt.get<std::string>(xml_node_names::studentFirstNameNode);
+        middleName = pt.get<std::string>(xml_node_names::studentMiddleNameNode);
+        lastName = pt.get<std::string>(xml_node_names::studentLastNameNode);
+        studentUuid = gen(pt.get<std::string>(xml_node_names::elementUuidNode));
     } catch(boost::property_tree::ptree_error& pte) {
         throw InvalidXmlException(
                     std::string("No name element found: ") + pte.what());
@@ -137,20 +137,20 @@ void StudentPropertyTreeParser::parseStudentNode(
 
     for (boost::property_tree::ptree::const_iterator it = pt.begin(); it != pt.end(); ++it)
     {
-        if(it->first == studentCoursesNode)
+        if(it->first == xml_node_names::studentCoursesNode)
         {
             boost::property_tree::ptree courseNode = it->second;
             parseCourseNode(courseNode, student, courseIterFirst, courseIterLast);
         }
-        else if(it->first == studentEvalsNode)
+        else if(it->first == xml_node_names::studentEvalsNode)
         {
             boost::property_tree::ptree evalNode = it->second;
             parseEvalNode(evalNode, student, gcIterFirst, gcIterLast);
         }
-        else if(it->first == studentFirstNameNode ||
-                it->first == studentMiddleNameNode ||
-                it->first == studentLastNameNode ||
-                it->first == elementUuidNode)
+        else if(it->first == xml_node_names::studentFirstNameNode ||
+                it->first == xml_node_names::studentMiddleNameNode ||
+                it->first == xml_node_names::studentLastNameNode ||
+                it->first == xml_node_names::elementUuidNode)
         {
             // don't need to do anything, these were already extracted
         }
@@ -172,7 +172,7 @@ void StudentPropertyTreeParser::parseCourseNode(boost::property_tree::ptree& pt,
 {
     for (boost::property_tree::ptree::const_iterator it = pt.begin(); it != pt.end(); ++it)
     {
-        if(it->first != singleCourseNode)
+        if(it->first != xml_node_names::singleCourseNode)
         {
             throw InvalidXmlException(
                         std::string("Expected course node: ") + it->first);
@@ -182,7 +182,7 @@ void StudentPropertyTreeParser::parseCourseNode(boost::property_tree::ptree& pt,
         boost::uuids::string_generator gen;
 
         try {
-            courseUuid = gen(it->second.get<std::string>(elementUuidNode));
+            courseUuid = gen(it->second.get<std::string>(xml_node_names::elementUuidNode));
         } catch(boost::property_tree::ptree_error& pte) {
             throw InvalidXmlException(
                         std::string("Element not found: ") + pte.what());
@@ -218,7 +218,7 @@ void StudentPropertyTreeParser::parseCriteriaItemNode(
     boost::uuids::string_generator gen;
 
     try {
-        ciUuid = gen(pt.get<std::string>(elementUuidNode));
+        ciUuid = gen(pt.get<std::string>(xml_node_names::elementUuidNode));
     } catch(boost::property_tree::ptree_error& pte) {
         throw InvalidXmlException(
                     std::string("Element not found: ") + pte.what());
@@ -250,16 +250,16 @@ void StudentPropertyTreeParser::parseEvalItemNode(
         InputIterator& gcIterFirst,
         InputIterator& gcIterLast)
 {
-    if(ptName == singleCriteriaItemNode)
+    if(ptName == xml_node_names::singleCriteriaItemNode)
     {
         parseCriteriaItemNode(pt, eval, gcIterFirst, gcIterLast);
     }
-    else if(ptName == customTextItemNode)
+    else if(ptName == xml_node_names::customTextItemNode)
     {
         parseCustomTextNode(pt, eval);
     }
-    else if(ptName == elementNameNode ||
-            ptName == elementUuidNode)
+    else if(ptName == xml_node_names::elementNameNode ||
+            ptName == xml_node_names::elementUuidNode)
     {
         // name and uuid already extracted so nothing necessary to do
     }
@@ -284,8 +284,8 @@ void StudentPropertyTreeParser::parseEvalNode(
         boost::uuids::string_generator gen;
 
         try{
-            evalName = it->second.get<std::string>(elementNameNode);
-            evalUuid = gen(it->second.get<std::string>(elementUuidNode));
+            evalName = it->second.get<std::string>(xml_node_names::elementNameNode);
+            evalUuid = gen(it->second.get<std::string>(xml_node_names::elementUuidNode));
         } catch(boost::property_tree::ptree_error& pte) {
             throw InvalidXmlException(
                         std::string("Element not found: ") + pte.what());

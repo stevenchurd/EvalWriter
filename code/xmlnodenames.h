@@ -3,6 +3,8 @@
 #ifndef XMLNODENAMES_H
 #define XMLNODENAMES_H
 
+namespace xml_node_names {
+
 //global strings
 const std::string separator(".");
 const std::string elementNameNode("name");
@@ -51,5 +53,7 @@ const std::string criteriaItemParentItemNode("parentItem");
 
 // other nodes
 const std::string customTextItemNode("customTextItemNode");
+
+}
 
 #endif // XMLNODENAMES_H

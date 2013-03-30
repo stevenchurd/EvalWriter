@@ -21,9 +21,9 @@ void StudentPropertyTreeParser::parseCustomTextNode(
     boost::uuids::string_generator gen;
 
     try {
-        customText = pt.get<std::string>(elementValueNode);
-        customTextTitle = pt.get<std::string>(elementTitleNode);
-        ctUuid = gen(pt.get<std::string>(elementUuidNode));
+        customText = pt.get<std::string>(xml_node_names::elementValueNode);
+        customTextTitle = pt.get<std::string>(xml_node_names::elementTitleNode);
+        ctUuid = gen(pt.get<std::string>(xml_node_names::elementUuidNode));
     } catch(boost::property_tree::ptree_error& pte) {
         throw InvalidXmlException(
                     std::string("Node not found: ") + pte.what());

@@ -36,13 +36,13 @@ void EvalSetPropertyTreeParser::parseTree(boost::property_tree::ptree& pt,
                                           InputIterator& studentsEnd)
 {
     // if the tree is empty, just return
-    if(pt.empty() || pt.get_child_optional(evalSetsRootNode) == nullptr)
+    if(pt.empty() || pt.get_child_optional(xml_node_names::evalSetsRootNode) == nullptr)
         return;
 
     BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
-                  pt.get_child(evalSetsRootNode))
+                  pt.get_child(xml_node_names::evalSetsRootNode))
     {
-        if(v.first != singleEvalSetNode)
+        if(v.first != xml_node_names::singleEvalSetNode)
         {
             throw InvalidXmlException(
                     std::string("Expected evalSet node: ") + v.first);
@@ -61,8 +61,8 @@ boost::shared_ptr<EvalSet> EvalSetPropertyTreeParser::parseEvalSetNode(boost::pr
     boost::uuids::string_generator gen;
 
     try{
-        evalSetTitle = pt.get<std::string>(elementTitleNode);
-        evalSetUuid = gen(pt.get<std::string>(elementUuidNode));
+        evalSetTitle = pt.get<std::string>(xml_node_names::elementTitleNode);
+        evalSetUuid = gen(pt.get<std::string>(xml_node_names::elementUuidNode));
     } catch(boost::property_tree::ptree_error& pte) {
         throw InvalidXmlException(
                     std::string("Element not found: ") + pte.what());
@@ -72,16 +72,16 @@ boost::shared_ptr<EvalSet> EvalSetPropertyTreeParser::parseEvalSetNode(boost::pr
 
     for (auto it = pt.begin(); it != pt.end(); ++it)
     {
-        if(it->first == singleEvalSetNode)
+        if(it->first == xml_node_names::singleEvalSetNode)
         {
             evalSet->addEvalSet(parseEvalSetNode(it->second, studentsBegin, studentsEnd));
         }
-        else if(it->first == singleEvalNode)
+        else if(it->first == xml_node_names::singleEvalNode)
         {
             evalSet->addEval(parseEvalNode(it->second, studentsBegin, studentsEnd));
         }
-        else if(it->first == elementTitleNode ||
-                it->first == elementUuidNode)
+        else if(it->first == xml_node_names::elementTitleNode ||
+                it->first == xml_node_names::elementUuidNode)
         {
             // title and UUID have already been extracted, ignore them
         }
@@ -104,7 +104,7 @@ boost::shared_ptr<Eval> EvalSetPropertyTreeParser::parseEvalNode(boost::property
     boost::uuids::string_generator gen;
 
     try{
-        evalUuid = gen(pt.get<std::string>(elementUuidNode));
+        evalUuid = gen(pt.get<std::string>(xml_node_names::elementUuidNode));
     } catch(boost::property_tree::ptree_error& pte) {
         throw InvalidXmlException(
                     std::string("Element not found: ") + pte.what());
