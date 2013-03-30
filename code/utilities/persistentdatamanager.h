@@ -8,12 +8,6 @@
 #include "model/course.h"
 #include "model/evalset.h"
 #include "model/gradingcriteria.h"
-
-#include "utilities/coursespropertytreeparser.h"
-#include "utilities/gradingcriteriapropertytreeparser.h"
-#include "utilities/studentpropertytreeparser.h"
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
 #endif
 
 
@@ -57,10 +51,6 @@ private:
     std::vector<boost::shared_ptr<Course> > m_allCourses;
     std::vector<boost::shared_ptr<EvalSet> > m_allEvalSets;
     std::vector<boost::shared_ptr<GradingCriteria> > m_allGradingCriteria;
-
-
-    // TODO: remove
-    void createEvalSets(void);
 
 };
 

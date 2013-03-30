@@ -35,6 +35,22 @@ void Student::addEval(boost::shared_ptr<Eval> newEval)
 }
 
 
+bool Student::getEvalById(std::string id, boost::shared_ptr<Eval>& eval) const
+{
+    auto it = std::find_if(m_evals.begin(), m_evals.end(),
+                           [&id] (boost::shared_ptr<Eval> myEval) { return (myEval->getUuid() == id); });
+
+
+    if(it != m_evals.end())
+    {
+        eval = *it;
+        return true;
+    }
+
+    return false;
+}
+
+
 std::vector<boost::shared_ptr<Course> >::const_iterator Student::coursesBegin()
 {
     return m_courses.begin();

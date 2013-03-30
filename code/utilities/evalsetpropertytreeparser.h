@@ -2,6 +2,8 @@
 #define EVALSETPROPERTYTREEPARSER_H
 
 #include <boost/property_tree/ptree.hpp>
+#include "xmlnodenames.h"
+#include "model/evalset.h"
 
 class EvalSetPropertyTreeParser
 {
@@ -9,46 +11,117 @@ public:
     EvalSetPropertyTreeParser();
     virtual ~EvalSetPropertyTreeParser() {}
 
-    template <typename OutputIterator>
-    void parseTree(boost::property_tree::ptree& pt, OutputIterator& dest);
+    template <typename OutputIterator, typename InputIterator>
+    void parseTree(boost::property_tree::ptree& pt, OutputIterator& dest,
+                   InputIterator& studentsBegin, InputIterator& studentsEnd);
+
+private:
+    template <typename InputIterator>
+    boost::shared_ptr<EvalSet> parseEvalSetNode(boost::property_tree::ptree& pt,
+                                                InputIterator& studentsBegin,
+                                                InputIterator& studentsEnd);
+
+    template <typename InputIterator>
+    boost::shared_ptr<Eval> parseEvalNode(boost::property_tree::ptree& pt,
+                                          InputIterator& studentsBegin,
+                                          InputIterator& studentsEnd);
+
 };
 
 
-template <typename OutputIterator>
-void EvalSetPropertyTreeParser::parseTree(boost::property_tree::ptree& pt, OutputIterator& dest)
+template <typename OutputIterator, typename InputIterator>
+void EvalSetPropertyTreeParser::parseTree(boost::property_tree::ptree& pt,
+                                          OutputIterator& dest,
+                                          InputIterator& studentsBegin,
+                                          InputIterator& studentsEnd)
 {
-#if 0
     // if the tree is empty, just return
-    if(pt.empty())
+    if(pt.empty() || pt.get_child_optional(evalSetsRootNode) == nullptr)
         return;
 
     BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
-                  pt.get_child(coursesRootNode))
+                  pt.get_child(evalSetsRootNode))
     {
-        std::string courseName;
-        boost::uuids::uuid courseUuid;
-        boost::uuids::string_generator gen;
-
-        // v.first is the name of the child.
-        if(v.first != singleCourseNode)
+        if(v.first != singleEvalSetNode)
         {
             throw InvalidXmlException(
-                    std::string("Expected course node: ") + v.first);
+                    std::string("Expected evalSet node: ") + v.first);
         }
 
-        try{
-            courseName = v.second.get<std::string>(elementNameNode);
-            courseUuid = gen(v.second.get<std::string>(elementUuidNode));
-        } catch(boost::property_tree::ptree_error& pte) {
-            throw InvalidXmlException(
-                        std::string("Element not found: ") + pte.what());
-        }
-
-        boost::shared_ptr<Course> course(new Course(courseName, courseUuid));
-        dest++ = course;
+        dest++ = parseEvalSetNode(v.second, studentsBegin, studentsEnd);
     }
-#endif
 }
 
+template <typename InputIterator>
+boost::shared_ptr<EvalSet> EvalSetPropertyTreeParser::parseEvalSetNode(boost::property_tree::ptree& pt,
+                                            InputIterator& studentsBegin, InputIterator& studentsEnd)
+{
+    std::string evalSetTitle;
+    boost::uuids::uuid evalSetUuid;
+    boost::uuids::string_generator gen;
+
+    try{
+        evalSetTitle = pt.get<std::string>(elementTitleNode);
+        evalSetUuid = gen(pt.get<std::string>(elementUuidNode));
+    } catch(boost::property_tree::ptree_error& pte) {
+        throw InvalidXmlException(
+                    std::string("Element not found: ") + pte.what());
+    }
+
+    boost::shared_ptr<EvalSet> evalSet(new EvalSet(evalSetTitle, evalSetUuid));
+
+    for (auto it = pt.begin(); it != pt.end(); ++it)
+    {
+        if(it->first == singleEvalSetNode)
+        {
+            evalSet->addEvalSet(parseEvalSetNode(it->second, studentsBegin, studentsEnd));
+        }
+        else if(it->first == singleEvalNode)
+        {
+            evalSet->addEval(parseEvalNode(it->second, studentsBegin, studentsEnd));
+        }
+        else if(it->first == elementTitleNode ||
+                it->first == elementUuidNode)
+        {
+            // title and UUID have already been extracted, ignore them
+        }
+        else
+        {
+            throw InvalidXmlException("Invalid node found in EvalSet tree: " + it->first);
+        }
+    }
+
+    return evalSet;
+}
+
+
+
+template <typename InputIterator>
+boost::shared_ptr<Eval> EvalSetPropertyTreeParser::parseEvalNode(boost::property_tree::ptree& pt,
+                                            InputIterator& studentsBegin, InputIterator& studentsEnd)
+{
+    boost::uuids::uuid evalUuid;
+    boost::uuids::string_generator gen;
+
+    try{
+        evalUuid = gen(pt.get<std::string>(elementUuidNode));
+    } catch(boost::property_tree::ptree_error& pte) {
+        throw InvalidXmlException(
+                    std::string("Element not found: ") + pte.what());
+    }
+
+    boost::shared_ptr<Eval> eval;
+
+    std::find_if(studentsBegin, studentsEnd,
+                 [&evalUuid, &eval] (boost::shared_ptr<Student> student)
+                 { return student->getEvalById(to_string(evalUuid), eval); });
+
+    if(eval == nullptr)
+    {
+        throw InvalidXmlException("Eval not found: " + to_string(evalUuid));
+    }
+
+    return eval;
+}
 
 #endif // EVALSETPROPERTYTREEPARSER_H

@@ -31,7 +31,7 @@
 int main(int argc, char *argv[])
 {
     try {
-        PDM().loadFile("../testfiles/test3.ewd");
+        PDM().loadFile("../testfiles/test6.ewd");
 
         QApplication a(argc, argv);
 

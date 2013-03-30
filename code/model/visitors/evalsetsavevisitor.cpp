@@ -28,11 +28,11 @@ void EvalSetSaveVisitor::visit(EvalSet& evalSet)
     m_subTrees.pop_back();
     if(m_subTrees.empty())
     {
-        m_pt.add_child(evalSetsRootNode + separator + evalSetNode, evalSetPt);
+        m_pt.add_child(evalSetsRootNode + separator + singleEvalSetNode, evalSetPt);
     }
     else
     {
-        m_subTrees.back().add_child(evalSetNode, evalSetPt);
+        m_subTrees.back().add_child(singleEvalSetNode, evalSetPt);
     }
 }
 

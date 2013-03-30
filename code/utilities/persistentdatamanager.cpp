@@ -4,7 +4,12 @@
 #include "model/visitors/gradingcriteriasavevisitor.h"
 #include "model/visitors/evalsetsavevisitor.h"
 
-#include <iostream>
+#include "utilities/coursespropertytreeparser.h"
+#include "utilities/gradingcriteriapropertytreeparser.h"
+#include "utilities/studentpropertytreeparser.h"
+#include "utilities/evalsetpropertytreeparser.h"
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
 PersistentDataManager::PersistentDataManager()
 {
@@ -149,6 +154,7 @@ void PersistentDataManager::loadFile(std::string filename)
         m_allCourses.clear();
         m_allGradingCriteria.clear();
         m_allStudents.clear();
+        m_allEvalSets.clear();
 
         CoursesPropertyTreeParser ptreeParser;
         ptreeParser.parseTree(loadPt, std::inserter(m_allCourses, m_allCourses.begin()));
@@ -159,13 +165,17 @@ void PersistentDataManager::loadFile(std::string filename)
         StudentPropertyTreeParser studentPtParser;
         studentPtParser.parseTree(loadPt,
                                   std::inserter(m_allStudents, m_allStudents.begin()),
-                                  m_allCourses.begin(),
-                                  m_allCourses.end(),
-                                  m_allGradingCriteria.begin(),
-                                  m_allGradingCriteria.end());
-    }
+                                  m_allCourses.cbegin(),
+                                  m_allCourses.cend(),
+                                  m_allGradingCriteria.cbegin(),
+                                  m_allGradingCriteria.cend());
 
-    //createEvalSets();
+        EvalSetPropertyTreeParser evalSetPtParser;
+        evalSetPtParser.parseTree(loadPt,
+                                  std::inserter(m_allEvalSets, m_allEvalSets.begin()),
+                                  m_allStudents.cbegin(),
+                                  m_allStudents.cend());
+    }
 }
 
 
@@ -209,35 +219,6 @@ void PersistentDataManager::saveFile(std::string filename) const
         });
         esv.saveFile(file);
 
-
         file.close();
     }
-}
-
-
-void PersistentDataManager::createEvalSets(void)
-{
-    boost::shared_ptr<Student> jeff = m_allStudents[0];
-    boost::shared_ptr<Eval> jeffs1steval = *(jeff->evalsBegin());
-    boost::shared_ptr<Eval> jeffs2ndeval = *(jeff->evalsBegin()+1);
-
-    boost::shared_ptr<EvalSet> evalSet(new EvalSet("Test level 1"));
-    boost::shared_ptr<EvalSet> evalSet2(new EvalSet("Another Test level 1"));
-
-    boost::shared_ptr<EvalSet> evalSet3(new EvalSet("Test level 2"));
-    boost::shared_ptr<EvalSet> evalSet4(new EvalSet("Test level 3"));
-    boost::shared_ptr<EvalSet> evalSet5(new EvalSet("Another Eval Set level 3"));
-
-    evalSet->addEval(jeffs1steval);
-    evalSet->addEval(jeffs2ndeval);
-    evalSet2->addEval(jeffs2ndeval);
-    evalSet3->addEval(jeffs1steval);
-    evalSet3->addEval(jeffs2ndeval);
-
-    evalSet->addEvalSet(evalSet3);
-    evalSet3->addEvalSet(evalSet4);
-    evalSet3->addEvalSet(evalSet5);
-
-    m_allEvalSets.push_back(evalSet);
-    m_allEvalSets.push_back(evalSet2);
 }

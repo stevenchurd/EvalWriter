@@ -36,7 +36,7 @@ const std::string singleEvalNode("eval");
 
 
 // eval set nodes
-const std::string evalSetNode("evalSet");
+const std::string singleEvalSetNode("evalSet");
 
 
 // grading criteria nodes

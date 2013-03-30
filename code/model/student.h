@@ -47,6 +47,7 @@ public:
     int getNumEvals(void) { return m_evals.size(); }
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin();
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd();
+    bool getEvalById(std::string id, boost::shared_ptr<Eval>& eval) const;
 
     /*
      * Course functions
