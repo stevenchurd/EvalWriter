@@ -4,10 +4,14 @@ MouseArea {
     id: wrapper
     property string myText: submodelName
 
-    width: parent.width
-    height: 62
+    anchors.horizontalCenter: parent.horizontalCenter
+    width: parent.width-20
+    height: 45
 
     Text {
+        anchors.verticalCenter:  parent.verticalCenter
+        font.pointSize: 14
+        renderType: Text.NativeRendering
         text: submodelName
     }
 

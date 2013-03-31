@@ -112,7 +112,9 @@ OTHER_FILES += \
     gui/qml/pageCreator.js \
     gui/qml/PageStack.qml \
     gui/qml/stack.js \
-    gui/qml/NavigationBar.qml
+    gui/qml/NavigationBar.qml \
+    gui/qml/subModelCreator.js \
+    gui/qml/NavigationListSubModel.qml
 
 RESOURCES += \
     images.qrc

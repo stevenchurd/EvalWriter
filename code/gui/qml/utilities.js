@@ -18,21 +18,6 @@ function getEvalItemColor(level) {
     }
 }
 
-function isListModelType(modelType)
-{
-    switch(modelType)
-    {
-        case 1: //StudentList
-        case 2: //EvaluationList
-        case 3: //CourseList
-        case 4: //EvalSetList
-            return true
-
-        case 5: //GradingCriteria
-            return false
-    }
-}
-
 
 function getOperationString(operation)
 {

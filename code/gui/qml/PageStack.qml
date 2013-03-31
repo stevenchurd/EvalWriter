@@ -7,14 +7,45 @@ Rectangle {
     signal pageChanged
 
     Rectangle {
-        id: container
-        anchors.fill: parent
+        id: pageContainer
+        height: parent.height
+        width: parent.width - subListOperations.width
 
         function setAsParent(item) {
-            item.parent = container
+            item.parent = pageContainer
         }
     }
 
+    Rectangle {
+        id: subListOperations
+        height: parent.height
+        width: 100
+        anchors.left: pageContainer.right
+        color: "red"
+
+        VisualItemModel {
+            id: itemModel
+            TextButton {
+                text: "Add Course"
+                onClicked: console.log("Add course")
+            }
+            TextButton {
+                text: "Delete Course"
+                onClicked: console.log("Delete course")
+            }
+            TextButton {
+                text: "Rename Course"
+                onClicked: console.log("Rename course")
+            }
+        }
+
+        ListView {
+            anchors.fill: parent
+            anchors.margins: 5
+            model: itemModel
+            spacing: 5
+        }
+    }
 
     function push(page)
     {
@@ -46,8 +77,8 @@ Rectangle {
         }
 
         Stack.push(page)
-        container.setAsParent(page)
-        printTitles()
+        pageContainer.setAsParent(page)
+        //printTitles()
         pageChanged()
     }
 
@@ -58,9 +89,9 @@ Rectangle {
             var page = Stack.pop()
             page.parent = null
             page = Stack.top()
-            container.setAsParent(page)
+            pageContainer.setAsParent(page)
         }
-        printTitles()
+        //printTitles()
         pageChanged()
     }
 
@@ -71,10 +102,10 @@ Rectangle {
             var page = Stack.pop()
             page.parent = null
             page = Stack.top()
-            container.setAsParent(page)
+            pageContainer.setAsParent(page)
         }
 
-        printTitles()
+        //printTitles()
         pageChanged()
     }
 

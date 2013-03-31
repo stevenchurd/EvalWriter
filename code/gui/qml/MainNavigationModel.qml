@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import "pageCreator.js" as PageCreator
+import "subModelCreator.js" as SubModelCreator
 import "utilities.js" as JsUtil
 import CppEnums 1.0
 
@@ -22,65 +23,45 @@ Rectangle {
         model: wrapper.model
         delegate: SideListDelegate{}
 
-        onCurrentIndexChanged: subList.sourceComponent = getSubListComponent(currentIndex)
+        highlight: Rectangle {
+            width: parent.width
+            color: "lightsteelblue"
+        }
+        interactive: false
+
+        onCurrentIndexChanged: {
+            subList.children = 0
+            var subModel = SubModelCreator.getSubModel(currentIndex)
+            if(subModel !== undefined)
+                subModel.parent = subList
+        }
     }
 
-    Loader {
+    Rectangle {
         id: subList
         anchors.left: navList.right
         height: parent.height
         width: parent.width - navList.width
     }
 
-    Component {
-        id: mainNavSubListComponent
-        ListView {
-            model: wrapper.model.getSubModel(navList.currentIndex)
-            delegate: MouseArea {
-                height: 60
-                width: 500
+    Component.onCompleted: {
+        createAllSubModels()
+        var subModel = SubModelCreator.getSubModel(0)
+        subModel.parent = subList
+    }
 
-                Text {
-                    // FIX for issue where garbage collection doesn't clean this up before new model is loaded
-                    text: JsUtil.isListModelType(wrapper.model.getSubModelType(navList.currentIndex)) ? displayString : ""
-                }
 
-                onClicked: {
-                    pageStack.push(PageCreator.createModelByType(wrapper.model.getSubModelType(navList.currentIndex),
-                                                                 wrapper.model.getSubModel(navList.currentIndex).getSubModelFromIndex(index)))
-                }
-            }
+    function createAllSubModels()
+    {
+        for(var i = 0; i < model.getSubModelCount(); i++)
+        {
+            SubModelCreator.createSubModelByType(model.getSubModelType(i), model.getSubModel(i))
         }
     }
 
-    Component {
-        id: gradingCategoriesSubListComponent
-        GradingCriteriaModel { editable: true }
-    }
 
     function getTitle()
     {
         return wrapper.model.getModelTitle()
     }
-
-
-    function getSubListComponent(newIndex)
-    {
-        switch(wrapper.model.getSubModelType(newIndex))
-        {
-            case 1: //StudentList
-            case 2: //EvaluationList
-            case 3: //CourseList
-            case 4: //EvalSetList
-                return mainNavSubListComponent
-
-            case 5: //GradingCriteria
-                return gradingCategoriesSubListComponent
-
-            default:
-                console.log("Error: not a recognized sub model type: " + wrapper.model.getSubModelType(navList.currentIndex))
-                break;
-        }
-    }
 }
-

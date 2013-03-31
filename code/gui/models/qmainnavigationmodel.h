@@ -64,6 +64,7 @@ public:
     Q_INVOKABLE QObject* getSubModel(int index) const;
     Q_INVOKABLE int getSubModelType(int index) const;
     Q_INVOKABLE QString getModelTitle() const;
+    Q_INVOKABLE int getSubModelCount(void) const { return m_submodels.size(); }
 
     void addSubModel(std::string displayString, QAbstractItemModel *listModel, ModelTypes::SubModelType modelType);
 

@@ -42,14 +42,3 @@ function createModel(modelFile, cppModel, typeString) {
 
     return newPage
 }
-
-
-function destroyComponents()
-{
-    var item = createdComponents.pop()
-    while(item !== null)
-    {
-        item.destroy()
-        item = createdComponents.pop()
-    }
-}
