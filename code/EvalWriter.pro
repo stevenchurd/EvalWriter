@@ -98,7 +98,6 @@ OTHER_FILES += \
     gui/qml/WizardLoader.qml \
     gui/qml/Dialog.qml \
     gui/qml/CriteriaItemDialog.qml \
-    gui/qml/GradingCriteriaEditDialog.qml \
     gui/qml/CriteriaItemEditDialog.qml \
     gui/qml/EvalModel.qml \
     gui/qml/FlowListView.qml \
@@ -114,7 +113,8 @@ OTHER_FILES += \
     gui/qml/stack.js \
     gui/qml/NavigationBar.qml \
     gui/qml/subModelCreator.js \
-    gui/qml/NavigationListSubModel.qml
+    gui/qml/NavigationListSubModel.qml \
+    gui/qml/SingleLineTextEditDialog.qml
 
 RESOURCES += \
     images.qrc

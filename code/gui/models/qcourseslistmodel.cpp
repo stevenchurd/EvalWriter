@@ -77,23 +77,29 @@ QList<int> QCoursesListModel::getSubModelOperations()
 }
 
 
-void QCoursesListModel::addCourse(QString courseName) const
+void QCoursesListModel::addCourse(QString courseName)
 {
     assert(m_student == nullptr);
+
+    beginResetModel();
     boost::shared_ptr<Course> newCourse(new Course(courseName.toStdString()));
 
     PDM().add(newCourse);
+
+    // don't necessarily know where it added the new item, so just emit data
+    // TODO: eventually want to emit the actual index that changed so animations work
+    endResetModel();
 }
 
 
-void QCoursesListModel::removeCourse(int index) const
+void QCoursesListModel::removeCourse(int index)
 {
     assert(m_student == nullptr);
     PDM().remove(iterAt<Course>(PDM().coursesBegin(), index));
 }
 
 
-void QCoursesListModel::renameCourse(int index, QString courseName) const
+void QCoursesListModel::renameCourse(int index, QString courseName)
 {
     assert(m_student == nullptr);
     boost::shared_ptr<Course> course = elementAt<Course>(PDM().coursesBegin(), index);

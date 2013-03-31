@@ -1,4 +1,5 @@
 Qt.include("MainNavigationModel.qml")
+Qt.include("NavigationListSubModel.qml")
 
 function getEvalItemColor(level) {
     switch(level)
@@ -23,10 +24,13 @@ function getOperationString(operation)
 {
     switch(operation) {
         case QCoursesListModel.AddCourse:
-            return "Add New Course"
+            return "Add New Class"
 
         case QCoursesListModel.RemoveCourse:
-            return "Delete Course"
+            return "Delete Class"
+
+        case QCoursesListModel.RenameCourse:
+            return "Rename Class"
 
         case QEvalSetsListModel.AddEvalSet:
             return "Add Evaluation Set"

@@ -33,9 +33,9 @@ public:
                   "Too many items in enumeration");
 
 public slots:
-    void addCourse(QString courseName) const;
-    void removeCourse(int index) const;
-    void renameCourse(int index, QString courseName) const;
+    void addCourse(QString courseName);
+    void removeCourse(int index);
+    void renameCourse(int index, QString courseName);
 
 private:
     boost::shared_ptr<Student> m_student;
