@@ -45,16 +45,18 @@ public:
      */
     void addEval(boost::shared_ptr<Eval> newEval) ;
     int getNumEvals(void) { return m_evals.size(); }
-    std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin();
-    std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd();
+    std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin() const;
+    std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd() const;
     bool getEvalById(std::string id, boost::shared_ptr<Eval>& eval) const;
 
     /*
      * Course functions
      */
-    std::vector<boost::shared_ptr<Course> >::const_iterator coursesBegin();
-    std::vector<boost::shared_ptr<Course> >::const_iterator coursesEnd();
+    std::vector<boost::shared_ptr<Course> >::const_iterator coursesBegin() const;
+    std::vector<boost::shared_ptr<Course> >::const_iterator coursesEnd() const;
     void addCourse(boost::shared_ptr<Course> course) ;
+    void removeCourse(std::string uuid);
+    void removeCourse(std::vector<boost::shared_ptr<Course> >::const_iterator it);
     bool isInCourse(boost::shared_ptr<Course> course) const;
 
     /*

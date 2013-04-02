@@ -48,13 +48,13 @@ PersistentDataManager& PersistentDataManager::Instance(void)
 //
 std::vector<boost::shared_ptr<Student> >::const_iterator PersistentDataManager::studentsBegin(void) const
 {
-    return m_allStudents.begin();
+    return m_allStudents.cbegin();
 }
 
 
 std::vector<boost::shared_ptr<Student> >::const_iterator PersistentDataManager::studentsEnd(void) const
 {
-    return m_allStudents.end();
+    return m_allStudents.cend();
 }
 
 
@@ -64,13 +64,13 @@ std::vector<boost::shared_ptr<Student> >::const_iterator PersistentDataManager::
 //
 std::vector<boost::shared_ptr<Course> >::const_iterator PersistentDataManager::coursesBegin(void) const
 {
-    return m_allCourses.begin();
+    return m_allCourses.cbegin();
 }
 
 
 std::vector<boost::shared_ptr<Course> >::const_iterator PersistentDataManager::coursesEnd(void) const
 {
-    return m_allCourses.end();
+    return m_allCourses.cend();
 }
 
 
@@ -93,13 +93,13 @@ void PersistentDataManager::remove(std::vector<boost::shared_ptr<Course> >::cons
 //
 std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator PersistentDataManager::gradingCriteriaBegin(void) const
 {
-    return m_allGradingCriteria.begin();
+    return m_allGradingCriteria.cbegin();
 }
 
 
 std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator PersistentDataManager::gradingCriteriaEnd(void) const
 {
-    return m_allGradingCriteria.end();
+    return m_allGradingCriteria.cend();
 }
 
 
@@ -116,13 +116,13 @@ void PersistentDataManager::remove(std::vector<boost::shared_ptr<GradingCriteria
 //
 std::vector<boost::shared_ptr<EvalSet> >::const_iterator PersistentDataManager::evalSetsBegin(void) const
 {
-    return m_allEvalSets.begin();
+    return m_allEvalSets.cbegin();
 }
 
 
 std::vector<boost::shared_ptr<EvalSet> >::const_iterator PersistentDataManager::evalSetsEnd(void) const
 {
-    return m_allEvalSets.end();
+    return m_allEvalSets.cend();
 }
 
 

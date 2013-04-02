@@ -19,6 +19,10 @@ public:
 
     virtual ~QEvalsListModel() {}
 
+public slots:
+    virtual void removeItem(int index);
+    virtual void renameItem(QString newName, int row);
+
 private:
     boost::shared_ptr<Student> m_student;
     boost::shared_ptr<EvalSet> m_evalSet;

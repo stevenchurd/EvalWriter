@@ -67,3 +67,15 @@ QList<int> QEvalsListModel::getSubModelOperations()
 
     return opList;
 }
+
+
+void QEvalsListModel::removeItem(int index)
+{
+    //TODO
+}
+
+
+void QEvalsListModel::renameItem(QString newName, int row)
+{
+    //TODO
+}

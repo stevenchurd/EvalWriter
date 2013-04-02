@@ -89,3 +89,15 @@ QList<int> QStudentsListModel::getSubModelOperations()
 
     return opList;
 }
+
+
+void QStudentsListModel::removeItem(int index)
+{
+    // TODO
+}
+
+
+void QStudentsListModel::renameItem(QString newName, int row)
+{
+    //TODO
+}

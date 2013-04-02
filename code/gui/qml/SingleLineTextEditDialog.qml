@@ -26,12 +26,12 @@ Dialog {
                 border.color: "black"
                 clip: true
 
-                TextEdit {
+                TextInput {
                     id: question
                     anchors.fill: parent
-                    textMargin: 5
+                    anchors.margins: 5
 
-                    renderType: TextEdit.NativeRendering
+                    renderType: TextInput.NativeRendering
                     text: startingText
                     cursorVisible: true
                     selectByMouse: true
@@ -39,6 +39,7 @@ Dialog {
                     focus: true
 
                     Component.onCompleted: selectAll()
+                    onAccepted: okClicked(displayText)
                 }
             }
 

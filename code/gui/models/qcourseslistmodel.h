@@ -34,8 +34,8 @@ public:
 
 public slots:
     void addCourse(QString courseName);
-    void removeCourse(int index);
-    void renameCourse(int index, QString courseName);
+    virtual void removeItem(int row);
+    virtual void renameItem(QString newName, int row);
 
 private:
     boost::shared_ptr<Student> m_student;

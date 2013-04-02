@@ -79,7 +79,7 @@ void QEvalSetsListModel::addEvalSet(QString evalSetName) const
 }
 
 
-void QEvalSetsListModel::removeEvalSet(int index) const
+void QEvalSetsListModel::removeItem(int index)
 {
     if(m_evalSet == nullptr)
     {
@@ -92,19 +92,20 @@ void QEvalSetsListModel::removeEvalSet(int index) const
 }
 
 
-void QEvalSetsListModel::renameEvalSet(int index, QString evalSetName) const
+void QEvalSetsListModel::renameItem(QString evalSetName, int row)
 {
     boost::shared_ptr<EvalSet> evalSet;
 
     if(m_evalSet == nullptr)
     {
-        evalSet = elementAt<EvalSet>(PDM().evalSetsBegin(), index);
+        evalSet = elementAt<EvalSet>(PDM().evalSetsBegin(), row);
     }
     else
     {
-        evalSet = elementAt<EvalSet>(m_evalSet->evalSetsBegin(), index);
+        evalSet = elementAt<EvalSet>(m_evalSet->evalSetsBegin(), row);
     }
 
     evalSet->updateEvalSetName(evalSetName.toStdString());
+    emit dataChanged(index(row), index(row));
 }
 

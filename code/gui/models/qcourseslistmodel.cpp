@@ -92,16 +92,34 @@ void QCoursesListModel::addCourse(QString courseName)
 }
 
 
-void QCoursesListModel::removeCourse(int index)
+void QCoursesListModel::removeItem(int row)
 {
-    assert(m_student == nullptr);
-    PDM().remove(iterAt<Course>(PDM().coursesBegin(), index));
+    beginRemoveRows(QModelIndex(), row, row);
+
+    if(m_student == nullptr)
+    {
+        boost::shared_ptr<Course> course = elementAt<Course>(PDM().coursesBegin(), row);
+        std::for_each(PDM().studentsBegin(), PDM().studentsEnd(),
+                      [&course] (boost::shared_ptr<Student> student)
+        {
+            student->removeCourse(course->getUuid());
+        });
+
+        PDM().remove(iterAt<Course>(PDM().coursesBegin(), row));
+    }
+    else
+    {
+        m_student->removeCourse(iterAt<Course>(m_student->coursesBegin(), row));
+    }
+
+    endRemoveRows();
 }
 
 
-void QCoursesListModel::renameCourse(int index, QString courseName)
+void QCoursesListModel::renameItem(QString newName, int row)
 {
     assert(m_student == nullptr);
-    boost::shared_ptr<Course> course = elementAt<Course>(PDM().coursesBegin(), index);
-    course->updateCourseName(courseName.toStdString());
+    boost::shared_ptr<Course> course = elementAt<Course>(PDM().coursesBegin(), row);
+    course->updateCourseName(newName.toStdString());
+    emit dataChanged(index(row), index(row));
 }

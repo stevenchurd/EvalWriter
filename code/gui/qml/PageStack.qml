@@ -90,6 +90,11 @@ Rectangle {
         return titles
     }
 
+    function getTopTitle()
+    {
+        return Stack.top().getTitle()
+    }
+
     function printTitles()
     {
         console.log("\nPageStack Titles")

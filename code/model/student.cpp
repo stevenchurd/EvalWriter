@@ -17,15 +17,15 @@ Student::Student(std::string firstName, std::string middleName, std::string last
 }
 
 
-std::vector<boost::shared_ptr<Eval> >::const_iterator Student::evalsBegin()
+std::vector<boost::shared_ptr<Eval> >::const_iterator Student::evalsBegin() const
 {
-    return m_evals.begin();
+    return m_evals.cbegin();
 }
 
 
-std::vector<boost::shared_ptr<Eval> >::const_iterator Student::evalsEnd()
+std::vector<boost::shared_ptr<Eval> >::const_iterator Student::evalsEnd() const
 {
-    return m_evals.end();
+    return m_evals.cend();
 }
 
 
@@ -51,21 +51,36 @@ bool Student::getEvalById(std::string id, boost::shared_ptr<Eval>& eval) const
 }
 
 
-std::vector<boost::shared_ptr<Course> >::const_iterator Student::coursesBegin()
+std::vector<boost::shared_ptr<Course> >::const_iterator Student::coursesBegin() const
 {
-    return m_courses.begin();
+    return m_courses.cbegin();
 }
 
 
-std::vector<boost::shared_ptr<Course> >::const_iterator Student::coursesEnd()
+std::vector<boost::shared_ptr<Course> >::const_iterator Student::coursesEnd() const
 {
-    return m_courses.end();
+    return m_courses.cend();
 }
 
 
 void Student::addCourse(boost::shared_ptr<Course> course)
 {
     m_courses.push_back(course) ;
+}
+
+
+void Student::removeCourse(std::string uuid)
+{
+    m_courses.erase(std::remove_if(m_courses.begin(), m_courses.end(),
+                                   [&uuid] (boost::shared_ptr<Course> course)
+                                   { return (course->getUuid() == uuid ); }),
+                    m_courses.end());
+}
+
+
+void Student::removeCourse(std::vector<boost::shared_ptr<Course> >::const_iterator it)
+{
+    m_courses.erase(it);
 }
 
 

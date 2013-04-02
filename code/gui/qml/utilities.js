@@ -23,6 +23,7 @@ function getEvalItemColor(level) {
 function getOperationString(operation)
 {
     switch(operation) {
+        // Course List operations
         case QCoursesListModel.AddCourse:
             return "Add New Class"
 
@@ -31,6 +32,14 @@ function getOperationString(operation)
 
         case QCoursesListModel.RenameCourse:
             return "Rename Class"
+
+        case QCoursesListModel.RemoveExistingCourseFromStudent:
+            return "Remove Student from Class"
+
+        case QCoursesListModel.AddExistingCourseToStudent:
+            return "Add Student to Class"
+
+
 
         case QEvalSetsListModel.AddEvalSet:
             return "Add Evaluation Set"

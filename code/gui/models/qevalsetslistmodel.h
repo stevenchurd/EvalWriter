@@ -33,8 +33,8 @@ public:
 
 public slots:
     void addEvalSet(QString evalSetName) const;
-    void removeEvalSet(int index) const;
-    void renameEvalSet(int index, QString evalSetName) const;
+    virtual void removeItem(int index);
+    virtual void renameItem(QString newName, int index);
 
 private:
     boost::shared_ptr<EvalSet> m_evalSet;

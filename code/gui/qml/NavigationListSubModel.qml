@@ -29,6 +29,8 @@ Rectangle {
             // TODO: work on resizing objects eventually
             width: listOfItems.width > 400 ? 400 : listOfItems.width
 
+            readonly property string itemString: displayString
+
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 renderType: Text.NativeRendering
@@ -82,7 +84,6 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        console.log(wrapper.model.getSubModelOperations())
         fillListOperationsModel()
     }
 
@@ -105,9 +106,15 @@ Rectangle {
     }
 
 
-    function removeCourse(index)
+    function removeItem()
     {
-        console.log("remove course " + index)
+        wrapper.model.removeItem(listOfItems.currentIndex)
+    }
+
+
+    function renameItem(newName)
+    {
+        wrapper.model.renameItem(newName, listOfItems.currentIndex)
     }
 
 
@@ -118,10 +125,16 @@ Rectangle {
                 return addCourseDialog
 
             case QCoursesListModel.RemoveCourse:
-                return removeCourseDialog
+                return removeItemDialog
 
             case QCoursesListModel.RenameCourse:
-                return "Rename Class"
+                return renameItemDialog
+
+            case QCoursesListModel.RemoveExistingCourseFromStudent:
+                return removeItemFromParentDialog
+
+            case QCoursesListModel.AddExistingCourseToStudent:
+
 
             default:
                 console.log("No component defined: " + operation)
@@ -145,19 +158,53 @@ Rectangle {
         }
     }
 
+
     Component {
-        id: removeCourseDialog
+        id: removeItemDialog
         YesNoDialog {
             id: dialog
-            dialogText: "Do you want to remove the class \"" + displayString + "\"?"
+            dialogText: "Do you want to remove \"" + listOfItems.currentItem.itemString + "\"?"
 
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)
                 dialog.onNoClicked.connect(wizardContent.close)
-                dialog.onYesClicked.connect(removeCourse)
+                dialog.onYesClicked.connect(removeItem)
                 dialog.onYesClicked.connect(wizardContent.close)
             }
         }
     }
 
+
+    Component {
+        id: removeItemFromParentDialog
+        YesNoDialog {
+            id: dialog
+            dialogText: "Do you want to remove \"" + listOfItems.currentItem.itemString + "\" from \"" +
+                        pageStack.getTopTitle() + "\"?"
+
+            Component.onCompleted: {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onNoClicked.connect(wizardContent.close)
+                dialog.onYesClicked.connect(removeItem)
+                dialog.onYesClicked.connect(wizardContent.close)
+            }
+        }
+    }
+
+
+    Component {
+        id: renameItemDialog
+        SingleLineTextEditDialog {
+            id: dialog
+            explanationText: "Enter a new name for \"" + listOfItems.currentItem.itemString + "\""
+            startingText: listOfItems.currentItem.itemString
+
+            Component.onCompleted: {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(renameItem)
+                dialog.onOkClicked.connect(wizardContent.close)
+            }
+        }
+    }
 }

@@ -18,6 +18,9 @@ public:
 
     virtual ~QStudentsListModel() {}
 
+public slots:
+    virtual void removeItem(int index);
+    virtual void renameItem(QString newName, int row);
 
 private:
     boost::shared_ptr<Course> m_course;

@@ -34,6 +34,10 @@ public:
 
     QHash<int,QByteArray> roleNames() const;
 
+public slots:
+    virtual void removeItem(int row) = 0;
+    virtual void renameItem(QString newName, int row) = 0;
+
 private:
     virtual std::string getItemString(int index) const = 0;
     virtual int getColorIndicator(int /*index*/) const { return -1; }
