@@ -12,6 +12,7 @@ Rectangle {
     border.color: "gray"
     border.width: 1
     color: "transparent"
+    clip: true
 
     MouseArea {
         id: mouseArea
@@ -26,6 +27,7 @@ Rectangle {
         id: label
         anchors.centerIn: parent
         renderType: Text.NativeRendering
+        wrapMode: Text.WordWrap
     }
 
     states: State {

@@ -74,8 +74,12 @@ Rectangle {
             anchors.fill: parent
             anchors.margins: 5
             spacing: 5
+            interactive: false
+
             model: operationsModel
             delegate: TextButton {
+                width: parent.width
+
                 text: operationText
                 onClicked: {
                     mostRecentOperation = operation
