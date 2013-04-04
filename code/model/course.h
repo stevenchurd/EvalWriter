@@ -27,7 +27,7 @@ public:
      */
     void accept(Visitor& visitor) { visitor.visit(*this); }
 
-    bool operator ==(const Course&) const;
+    bool operator==(const Course&) const;
 
 private:
 
@@ -38,5 +38,7 @@ private:
     Course(const Course&);
     Course& operator= (const Course&);
 };
+
+bool operator<(const boost::shared_ptr<Course>& lhs, const boost::shared_ptr<Course>& rhs);
 
 #endif // COURSE_H

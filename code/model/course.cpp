@@ -13,10 +13,16 @@ void Course::updateCourseName(std::string newName)
 }
 
 
-bool Course::operator ==(const Course& rhs) const
+bool Course::operator==(const Course& rhs) const
 {
     if(rhs.getUuid() == this->getUuid())
         return true;
     else
         return false;
+}
+
+
+bool operator<(const boost::shared_ptr<Course>& lhs, const boost::shared_ptr<Course>& rhs)
+{
+    return (lhs->getCourseName() < rhs->getCourseName());
 }

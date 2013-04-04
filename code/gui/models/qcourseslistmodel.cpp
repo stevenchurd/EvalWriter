@@ -1,8 +1,14 @@
 // (C) Copyright Steven Hurd 2013
 
+#include <set>
+
 #include "qcourseslistmodel.h"
 #include "qstudentslistmodel.h"
 #include "utilities/persistentdatamanager.h"
+
+#ifndef Q_MOC_RUN
+#include <boost/iterator/indirect_iterator.hpp>
+#endif
 
 QCoursesListModel::QCoursesListModel(QObject* parent) :
     QGenericListModel(parent)
@@ -77,6 +83,39 @@ QList<int> QCoursesListModel::getSubModelOperations()
 }
 
 
+QStringList QCoursesListModel::getOptionListForOperation(int operation)
+{
+    QStringList optionsList;
+
+    switch(operation)
+    {
+        case AddExistingCourseToStudent:
+        {
+            assert(m_student != nullptr);
+            std::vector<boost::shared_ptr<Course> > courses;
+            std::set<boost::shared_ptr<Course> > allCourses(PDM().coursesBegin(), PDM().coursesEnd());
+            std::set<boost::shared_ptr<Course> > studentCourses(m_student->coursesBegin(), m_student->coursesEnd());
+            std::set_difference(allCourses.begin(), allCourses.end(), studentCourses.begin(), studentCourses.end(),
+                                std::back_inserter(courses));
+            std::sort(courses.begin(), courses.end());
+            std::for_each(courses.begin(), courses.end(),
+                          [&courses, &optionsList] (boost::shared_ptr<Course> course)
+            {
+                optionsList.push_back(QString::fromStdString(course->getCourseName()));
+            });
+        }
+            break;
+
+        default:
+            // no other operation should have a list
+            assert(false);
+            break;
+    }
+
+    return optionsList;
+}
+
+
 void QCoursesListModel::addCourse(QString courseName)
 {
     assert(m_student == nullptr);
@@ -98,13 +137,6 @@ void QCoursesListModel::removeItem(int row)
 
     if(m_student == nullptr)
     {
-        boost::shared_ptr<Course> course = elementAt<Course>(PDM().coursesBegin(), row);
-        std::for_each(PDM().studentsBegin(), PDM().studentsEnd(),
-                      [&course] (boost::shared_ptr<Student> student)
-        {
-            student->removeCourse(course->getUuid());
-        });
-
         PDM().remove(iterAt<Course>(PDM().coursesBegin(), row));
     }
     else
@@ -122,4 +154,38 @@ void QCoursesListModel::renameItem(QString newName, int row)
     boost::shared_ptr<Course> course = elementAt<Course>(PDM().coursesBegin(), row);
     course->updateCourseName(newName.toStdString());
     emit dataChanged(index(row), index(row));
+}
+
+
+void QCoursesListModel::optionListSelection(int operation, int row)
+{
+    switch(operation)
+    {
+        case AddExistingCourseToStudent:
+        {
+            assert(m_student != nullptr);
+            // perform the same actions that originally generated the courses list
+            // so that we can determine the selected course
+            std::vector<boost::shared_ptr<Course> > courses;
+            std::set<boost::shared_ptr<Course> > allCourses(PDM().coursesBegin(), PDM().coursesEnd());
+            std::set<boost::shared_ptr<Course> > studentCourses(m_student->coursesBegin(), m_student->coursesEnd());
+            std::set_difference(allCourses.begin(), allCourses.end(), studentCourses.begin(), studentCourses.end(),
+                                std::back_inserter(courses));
+            std::sort(courses.begin(), courses.end());
+
+            // now that we have the list, add the selected course to the student
+            if(row < static_cast<int>(courses.size()))
+            {
+                beginResetModel(); // TODO eventually replace this with a beginInsertRows
+                m_student->addCourse(courses[row]);
+                endResetModel();
+            }
+        }
+            break;
+
+        default:
+            // no other operation should have a list
+            assert(false);
+            break;
+    }
 }

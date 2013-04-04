@@ -91,6 +91,14 @@ QList<int> QStudentsListModel::getSubModelOperations()
 }
 
 
+QStringList QStudentsListModel::getOptionListForOperation(int operation)
+{
+    QStringList optionsList;
+    //TODO
+    return optionsList;
+}
+
+
 void QStudentsListModel::removeItem(int index)
 {
     // TODO
@@ -98,6 +106,12 @@ void QStudentsListModel::removeItem(int index)
 
 
 void QStudentsListModel::renameItem(QString newName, int row)
+{
+    //TODO
+}
+
+
+void QStudentsListModel::optionListSelection(int operation, int row)
 {
     //TODO
 }

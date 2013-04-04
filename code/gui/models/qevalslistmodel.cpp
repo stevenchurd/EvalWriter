@@ -69,6 +69,14 @@ QList<int> QEvalsListModel::getSubModelOperations()
 }
 
 
+QStringList QEvalsListModel::getOptionListForOperation(int operation)
+{
+    QStringList optionsList;
+
+    return optionsList;
+}
+
+
 void QEvalsListModel::removeItem(int index)
 {
     //TODO
@@ -76,6 +84,12 @@ void QEvalsListModel::removeItem(int index)
 
 
 void QEvalsListModel::renameItem(QString newName, int row)
+{
+    //TODO
+}
+
+
+void QEvalsListModel::optionListSelection(int operation, int row)
 {
     //TODO
 }

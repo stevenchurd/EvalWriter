@@ -22,11 +22,13 @@ public:
 public slots:
     virtual void removeItem(int index);
     virtual void renameItem(QString newName, int row);
+    virtual void optionListSelection(int operation, int row);
 
 private:
     boost::shared_ptr<Student> m_student;
     boost::shared_ptr<EvalSet> m_evalSet;
 
+    virtual QStringList getOptionListForOperation(int operation);
     virtual QAbstractItemModel* getSubModelFromIndex(int index);
     virtual QList<int> getSubModelOperations();
     virtual std::string getItemString(int index) const;

@@ -36,10 +36,12 @@ public slots:
     void addCourse(QString courseName);
     virtual void removeItem(int row);
     virtual void renameItem(QString newName, int row);
+    virtual void optionListSelection(int operation, int row);
 
 private:
     boost::shared_ptr<Student> m_student;
 
+    virtual QStringList getOptionListForOperation(int operation);
     virtual QAbstractItemModel* getSubModelFromIndex(int index);
     virtual QList<int> getSubModelOperations();
     virtual std::string getItemString(int index) const;

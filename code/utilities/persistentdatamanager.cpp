@@ -82,6 +82,15 @@ void PersistentDataManager::add(boost::shared_ptr<Course> newCourse)
 
 void PersistentDataManager::remove(std::vector<boost::shared_ptr<Course> >::const_iterator it)
 {
+    // if we're removing a course from the main list, we also need to remove it
+    // from any students who are in this course
+    boost::shared_ptr<Course> course = *it;
+    std::for_each(studentsBegin(), studentsEnd(),
+                  [&course] (boost::shared_ptr<Student> student)
+    {
+        student->removeCourse(course->getUuid());
+    });
+
     m_allCourses.erase(it);
 }
 

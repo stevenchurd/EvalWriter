@@ -9,6 +9,8 @@ Rectangle {
     property var model
     property var modelType
     property ListModel modelOperations
+    property var mostRecentItemChooserList
+    property var mostRecentOperation
 
     clip: true
 
@@ -76,6 +78,11 @@ Rectangle {
             delegate: TextButton {
                 text: operationText
                 onClicked: {
+                    mostRecentOperation = operation
+                    if(componentToDisplay === itemChooserDialog)
+                    {
+                        mostRecentItemChooserList = wrapper.model.getOptionListForOperation(operation)
+                    }
                     wizardContent.sourceComponent = componentToDisplay
                     wizardContent.show()
                 }
@@ -96,7 +103,8 @@ Rectangle {
         for(var i = 0; i < supportedOperations.length; i++)
         {
             operationsModel.append({"operationText": JsUtil.getOperationString(supportedOperations[i]),
-                                    "componentToDisplay": getOperationComponent(supportedOperations[i])})
+                                    "componentToDisplay": getOperationComponent(supportedOperations[i]),
+                                    "operation": supportedOperations[i]})
         }
     }
 
@@ -118,6 +126,12 @@ Rectangle {
     }
 
 
+    function chooseItem(row)
+    {
+        wrapper.model.optionListSelection(mostRecentOperation, row);
+    }
+
+
     function getOperationComponent(operation)
     {
         switch(operation) {
@@ -134,7 +148,7 @@ Rectangle {
                 return removeItemFromParentDialog
 
             case QCoursesListModel.AddExistingCourseToStudent:
-
+                return itemChooserDialog
 
             default:
                 console.log("No component defined: " + operation)
@@ -203,6 +217,22 @@ Rectangle {
                 dialog.onCanceled.connect(wizardContent.close)
                 dialog.onCancelClicked.connect(wizardContent.close)
                 dialog.onOkClicked.connect(renameItem)
+                dialog.onOkClicked.connect(wizardContent.close)
+            }
+        }
+    }
+
+    Component {
+        id: itemChooserDialog
+        ListChooserDialog {
+            id: dialog
+            explanationText: "Add item to \"" + pageStack.getTopTitle() + "\""
+            stringList: mostRecentItemChooserList
+
+            Component.onCompleted: {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(chooseItem)
                 dialog.onOkClicked.connect(wizardContent.close)
             }
         }

@@ -109,3 +109,15 @@ void QEvalSetsListModel::renameItem(QString evalSetName, int row)
     emit dataChanged(index(row), index(row));
 }
 
+
+QStringList QEvalSetsListModel::getOptionListForOperation(int operation)
+{
+    QStringList optionsList;
+
+    return optionsList;
+}
+
+
+void QEvalSetsListModel::optionListSelection(int operation, int row)
+{
+}

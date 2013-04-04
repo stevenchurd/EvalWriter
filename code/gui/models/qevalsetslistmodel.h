@@ -35,10 +35,12 @@ public slots:
     void addEvalSet(QString evalSetName) const;
     virtual void removeItem(int index);
     virtual void renameItem(QString newName, int index);
+    virtual void optionListSelection(int operation, int row);
 
 private:
     boost::shared_ptr<EvalSet> m_evalSet;
 
+    virtual QStringList getOptionListForOperation(int operation);
     virtual QAbstractItemModel* getSubModelFromIndex(int index);
     virtual QList<int> getSubModelOperations();
     virtual std::string getItemString(int index) const;
