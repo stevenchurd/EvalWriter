@@ -41,6 +41,7 @@ public slots:
 private:
     boost::shared_ptr<Student> m_student;
 
+    virtual QString getOperationExplanationText(int operation, int row);
     virtual QStringList getOptionListForOperation(int operation);
     virtual QAbstractItemModel* getSubModelFromIndex(int index);
     virtual QList<int> getSubModelOperations();

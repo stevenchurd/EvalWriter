@@ -93,3 +93,11 @@ void QEvalsListModel::optionListSelection(int operation, int row)
 {
     //TODO
 }
+
+
+QString QEvalsListModel::getOperationExplanationText(int operation, int row)
+{
+    QString explanationString;
+    //TODO
+    return explanationString;
+}

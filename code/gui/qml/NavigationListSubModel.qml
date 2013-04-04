@@ -161,7 +161,7 @@ Rectangle {
         id: addCourseDialog
         SingleLineTextEditDialog {
             id: dialog
-            explanationText: "Add a class:"
+            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
 
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)
@@ -177,7 +177,7 @@ Rectangle {
         id: removeItemDialog
         YesNoDialog {
             id: dialog
-            dialogText: "Do you want to remove \"" + listOfItems.currentItem.itemString + "\"?"
+            dialogText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
 
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)
@@ -193,8 +193,7 @@ Rectangle {
         id: removeItemFromParentDialog
         YesNoDialog {
             id: dialog
-            dialogText: "Do you want to remove \"" + listOfItems.currentItem.itemString + "\" from \"" +
-                        pageStack.getTopTitle() + "\"?"
+            dialogText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
 
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)
@@ -210,7 +209,7 @@ Rectangle {
         id: renameItemDialog
         SingleLineTextEditDialog {
             id: dialog
-            explanationText: "Enter a new name for \"" + listOfItems.currentItem.itemString + "\""
+            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
             startingText: listOfItems.currentItem.itemString
 
             Component.onCompleted: {
@@ -226,7 +225,7 @@ Rectangle {
         id: itemChooserDialog
         ListChooserDialog {
             id: dialog
-            explanationText: "Add item to \"" + pageStack.getTopTitle() + "\""
+            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
             stringList: mostRecentItemChooserList
 
             Component.onCompleted: {

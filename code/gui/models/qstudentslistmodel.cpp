@@ -115,3 +115,11 @@ void QStudentsListModel::optionListSelection(int operation, int row)
 {
     //TODO
 }
+
+
+QString QStudentsListModel::getOperationExplanationText(int operation, int row)
+{
+    QString explanationString;
+    //TODO
+    return explanationString;
+}

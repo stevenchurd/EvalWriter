@@ -120,4 +120,14 @@ QStringList QEvalSetsListModel::getOptionListForOperation(int operation)
 
 void QEvalSetsListModel::optionListSelection(int operation, int row)
 {
+    //TODO
 }
+
+
+QString QEvalSetsListModel::getOperationExplanationText(int operation, int row)
+{
+    QString explanationString;
+    //TODO
+    return explanationString;
+}
+

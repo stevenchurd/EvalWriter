@@ -29,7 +29,7 @@ public:
     Q_INVOKABLE virtual QObject* getSubModelFromIndex(int index) = 0;
     Q_INVOKABLE virtual QList<int> getSubModelOperations() = 0;
     Q_INVOKABLE virtual QStringList getOptionListForOperation(int operation) = 0;
-    //Q_INVOKABLE virtual QString getOperationExplanationText(int operation, int row) = 0;
+    Q_INVOKABLE virtual QString getOperationExplanationText(int operation, int row) = 0;
 
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;
