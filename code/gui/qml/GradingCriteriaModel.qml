@@ -13,6 +13,7 @@ Item {
 
         height: parent.height
         width: parent.width - (scrollbar.width+5)
+        clip: true
 
         model: gradingCriteriaModel
         delegate: GradingCriteriaDelegate{ editable: wrapper.editable }

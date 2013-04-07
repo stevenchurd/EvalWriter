@@ -29,6 +29,21 @@ std::vector<boost::shared_ptr<Eval> >::const_iterator EvalSet::evalsEnd(void)
 }
 
 
+void EvalSet::removeEval(std::vector<boost::shared_ptr<Eval> >::const_iterator it)
+{
+    m_evals.erase(it);
+}
+
+
+void EvalSet::removeEval(std::vector<std::string> uuids)
+{
+    m_evals.erase(std::remove_if(m_evals.begin(), m_evals.end(),
+                   [&uuids] (boost::shared_ptr<Eval> eval)
+                   { return (std::find(uuids.begin(), uuids.end(), eval->getUuid()) != uuids.end()); }),
+            m_evals.end());
+}
+
+
 std::vector<boost::shared_ptr<EvalSet> >::const_iterator EvalSet::evalSetsBegin(void)
 {
     return m_subEvalSets.begin();

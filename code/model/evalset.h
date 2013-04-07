@@ -24,6 +24,7 @@ public:
 
     void addEval(boost::shared_ptr<Eval> eval);
     void removeEval(std::vector<boost::shared_ptr<Eval> >::const_iterator it);
+    void removeEval(std::vector<std::string> uuids);
 
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin(void);
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd(void);

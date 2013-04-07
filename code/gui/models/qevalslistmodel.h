@@ -12,12 +12,25 @@
 class QEvalsListModel : public QGenericListModel
 {
     Q_OBJECT
+    Q_ENUMS(EvalsListOperations)
 
 public:
     QEvalsListModel(boost::shared_ptr<Student> student, QObject* parent = 0);
     QEvalsListModel(boost::shared_ptr<EvalSet> evalSet, QObject* parent = 0);
 
     virtual ~QEvalsListModel() {}
+
+    enum EvalsListOperations {
+        AddEval = ModelOperationRanges::EvalsListOperationsBegin,
+        AddExistingEvalToEvalSet,
+        RemoveEval,
+        RemoveEvalFromEvalSet,
+        RenameEval,
+
+        EndOfEnum
+    };
+    static_assert(EndOfEnum < ModelOperationRanges::EvalsListOperationsEnd,
+                  "Too many items in enumeration");
 
 public slots:
     virtual void removeItem(int index);

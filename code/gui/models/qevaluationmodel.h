@@ -39,7 +39,7 @@ public:
     QHash<int,QByteArray> roleNames() const;
 
 public slots:
-    void addCriteriaItem(int index, std::string uuid);
+    void addCriteriaItem(int index, QString uuid);
     void moveEvalItem(int srcIndex, int destIndex);
     void removeItem(int row);
     void selectItem(int row);

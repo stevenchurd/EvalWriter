@@ -3,6 +3,7 @@
 #include "model/visitors/studentsavevisitor.h"
 #include "model/visitors/gradingcriteriasavevisitor.h"
 #include "model/visitors/evalsetsavevisitor.h"
+#include "model/visitors/removeevalvisitor.h"
 
 #include "utilities/coursespropertytreeparser.h"
 #include "utilities/gradingcriteriapropertytreeparser.h"
@@ -56,6 +57,33 @@ std::vector<boost::shared_ptr<Student> >::const_iterator PersistentDataManager::
 {
     return m_allStudents.cend();
 }
+
+
+void PersistentDataManager::remove(std::vector<boost::shared_ptr<Student> >::const_iterator it)
+{
+    // if we are removing a student, we need to make sure all their owned Evals are removed
+    // from eval sets prior to removing the student
+    boost::shared_ptr<Student> student = *it;
+    std::vector<std::string> uuids;
+
+    // get all the UUIDs of the evals owned by the student
+    std::for_each(student->evalsBegin(), student->evalsEnd(),
+                  [&uuids] (boost::shared_ptr<Eval> eval)
+    {
+        uuids.push_back(eval->getUuid());
+    });
+
+    RemoveEvalVisitor rev(uuids);
+
+    std::for_each(m_allEvalSets.begin(), m_allEvalSets.end(),
+                  [&rev] (boost::shared_ptr<EvalSet> evalSet)
+    {
+        evalSet->accept(rev);
+    });
+
+    m_allStudents.erase(it);
+}
+
 
 
 

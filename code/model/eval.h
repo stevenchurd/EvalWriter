@@ -29,6 +29,7 @@ public:
     virtual ~Eval() {}
 
     std::string getEvalName(void) const { return m_evalName; }
+    void setEvalName(std::string name) { m_evalName = name; }
 
     void getPrintableEvalString(std::stringstream &ss) ;
 

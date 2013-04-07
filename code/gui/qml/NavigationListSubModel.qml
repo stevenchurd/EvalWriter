@@ -17,7 +17,7 @@ Rectangle {
     ListView {
         id: listOfItems
         height: parent.height
-        width: parent.width - listOperationsContainer.width
+        width: parent.width - listOperationsContainer.width - (scrollbar.width + 5)
         model: wrapper.model
 
         highlight: Rectangle {
@@ -29,7 +29,7 @@ Rectangle {
             id: delegateWrapper
             height: 60
             // TODO: work on resizing objects eventually
-            width: listOfItems.width > 400 ? 400 : listOfItems.width
+            width: listOfItems.width > 400 ? 400 : listOfItems.width - (scrollbar.width + 5)
 
             readonly property string itemString: displayString
 
@@ -59,11 +59,16 @@ Rectangle {
         }
     }
 
+    Scrollbar {
+        id: scrollbar
+        target: listOfItems
+    }
+
     Rectangle {
         id: listOperationsContainer
         height: parent.height
         width: 100
-        anchors.left: listOfItems.right
+        anchors.left: scrollbar.right
         color: "red"
 
         ListModel {
@@ -118,6 +123,18 @@ Rectangle {
     }
 
 
+    function addEvalSet(newEvalSetName)
+    {
+        wrapper.model.addEvalSet(newEvalSetName);
+    }
+
+
+    function addEval(newEvalName)
+    {
+        wrapper.model.addEval(newEvalName);
+    }
+
+
     function removeItem()
     {
         wrapper.model.removeItem(listOfItems.currentIndex)
@@ -139,6 +156,9 @@ Rectangle {
     function getOperationComponent(operation)
     {
         switch(operation) {
+            //
+            // Course operations
+            //
             case QCoursesListModel.AddCourse:
                 return addCourseDialog
 
@@ -149,10 +169,56 @@ Rectangle {
                 return renameItemDialog
 
             case QCoursesListModel.RemoveExistingCourseFromStudent:
-                return removeItemFromParentDialog
+                return removeItemDialog
 
             case QCoursesListModel.AddExistingCourseToStudent:
                 return itemChooserDialog
+
+            //
+            // Eval Set operations
+            //
+            case QEvalSetsListModel.AddEvalSet:
+                return addEvalSetDialog
+
+            case QEvalSetsListModel.RemoveEvalSet:
+                return removeItemDialog
+
+            case QEvalSetsListModel.RenameEvalSet:
+                return renameItemDialog
+
+            //
+            // Student operations
+            //
+            case QStudentsListModel.AddStudent:
+                // TODO
+                //return addStudentDialog
+
+            case QStudentsListModel.AddExistingStudentToCourse:
+                return itemChooserDialog
+
+            case QStudentsListModel.RemoveStudent:
+                return removeItemDialog
+
+            case QStudentsListModel.RemoveStudentFromCourse:
+                return removeItemDialog
+
+            //
+            // Eval operations
+            //
+            case QEvalsListModel.AddEval:
+                return addEvalDialog
+
+            case QEvalsListModel.RemoveEval:
+                return removeItemDialog
+
+            case QEvalsListModel.RenameEval:
+                return renameItemDialog
+
+            case QEvalsListModel.AddExistingEvalToEvalSet:
+                return itemChooserDialog
+
+            case QEvalsListModel.RemoveEvalFromEvalSet:
+                return removeItemDialog
 
             default:
                 console.log("No component defined: " + operation)
@@ -178,23 +244,39 @@ Rectangle {
 
 
     Component {
-        id: removeItemDialog
-        YesNoDialog {
+        id: addEvalSetDialog
+        SingleLineTextEditDialog {
             id: dialog
-            dialogText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
+            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
 
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)
-                dialog.onNoClicked.connect(wizardContent.close)
-                dialog.onYesClicked.connect(removeItem)
-                dialog.onYesClicked.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(addEvalSet)
+                dialog.onOkClicked.connect(wizardContent.close)
             }
         }
     }
 
 
     Component {
-        id: removeItemFromParentDialog
+        id: addEvalDialog
+        SingleLineTextEditDialog {
+            id: dialog
+            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
+
+            Component.onCompleted: {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(addEval)
+                dialog.onOkClicked.connect(wizardContent.close)
+            }
+        }
+    }
+
+
+    Component {
+        id: removeItemDialog
         YesNoDialog {
             id: dialog
             dialogText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)

@@ -58,14 +58,19 @@ QList<int> QEvalSetsListModel::getSubModelOperations()
 {
     QList<int> opList;
 
+    opList.push_back(AddEvalSet);
+    opList.push_back(RemoveEvalSet);
+    opList.push_back(RenameEvalSet);
+
     return opList;
 }
 
 
-void QEvalSetsListModel::addEvalSet(QString evalSetName) const
+void QEvalSetsListModel::addEvalSet(QString evalSetName)
 {
     boost::shared_ptr<EvalSet> newEvalSet(new EvalSet(evalSetName.toStdString()));
 
+    beginResetModel();
     if(m_evalSet == nullptr)
     {
         // add the new eval set to the global list
@@ -76,19 +81,22 @@ void QEvalSetsListModel::addEvalSet(QString evalSetName) const
         // otherwise add it as a sub-eval set
         m_evalSet->addEvalSet(newEvalSet);
     }
+    endResetModel(); // TODO replace with begin/endInsertRow
 }
 
 
-void QEvalSetsListModel::removeItem(int index)
+void QEvalSetsListModel::removeItem(int row)
 {
+    beginRemoveRows(QModelIndex(), row, row);
     if(m_evalSet == nullptr)
     {
-        PDM().remove(iterAt<EvalSet>(PDM().evalSetsBegin(), index));
+        PDM().remove(iterAt<EvalSet>(PDM().evalSetsBegin(), row));
     }
     else
     {
-        m_evalSet->removeEvalSet(iterAt<EvalSet>(m_evalSet->evalSetsBegin(), index));
+        m_evalSet->removeEvalSet(iterAt<EvalSet>(m_evalSet->evalSetsBegin(), row));
     }
+    endRemoveRows();
 }
 
 
@@ -113,21 +121,60 @@ void QEvalSetsListModel::renameItem(QString evalSetName, int row)
 QStringList QEvalSetsListModel::getOptionListForOperation(int operation)
 {
     QStringList optionsList;
-
+    assert(false); // this function should not be used for eval sets
     return optionsList;
 }
 
 
 void QEvalSetsListModel::optionListSelection(int operation, int row)
 {
-    //TODO
+    assert(false); // this function should not be used for eval sets
 }
 
 
 QString QEvalSetsListModel::getOperationExplanationText(int operation, int row)
 {
     QString explanationString;
-    //TODO
+
+    if(row < 0)
+    {
+        return QString();
+    }
+
+    boost::shared_ptr<EvalSet> evalSet;
+
+    if(m_evalSet != nullptr)
+    {
+        evalSet = elementAt<EvalSet>(m_evalSet->evalSetsBegin(), row);
+    }
+    else
+    {
+        evalSet = elementAt<EvalSet>(PDM().evalSetsBegin(), row);
+    }
+
+    switch(operation)
+    {
+        case AddEvalSet:
+            explanationString = QString("Enter the name of the Evaluation Set to add:");
+            break;
+
+        case RemoveEvalSet:
+            explanationString = QString("Permanently remove the Evaluation Set \"" +
+                                        QString::fromStdString(evalSet->getEvalSetName()) +
+                                        "\"?\nThis will not remove the contained evaluations.");
+            break;
+
+        case RenameEvalSet:
+            explanationString = QString("Permanently rename the Evaluation Set \"" +
+                                        QString::fromStdString(evalSet->getEvalSetName()) +
+                                        "\" to:");
+            break;
+
+        default:
+            assert(false);
+            break;
+    }
+
     return explanationString;
 }
 

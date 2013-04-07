@@ -48,6 +48,7 @@ public:
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin() const;
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd() const;
     bool getEvalById(std::string id, boost::shared_ptr<Eval>& eval) const;
+    void removeEval(std::vector<boost::shared_ptr<Eval> >::const_iterator it);
 
     /*
      * Course functions
@@ -81,5 +82,7 @@ private:
     Student& operator= (const Student&);
 
 };
+
+bool operator <(const boost::shared_ptr<Student>& lhs, const boost::shared_ptr<Student>& rhs);
 
 #endif // STUDENT_H

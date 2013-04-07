@@ -11,12 +11,24 @@
 class QStudentsListModel : public QGenericListModel
 {
     Q_OBJECT
+    Q_ENUMS(StudentsListOperations)
 
 public:
     QStudentsListModel(QObject* parent = 0);
     QStudentsListModel(boost::shared_ptr<Course> course, QObject* parent = 0);
 
     virtual ~QStudentsListModel() {}
+
+    enum StudentsListOperations {
+        AddStudent = ModelOperationRanges::StudentsListOperationsBegin,
+        RemoveStudent,
+        AddExistingStudentToCourse,
+        RemoveStudentFromCourse,
+
+        EndOfEnum
+    };
+    static_assert(EndOfEnum < ModelOperationRanges::StudentsListOperationsEnd,
+                  "Too many items in enumeration");
 
 public slots:
     virtual void removeItem(int index);

@@ -40,11 +40,49 @@ function getOperationString(operation)
             return "Add Student to Class"
 
 
-
+        // Eval Set List Operations
         case QEvalSetsListModel.AddEvalSet:
             return "Add Evaluation Set"
 
+        case QEvalSetsListModel.RemoveEvalSet:
+            return "Remove Evaluation Set"
+
+        case QEvalSetsListModel.RenameEvalSet:
+            return "Rename Evaluation Set"
+
+
+        // Student List Operations
+        case QStudentsListModel.AddStudent:
+            return "Add Student"
+
+        case QStudentsListModel.RemoveStudent:
+            return "Remove Student"
+
+        case QStudentsListModel.AddExistingStudentToCourse:
+            return "Add Existing Student"
+
+        case QStudentsListModel.RemoveStudentFromCourse:
+            return "Remove Student from Class"
+
+
+        // Eval List Operations
+        case QEvalsListModel.AddEval:
+            return "Add Evaluation"
+
+        case QEvalsListModel.RemoveEval:
+            return "Remove Evalutation"
+
+        case QEvalsListModel.RenameEval:
+            return "Rename Evaluation"
+
+        case QEvalsListModel.AddExistingEvalToEvalSet:
+            return "Add Existing Evaluation"
+
+        case QEvalsListModel.RemoveEvalFromEvalSet:
+            return "Remove Evaluation from Set"
+
         default:
-            return "Error: operation not matched"
+            console.log("Error: operation not defined: " + operation)
+            return String(operation)
     }
 }

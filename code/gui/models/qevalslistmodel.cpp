@@ -1,6 +1,7 @@
 #include "qevalslistmodel.h"
 #include "utilities/persistentdatamanager.h"
 #include "qevaluationmodel.h"
+#include "model/visitors/removeevalvisitor.h"
 
 QEvalsListModel::QEvalsListModel(boost::shared_ptr<Student> student, QObject* parent) :
     QGenericListModel(parent), m_student(student)
@@ -65,6 +66,23 @@ QList<int> QEvalsListModel::getSubModelOperations()
 {
     QList<int> opList;
 
+    if(m_evalSet != nullptr)
+    {
+        opList.push_back(AddExistingEvalToEvalSet);
+        opList.push_back(RemoveEvalFromEvalSet);
+        opList.push_back(RenameEval);
+    }
+    else if(m_student != nullptr)
+    {
+        opList.push_back(AddEval);
+        opList.push_back(RemoveEval);
+        opList.push_back(RenameEval);
+    }
+    else
+    {
+        assert(false);
+    }
+
     return opList;
 }
 
@@ -72,20 +90,64 @@ QList<int> QEvalsListModel::getSubModelOperations()
 QStringList QEvalsListModel::getOptionListForOperation(int operation)
 {
     QStringList optionsList;
-
+    assert(false); // not used
     return optionsList;
 }
 
 
-void QEvalsListModel::removeItem(int index)
+void QEvalsListModel::removeItem(int row)
 {
-    //TODO
+    beginRemoveRows(QModelIndex(), row, row);
+    if(m_evalSet != nullptr)
+    {
+        // removing from an eval set just removes the eval
+        m_evalSet->removeEval(iterAt<Eval>(m_evalSet->evalsBegin(), row));
+    }
+    else if(m_student != nullptr)
+    {
+        // removing an eval from a student permanently deletes it
+        boost::shared_ptr<Eval> eval = elementAt<Eval>(m_student->evalsBegin(), row);
+        std::vector<std::string> evalUuids;
+        evalUuids.push_back(eval->getUuid());
+
+        // need to remove the eval from all the Eval Sets too
+        RemoveEvalVisitor rev(evalUuids);
+        std::for_each(PDM().evalSetsBegin(), PDM().evalSetsEnd(),
+                      [&rev] (boost::shared_ptr<EvalSet> evalSet)
+        {
+            evalSet->accept(rev);
+        });
+
+        // now remove the eval from the student
+        m_student->removeEval(iterAt<Eval>(m_student->evalsBegin(), row));
+    }
+    else
+    {
+        assert(false);
+    }
+    endRemoveRows();
 }
 
 
 void QEvalsListModel::renameItem(QString newName, int row)
 {
-    //TODO
+    boost::shared_ptr<Eval> eval;
+
+    if(m_evalSet != nullptr)
+    {
+        eval = elementAt<Eval>(m_evalSet->evalsBegin(), row);
+    }
+    else if(m_student != nullptr)
+    {
+        eval = elementAt<Eval>(m_student->evalsBegin(), row);
+    }
+    else
+    {
+        assert(false);
+    }
+
+    eval->setEvalName(newName.toStdString());
+    emit dataChanged(index(row), index(row));
 }
 
 

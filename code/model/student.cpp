@@ -51,6 +51,12 @@ bool Student::getEvalById(std::string id, boost::shared_ptr<Eval>& eval) const
 }
 
 
+void Student::removeEval(std::vector<boost::shared_ptr<Eval> >::const_iterator it)
+{
+    m_evals.erase(it);
+}
+
+
 std::vector<boost::shared_ptr<Course> >::const_iterator Student::coursesBegin() const
 {
     return m_courses.cbegin();
@@ -97,4 +103,10 @@ void Student::acceptChildren(Visitor& visitor)
 
     std::for_each(m_evals.begin(), m_evals.end(),
                   [&visitor](boost::shared_ptr<Eval> eval) { eval->accept(visitor); });
+}
+
+
+bool operator <(const boost::shared_ptr<Student>& lhs, const boost::shared_ptr<Student>& rhs)
+{
+    return lhs->getDisplayName() < rhs->getDisplayName();
 }
