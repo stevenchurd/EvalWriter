@@ -15,6 +15,7 @@ class EvalSet : public VisitorElement
 {
 public:
     EvalSet(std::string name,
+            boost::shared_ptr<EvalSet> parentEvalSet,
             boost::uuids::uuid objUuid = boost::uuids::random_generator()());
 
     virtual ~EvalSet() {}
@@ -36,6 +37,7 @@ public:
     std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsEnd(void);
 
     std::string getUuid(void) const { return to_string(m_uuid); }
+    boost::shared_ptr<EvalSet> getParentEvalSet(void) const { return m_parentEvalSet; }
 
     /*
      * VisitorElement functions
@@ -47,6 +49,7 @@ private:
     std::string m_evalSetName;
     std::vector<boost::shared_ptr<Eval> > m_evals;
     std::vector<boost::shared_ptr<EvalSet> > m_subEvalSets;
+    boost::shared_ptr<EvalSet> m_parentEvalSet;
 
     boost::uuids::uuid m_uuid;
 

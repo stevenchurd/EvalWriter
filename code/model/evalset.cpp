@@ -3,9 +3,11 @@
 #include "evalset.h"
 
 EvalSet::EvalSet(std::string name,
+                 boost::shared_ptr<EvalSet> parentEvalSet,
                  boost::uuids::uuid objUuid) :
     VisitorElement(),
     m_evalSetName(name),
+    m_parentEvalSet(parentEvalSet),
     m_uuid(objUuid)
 {
 }

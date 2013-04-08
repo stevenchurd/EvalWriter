@@ -19,7 +19,8 @@ private:
     template <typename InputIterator>
     boost::shared_ptr<EvalSet> parseEvalSetNode(boost::property_tree::ptree& pt,
                                                 InputIterator& studentsBegin,
-                                                InputIterator& studentsEnd);
+                                                InputIterator& studentsEnd,
+                                                boost::shared_ptr<EvalSet> parentSet);
 
     template <typename InputIterator>
     boost::shared_ptr<Eval> parseEvalNode(boost::property_tree::ptree& pt,
@@ -48,13 +49,15 @@ void EvalSetPropertyTreeParser::parseTree(boost::property_tree::ptree& pt,
                     std::string("Expected evalSet node: ") + v.first);
         }
 
-        dest++ = parseEvalSetNode(v.second, studentsBegin, studentsEnd);
+        dest++ = parseEvalSetNode(v.second, studentsBegin, studentsEnd, nullptr);
     }
 }
 
 template <typename InputIterator>
 boost::shared_ptr<EvalSet> EvalSetPropertyTreeParser::parseEvalSetNode(boost::property_tree::ptree& pt,
-                                            InputIterator& studentsBegin, InputIterator& studentsEnd)
+                                                                       InputIterator& studentsBegin,
+                                                                       InputIterator& studentsEnd,
+                                                                       boost::shared_ptr<EvalSet> parentSet)
 {
     std::string evalSetTitle;
     boost::uuids::uuid evalSetUuid;
@@ -68,13 +71,13 @@ boost::shared_ptr<EvalSet> EvalSetPropertyTreeParser::parseEvalSetNode(boost::pr
                     std::string("Element not found: ") + pte.what());
     }
 
-    boost::shared_ptr<EvalSet> evalSet(new EvalSet(evalSetTitle, evalSetUuid));
+    boost::shared_ptr<EvalSet> evalSet(new EvalSet(evalSetTitle, parentSet, evalSetUuid));
 
     for (auto it = pt.begin(); it != pt.end(); ++it)
     {
         if(it->first == xml_node_names::singleEvalSetNode)
         {
-            evalSet->addEvalSet(parseEvalSetNode(it->second, studentsBegin, studentsEnd));
+            evalSet->addEvalSet(parseEvalSetNode(it->second, studentsBegin, studentsEnd, evalSet));
         }
         else if(it->first == xml_node_names::singleEvalNode)
         {

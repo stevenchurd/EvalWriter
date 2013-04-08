@@ -116,7 +116,7 @@ QStringList QCoursesListModel::getOptionListForOperation(int operation)
 }
 
 
-void QCoursesListModel::addCourse(QString courseName)
+void QCoursesListModel::addItem(QString courseName)
 {
     assert(m_student == nullptr);
 

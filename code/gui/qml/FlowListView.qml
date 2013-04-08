@@ -43,6 +43,12 @@ Flickable {
         var closestIndex = -1
         var xDistFromClosest = 0xFFFF
 
+        // if the list is empty, always return 0
+        if(count <= 0)
+        {
+            return 0;
+        }
+
         // first, check if the item is within the y bounds of any items
         // if it's not, only return the nearest item index if it's after all items
         for(var i = 0; i < count; i++)

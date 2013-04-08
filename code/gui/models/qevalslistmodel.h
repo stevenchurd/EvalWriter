@@ -33,6 +33,7 @@ public:
                   "Too many items in enumeration");
 
 public slots:
+    virtual void addItem(QString newName);
     virtual void removeItem(int index);
     virtual void renameItem(QString newName, int row);
     virtual void optionListSelection(int operation, int row);

@@ -67,7 +67,7 @@ Rectangle {
     Rectangle {
         id: listOperationsContainer
         height: parent.height
-        width: 100
+        width: 150
         anchors.left: scrollbar.right
         color: "red"
 
@@ -117,21 +117,9 @@ Rectangle {
         }
     }
 
-    function addCourse(newCourseName)
+    function addItem(newName)
     {
-        wrapper.model.addCourse(newCourseName)
-    }
-
-
-    function addEvalSet(newEvalSetName)
-    {
-        wrapper.model.addEvalSet(newEvalSetName);
-    }
-
-
-    function addEval(newEvalName)
-    {
-        wrapper.model.addEval(newEvalName);
+        wrapper.model.addItem(newName)
     }
 
 
@@ -160,7 +148,7 @@ Rectangle {
             // Course operations
             //
             case QCoursesListModel.AddCourse:
-                return addCourseDialog
+                return addItemDialog
 
             case QCoursesListModel.RemoveCourse:
                 return removeItemDialog
@@ -178,7 +166,7 @@ Rectangle {
             // Eval Set operations
             //
             case QEvalSetsListModel.AddEvalSet:
-                return addEvalSetDialog
+                return addItemDialog
 
             case QEvalSetsListModel.RemoveEvalSet:
                 return removeItemDialog
@@ -206,7 +194,7 @@ Rectangle {
             // Eval operations
             //
             case QEvalsListModel.AddEval:
-                return addEvalDialog
+                return addItemDialog
 
             case QEvalsListModel.RemoveEval:
                 return removeItemDialog
@@ -228,7 +216,7 @@ Rectangle {
 
     // dialog componenets
     Component {
-        id: addCourseDialog
+        id: addItemDialog
         SingleLineTextEditDialog {
             id: dialog
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
@@ -236,39 +224,7 @@ Rectangle {
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)
                 dialog.onCancelClicked.connect(wizardContent.close)
-                dialog.onOkClicked.connect(addCourse)
-                dialog.onOkClicked.connect(wizardContent.close)
-            }
-        }
-    }
-
-
-    Component {
-        id: addEvalSetDialog
-        SingleLineTextEditDialog {
-            id: dialog
-            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
-
-            Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
-                dialog.onOkClicked.connect(addEvalSet)
-                dialog.onOkClicked.connect(wizardContent.close)
-            }
-        }
-    }
-
-
-    Component {
-        id: addEvalDialog
-        SingleLineTextEditDialog {
-            id: dialog
-            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
-
-            Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
-                dialog.onOkClicked.connect(addEval)
+                dialog.onOkClicked.connect(addItem)
                 dialog.onOkClicked.connect(wizardContent.close)
             }
         }

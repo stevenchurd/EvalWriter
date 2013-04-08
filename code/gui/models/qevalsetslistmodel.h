@@ -32,7 +32,7 @@ public:
                   "Too many items in enumeration");
 
 public slots:
-    void addEvalSet(QString evalSetName);
+    virtual void addItem(QString newName);
     virtual void removeItem(int index);
     virtual void renameItem(QString newName, int index);
     virtual void optionListSelection(int operation, int row);

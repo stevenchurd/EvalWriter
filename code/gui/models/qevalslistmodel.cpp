@@ -1,3 +1,5 @@
+#include <set>
+
 #include "qevalslistmodel.h"
 #include "utilities/persistentdatamanager.h"
 #include "qevaluationmodel.h"
@@ -90,8 +92,65 @@ QList<int> QEvalsListModel::getSubModelOperations()
 QStringList QEvalsListModel::getOptionListForOperation(int operation)
 {
     QStringList optionsList;
-    assert(false); // not used
+
+    switch(operation)
+    {
+        case AddExistingEvalToEvalSet:
+        {
+            assert(m_evalSet != nullptr);
+            // these are the Evals of an Eval Set so to add evals, show
+            // the evals of the parent eval
+            boost::shared_ptr<EvalSet> parentEvalSet = m_evalSet->getParentEvalSet();
+            std::set<boost::shared_ptr<Eval> > parentEvals;
+            std::set<boost::shared_ptr<Eval> > currentEvals(
+                        m_evalSet->evalsBegin(), m_evalSet->evalsEnd());
+
+            if(parentEvalSet == nullptr)
+            {
+                // need to get all existing evals in students
+                std::for_each(PDM().studentsBegin(), PDM().studentsEnd(),
+                              [&parentEvals] (boost::shared_ptr<Student> student)
+                {
+                    parentEvals.insert(student->evalsBegin(), student->evalsEnd());
+                });
+
+            }
+            else
+            {
+                parentEvals = std::set<boost::shared_ptr<Eval> >(
+                            parentEvalSet->evalsBegin(), parentEvalSet->evalsEnd());
+            }
+
+            std::vector<boost::shared_ptr<Eval> > evals;
+            std::set_difference(parentEvals.begin(), parentEvals.end(),
+                                currentEvals.begin(), currentEvals.end(),
+                                std::inserter(evals, evals.begin()));
+            std::sort(evals.begin(), evals.end());
+
+            std::for_each(evals.begin(), evals.end(),
+                          [&optionsList] (boost::shared_ptr<Eval> eval)
+            {
+                optionsList.push_back(QString::fromStdString(eval->getEvalName()));
+            });
+        }
+            break;
+
+        default:
+            assert(false);
+            break;
+    }
+
     return optionsList;
+}
+
+
+void QEvalsListModel::addItem(QString newEvalName)
+{
+    beginResetModel();
+    assert(m_student != nullptr && m_evalSet == nullptr);
+    boost::shared_ptr<Eval> newEval(new Eval(newEvalName.toStdString()));
+    m_student->addEval(newEval);
+    endResetModel(); // TODO: replace with beginInsertRow
 }
 
 
@@ -153,13 +212,116 @@ void QEvalsListModel::renameItem(QString newName, int row)
 
 void QEvalsListModel::optionListSelection(int operation, int row)
 {
-    //TODO
+    if(row < 0)
+    {
+        return;
+    }
+
+    switch(operation)
+    {
+        case AddExistingEvalToEvalSet:
+        {
+            assert(m_evalSet != nullptr);
+            // these are the Evals of an Eval Set so to add evals, show
+            // the evals of the parent eval
+            boost::shared_ptr<EvalSet> parentEvalSet = m_evalSet->getParentEvalSet();
+            std::set<boost::shared_ptr<Eval> > parentEvals;
+            std::set<boost::shared_ptr<Eval> > currentEvals(
+                        m_evalSet->evalsBegin(), m_evalSet->evalsEnd());
+
+            if(parentEvalSet == nullptr)
+            {
+                // need to get all existing evals in students
+                std::for_each(PDM().studentsBegin(), PDM().studentsEnd(),
+                              [&parentEvals] (boost::shared_ptr<Student> student)
+                {
+                    parentEvals.insert(student->evalsBegin(), student->evalsEnd());
+                });
+
+            }
+            else
+            {
+                parentEvals = std::set<boost::shared_ptr<Eval> >(
+                            parentEvalSet->evalsBegin(), parentEvalSet->evalsEnd());
+            }
+
+            std::vector<boost::shared_ptr<Eval> > evals;
+            std::set_difference(parentEvals.begin(), parentEvals.end(),
+                                currentEvals.begin(), currentEvals.end(),
+                                std::inserter(evals, evals.begin()));
+            std::sort(evals.begin(), evals.end());
+
+            // now that we have the list, add the selected course to the student
+            if(row < static_cast<int>(evals.size()))
+            {
+                beginResetModel(); // TODO eventually replace this with a beginInsertRows
+                m_evalSet->addEval(evals[row]);
+                endResetModel();
+            }
+       }
+            break;
+
+        default:
+            assert(false);
+            break;
+    }
 }
 
 
 QString QEvalsListModel::getOperationExplanationText(int operation, int row)
 {
     QString explanationString;
-    //TODO
+
+    switch(operation)
+    {
+        case AddEval:
+            explanationString = QString("Enter the name of the evaluation to add:");
+            break;
+
+        case AddExistingEvalToEvalSet:
+            assert(m_evalSet != nullptr);
+            explanationString = QString("Select an evaluation to add to the set:");
+            break;
+
+        case RemoveEval:
+            assert(m_student != nullptr);
+            explanationString = QString("Remove the evaluation \"" +
+                                        QString::fromStdString(elementAt<Eval>(m_student->evalsBegin(), row)->getEvalName()) +
+                                        "\"?");
+            break;
+
+        case RemoveEvalFromEvalSet:
+            assert(m_evalSet != nullptr);
+            explanationString = QString("Remove the evaluation \"" +
+                                        QString::fromStdString(elementAt<Eval>(m_evalSet->evalsBegin(), row)->getEvalName()) +
+                                        "\" from this set?");
+            break;
+
+        case RenameEval:
+        {
+            boost::shared_ptr<Eval> eval;
+            if(m_evalSet != nullptr)
+            {
+                eval = elementAt<Eval>(m_evalSet->evalsBegin(), row);
+            }
+            else if(m_student != nullptr)
+            {
+                eval = elementAt<Eval>(m_student->evalsBegin(), row);
+            }
+            else
+            {
+                assert(false);
+            }
+            explanationString = QString("Permanently rename the evaluation \"" +
+                                        QString::fromStdString(eval->getEvalName()) +
+                                        "\" to:");
+        }
+            break;
+
+        default:
+            assert(false);
+            break;
+    }
+
     return explanationString;
 }
