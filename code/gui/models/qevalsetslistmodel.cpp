@@ -136,18 +136,13 @@ QString QEvalSetsListModel::getOperationExplanationText(int operation, int row)
 {
     QString explanationString;
 
-    if(row < 0)
-    {
-        return QString();
-    }
-
     boost::shared_ptr<EvalSet> evalSet;
 
-    if(m_evalSet != nullptr)
+    if(m_evalSet != nullptr && row >= 0)
     {
         evalSet = elementAt<EvalSet>(m_evalSet->evalSetsBegin(), row);
     }
-    else
+    else if(row >= 0)
     {
         evalSet = elementAt<EvalSet>(PDM().evalSetsBegin(), row);
     }
@@ -159,12 +154,14 @@ QString QEvalSetsListModel::getOperationExplanationText(int operation, int row)
             break;
 
         case RemoveEvalSet:
+            if (row < 0) return QString();
             explanationString = QString("Permanently remove the Evaluation Set \"" +
                                         QString::fromStdString(evalSet->getEvalSetName()) +
                                         "\"?\nThis will not remove the contained evaluations.");
             break;
 
         case RenameEvalSet:
+            if (row < 0) return QString();
             explanationString = QString("Permanently rename the Evaluation Set \"" +
                                         QString::fromStdString(evalSet->getEvalSetName()) +
                                         "\" to:");

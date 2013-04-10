@@ -21,6 +21,8 @@ Dialog {
             }
 
             Rectangle {
+                id: textInputRect
+
                 width: textInputWidth
                 height: textInputHeight
                 border.color: "black"
@@ -39,7 +41,7 @@ Dialog {
                     focus: true
 
                     Component.onCompleted: selectAll()
-                    onAccepted: okClicked(displayText)
+                    onAccepted: trySubmit()
                 }
             }
 
@@ -50,7 +52,7 @@ Dialog {
                 TextButton {
                     id: okButton
                     text: "OK"
-                    onClicked: okClicked(question.text)
+                    onClicked: trySubmit()
                 }
 
                 TextButton {
@@ -59,7 +61,29 @@ Dialog {
                     onClicked: cancelClicked()
                 }
             }
+
+            function trySubmit()
+            {
+                question.text = question.text.trim()
+                if(isValid(question.text))
+                {
+                    textInputRect.border.color = "black"
+                    okClicked(question.text)
+                }
+                else
+                {
+                    textInputRect.border.color = "red"
+                }
+            }
         }
+    }
+
+    function isValid(text)
+    {
+        if(text.length > 0)
+            return true
+        else
+            return false
     }
 
     sourceComponent: textInputComponent

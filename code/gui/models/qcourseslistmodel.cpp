@@ -193,22 +193,19 @@ void QCoursesListModel::optionListSelection(int operation, int row)
 
 QString QCoursesListModel::getOperationExplanationText(int operation, int row)
 {
-    if(row < 0)
-    {
-        return QString();
-    }
-
     switch(operation)
     {
         case AddCourse:
             return QString("Enter the name of the class to add:");
 
         case RemoveCourse:
+            if(row < 0) return QString();
             return QString("Permanently remove the class \"" +
                            QString::fromStdString(elementAt<Course>(PDM().coursesBegin(), row)->getCourseName()) +
                            "\"?");
 
         case RenameCourse:
+            if(row < 0) return QString();
             return QString("Permanently rename the class \"" +
                            QString::fromStdString(elementAt<Course>(PDM().coursesBegin(), row)->getCourseName()) +
                            "\" to:");
@@ -219,6 +216,7 @@ QString QCoursesListModel::getOperationExplanationText(int operation, int row)
 
         case RemoveExistingCourseFromStudent:
             assert(m_student != nullptr);
+            if(row < 0) return QString();
             return QString("Remove " + QString::fromStdString(m_student->getDisplayName()) + " from the class \"" +
                            QString::fromStdString(elementAt<Course>(m_student->coursesBegin(), row)->getCourseName()) +
                            "\"?");

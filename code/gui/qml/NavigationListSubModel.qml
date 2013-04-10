@@ -16,6 +16,7 @@ Rectangle {
 
     ListView {
         id: listOfItems
+
         height: parent.height
         width: parent.width - listOperationsContainer.width - (scrollbar.width + 5)
         model: wrapper.model
@@ -24,6 +25,8 @@ Rectangle {
             width: (listOfItems.width > 400) ? 400 : listOfItems.width
             color: "lightsteelblue"
         }
+
+        onCountChanged: fillListOperationsModel()
 
         delegate: MouseArea {
             id: delegateWrapper
@@ -55,6 +58,7 @@ Rectangle {
                     }
                 }
             }
+
             onClicked: delegateWrapper.ListView.view.currentIndex = index
         }
     }
@@ -76,6 +80,7 @@ Rectangle {
         }
 
         ListView {
+            id: operationsListView
             anchors.fill: parent
             anchors.margins: 5
             spacing: 5
@@ -83,6 +88,7 @@ Rectangle {
 
             model: operationsModel
             delegate: TextButton {
+                visible: (JsUtil.isOperationIndexDependent(operation) && listOfItems.currentIndex < 0) ? false : true
                 width: parent.width
 
                 text: operationText
@@ -116,6 +122,20 @@ Rectangle {
                                     "operation": supportedOperations[i]})
         }
     }
+
+
+    function addStudent(firstName, middleName, lastName)
+    {
+        wrapper.model.addStudent(firstName, middleName, lastName)
+    }
+
+
+    function renameStudent(firstName, middleName, lastName)
+    {
+        wrapper.model.renameStudent(firstName, middleName,
+                                    lastName, listOfItems.currentIndex)
+    }
+
 
     function addItem(newName)
     {
@@ -179,10 +199,13 @@ Rectangle {
             //
             case QStudentsListModel.AddStudent:
                 // TODO
-                //return addStudentDialog
+                return addStudentDialog
 
             case QStudentsListModel.AddExistingStudentToCourse:
                 return itemChooserDialog
+
+            case QStudentsListModel.RenameStudent:
+                return renameStudentDialog
 
             case QStudentsListModel.RemoveStudent:
                 return removeItemDialog
@@ -214,7 +237,41 @@ Rectangle {
     }
 
 
-    // dialog componenets
+    // dialog components
+    Component {
+        id: addStudentDialog
+        AddStudentDialog {
+            id: dialog
+            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
+
+            Component.onCompleted: {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(addStudent)
+                dialog.onOkClicked.connect(wizardContent.close)
+            }
+        }
+
+    }
+
+
+    Component {
+        id: renameStudentDialog
+        AddStudentDialog {
+            id: dialog
+            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
+
+            Component.onCompleted: {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(renameStudent)
+                dialog.onOkClicked.connect(wizardContent.close)
+            }
+
+        }
+    }
+
+
     Component {
         id: addItemDialog
         SingleLineTextEditDialog {

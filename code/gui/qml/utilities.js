@@ -1,7 +1,8 @@
 Qt.include("MainNavigationModel.qml")
 Qt.include("NavigationListSubModel.qml")
 
-function getEvalItemColor(level) {
+function getEvalItemColor(level)
+{
     switch(level)
     {
         case 0:
@@ -58,6 +59,9 @@ function getOperationString(operation)
         case QStudentsListModel.RemoveStudent:
             return "Remove Student"
 
+        case QStudentsListModel.RenameStudent:
+            return "Rename Student"
+
         case QStudentsListModel.AddExistingStudentToCourse:
             return "Add Existing Student"
 
@@ -84,5 +88,76 @@ function getOperationString(operation)
         default:
             console.log("Error: operation not defined: " + operation)
             return String(operation)
+    }
+}
+
+
+function isOperationIndexDependent(operation)
+{
+    switch(operation) {
+        // Course List operations
+        case QCoursesListModel.AddCourse:
+            return false
+
+        case QCoursesListModel.RemoveCourse:
+            return true
+
+        case QCoursesListModel.RenameCourse:
+            return true
+
+        case QCoursesListModel.RemoveExistingCourseFromStudent:
+            return true
+
+        case QCoursesListModel.AddExistingCourseToStudent:
+            return false
+
+
+        // Eval Set List Operations
+        case QEvalSetsListModel.AddEvalSet:
+            return false
+
+        case QEvalSetsListModel.RemoveEvalSet:
+            return true
+
+        case QEvalSetsListModel.RenameEvalSet:
+            return true
+
+
+        // Student List Operations
+        case QStudentsListModel.AddStudent:
+            return false
+
+        case QStudentsListModel.RemoveStudent:
+            return true
+
+        case QStudentsListModel.RenameStudent:
+            return true
+
+        case QStudentsListModel.AddExistingStudentToCourse:
+            return false
+
+        case QStudentsListModel.RemoveStudentFromCourse:
+            return true
+
+
+        // Eval List Operations
+        case QEvalsListModel.AddEval:
+            return false
+
+        case QEvalsListModel.RemoveEval:
+            return true
+
+        case QEvalsListModel.RenameEval:
+            return true
+
+        case QEvalsListModel.AddExistingEvalToEvalSet:
+            return false
+
+        case QEvalsListModel.RemoveEvalFromEvalSet:
+            return true
+
+        default:
+            console.log("Error: operation not defined: " + operation)
+            return false
     }
 }

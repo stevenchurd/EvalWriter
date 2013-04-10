@@ -28,6 +28,8 @@ public:
             boost::uuids::uuid objUuid = boost::uuids::random_generator()());
     virtual ~Student() {}
 
+    void updateName(std::string firstName, std::string middleName, std::string lastName);
+
     std::string getFirstName(void) const { return m_firstName; }
     std::string getMiddleName(void) const { return m_middleName; }
     std::string getLastName(void) const { return m_lastName; }

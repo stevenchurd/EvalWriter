@@ -22,6 +22,7 @@ public:
     enum StudentsListOperations {
         AddStudent = ModelOperationRanges::StudentsListOperationsBegin,
         RemoveStudent,
+        RenameStudent,
         AddExistingStudentToCourse,
         RemoveStudentFromCourse,
 
@@ -31,6 +32,8 @@ public:
                   "Too many items in enumeration");
 
 public slots:
+    void addStudent(QString firstName, QString middleName, QString lastName);
+    void renameStudent(QString firstName, QString middleName, QString lastName, int row);
     virtual void removeItem(int index);
     virtual void renameItem(QString newName, int row);
     virtual void optionListSelection(int operation, int row);

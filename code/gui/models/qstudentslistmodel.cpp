@@ -22,18 +22,7 @@ std::string QStudentsListModel::getItemString(int index) const
     }
     else
     {
-        int i = 0;
-        student = *std::find_if(PDM().studentsBegin(), PDM().studentsEnd(),
-                     [&index, &i, this] (boost::shared_ptr<Student> vectStudent)->bool
-        {
-            if(vectStudent->isInCourse(m_course))
-            {
-                i++;
-                return i-1 == index;
-            }
-
-            return false;
-        });
+        student = getNthStudentInCourse(index, m_course);
     }
 
     return student->getFirstName() + " " + student->getMiddleName() + " " + student->getLastName();
@@ -65,18 +54,7 @@ QAbstractItemModel* QStudentsListModel::getSubModelFromIndex(int index)
     }
     else
     {
-        int i = 0;
-        boost::shared_ptr<Student> student = *std::find_if(PDM().studentsBegin(), PDM().studentsEnd(),
-                     [&index, &i, this] (boost::shared_ptr<Student> vectStudent)->bool
-        {
-            if(vectStudent->isInCourse(m_course))
-            {
-                i++;
-                return i-1 == index;
-            }
-
-            return false;
-        });
+        boost::shared_ptr<Student> student = getNthStudentInCourse(index, m_course);
 
         return makeSubModel(student);
     }
@@ -91,11 +69,13 @@ QList<int> QStudentsListModel::getSubModelOperations()
     {
         opList.push_back(AddExistingStudentToCourse);
         opList.push_back(RemoveStudentFromCourse);
+        opList.push_back(RenameStudent);
     }
     else
     {
         opList.push_back(AddStudent);
         opList.push_back(RemoveStudent);
+        opList.push_back(RenameStudent);
     }
 
     return opList;
@@ -135,6 +115,37 @@ QStringList QStudentsListModel::getOptionListForOperation(int operation)
 }
 
 
+void QStudentsListModel::addStudent(QString firstName, QString middleName, QString lastName)
+{
+    boost::shared_ptr<Student> newStudent(
+                new Student(firstName.toStdString(), middleName.toStdString(), lastName.toStdString()));
+
+    beginResetModel();
+    PDM().add(newStudent);
+    endResetModel();
+}
+
+
+void QStudentsListModel::renameStudent(QString firstName, QString middleName, QString lastName, int row)
+{
+    boost::shared_ptr<Student> student;
+    if(m_course != nullptr)
+    {
+        student = getNthStudentInCourse(row, m_course);
+    }
+    else
+    {
+        student = elementAt<Student>(PDM().studentsBegin(), row);
+    }
+
+    // TODO: eventually will want to update the ordering if this changes
+    student->updateName(firstName.toStdString(), middleName.toStdString(),
+                        lastName.toStdString());
+    emit dataChanged(index(row), index(row));
+}
+
+
+
 void QStudentsListModel::removeItem(int row)
 {
     beginRemoveRows(QModelIndex(), row, row);
@@ -142,19 +153,7 @@ void QStudentsListModel::removeItem(int row)
     {
         // remove the student from the course by removing the course
         // from the selected student
-        int i = 0;
-        boost::shared_ptr<Student> student = *std::find_if(PDM().studentsBegin(), PDM().studentsEnd(),
-                     [&row, &i, this] (boost::shared_ptr<Student> vectStudent)->bool
-        {
-            if(vectStudent->isInCourse(m_course))
-            {
-                i++;
-                return i-1 == row;
-            }
-
-            return false;
-        });
-
+        boost::shared_ptr<Student> student = getNthStudentInCourse(row, m_course);
         student->removeCourse(m_course->getUuid());
     }
     else
@@ -207,11 +206,6 @@ QString QStudentsListModel::getOperationExplanationText(int operation, int row)
 {
     QString explanationString;
 
-    if(row < 0)
-    {
-        return QString();
-    }
-
     switch(operation)
     {
         case AddExistingStudentToCourse:
@@ -222,24 +216,14 @@ QString QStudentsListModel::getOperationExplanationText(int operation, int row)
 
         case AddStudent:
             assert(m_course == nullptr);
-            // TODO
+            explanationString = QString("Enter the name of the student to add:");
             break;
 
         case RemoveStudentFromCourse:
         {
             assert(m_course != nullptr);
-            int i = 0;
-            boost::shared_ptr<Student> student = *std::find_if(PDM().studentsBegin(), PDM().studentsEnd(),
-                                                               [&row, &i, this] (boost::shared_ptr<Student> vectStudent)->bool
-            {
-                if(vectStudent->isInCourse(m_course))
-                {
-                    i++;
-                    return i-1 == row;
-                }
-
-                return false;
-            });
+            if(row < 0) return QString();
+            boost::shared_ptr<Student> student = getNthStudentInCourse(row, m_course);
 
             explanationString = QString("Remove " + QString::fromStdString(student->getDisplayName()) +
                                         " from the class " + QString::fromStdString(m_course->getCourseName()) +
@@ -249,9 +233,26 @@ QString QStudentsListModel::getOperationExplanationText(int operation, int row)
 
         case RemoveStudent:
             assert(m_course == nullptr);
+            if(row < 0) return QString();
             explanationString = QString("Permanently remove " +
                                         QString::fromStdString(elementAt<Student>(PDM().studentsBegin(), row)->getDisplayName()) +
                                         "?");
+            break;
+
+        case RenameStudent:
+        {
+            boost::shared_ptr<Student> student;
+            if(m_course != nullptr)
+            {
+                student = getNthStudentInCourse(row, m_course);
+            }
+            else
+            {
+                student = elementAt<Student>(PDM().studentsBegin(), row);
+            }
+            explanationString = QString("Rename \"" +
+                                        QString::fromStdString(student->getDisplayName()) + "\" to:");
+        }
             break;
 
         default:

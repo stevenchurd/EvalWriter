@@ -59,6 +59,12 @@ std::vector<boost::shared_ptr<Student> >::const_iterator PersistentDataManager::
 }
 
 
+void PersistentDataManager::add(boost::shared_ptr<Student> newStudent)
+{
+    m_allStudents.push_back(newStudent);
+}
+
+
 void PersistentDataManager::remove(std::vector<boost::shared_ptr<Student> >::const_iterator it)
 {
     // if we are removing a student, we need to make sure all their owned Evals are removed
@@ -258,4 +264,30 @@ void PersistentDataManager::saveFile(std::string filename) const
 
         file.close();
     }
+}
+
+
+boost::shared_ptr<Student> getNthStudentInCourse(unsigned int n, boost::shared_ptr<Course> course)
+{
+    unsigned int i=0;
+    boost::shared_ptr<Student> student;
+
+    auto it = std::find_if(PDM().studentsBegin(), PDM().studentsEnd(),
+                  [&n, &i, course] (boost::shared_ptr<Student> vectStudent)->bool
+    {
+        if(vectStudent->isInCourse(course))
+        {
+            i++;
+            return i-1 == n;
+        }
+
+        return false;
+    });
+
+    if(it != PDM().studentsEnd())
+    {
+        student = *it;
+    }
+
+    return student;
 }

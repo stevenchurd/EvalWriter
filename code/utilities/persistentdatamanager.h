@@ -68,6 +68,7 @@ auto iterAt(typename std::vector<boost::shared_ptr<T> >::const_iterator begin, i
     return std::next(begin, index);
 }
 
+boost::shared_ptr<Student> getNthStudentInCourse(unsigned int n, boost::shared_ptr<Course> course);
 
 // shorthand function
 PersistentDataManager& PDM(void);

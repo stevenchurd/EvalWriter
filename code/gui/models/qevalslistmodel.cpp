@@ -285,6 +285,7 @@ QString QEvalsListModel::getOperationExplanationText(int operation, int row)
 
         case RemoveEval:
             assert(m_student != nullptr);
+            if (row < 0) return QString();
             explanationString = QString("Remove the evaluation \"" +
                                         QString::fromStdString(elementAt<Eval>(m_student->evalsBegin(), row)->getEvalName()) +
                                         "\"?");
@@ -292,6 +293,7 @@ QString QEvalsListModel::getOperationExplanationText(int operation, int row)
 
         case RemoveEvalFromEvalSet:
             assert(m_evalSet != nullptr);
+            if (row < 0) return QString();
             explanationString = QString("Remove the evaluation \"" +
                                         QString::fromStdString(elementAt<Eval>(m_evalSet->evalsBegin(), row)->getEvalName()) +
                                         "\" from this set?");
@@ -299,6 +301,7 @@ QString QEvalsListModel::getOperationExplanationText(int operation, int row)
 
         case RenameEval:
         {
+            if (row < 0) return QString();
             boost::shared_ptr<Eval> eval;
             if(m_evalSet != nullptr)
             {

@@ -149,9 +149,9 @@
 <StudentsRoot>
     <student>
         <uuid>ae096308-3da8-4638-b265-fb65a305b4da</uuid>
-        <firstName>Jeff</firstName>
-        <middleName>C</middleName>
-        <lastName>Mexican</lastName>
+        <firstName>Steve</firstName>
+        <middleName>Christopher</middleName>
+        <lastName>Hurd</lastName>
         <Courses>
             <course>
                 <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
@@ -219,9 +219,9 @@
     </student>
     <student>
         <uuid>28fa7fc4-c252-4c96-88dd-7188ab78ceea</uuid>
-        <firstName>Ganny</firstName>
-        <middleName>F</middleName>
-        <lastName>Smith</lastName>
+        <firstName>Jaclyn</firstName>
+        <middleName>Deyo</middleName>
+        <lastName>Hurd</lastName>
         <Courses>
             <course>
                 <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>

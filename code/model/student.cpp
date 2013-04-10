@@ -17,6 +17,14 @@ Student::Student(std::string firstName, std::string middleName, std::string last
 }
 
 
+void Student::updateName(std::string firstName, std::string middleName, std::string lastName)
+{
+    m_firstName = firstName;
+    m_middleName = middleName;
+    m_lastName = lastName;
+}
+
+
 std::vector<boost::shared_ptr<Eval> >::const_iterator Student::evalsBegin() const
 {
     return m_evals.cbegin();

@@ -117,7 +117,8 @@ OTHER_FILES += \
     gui/qml/subModelCreator.js \
     gui/qml/NavigationListSubModel.qml \
     gui/qml/SingleLineTextEditDialog.qml \
-    gui/qml/ListChooserDialog.qml
+    gui/qml/ListChooserDialog.qml \
+    gui/qml/AddStudentDialog.qml
 
 RESOURCES += \
     images.qrc
