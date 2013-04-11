@@ -42,7 +42,6 @@ Item {
             id: evalTitle
             text: evalModel.getEvalTitle()
             font.pointSize: 20
-            smooth: true
             wrapMode: Text.WordWrap
             width: wrapper.width-
                    (textOnlyViewButton.width +

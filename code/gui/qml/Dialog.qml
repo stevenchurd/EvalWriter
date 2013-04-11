@@ -13,7 +13,6 @@ Rectangle {
     width: dialogContent.width + 30
 
     border.color: "black"
-    antialiasing: true
 
     Rectangle {
         id: dialogHeader

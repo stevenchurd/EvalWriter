@@ -23,7 +23,6 @@ Rectangle {
     color: (isSelected) ? "lightsteelblue" : "transparent"
     border.color: "lightgray"
     clip: true
-    smooth: true
 
     MouseArea {
         anchors.fill: parent
@@ -72,7 +71,6 @@ Rectangle {
             anchors.verticalCenter: rowContainer.verticalCenter
 
             border.color: "black"
-            antialiasing: true
             color: JsUtil.getEvalItemColor(criteriaLevelValue)
         }
 
