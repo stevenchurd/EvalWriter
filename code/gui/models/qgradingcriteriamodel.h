@@ -14,13 +14,24 @@
 #include <boost/shared_ptr.hpp>
 
 #include "model/gradingcriteria.h"
+#include "qgenericlistmodel.h"
 #endif
 
 class QGradingCriteriaModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_ENUMS(GradingCriteriaListOperations)
 
 public:
+
+    enum GradingCriteriaListOperations {
+        AddGradingCriteria = ModelOperationRanges::GradingCriteriaListOperationsBegin,
+
+        EndOfEnum
+    };
+    static_assert(EndOfEnum < ModelOperationRanges::GradingCriteriaListOperationsEnd,
+                  "Too many items in enumeration");
+
 
     enum GradingCriteriaRoles {
         StringRole = Qt::UserRole + 1,
@@ -32,6 +43,10 @@ public:
     virtual ~QGradingCriteriaModel(void) {}
 
     Q_INVOKABLE QObject* getCriteriaItemModel(const int& index) const;
+
+    // operation interface
+    Q_INVOKABLE QList<int> getSubModelOperations();
+    Q_INVOKABLE QString getOperationExplanationText(int operation, int row);
 
     /* functions inherited from QAbstractItemModel */
     Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -46,6 +61,7 @@ public slots:
     void collapseRow(int row);
 
     // actions that change model data
+    void addGradingCriteria(QString string);
     void removeGradingCriteria(int row);
     void addCriteriaItem(int row, QString string, int level);
     void modifyGradingCriteria(int row, QString string);

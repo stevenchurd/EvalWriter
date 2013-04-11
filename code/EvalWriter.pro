@@ -118,7 +118,9 @@ OTHER_FILES += \
     gui/qml/NavigationListSubModel.qml \
     gui/qml/SingleLineTextEditDialog.qml \
     gui/qml/ListChooserDialog.qml \
-    gui/qml/AddStudentDialog.qml
+    gui/qml/AddStudentDialog.qml \
+    gui/qml/NavigationListDelegate.qml \
+    gui/qml/PageOperationsContainer.qml
 
 RESOURCES += \
     images.qrc

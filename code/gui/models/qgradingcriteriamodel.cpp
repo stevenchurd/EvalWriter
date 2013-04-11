@@ -121,6 +121,11 @@ void QGradingCriteriaModel::collapseRow(int row)
 }
 
 
+void QGradingCriteriaModel::addGradingCriteria(QString string)
+{
+}
+
+
 void QGradingCriteriaModel::removeGradingCriteria(int row)
 {
     boost::shared_ptr<GradingCriteria> gc = elementAt<GradingCriteria>(PDM().gradingCriteriaBegin(), row);
@@ -165,4 +170,24 @@ void QGradingCriteriaModel::modifyGradingCriteria(int row, QString string)
 
     gc->setCriteriaName(string.toStdString());
     emit dataChanged(index(row), index(row));
+}
+
+
+QList<int> QGradingCriteriaModel::getSubModelOperations()
+{
+    QList<int> opList;
+    opList.push_back(AddGradingCriteria);
+    return opList;
+}
+
+
+QString QGradingCriteriaModel::getOperationExplanationText(int operation, int row)
+{
+    QString explanationText;
+
+    switch(operation)
+    {
+    }
+
+    return explanationText;
 }

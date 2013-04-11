@@ -1,5 +1,7 @@
 Qt.include("MainNavigationModel.qml")
 Qt.include("NavigationListSubModel.qml")
+Qt.include("PageOperationsContainer.qml")
+Qt.include("GradingCriteriaModel.qml")
 
 function getEvalItemColor(level)
 {
@@ -85,6 +87,11 @@ function getOperationString(operation)
         case QEvalsListModel.RemoveEvalFromEvalSet:
             return "Remove Evaluation from Set"
 
+
+        // Grading Category Operations
+        case QGradingCriteriaModel.AddGradingCriteria:
+            return "Add Grading Category"
+
         default:
             console.log("Error: operation not defined: " + operation)
             return String(operation)
@@ -155,6 +162,11 @@ function isOperationIndexDependent(operation)
 
         case QEvalsListModel.RemoveEvalFromEvalSet:
             return true
+
+
+        // Grading Category Operations
+        case QGradingCriteriaModel.AddGradingCriteria:
+            return false
 
         default:
             console.log("Error: operation not defined: " + operation)
