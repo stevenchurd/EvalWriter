@@ -61,7 +61,7 @@ public slots:
     void collapseRow(int row);
 
     // actions that change model data
-    void addGradingCriteria(QString string);
+    void addItem(QString itemName); // generic interface for adding grading criteria
     void removeGradingCriteria(int row);
     void addCriteriaItem(int row, QString string, int level);
     void modifyGradingCriteria(int row, QString string);

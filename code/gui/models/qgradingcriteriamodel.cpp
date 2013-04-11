@@ -121,8 +121,23 @@ void QGradingCriteriaModel::collapseRow(int row)
 }
 
 
-void QGradingCriteriaModel::addGradingCriteria(QString string)
+// Generic function called in QML...in this case adds a grading criteria item
+void QGradingCriteriaModel::addItem(QString itemName)
 {
+    boost::shared_ptr<GradingCriteria> newGc(new GradingCriteria(itemName.toStdString()));
+
+    beginResetModel();
+    // created grading criteria, now add it to PDM
+    PDM().add(newGc);  // TODO: eventually this should return an index to where it was added
+
+    // now add the model and connect the signal
+    auto newModel = std::make_tuple(new QCriteriaItemListModel(newGc, m_criteriaItemListModels.size(), this), false);
+
+    m_criteriaItemListModels.push_back(newModel);
+
+    connect(std::get<0>(newModel), SIGNAL(dataChanged(int)),
+            this, SLOT(criteriaListDataChanged(int)));
+    endResetModel(); // TODO: add by index and use beginInsertRows
 }
 
 
@@ -187,6 +202,13 @@ QString QGradingCriteriaModel::getOperationExplanationText(int operation, int ro
 
     switch(operation)
     {
+        case AddGradingCriteria:
+            explanationText = QString("Enter the name of the Grading Category to add:");
+            break;
+
+        default:
+            assert(false);
+            break;
     }
 
     return explanationText;

@@ -12,7 +12,12 @@ Item {
         id: gradingCriteriaList
 
         height: parent.height
-        width: parent.width - (scrollbar.width+5) - listOperationsContainer.width
+        width: {
+            if(editable)
+                return parent.width - (scrollbar.width+5) - listOperationsContainer.width
+            else
+                return parent.width - (scrollbar.width+5)
+        }
         clip: true
 
         model: gradingCriteriaModel
@@ -28,6 +33,7 @@ Item {
     PageOperationsContainer {
         id: listOperationsContainer
         visible: editable
+        enabled: editable
         anchors.left: scrollbar.right
         model: gradingCriteriaModel
         listOfItems: gradingCriteriaList

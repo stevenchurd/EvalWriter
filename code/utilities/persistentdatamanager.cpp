@@ -146,6 +146,12 @@ std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator PersistentDataM
 }
 
 
+void PersistentDataManager::add(boost::shared_ptr<GradingCriteria> newGradingCriteria)
+{
+    m_allGradingCriteria.push_back(newGradingCriteria);
+}
+
+
 void PersistentDataManager::remove(std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator it)
 {
     m_allGradingCriteria.erase(it);
