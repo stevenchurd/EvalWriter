@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
         qmlRegisterUncreatableType<QStudentsListModel>("CppEnums", 1, 0, "QStudentsListModel", "Need enum types");
         qmlRegisterUncreatableType<QEvalsListModel>("CppEnums", 1, 0, "QEvalsListModel", "Need enum types");
         qmlRegisterUncreatableType<QGradingCriteriaModel>("CppEnums", 1, 0, "QGradingCriteriaModel", "Need enum types");
+        qmlRegisterUncreatableType<QEvaluationModel>("CppEnums", 1, 0, "QEvaluationModel", "Need enum types");
 
         // set up models
         QGradingCriteriaModel gcModel;

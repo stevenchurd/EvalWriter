@@ -6,8 +6,9 @@ Dialog {
     property string startingTitle
     property int textInputWidth: 300
     property int textInputHeight: 100
+    property string acceptButtonText
 
-    signal editClicked(string newTitle, string newText)
+    signal acceptedClicked(string newTitle, string newText)
     signal cancelClicked
 
     Component {
@@ -73,7 +74,7 @@ Dialog {
 
                 TextButton {
                     id: editButton
-                    text: "Edit"
+                    text: acceptButtonText
                     onClicked: editClicked(customTextTitle.text, customTextItem.text)
                 }
 

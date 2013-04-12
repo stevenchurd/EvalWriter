@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import "utilities.js" as JsUtil
 import CppEnums 1.0
 
 Rectangle {
@@ -11,7 +10,7 @@ Rectangle {
     property var mostRecentOperation
     property var mostRecentItemChooserList
     property var model
-    property ListView listOfItems
+    property var listOfItems
 
     ListModel {
         id: operationsModel
@@ -26,7 +25,7 @@ Rectangle {
 
         model: operationsModel
         delegate: TextButton {
-            visible: (JsUtil.isOperationIndexDependent(operation) && listOfItems.currentIndex < 0) ? false : true
+            visible: (isOperationIndexDependent(operation) && listOfItems.currentIndex < 0) ? false : true
             width: parent.width
 
             text: operationText
@@ -49,7 +48,7 @@ Rectangle {
 
         for(var i = 0; i < supportedOperations.length; i++)
         {
-            operationsModel.append({"operationText": JsUtil.getOperationString(supportedOperations[i]),
+            operationsModel.append({"operationText": getOperationString(supportedOperations[i]),
                                     "componentToDisplay": getOperationComponent(supportedOperations[i]),
                                     "operation": supportedOperations[i]})
         }
@@ -132,15 +131,176 @@ Rectangle {
             case QGradingCriteriaModel.AddGradingCriteria:
                 return addItemDialog
 
+            //
+            // Evaluation operations
+            //
+            case QEvaluationModel.AddCustomTextItem:
+                return addCustomTextDialog
+
             default:
                 console.log("No component defined: " + operation)
         }
     }
 
-
-    function addStudent(firstName, middleName, lastName)
+    function getOperationString(operation)
     {
-        wrapper.model.addStudent(firstName, middleName, lastName)
+        switch(operation) {
+            // Course List operations
+            case QCoursesListModel.AddCourse:
+                return "Add New Class"
+
+            case QCoursesListModel.RemoveCourse:
+                return "Delete Class"
+
+            case QCoursesListModel.RenameCourse:
+                return "Rename Class"
+
+            case QCoursesListModel.RemoveExistingCourseFromStudent:
+                return "Remove Student from Class"
+
+            case QCoursesListModel.AddExistingCourseToStudent:
+                return "Add Student to Class"
+
+
+            // Eval Set List Operations
+            case QEvalSetsListModel.AddEvalSet:
+                return "Add Evaluation Set"
+
+            case QEvalSetsListModel.RemoveEvalSet:
+                return "Remove Evaluation Set"
+
+            case QEvalSetsListModel.RenameEvalSet:
+                return "Rename Evaluation Set"
+
+
+            // Student List Operations
+            case QStudentsListModel.AddStudent:
+                return "Add Student"
+
+            case QStudentsListModel.RemoveStudent:
+                return "Remove Student"
+
+            case QStudentsListModel.RenameStudent:
+                return "Rename Student"
+
+            case QStudentsListModel.AddExistingStudentToCourse:
+                return "Add Existing Student"
+
+            case QStudentsListModel.RemoveStudentFromCourse:
+                return "Remove Student from Class"
+
+
+            // Eval List Operations
+            case QEvalsListModel.AddEval:
+                return "Add Evaluation"
+
+            case QEvalsListModel.RemoveEval:
+                return "Remove Evalutation"
+
+            case QEvalsListModel.RenameEval:
+                return "Rename Evaluation"
+
+            case QEvalsListModel.AddExistingEvalToEvalSet:
+                return "Add Existing Evaluation"
+
+            case QEvalsListModel.RemoveEvalFromEvalSet:
+                return "Remove Evaluation from Set"
+
+
+            // Grading Category Operations
+            case QGradingCriteriaModel.AddGradingCriteria:
+                return "Add Grading Category"
+
+
+            // Evaluation operations
+            case QEvaluationModel.AddCustomTextItem:
+                return "Add Custom Text"
+
+
+            default:
+                console.log("Error: operation not defined: " + operation)
+                return String(operation)
+        }
+    }
+
+
+    function isOperationIndexDependent(operation)
+    {
+        switch(operation) {
+            // Course List operations
+            case QCoursesListModel.AddCourse:
+                return false
+
+            case QCoursesListModel.RemoveCourse:
+                return true
+
+            case QCoursesListModel.RenameCourse:
+                return true
+
+            case QCoursesListModel.RemoveExistingCourseFromStudent:
+                return true
+
+            case QCoursesListModel.AddExistingCourseToStudent:
+                return false
+
+
+            // Eval Set List Operations
+            case QEvalSetsListModel.AddEvalSet:
+                return false
+
+            case QEvalSetsListModel.RemoveEvalSet:
+                return true
+
+            case QEvalSetsListModel.RenameEvalSet:
+                return true
+
+
+            // Student List Operations
+            case QStudentsListModel.AddStudent:
+                return false
+
+            case QStudentsListModel.RemoveStudent:
+                return true
+
+            case QStudentsListModel.RenameStudent:
+                return true
+
+            case QStudentsListModel.AddExistingStudentToCourse:
+                return false
+
+            case QStudentsListModel.RemoveStudentFromCourse:
+                return true
+
+
+            // Eval List Operations
+            case QEvalsListModel.AddEval:
+                return false
+
+            case QEvalsListModel.RemoveEval:
+                return true
+
+            case QEvalsListModel.RenameEval:
+                return true
+
+            case QEvalsListModel.AddExistingEvalToEvalSet:
+                return false
+
+            case QEvalsListModel.RemoveEvalFromEvalSet:
+                return true
+
+
+            // Grading Category Operations
+            case QGradingCriteriaModel.AddGradingCriteria:
+                return false
+
+            // Evaluation operations
+            case QEvaluationModel.AddCustomTextItem:
+                return false
+
+            default:
+                console.log("Error: operation not defined: " + operation)
+                return false
+        }
     }
 
 
@@ -149,13 +309,6 @@ Rectangle {
         wrapper.model.renameStudent(firstName, middleName,
                                     lastName, listOfItems.currentIndex)
     }
-
-
-    function addItem(newName)
-    {
-        wrapper.model.addItem(newName)
-    }
-
 
     function removeItem()
     {
@@ -184,7 +337,7 @@ Rectangle {
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)
                 dialog.onCancelClicked.connect(wizardContent.close)
-                dialog.onOkClicked.connect(addStudent)
+                dialog.onOkClicked.connect(wrapper.model.addStudent)
                 dialog.onOkClicked.connect(wizardContent.close)
             }
         }
@@ -210,6 +363,26 @@ Rectangle {
 
 
     Component {
+        id: addCustomTextDialog
+        CustomTextItemEditDialog {
+            id: dialog
+            dialogText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
+            acceptButtonText: "OK"
+
+            Component.onCompleted:
+            {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onAcceptedClicked.connect(wrapper.model.addCustomTextItem)
+                dialog.onAcceptedClicked.connect(wizardContent.close)
+            }
+
+        }
+    }
+
+
+    // Generic components
+    Component {
         id: addItemDialog
         SingleLineTextEditDialog {
             id: dialog
@@ -218,7 +391,7 @@ Rectangle {
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)
                 dialog.onCancelClicked.connect(wizardContent.close)
-                dialog.onOkClicked.connect(addItem)
+                dialog.onOkClicked.connect(wrapper.model.addItem)
                 dialog.onOkClicked.connect(wizardContent.close)
             }
         }

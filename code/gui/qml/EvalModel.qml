@@ -71,7 +71,7 @@ Item {
 
         anchors.top: headerItem.bottom
         height: parent.height - headerItem.height
-        width: wrapper.width - (scrollbar.width + 5)
+        width: wrapper.width - (scrollbar.width + 5) - listOperationsContainer.width
         clip: true
         visible: (currentViewType === "smallDelegateView" ||
                   currentViewType === "largeDelegateView")
@@ -120,4 +120,14 @@ Item {
         target: (currentViewType === "smallDelegateView" ||
                  currentViewType === "largeDelegateView") ?  flowListView : evalTextView
     }
+
+    PageOperationsContainer {
+        id: listOperationsContainer
+        enabled: currentViewType !== "textOnlyView"
+        anchors.left: scrollbar.right
+        model: evalModel
+        listOfItems: flowListView
+    }
+
+    Component.onCompleted: listOperationsContainer.fillListOperationsModel()
 }

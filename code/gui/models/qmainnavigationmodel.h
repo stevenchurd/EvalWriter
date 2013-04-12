@@ -44,7 +44,11 @@ enum SubModelOperationRanges {
 
     // Grading Griteria operations (41-50)
     GradingCriteriaListOperationsBegin = 41,
-    GradingCriteriaListOperationsEnd = 50
+    GradingCriteriaListOperationsEnd = 50,
+
+    // Evaluation operations (51-60)
+    EvaluationOperationsBegin = 51,
+    EvaluationOperationsEnd = 60
 };
 }
 

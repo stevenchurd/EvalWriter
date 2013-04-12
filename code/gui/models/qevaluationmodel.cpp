@@ -2,6 +2,7 @@
 
 #include "qevaluationmodel.h"
 #include "model/gradingcriteria.h"
+#include "model/customtextitem.h"
 
 #include "utilities/persistentdatamanager.h"
 
@@ -94,6 +95,16 @@ QHash<int,QByteArray> QEvaluationModel::roleNames() const
 }
 
 
+
+void QEvaluationModel::addCustomTextItem(QString title, QString customText)
+{
+    beginInsertRows(QModelIndex(), m_eval->getNumEvalItems(), m_eval->getNumEvalItems());
+    boost::shared_ptr<EvalItem> cti(new CustomTextItem(title.toStdString(), customText.toStdString()));
+    m_eval->addEvalItem(cti);
+    endInsertRows();
+}
+
+
 void QEvaluationModel::addCriteriaItem(int destIndex, QString uuid)
 {
     boost::shared_ptr<CriteriaItem> item;
@@ -172,4 +183,33 @@ void QEvaluationModel::editItemString(int row, QString title, QString string)
         ei->setItemTitleStr(title.toStdString());
         emit dataChanged(index(row), index(row));
     }
+}
+
+
+// operation interface
+QList<int> QEvaluationModel::getSubModelOperations()
+{
+    QList<int> opList;
+    opList.push_back(AddCustomTextItem);
+    return opList;
+}
+
+
+QString QEvaluationModel::getOperationExplanationText(int operation, int row)
+{
+    QString explanationText;
+
+    switch(operation)
+    {
+        case AddCustomTextItem:
+            explanationText = QString("Enter the custom text item below:");
+
+            break;
+
+        default:
+            assert(false);
+            break;
+    }
+
+    return explanationText;
 }

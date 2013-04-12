@@ -229,13 +229,14 @@ MouseArea {
             dialogText: "Edit the custom text item:"
             startingText: evalItemString
             startingTitle: evalItemTitle
+            acceptButtonText: "Edit"
 
             Component.onCompleted:
             {
                 dialog.onCanceled.connect(wizardContent.close)
                 dialog.onCancelClicked.connect(wizardContent.close)
-                dialog.onEditClicked.connect(editCustomTextItem)
-                dialog.onEditClicked.connect(wizardContent.close)
+                dialog.onAcceptedClicked.connect(editCustomTextItem)
+                dialog.onAcceptedClicked.connect(wizardContent.close)
             }
         }
     }
