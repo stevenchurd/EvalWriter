@@ -39,7 +39,7 @@ public:
     void moveEvalItem(int oldPosition, int newPosition) ;
     void replaceEvalItem(boost::shared_ptr<EvalItem> newItem, std::string oldUuid);
 
-    int getNumEvalItems(void) { return m_evalItems.size(); }
+    unsigned int getNumEvalItems(void) { return static_cast<unsigned int>(m_evalItems.size()); }
 
     boost::shared_ptr<EvalItem> getEvalItem(unsigned int index) const;
 

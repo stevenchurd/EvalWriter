@@ -46,7 +46,7 @@ void QMainNavigationModel::addSubModel(std::string displayString, QAbstractItemM
 
 int QMainNavigationModel::rowCount(const QModelIndex &/*parent*/) const
 {
-    return m_submodels.size();
+    return static_cast<int>(m_submodels.size());
 }
 
 

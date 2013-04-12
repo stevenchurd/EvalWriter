@@ -118,7 +118,7 @@ void QEvalSetsListModel::renameItem(QString evalSetName, int row)
 }
 
 
-QStringList QEvalSetsListModel::getOptionListForOperation(int operation)
+QStringList QEvalSetsListModel::getOptionListForOperation(int /*operation*/)
 {
     QStringList optionsList;
     assert(false); // this function should not be used for eval sets
@@ -126,7 +126,7 @@ QStringList QEvalSetsListModel::getOptionListForOperation(int operation)
 }
 
 
-void QEvalSetsListModel::optionListSelection(int operation, int row)
+void QEvalSetsListModel::optionListSelection(int /*operation*/, int /*row*/)
 {
     assert(false); // this function should not be used for eval sets
 }

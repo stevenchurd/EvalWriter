@@ -37,9 +37,9 @@ void GradingCriteria::removeCriteriaItemAt(unsigned int pos)
 }
 
 
-int GradingCriteria::getNumCriteriaItems(void) const
+unsigned int GradingCriteria::getNumCriteriaItems(void) const
 {
-    return m_criteriaItems.size();
+    return static_cast<unsigned int>(m_criteriaItems.size());
 }
 
 

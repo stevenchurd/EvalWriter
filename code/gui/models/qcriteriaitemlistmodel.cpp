@@ -24,7 +24,7 @@ QVariant QCriteriaItemListModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() >= m_gradingCriteria->getNumCriteriaItems())
+    if (index.row() >= static_cast<int>(m_gradingCriteria->getNumCriteriaItems()))
         return QVariant();
 
     boost::shared_ptr<CriteriaItem> ci = m_gradingCriteria->getCriteriaItemAt(index.row());

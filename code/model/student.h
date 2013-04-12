@@ -46,7 +46,7 @@ public:
      * Eval functions
      */
     void addEval(boost::shared_ptr<Eval> newEval) ;
-    int getNumEvals(void) { return m_evals.size(); }
+    unsigned int getNumEvals(void) { return static_cast<unsigned int>(m_evals.size()); }
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin() const;
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd() const;
     bool getEvalById(std::string id, boost::shared_ptr<Eval>& eval) const;

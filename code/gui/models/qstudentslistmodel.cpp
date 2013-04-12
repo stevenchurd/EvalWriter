@@ -165,7 +165,7 @@ void QStudentsListModel::removeItem(int row)
 }
 
 
-void QStudentsListModel::renameItem(QString newName, int row)
+void QStudentsListModel::renameItem(QString /*newName*/, int /*row*/)
 {
     assert(false); // this function should not be used for students
 }

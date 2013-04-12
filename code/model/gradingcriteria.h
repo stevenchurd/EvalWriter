@@ -31,7 +31,7 @@ public:
     boost::shared_ptr<CriteriaItem> getCriteriaItemAt(unsigned int index) const;
     bool getCriteriaItemById(std::string id, boost::shared_ptr<CriteriaItem> &gc) const;
 
-    int getNumCriteriaItems(void) const;
+    unsigned int getNumCriteriaItems(void) const;
 
     void removeCriteriaItemAt(unsigned int pos);
 

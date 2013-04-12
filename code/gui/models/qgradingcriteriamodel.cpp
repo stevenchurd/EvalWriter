@@ -196,7 +196,7 @@ QList<int> QGradingCriteriaModel::getSubModelOperations()
 }
 
 
-QString QGradingCriteriaModel::getOperationExplanationText(int operation, int row)
+QString QGradingCriteriaModel::getOperationExplanationText(int operation, int /*row*/)
 {
     QString explanationText;
 

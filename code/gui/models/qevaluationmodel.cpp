@@ -38,7 +38,7 @@ QVariant QEvaluationModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() >= m_eval->getNumEvalItems())
+    if (index.row() >= static_cast<int>(m_eval->getNumEvalItems()))
     return QVariant();
 
     boost::shared_ptr<EvalItem> item = m_eval->getEvalItem(index.row());
@@ -118,7 +118,7 @@ void QEvaluationModel::addCriteriaItem(int destIndex, QString uuid)
         }
     }
 
-    if(destIndex <= m_eval->getNumEvalItems())
+    if(destIndex <= static_cast<int>(m_eval->getNumEvalItems()))
     {
         beginInsertRows(QModelIndex(), destIndex, destIndex);
         m_eval->addEvalItemAt(destIndex, item);
@@ -195,7 +195,7 @@ QList<int> QEvaluationModel::getSubModelOperations()
 }
 
 
-QString QEvaluationModel::getOperationExplanationText(int operation, int row)
+QString QEvaluationModel::getOperationExplanationText(int operation, int /*row*/)
 {
     QString explanationText;
 
