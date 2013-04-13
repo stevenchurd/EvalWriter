@@ -20,31 +20,49 @@ Dialog {
             Text {
                 text: dialogText
                 renderType: Text.NativeRendering
-                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            Text {
+                text: "Title:"
+                renderType: Text.NativeRendering
             }
 
             Rectangle {
+                id: titleRect
+
                 width: textInputWidth
                 height: 25
                 border.color: "black"
                 clip: true
 
-                TextEdit {
+                TextInput {
                     id: customTextTitle
                     anchors.fill: parent
-                    textMargin: 5
+                    anchors.margins: 5
 
-                    wrapMode: TextEdit.NoWrap
-                    renderType: TextEdit.NativeRendering
+                    renderType: TextInput.NativeRendering
                     text: startingTitle
+                    cursorVisible: true
                     selectByMouse: true
                     selectionColor: "steelblue"
-                    focus: false
+                    focus: true
+
+                    Keys.onTabPressed: customTextItem.focus = true
+
                     onActiveFocusChanged: if(focus) {selectAll()}
+                    onAccepted: trySubmit()
+                    Component.onCompleted: selectAll()
                 }
             }
 
+            Text {
+                text: "Custom text to display:"
+                renderType: Text.NativeRendering
+            }
+
             Rectangle {
+                id: bodyRect
+
                 width: textInputWidth
                 height: textInputHeight
                 border.color: "black"
@@ -58,13 +76,12 @@ Dialog {
                     wrapMode: TextEdit.Wrap
                     renderType: TextEdit.NativeRendering
                     text: startingText
-                    cursorVisible: true
                     selectByMouse: true
                     selectionColor: "steelblue"
-                    focus: true
-                    onActiveFocusChanged: if(focus) {selectAll()}
 
-                    Component.onCompleted: selectAll()
+                    Keys.onTabPressed: acceptButton.focus = true
+
+                    onActiveFocusChanged: if(focus) {selectAll()}
                 }
             }
 
@@ -73,15 +90,57 @@ Dialog {
                 spacing: 15
 
                 TextButton {
-                    id: editButton
+                    id: acceptButton
                     text: acceptButtonText
-                    onClicked: editClicked(customTextTitle.text, customTextItem.text)
+
+                    Keys.onTabPressed: cancelButton.focus = true
+                    Keys.onEnterPressed: trySubmit()
+
+                    onClicked: trySubmit()
                 }
 
                 TextButton {
                     id: cancelButton
                     text: "Cancel"
+
+                    Keys.onTabPressed: customTextTitle.focus = true
+                    Keys.onEnterPressed: cancelClicked()
                     onClicked: cancelClicked()
+                }
+            }
+
+            function trySubmit()
+            {
+                var accept = true
+
+                customTextTitle.text = customTextTitle.text.trim()
+                customTextItem.text = customTextItem.text.trim()
+
+                if(customTextTitle.text.length <= 0)
+                {
+                    accept = false
+                    titleRect.border.color = "red"
+                }
+                else
+                {
+                    titleRect.border.color = "black"
+                }
+
+                if(customTextItem.text.length <= 0)
+                {
+                    accept = false
+                    bodyRect.border.color = "red"
+                }
+                else
+                {
+                    bodyRect.border.color = "black"
+                }
+
+                if(accept == true)
+                {
+                    bodyRect.border.color = "black"
+                    titleRect.border.color = "black"
+                    acceptedClicked(customTextTitle.text, customTextItem.text)
                 }
             }
         }

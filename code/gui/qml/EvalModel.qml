@@ -10,9 +10,10 @@ Item {
     anchors.margins: 5
 
     Item {
+        id: headerItem
+
         height: evalTitle.height
         width: parent.width
-        id: headerItem
 
         TextButton {
             id: textOnlyViewButton
@@ -125,6 +126,7 @@ Item {
         id: listOperationsContainer
         enabled: currentViewType !== "textOnlyView"
         anchors.left: scrollbar.right
+        anchors.top: headerItem.bottom
         model: evalModel
         listOfItems: flowListView
     }
