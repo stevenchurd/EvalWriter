@@ -49,7 +49,7 @@ void EvalSetPropertyTreeParser::parseTree(boost::property_tree::ptree& pt,
                     std::string("Expected evalSet node: ") + v.first);
         }
 
-        dest++ = parseEvalSetNode(v.second, studentsBegin, studentsEnd, nullptr);
+        dest++ = parseEvalSetNode(v.second, studentsBegin, studentsEnd, boost::shared_ptr<EvalSet>());
     }
 }
 

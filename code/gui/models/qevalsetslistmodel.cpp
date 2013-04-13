@@ -72,7 +72,7 @@ void QEvalSetsListModel::addItem(QString evalSetName)
     if(m_evalSet == nullptr)
     {
         // add the new eval set to the global list
-        boost::shared_ptr<EvalSet> newEvalSet(new EvalSet(evalSetName.toStdString(), nullptr));
+        boost::shared_ptr<EvalSet> newEvalSet(new EvalSet(evalSetName.toStdString(), boost::shared_ptr<EvalSet>()));
         PDM().add(newEvalSet);
     }
     else
