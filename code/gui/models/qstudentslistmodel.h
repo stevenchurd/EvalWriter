@@ -32,7 +32,7 @@ public:
                   "Too many items in enumeration");
 
 public slots:
-    void addStudent(QString firstName, QString middleName, QString lastName);
+    void addStudent(QString firstName, QString middleName, QString lastName, int gender);
     void renameStudent(QString firstName, QString middleName, QString lastName, int row);
     virtual void removeItem(int index);
     virtual void renameItem(QString newName, int row);

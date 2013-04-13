@@ -28,6 +28,7 @@ const std::string singleCourseNode("course");
 const std::string studentFirstNameNode("firstName");
 const std::string studentMiddleNameNode("middleName");
 const std::string studentLastNameNode("lastName");
+const std::string studentGenderNode("gender");
 const std::string studentCoursesNode("Courses");
 const std::string studentEvalsNode("Evals");
 const std::string singleStudentNode("student");

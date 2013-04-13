@@ -7,11 +7,12 @@
 
 
 Student::Student(std::string firstName, std::string middleName, std::string lastName,
-                 boost::uuids::uuid objUuid) :
+                 Gender gender, boost::uuids::uuid objUuid) :
     VisitorElement(),
     m_firstName(firstName),
     m_middleName(middleName),
     m_lastName(lastName),
+    m_gender(gender),
     m_uuid(objUuid)
 {
 }

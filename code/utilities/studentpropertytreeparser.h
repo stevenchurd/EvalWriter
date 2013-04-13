@@ -120,6 +120,7 @@ void StudentPropertyTreeParser::parseStudentNode(
     std::string firstName;
     std::string middleName;
     std::string lastName;
+    Student::Gender gender;
     boost::uuids::uuid studentUuid;
     boost::uuids::string_generator gen;
 
@@ -127,13 +128,15 @@ void StudentPropertyTreeParser::parseStudentNode(
         firstName = pt.get<std::string>(xml_node_names::studentFirstNameNode);
         middleName = pt.get<std::string>(xml_node_names::studentMiddleNameNode);
         lastName = pt.get<std::string>(xml_node_names::studentLastNameNode);
+        gender = static_cast<Student::Gender>(pt.get<int>(xml_node_names::studentGenderNode));
         studentUuid = gen(pt.get<std::string>(xml_node_names::elementUuidNode));
     } catch(boost::property_tree::ptree_error& pte) {
         throw InvalidXmlException(
                     std::string("No name element found: ") + pte.what());
     }
 
-    boost::shared_ptr<Student> student(new Student(firstName, middleName, lastName, studentUuid));
+    boost::shared_ptr<Student> student(new Student(firstName, middleName, lastName,
+                                                   gender, studentUuid));
 
     for (boost::property_tree::ptree::const_iterator it = pt.begin(); it != pt.end(); ++it)
     {
@@ -150,6 +153,7 @@ void StudentPropertyTreeParser::parseStudentNode(
         else if(it->first == xml_node_names::studentFirstNameNode ||
                 it->first == xml_node_names::studentMiddleNameNode ||
                 it->first == xml_node_names::studentLastNameNode ||
+                it->first == xml_node_names::studentGenderNode ||
                 it->first == xml_node_names::elementUuidNode)
         {
             // don't need to do anything, these were already extracted

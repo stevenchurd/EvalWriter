@@ -6,7 +6,7 @@ Dialog {
     property int textInputWidth: 300
     property int textInputHeight: 25
 
-    signal okClicked(string firstName, string middleName, string lastName)
+    signal okClicked(string firstName, string middleName, string lastName, int gender)
     signal cancelClicked
 
     Component {
@@ -106,7 +106,7 @@ Dialog {
                             anchors.fill: parent
                             anchors.margins: 5
 
-                            Keys.onTabPressed: okButton.focus = true
+                            Keys.onTabPressed: genderList.focus = true
 
                             renderType: TextInput.NativeRendering
                             text: startingText
@@ -114,6 +114,33 @@ Dialog {
                             selectionColor: "steelblue"
 
                             onAccepted: trySubmit()
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+                height: 30
+                width: parent.width
+
+                ListModel {
+                    id: genderModel
+                    ListElement { name: "Female" }
+                    ListElement { name: "Male" }
+                }
+
+                CommonListView {
+                    id: genderList
+                    anchors.fill: parent
+
+                    Keys.onTabPressed: okButton.focus = true
+                    currentIndex: 0
+                    model: genderModel
+                    delegate: Text {
+                        text: name
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: genderList.currentIndex = index
                         }
                     }
                 }
@@ -178,7 +205,7 @@ Dialog {
                 // if all the checks passed, we can submit
                 if(valid == true)
                 {
-                    okClicked(firstName.text, middleName.text, lastName.text)
+                    okClicked(firstName.text, middleName.text, lastName.text, genderList.currentIndex)
                 }
             }
 

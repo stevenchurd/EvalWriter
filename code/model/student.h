@@ -20,13 +20,16 @@ class Eval;
 class Student : public VisitorElement
 {
 public:
+    /* enum types */
+    enum Gender { Female, Male };
 
     /*
      * Constructors/destructor
      */
     Student(std::string firstName, std::string middleName, std::string lastName,
-            boost::uuids::uuid objUuid = boost::uuids::random_generator()());
+            Gender gender, boost::uuids::uuid objUuid = boost::uuids::random_generator()());
     virtual ~Student() {}
+
 
     void updateName(std::string firstName, std::string middleName, std::string lastName);
 
@@ -39,6 +42,8 @@ public:
 
         return m_firstName + " " + m_middleName + " " + m_lastName;
     }
+
+    Gender getGender() const { return m_gender; }
 
     std::string getUuid(void) const { return to_string(m_uuid); }
 
@@ -73,6 +78,7 @@ private:
     std::string m_firstName ;
     std::string m_lastName ;
     std::string m_middleName ;
+    Gender m_gender;
 
     std::vector<boost::shared_ptr<Eval> > m_evals ;
     std::vector<boost::shared_ptr<Course> > m_courses ;

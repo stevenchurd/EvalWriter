@@ -115,10 +115,14 @@ QStringList QStudentsListModel::getOptionListForOperation(int operation)
 }
 
 
-void QStudentsListModel::addStudent(QString firstName, QString middleName, QString lastName)
+void QStudentsListModel::addStudent(QString firstName, QString middleName,
+                                    QString lastName, int gender)
 {
     boost::shared_ptr<Student> newStudent(
-                new Student(firstName.toStdString(), middleName.toStdString(), lastName.toStdString()));
+                new Student(firstName.toStdString(),
+                            middleName.toStdString(),
+                            lastName.toStdString(),
+                            static_cast<Student::Gender>(gender)));
 
     beginResetModel();
     PDM().add(newStudent);

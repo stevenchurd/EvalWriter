@@ -24,6 +24,7 @@ void StudentSaveVisitor::visit(Student& student)
     newStudentNode.put(xml_node_names::studentFirstNameNode, student.getFirstName());
     newStudentNode.put(xml_node_names::studentMiddleNameNode, student.getMiddleName());
     newStudentNode.put(xml_node_names::studentLastNameNode, student.getLastName());
+    newStudentNode.put(xml_node_names::studentGenderNode, student.getGender());
 
     student.acceptChildren(*this);
 
