@@ -5,6 +5,7 @@
 #include "qcourseslistmodel.h"
 #include "qstudentslistmodel.h"
 #include "utilities/persistentdatamanager.h"
+#include "qmainnavigationmodel.h"
 
 #ifndef Q_MOC_RUN
 #include <boost/iterator/indirect_iterator.hpp>

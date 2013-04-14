@@ -1,6 +1,7 @@
 // (C) Copyright Steven Hurd 2013
 
 #include "qgradingcriteriamodel.h"
+#include "qcriteriaitemlistmodel.h"
 #include "model/criteriaitem.h"
 #include "model/gradingcriteria.h"
 

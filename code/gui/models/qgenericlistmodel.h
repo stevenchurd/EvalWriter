@@ -4,8 +4,6 @@
 #include <QAbstractListModel>
 #include <QStringList>
 
-#include "qmainnavigationmodel.h"
-
 #ifndef Q_MOC_RUN
 #include <boost/shared_ptr.hpp>
 #endif
@@ -13,6 +11,7 @@
 class QGenericListModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_ENUMS(SubModelType)
 
 public:
     QGenericListModel(QObject* parent = 0);
@@ -22,8 +21,16 @@ public:
     enum GenericListRoles {
         StringRole = Qt::UserRole + 1,
         ColorRole,
-        SubModelType,
+        SubModelTypeRole,
         EndOfGenericListRoles
+    };
+
+    enum SubModelType {
+        StudentList = 1,
+        EvaluationList = 2,
+        CourseList = 3,
+        EvalSetList = 4,
+        GradingCriteria = 5
     };
 
     Q_INVOKABLE virtual QObject* getSubModelFromIndex(int index) = 0;
@@ -36,6 +43,9 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     QHash<int,QByteArray> roleNames() const;
+
+signals:
+
 
 public slots:
     virtual void addItem(QString newName) { assert(false); }

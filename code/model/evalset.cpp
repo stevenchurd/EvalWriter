@@ -21,13 +21,13 @@ void EvalSet::addEval(boost::shared_ptr<Eval> eval)
 
 std::vector<boost::shared_ptr<Eval> >::const_iterator EvalSet::evalsBegin(void)
 {
-    return m_evals.begin();
+    return m_evals.cbegin();
 }
 
 
 std::vector<boost::shared_ptr<Eval> >::const_iterator EvalSet::evalsEnd(void)
 {
-    return m_evals.end();
+    return m_evals.cend();
 }
 
 
@@ -48,13 +48,13 @@ void EvalSet::removeEval(std::vector<std::string> uuids)
 
 std::vector<boost::shared_ptr<EvalSet> >::const_iterator EvalSet::evalSetsBegin(void)
 {
-    return m_subEvalSets.begin();
+    return m_subEvalSets.cbegin();
 }
 
 
 std::vector<boost::shared_ptr<EvalSet> >::const_iterator EvalSet::evalSetsEnd(void)
 {
-    return m_subEvalSets.end();
+    return m_subEvalSets.cend();
 }
 
 

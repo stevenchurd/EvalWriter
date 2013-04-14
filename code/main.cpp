@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
         qmlRegisterUncreatableType<QEvalsListModel>("CppEnums", 1, 0, "QEvalsListModel", "Need enum types");
         qmlRegisterUncreatableType<QGradingCriteriaModel>("CppEnums", 1, 0, "QGradingCriteriaModel", "Need enum types");
         qmlRegisterUncreatableType<QEvaluationModel>("CppEnums", 1, 0, "QEvaluationModel", "Need enum types");
+        qmlRegisterUncreatableType<QGenericListModel>("ModelTypeEnums", 1, 0, "QGenericListModel", "Model enum types");
 
         // set up models
         QGradingCriteriaModel gcModel;
@@ -56,10 +57,10 @@ int main(int argc, char *argv[])
         QGenericListModel* evalSetModel = new QEvalSetsListModel();
 
         QMainNavigationModel* mainModel = new QMainNavigationModel("Home");
-        mainModel->addSubModel("Classes", coursesModel, ModelTypes::CourseList);
-        mainModel->addSubModel("Students", studentsModel, ModelTypes::StudentList);
-        mainModel->addSubModel("Evaluation Sets", evalSetModel, ModelTypes::EvalSetList);
-        mainModel->addSubModel("Grading Categories", &gcModel, ModelTypes::GradingCriteria);
+        mainModel->addSubModel("Classes", coursesModel, QGenericListModel::CourseList);
+        mainModel->addSubModel("Students", studentsModel, QGenericListModel::StudentList);
+        mainModel->addSubModel("Evaluation Sets", evalSetModel, QGenericListModel::EvalSetList);
+        mainModel->addSubModel("Grading Categories", &gcModel, QGenericListModel::GradingCriteria);
 
         context->setContextProperty("mainModel", mainModel);
         context->setContextProperty("gradingCriteriaModel", &gcModel);

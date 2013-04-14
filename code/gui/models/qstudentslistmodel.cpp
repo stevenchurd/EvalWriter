@@ -1,5 +1,6 @@
 #include "qstudentslistmodel.h"
 #include "utilities/persistentdatamanager.h"
+#include "qmainnavigationmodel.h"
 
 QStudentsListModel::QStudentsListModel(QObject* parent) :
     QGenericListModel(parent)

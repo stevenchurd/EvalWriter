@@ -4,53 +4,13 @@
 #include <QAbstractListModel>
 #include <tuple>
 
+#include "qgenericlistmodel.h"
+
 #ifndef Q_MOC_RUN
 #include <boost/shared_ptr.hpp>
 #include "model/student.h"
 #endif
 
-class QGenericListModel;
-
-// we use these values in QML which is why we enumerate them explicitly
-namespace ModelTypes {
-enum SubModelType {
-    StudentList = 1,
-    EvaluationList = 2,
-    CourseList = 3,
-    EvalSetList = 4,
-    GradingCriteria = 5
-};
-}
-
-namespace ModelOperationRanges {
-enum SubModelOperationRanges {
-    InvalidOperation = 0,
-
-    // CoursesList operations (1-10)
-    CoursesListOperationsBegin = 1,
-    CoursesListOperationsEnd = 10,
-
-    // StudentsList operations (11-20)
-    StudentsListOperationsBegin = 11,
-    StudentsListOperationsEnd = 20,
-
-    // EvalsList operations (21-30)
-    EvalsListOperationsBegin = 21,
-    EvalsListOperationsEnd = 30,
-
-    // EvalSetsList operations (31-40)
-    EvalSetsListOperationsBegin = 31,
-    EvalSetsListOperationsEnd = 40,
-
-    // Grading Griteria operations (41-50)
-    GradingCriteriaListOperationsBegin = 41,
-    GradingCriteriaListOperationsEnd = 50,
-
-    // Evaluation operations (51-60)
-    EvaluationOperationsBegin = 51,
-    EvaluationOperationsEnd = 60
-};
-}
 
 class QMainNavigationModel : public QAbstractListModel
 {
@@ -70,7 +30,7 @@ public:
     Q_INVOKABLE QString getModelTitle() const;
     Q_INVOKABLE unsigned int getSubModelCount(void) const { return static_cast<unsigned int>(m_submodels.size()); }
 
-    void addSubModel(std::string displayString, QAbstractItemModel *listModel, ModelTypes::SubModelType modelType);
+    void addSubModel(std::string displayString, QAbstractItemModel *listModel, QGenericListModel::SubModelType modelType);
 
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;
@@ -81,7 +41,7 @@ public:
 private:
 
     QString m_modelTitle;
-    std::vector<std::tuple<std::string, QAbstractItemModel*, ModelTypes::SubModelType> > m_submodels;
+    std::vector<std::tuple<std::string, QAbstractItemModel*, QGenericListModel::SubModelType> > m_submodels;
 };
 
 

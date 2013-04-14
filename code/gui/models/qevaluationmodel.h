@@ -4,6 +4,7 @@
 #define QEVALUATIONMODEL_H
 
 #include <QAbstractListModel>
+#include "globalenums.h"
 
 #ifndef Q_MOC_RUN
 #include <boost/shared_ptr.hpp>

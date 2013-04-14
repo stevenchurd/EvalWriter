@@ -4,6 +4,7 @@
 #define QCOURSESLISTMODEL_H
 
 #include "qgenericlistmodel.h"
+#include "globalenums.h"
 
 #ifndef Q_MOC_RUN
 #include "model/course.h"

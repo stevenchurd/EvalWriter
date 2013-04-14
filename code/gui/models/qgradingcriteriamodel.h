@@ -8,7 +8,7 @@
 
 #include <tuple>
 
-#include "gui/models/qcriteriaitemlistmodel.h"
+#include "globalenums.h"
 
 #ifndef Q_MOC_RUN
 #include <boost/shared_ptr.hpp>
@@ -16,6 +16,9 @@
 #include "model/gradingcriteria.h"
 #include "qgenericlistmodel.h"
 #endif
+
+
+class QCriteriaItemListModel;
 
 class QGradingCriteriaModel : public QAbstractListModel
 {
