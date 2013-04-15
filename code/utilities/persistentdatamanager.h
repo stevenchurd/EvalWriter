@@ -2,6 +2,7 @@
 #define PERSISTENTDATAMANAGER_H
 
 #include <vector>
+#include <QObject>
 
 #ifndef Q_MOC_RUN
 #include "model/student.h"
@@ -12,8 +13,10 @@
 
 
 
-class PersistentDataManager
+class PersistentDataManager : public QObject
 {
+    Q_OBJECT
+
 public:
     static PersistentDataManager& Instance(void);
 
@@ -40,6 +43,11 @@ public:
     void add(boost::shared_ptr<EvalSet> newEvalSet);
     void remove(std::vector<boost::shared_ptr<EvalSet> >::const_iterator it);
 
+signals:
+    void courseDataChanged(std::string uuid);
+    void studentDataChanged(std::string uuid);
+    void evalSetDataChanged(std::string uuid);
+    void evalDataChanged(std::string uuid);
 
 private:
     PersistentDataManager();

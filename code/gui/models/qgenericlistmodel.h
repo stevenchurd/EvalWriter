@@ -41,9 +41,6 @@ public:
 
     QHash<int,QByteArray> roleNames() const;
 
-signals:
-
-
 public slots:
     virtual void addItem(QString newName) { assert(false); }
     virtual void removeItem(int row) = 0;

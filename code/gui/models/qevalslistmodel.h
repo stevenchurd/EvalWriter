@@ -41,6 +41,8 @@ public slots:
     virtual void renameItem(QString newName, int row);
     virtual void optionListSelection(int operation, int row);
 
+    void onEvalDataChanged(std::string uuid);
+
 private:
     boost::shared_ptr<Student> m_student;
     boost::shared_ptr<EvalSet> m_evalSet;

@@ -7,12 +7,16 @@
 QEvalSetsListModel::QEvalSetsListModel(QObject* parent) :
     QGenericListModel(parent)
 {
+    assert(QObject::connect(&PDM(), SIGNAL(evalSetDataChanged(std::string)),
+                            this, SLOT(onEvalSetDataChanged(std::string))));
 }
 
 
 QEvalSetsListModel::QEvalSetsListModel(boost::shared_ptr<EvalSet> evalSet, QObject* parent) :
     QGenericListModel(parent), m_evalSet(evalSet)
 {
+    assert(QObject::connect(&PDM(), SIGNAL(evalSetDataChanged(std::string)),
+                            this, SLOT(onEvalSetDataChanged(std::string))));
 }
 
 
@@ -44,9 +48,11 @@ int QEvalSetsListModel::getProgressIndicator(int row) const
             maxProgress = eval->getProgress();
     });
 
+    // if all evals have the same progress level, the evalSet progress is that.
+    // if one is less than the other, then it must be InProgress
     if(minProgress == maxProgress)
         return minProgress;
-    if(minProgress < maxProgress)
+    else if(minProgress < maxProgress)
         return Eval::InProgress;
 
     return -1;
@@ -152,7 +158,7 @@ void QEvalSetsListModel::renameItem(QString evalSetName, int row)
     }
 
     evalSet->updateEvalSetName(evalSetName.toStdString());
-    emit dataChanged(index(row), index(row));
+    emit PDM().evalSetDataChanged(evalSet->getUuid());
 }
 
 
@@ -167,6 +173,30 @@ QStringList QEvalSetsListModel::getOptionListForOperation(int /*operation*/)
 void QEvalSetsListModel::optionListSelection(int /*operation*/, int /*row*/)
 {
     assert(false); // this function should not be used for eval sets
+}
+
+
+void QEvalSetsListModel::onEvalSetDataChanged(std::string uuid)
+{
+    auto evalSetsBegin = PDM().evalSetsBegin();
+    auto evalSetsEnd = PDM().evalSetsEnd();
+
+    if(m_evalSet != nullptr)
+    {
+        evalSetsBegin = m_evalSet->evalSetsBegin();
+        evalSetsEnd = m_evalSet->evalSetsEnd();
+    }
+
+    int i = 0;
+    std::for_each(evalSetsBegin, evalSetsEnd,
+                  [&uuid, &i, this] (boost::shared_ptr<EvalSet> evalSet)
+    {
+        if(evalSet->getUuid() == uuid)
+        {
+            emit dataChanged(index(i), index(i));
+        }
+        ++i;
+    });
 }
 
 

@@ -14,12 +14,16 @@
 QCoursesListModel::QCoursesListModel(QObject* parent) :
     QGenericListModel(parent)
 {
+    assert(QObject::connect(&PDM(), SIGNAL(courseDataChanged(std::string)),
+                            this, SLOT(onCourseDataChanged(std::string))));
 }
 
 
 QCoursesListModel::QCoursesListModel(boost::shared_ptr<Student> student, QObject* parent) :
     QGenericListModel(parent), m_student(student)
 {
+    assert(QObject::connect(&PDM(), SIGNAL(courseDataChanged(std::string)),
+                            this, SLOT(onCourseDataChanged(std::string))));
 }
 
 
@@ -154,7 +158,7 @@ void QCoursesListModel::renameItem(QString newName, int row)
     assert(m_student == nullptr);
     boost::shared_ptr<Course> course = elementAt<Course>(PDM().coursesBegin(), row);
     course->updateCourseName(newName.toStdString());
-    emit dataChanged(index(row), index(row));
+    emit PDM().courseDataChanged(course->getUuid());
 }
 
 
@@ -189,6 +193,30 @@ void QCoursesListModel::optionListSelection(int operation, int row)
             assert(false);
             break;
     }
+}
+
+
+void QCoursesListModel::onCourseDataChanged(std::string uuid)
+{
+    auto coursesBegin = PDM().coursesBegin();
+    auto coursesEnd = PDM().coursesEnd();
+
+    if(m_student != nullptr)
+    {
+        coursesBegin = m_student->coursesBegin();
+        coursesEnd = m_student->coursesEnd();
+    }
+
+    int i = 0;
+    std::for_each(coursesBegin, coursesEnd,
+                  [&uuid, &i, this] (boost::shared_ptr<Course> course)
+    {
+        if(course->getUuid() == uuid)
+        {
+            emit dataChanged(index(i), index(i));
+        }
+        ++i;
+    });
 }
 
 

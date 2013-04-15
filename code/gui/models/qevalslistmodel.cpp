@@ -8,11 +8,15 @@
 QEvalsListModel::QEvalsListModel(boost::shared_ptr<Student> student, QObject* parent) :
     QGenericListModel(parent), m_student(student)
 {
+    assert(QObject::connect(&PDM(), SIGNAL(evalDataChanged(std::string)),
+                            this, SLOT(onEvalDataChanged(std::string))));
 }
 
 QEvalsListModel::QEvalsListModel(boost::shared_ptr<EvalSet> evalSet, QObject* parent) :
     QGenericListModel(parent), m_evalSet(evalSet)
 {
+    assert(QObject::connect(&PDM(), SIGNAL(evalDataChanged(std::string)),
+                            this, SLOT(onEvalDataChanged(std::string))));
 }
 
 
@@ -227,7 +231,7 @@ void QEvalsListModel::renameItem(QString newName, int row)
     }
 
     eval->setEvalName(newName.toStdString());
-    emit dataChanged(index(row), index(row));
+    emit PDM().evalDataChanged(eval->getUuid());
 }
 
 
@@ -285,6 +289,40 @@ void QEvalsListModel::optionListSelection(int operation, int row)
         default:
             assert(false);
             break;
+    }
+}
+
+
+void QEvalsListModel::onEvalDataChanged(std::string uuid)
+{
+    int i = 0;
+    if(m_student != nullptr)
+    {
+        std::for_each(m_student->evalsBegin(), m_student->evalsEnd(),
+                      [&uuid, &i, this] (boost::shared_ptr<Eval> eval)
+        {
+            if(eval->getUuid() == uuid)
+            {
+                emit dataChanged(index(i), index(i));
+            }
+            ++i;
+        });
+    }
+    else if(m_evalSet != nullptr)
+    {
+        std::for_each(m_evalSet->evalsBegin(), m_evalSet->evalsEnd(),
+                      [&uuid, &i, this] (boost::shared_ptr<Eval> eval)
+        {
+            if(eval->getUuid() == uuid)
+            {
+                emit dataChanged(index(i), index(i));
+            }
+            ++i;
+        });
+    }
+    else
+    {
+        assert(false);
     }
 }
 

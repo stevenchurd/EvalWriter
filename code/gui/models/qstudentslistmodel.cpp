@@ -5,12 +5,16 @@
 QStudentsListModel::QStudentsListModel(QObject* parent) :
     QGenericListModel(parent)
 {
+    assert(QObject::connect(&PDM(), SIGNAL(studentDataChanged(std::string)),
+                     this, SLOT(onStudentDataChanged(std::string))));
 }
 
 
 QStudentsListModel::QStudentsListModel(boost::shared_ptr<Course> course, QObject* parent) :
     QGenericListModel(parent), m_course(course)
 {
+    assert(QObject::connect(&PDM(), SIGNAL(studentDataChanged(std::string)),
+                     this, SLOT(onStudentDataChanged(std::string))));
 }
 
 
@@ -146,7 +150,7 @@ void QStudentsListModel::renameStudent(QString firstName, QString middleName, QS
     // TODO: eventually will want to update the ordering if this changes
     student->updateName(firstName.toStdString(), middleName.toStdString(),
                         lastName.toStdString());
-    emit dataChanged(index(row), index(row));
+    emit PDM().studentDataChanged(student->getUuid());
 }
 
 
@@ -203,6 +207,43 @@ void QStudentsListModel::optionListSelection(int operation, int row)
         default:
             assert(false);
             break;
+    }
+}
+
+
+void QStudentsListModel::onStudentDataChanged(std::string uuid)
+{
+    // see if this student exists in this view
+    if(m_course == nullptr)
+    {
+        int i = 0;
+        // this is the global list, student should exist
+        std::for_each(PDM().studentsBegin(), PDM().studentsEnd(),
+                      [&i, &uuid, this] (boost::shared_ptr<Student> student)
+        {
+            if(student->getUuid() == uuid)
+            {
+                emit dataChanged(index(i), index(i));
+            }
+            ++i;
+        });
+    }
+    else
+    {
+        boost::shared_ptr<Student> student;
+        int i = 0;
+
+        student = getNthStudentInCourse(i, m_course);
+        // otherwise get the nth student in the course until we've found a match or not
+        while(student != nullptr)
+        {
+            if(student->getUuid() == uuid)
+            {
+                emit dataChanged(index(i), index(i));
+            }
+            ++i;
+            student = getNthStudentInCourse(i, m_course);
+        }
     }
 }
 

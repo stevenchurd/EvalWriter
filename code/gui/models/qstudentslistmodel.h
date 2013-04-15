@@ -39,6 +39,8 @@ public slots:
     virtual void renameItem(QString newName, int row);
     virtual void optionListSelection(int operation, int row);
 
+    void onStudentDataChanged(std::string uuid);
+
 private:
     boost::shared_ptr<Course> m_course;
 
