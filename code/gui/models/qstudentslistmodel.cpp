@@ -47,17 +47,17 @@ int QStudentsListModel::getNumItems() const
 }
 
 
-QAbstractItemModel* QStudentsListModel::getSubModelFromIndex(int index)
+QAbstractItemModel* QStudentsListModel::getNextPageFromIndex(int index)
 {
     if(m_course == nullptr)
     {
-        return makeSubModel(elementAt<Student>(PDM().studentsBegin(), index));
+        return makeMainNavModel(elementAt<Student>(PDM().studentsBegin(), index));
     }
     else
     {
         boost::shared_ptr<Student> student = getNthStudentInCourse(index, m_course);
 
-        return makeSubModel(student);
+        return makeMainNavModel(student);
     }
 }
 

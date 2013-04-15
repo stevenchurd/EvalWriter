@@ -44,7 +44,7 @@ private:
 
     virtual QString getOperationExplanationText(int operation, int row);
     virtual QStringList getOptionListForOperation(int operation);
-    virtual QAbstractItemModel* getSubModelFromIndex(int index);
+    virtual QAbstractItemModel* getNextPageFromIndex(int index);
     virtual QList<int> getSubModelOperations();
     virtual std::string getItemString(int index) const;
     virtual int getNumItems() const;

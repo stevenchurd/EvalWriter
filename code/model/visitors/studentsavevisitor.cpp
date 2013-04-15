@@ -53,6 +53,7 @@ void StudentSaveVisitor::visit(Eval& eval)
 {
     m_evalItemsPt.add(xml_node_names::elementUuidNode, eval.getUuid());
     m_evalItemsPt.add(xml_node_names::elementNameNode, eval.getEvalName());
+    m_evalItemsPt.add(xml_node_names::evalProgressNode, eval.getProgress());
 
     eval.acceptChildren(*this);
 

@@ -263,7 +263,8 @@ void StudentPropertyTreeParser::parseEvalItemNode(
         parseCustomTextNode(pt, eval);
     }
     else if(ptName == xml_node_names::elementNameNode ||
-            ptName == xml_node_names::elementUuidNode)
+            ptName == xml_node_names::elementUuidNode ||
+            ptName == xml_node_names::evalProgressNode)
     {
         // name and uuid already extracted so nothing necessary to do
     }
@@ -284,18 +285,20 @@ void StudentPropertyTreeParser::parseEvalNode(
     for (boost::property_tree::ptree::const_iterator it = pt.begin(); it != pt.end(); ++it)
     {
         std::string evalName;
+        Eval::Progress evalProgress;
         boost::uuids::uuid evalUuid;
         boost::uuids::string_generator gen;
 
         try{
             evalName = it->second.get<std::string>(xml_node_names::elementNameNode);
             evalUuid = gen(it->second.get<std::string>(xml_node_names::elementUuidNode));
+            evalProgress = static_cast<Eval::Progress>(it->second.get<int>(xml_node_names::evalProgressNode));
         } catch(boost::property_tree::ptree_error& pte) {
             throw InvalidXmlException(
                         std::string("Element not found: ") + pte.what());
         }
 
-        boost::shared_ptr<Eval> newEval(new Eval(evalName, evalUuid));
+        boost::shared_ptr<Eval> newEval(new Eval(evalName, evalProgress, evalUuid));
 
         // now iterate through this whole node and construct all the elements
         for(boost::property_tree::ptree::const_iterator critIt = it->second.begin(); critIt != it->second.end(); ++critIt)

@@ -7,9 +7,10 @@
 #include <QDebug>
 #endif
 
-Eval::Eval(std::string evalName,
+Eval::Eval(std::string evalName, Progress progress,
            boost::uuids::uuid objUuid) :
-    VisitorElement(), m_evalName(evalName), m_uuid(objUuid)
+    VisitorElement(), m_evalName(evalName),
+    m_progress(progress), m_uuid(objUuid)
 {
 }
 

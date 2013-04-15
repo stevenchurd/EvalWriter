@@ -45,9 +45,9 @@ private:
 };
 
 
-QAbstractItemModel* makeSubModel(boost::shared_ptr<Student> student);
-QAbstractItemModel* makeSubModel(boost::shared_ptr<Course> course);
-QAbstractItemModel* makeSubModel(boost::shared_ptr<EvalSet> evalSet);
+QAbstractItemModel* makeMainNavModel(boost::shared_ptr<Student> student);
+QAbstractItemModel* makeMainNavModel(boost::shared_ptr<Course> course);
+QAbstractItemModel* makeMainNavModel(boost::shared_ptr<EvalSet> evalSet);
 
 
 #endif // QMAINNAVIGATIONMODEL_H

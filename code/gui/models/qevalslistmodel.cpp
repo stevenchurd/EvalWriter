@@ -16,6 +16,27 @@ QEvalsListModel::QEvalsListModel(boost::shared_ptr<EvalSet> evalSet, QObject* pa
 }
 
 
+int QEvalsListModel::getProgressIndicator(int row) const
+{
+    boost::shared_ptr<Eval> eval;
+
+    if(m_evalSet != nullptr)
+    {
+        eval = elementAt<Eval>(m_evalSet->evalsBegin(), row);
+    }
+    else if(m_student != nullptr)
+    {
+        eval = elementAt<Eval>(m_student->evalsBegin(), row);
+    }
+    else
+    {
+        assert(false);
+    }
+
+    return eval->getProgress();
+}
+
+
 std::string QEvalsListModel::getItemString(int index) const
 {
     if(m_student != nullptr)
@@ -48,7 +69,7 @@ int QEvalsListModel::getNumItems() const
 }
 
 
-QAbstractItemModel* QEvalsListModel::getSubModelFromIndex(int index)
+QAbstractItemModel* QEvalsListModel::getNextPageFromIndex(int index)
 {
     if(m_student != nullptr)
     {
@@ -148,7 +169,7 @@ void QEvalsListModel::addItem(QString newEvalName)
 {
     beginResetModel();
     assert(m_student != nullptr && m_evalSet == nullptr);
-    boost::shared_ptr<Eval> newEval(new Eval(newEvalName.toStdString()));
+    boost::shared_ptr<Eval> newEval(new Eval(newEvalName.toStdString(), Eval::New));
     m_student->addEval(newEval);
     endResetModel(); // TODO: replace with beginInsertRow
 }

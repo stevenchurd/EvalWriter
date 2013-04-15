@@ -19,11 +19,12 @@
 class Eval : public VisitorElement
 {
 public:
+    enum Progress { New, InProgress, Complete };
 
     /*
      * Constructors/destructor
      */
-    Eval(std::string evalName,
+    Eval(std::string evalName, Progress progress,
          boost::uuids::uuid objUuid = boost::uuids::random_generator()());
 
     virtual ~Eval() {}
@@ -43,6 +44,9 @@ public:
 
     boost::shared_ptr<EvalItem> getEvalItem(unsigned int index) const;
 
+    void setProgressCompleted(void) { m_progress = Complete; }
+    Progress getProgress(void) const { return m_progress; }
+
     std::string getUuid(void) const { return to_string(m_uuid); }
 
     /*
@@ -57,6 +61,7 @@ public:
 
 private:
     std::string m_evalName;
+    Progress m_progress;
     boost::uuids::uuid m_uuid;
 
     std::vector<boost::shared_ptr<EvalItem> > m_evalItems;

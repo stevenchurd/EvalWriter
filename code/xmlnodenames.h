@@ -36,6 +36,7 @@ const std::string singleStudentNode("student");
 
 // eval nodes
 const std::string singleEvalNode("eval");
+const std::string evalProgressNode("progress");
 
 
 // eval set nodes

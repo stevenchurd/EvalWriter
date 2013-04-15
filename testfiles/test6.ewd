@@ -165,6 +165,7 @@
             <eval>
                 <uuid>7dd1261c-9c4f-4b0e-96ad-7cbf9d8303a1</uuid>
                 <name>Jeffs 1st semester eval</name>
+                <progress>0</progress>
                 <criteriaItem>
                     <uuid>ce738116-e654-44cd-9bc6-8dc89573dc55</uuid>
                 </criteriaItem>
@@ -183,6 +184,7 @@
             <eval>
                 <uuid>9942c450-1572-4f80-b66b-335c4b921d71</uuid>
                 <name>Jeffs 2nd semester eval</name>
+                <progress>2</progress>
                 <criteriaItem>
                     <uuid>3c67881f-5f94-493a-b162-eebedad58c4f</uuid>
                 </criteriaItem>
@@ -212,7 +214,7 @@
         <firstName>Jim</firstName>
         <middleName>F</middleName>
         <lastName>Wonderman</lastName>
-        <gender>1</gender>
+        <gender>2</gender>
         <Courses>
             <course>
                 <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>

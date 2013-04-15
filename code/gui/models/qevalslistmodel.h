@@ -3,6 +3,7 @@
 
 #include <QVector>
 #include "qgenericlistmodel.h"
+#include "globalenums.h"
 
 #ifndef Q_MOC_RUN
 #include "model/eval.h"
@@ -32,6 +33,8 @@ public:
     static_assert(EndOfEnum < ModelOperationRanges::EvalsListOperationsEnd,
                   "Too many items in enumeration");
 
+    Q_INVOKABLE int getProgressIndicator(int row) const;
+
 public slots:
     virtual void addItem(QString newName);
     virtual void removeItem(int index);
@@ -44,7 +47,7 @@ private:
 
     virtual QString getOperationExplanationText(int operation, int row);
     virtual QStringList getOptionListForOperation(int operation);
-    virtual QAbstractItemModel* getSubModelFromIndex(int index);
+    virtual QAbstractItemModel* getNextPageFromIndex(int index);
     virtual QList<int> getSubModelOperations();
     virtual std::string getItemString(int index) const;
     virtual int getNumItems() const;

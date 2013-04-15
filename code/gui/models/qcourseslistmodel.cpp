@@ -51,15 +51,15 @@ int QCoursesListModel::getNumItems() const
 }
 
 
-QAbstractItemModel* QCoursesListModel::getSubModelFromIndex(int index)
+QAbstractItemModel* QCoursesListModel::getNextPageFromIndex(int index)
 {
     if(m_student == nullptr)
     {
-        return makeSubModel(elementAt<Course>(PDM().coursesBegin(), index));
+        return makeMainNavModel(elementAt<Course>(PDM().coursesBegin(), index));
     }
     else
     {
-        return makeSubModel(elementAt<Course>(m_student->coursesBegin(), index));
+        return makeMainNavModel(elementAt<Course>(m_student->coursesBegin(), index));
     }
 }
 

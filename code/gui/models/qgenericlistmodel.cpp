@@ -30,11 +30,6 @@ QVariant QGenericListModel::data(const QModelIndex &index, int role) const
                         QString::fromStdString(getItemString(index.row())));
             break;
 
-        case ColorRole:
-            return QVariant::fromValue(
-                        getColorIndicator(index.row()));
-            break;
-
         default:
             return QVariant();
             break;
@@ -50,8 +45,7 @@ QHash<int,QByteArray> QGenericListModel::roleNames() const
     if (roleNames.isEmpty())
     {
         roleNames[StringRole] = "displayString";
-        roleNames[ColorRole] = "colorIndicator";
-   }
+    }
 
     return roleNames;
 }

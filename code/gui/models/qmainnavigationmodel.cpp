@@ -92,7 +92,7 @@ QHash<int,QByteArray> QMainNavigationModel::roleNames() const
 }
 
 
-QAbstractItemModel* makeSubModel(boost::shared_ptr<Student> student)
+QAbstractItemModel* makeMainNavModel(boost::shared_ptr<Student> student)
 {
     QMainNavigationModel* navModel = new QMainNavigationModel(
                 QString::fromStdString(student->getDisplayName()));
@@ -107,7 +107,7 @@ QAbstractItemModel* makeSubModel(boost::shared_ptr<Student> student)
 }
 
 
-QAbstractItemModel* makeSubModel(boost::shared_ptr<Course> course)
+QAbstractItemModel* makeMainNavModel(boost::shared_ptr<Course> course)
 {
     QMainNavigationModel* navModel = new QMainNavigationModel(
                 QString::fromStdString(course->getCourseName()));
@@ -120,7 +120,7 @@ QAbstractItemModel* makeSubModel(boost::shared_ptr<Course> course)
 }
 
 
-QAbstractItemModel* makeSubModel(boost::shared_ptr<EvalSet> evalSet)
+QAbstractItemModel* makeMainNavModel(boost::shared_ptr<EvalSet> evalSet)
 {
     QMainNavigationModel* navModel = new QMainNavigationModel(
                 QString::fromStdString(evalSet->getEvalSetName()));

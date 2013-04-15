@@ -2,6 +2,7 @@
 
 #include "qevalsetslistmodel.h"
 #include "utilities/persistentdatamanager.h"
+#include "qmainnavigationmodel.h"
 
 QEvalSetsListModel::QEvalSetsListModel(QObject* parent) :
     QGenericListModel(parent)
@@ -12,6 +13,43 @@ QEvalSetsListModel::QEvalSetsListModel(QObject* parent) :
 QEvalSetsListModel::QEvalSetsListModel(boost::shared_ptr<EvalSet> evalSet, QObject* parent) :
     QGenericListModel(parent), m_evalSet(evalSet)
 {
+}
+
+
+int QEvalSetsListModel::getProgressIndicator(int row) const
+{
+    Eval::Progress minProgress = Eval::Complete;
+    Eval::Progress maxProgress = Eval::New;
+    boost::shared_ptr<EvalSet> evalSet;
+
+    if(row < 0) return -1;
+
+    if(m_evalSet != nullptr)
+    {
+        evalSet = elementAt<EvalSet>(m_evalSet->evalSetsBegin(), row);
+    }
+    else
+    {
+        evalSet = elementAt<EvalSet>(PDM().evalSetsBegin(), row);
+    }
+
+    // for each eval in the eval set, see what it's progress is.
+    std::for_each(evalSet->evalsBegin(), evalSet->evalsEnd(),
+                  [&minProgress, &maxProgress] (boost::shared_ptr<Eval> eval)
+    {
+        if(minProgress > eval->getProgress())
+            minProgress = eval->getProgress();
+
+        if(maxProgress < eval->getProgress())
+            maxProgress = eval->getProgress();
+    });
+
+    if(minProgress == maxProgress)
+        return minProgress;
+    if(minProgress < maxProgress)
+        return Eval::InProgress;
+
+    return -1;
 }
 
 
@@ -41,15 +79,15 @@ int QEvalSetsListModel::getNumItems() const
 }
 
 
-QAbstractItemModel* QEvalSetsListModel::getSubModelFromIndex(int index)
+QAbstractItemModel* QEvalSetsListModel::getNextPageFromIndex(int index)
 {
     if(m_evalSet == nullptr)
     {
-        return makeSubModel(elementAt<EvalSet>(PDM().evalSetsBegin(), index));
+        return makeMainNavModel(elementAt<EvalSet>(PDM().evalSetsBegin(), index));
     }
     else
     {
-        return makeSubModel(elementAt<EvalSet>(m_evalSet->evalSetsBegin(), index));
+        return makeMainNavModel(elementAt<EvalSet>(m_evalSet->evalSetsBegin(), index));
     }
 }
 

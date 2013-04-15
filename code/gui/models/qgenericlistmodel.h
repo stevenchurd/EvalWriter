@@ -19,21 +19,18 @@ public:
     virtual ~QGenericListModel() {}
 
     enum GenericListRoles {
-        StringRole = Qt::UserRole + 1,
-        ColorRole,
-        SubModelTypeRole,
-        EndOfGenericListRoles
+        StringRole = Qt::UserRole + 1
     };
 
     enum SubModelType {
         StudentList = 1,
-        EvaluationList = 2,
-        CourseList = 3,
-        EvalSetList = 4,
-        GradingCriteria = 5
+        EvaluationList,
+        CourseList,
+        EvalSetList,
+        GradingCriteria
     };
 
-    Q_INVOKABLE virtual QObject* getSubModelFromIndex(int index) = 0;
+    Q_INVOKABLE virtual QObject* getNextPageFromIndex(int index) = 0;
     Q_INVOKABLE virtual QList<int> getSubModelOperations() = 0;
     Q_INVOKABLE virtual QStringList getOptionListForOperation(int operation) = 0;
     Q_INVOKABLE virtual QString getOperationExplanationText(int operation, int row) = 0;
@@ -55,7 +52,6 @@ public slots:
 
 private:
     virtual std::string getItemString(int index) const = 0;
-    virtual int getColorIndicator(int /*index*/) const { return -1; }
     virtual int getNumItems(void) const = 0;
 };
 #endif // QGENERICLIST_H
