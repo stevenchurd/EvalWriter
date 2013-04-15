@@ -45,6 +45,7 @@ public:
     boost::shared_ptr<EvalItem> getEvalItem(unsigned int index) const;
 
     void setProgressCompleted(void) { m_progress = Complete; }
+    void setProgressInProgress(void) { m_progress = InProgress; }
     Progress getProgress(void) const { return m_progress; }
 
     std::string getUuid(void) const { return to_string(m_uuid); }

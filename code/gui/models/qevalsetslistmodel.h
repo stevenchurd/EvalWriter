@@ -32,7 +32,14 @@ public:
     static_assert(EndOfEnum < ModelOperationRanges::EvalSetsListOperationsEnd,
                   "Too many items in enumeration");
 
-    Q_INVOKABLE int getProgressIndicator(int row) const;
+    enum GenericListRoles {
+        StringRole = Qt::UserRole + 1,
+        ProgressRole
+    };
+
+    /* virtual functions from QAbstractListModel */
+    QVariant data(const QModelIndex &index, int role) const;
+    QHash<int,QByteArray> roleNames() const;
 
 public slots:
     virtual void addItem(QString newName);
@@ -41,6 +48,7 @@ public slots:
     virtual void optionListSelection(int operation, int row);
 
     void onEvalSetDataChanged(std::string uuid);
+    void onEvalDataChanged(std::string uuid);
 
 private:
     boost::shared_ptr<EvalSet> m_evalSet;
@@ -51,6 +59,8 @@ private:
     virtual QList<int> getSubModelOperations();
     virtual std::string getItemString(int index) const;
     virtual int getNumItems() const;
+
+    int getProgressIndicator(int row) const;
 };
 
 #endif // QEVALSETSLISTMODEL_H

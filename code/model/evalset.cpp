@@ -58,6 +58,16 @@ std::vector<boost::shared_ptr<EvalSet> >::const_iterator EvalSet::evalSetsEnd(vo
 }
 
 
+bool EvalSet::containsEval(std::string uuid) const
+{
+    auto it = std::find_if(m_evals.begin(), m_evals.end(),
+                           [&uuid] (boost::shared_ptr<Eval> eval)
+                           { return (eval->getUuid() == uuid); });
+
+    return (it != m_evals.end());
+}
+
+
 void EvalSet::addEvalSet(boost::shared_ptr<EvalSet> evalSet)
 {
     m_subEvalSets.push_back(evalSet);

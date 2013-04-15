@@ -9,11 +9,33 @@ Item {
     anchors.fill: parent
     anchors.margins: 5
 
-    Item {
+    Rectangle {
         id: headerItem
 
-        height: evalTitle.height
+        height: textOnlyViewButton.height
         width: parent.width
+
+        border.color: "lightgray"
+
+        Checkbox {
+            id: checkbox
+            width: parent.height - 5
+            height: parent.height - 5
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: 5
+
+            initiallyChecked: evalModel.isEvalComplete()
+            onCheckToggled: evalModel.toggleEvalComplete()
+        }
+
+        Text {
+            anchors.left: checkbox.right
+            anchors.leftMargin: 5
+            anchors.verticalCenter: parent.verticalCenter
+            text: "Complete"
+            renderType: Text.NativeRendering
+        }
 
         TextButton {
             id: textOnlyViewButton
@@ -38,19 +60,6 @@ Item {
             text: "L"
             onClicked: currentViewType = "largeDelegateView"
         }
-
-        Text {
-            id: evalTitle
-            text: evalModel.getEvalTitle()
-            font.pointSize: 20
-            wrapMode: Text.WordWrap
-            width: wrapper.width-
-                   (textOnlyViewButton.width +
-                    smallDelegateViewButton.width +
-                    largeDelegateViewButton.width)
-            renderType: Text.NativeRendering
-        }
-
     }
 
     DropArea {
@@ -71,6 +80,7 @@ Item {
         id: flowListView
 
         anchors.top: headerItem.bottom
+        anchors.margins: 5
         height: parent.height - headerItem.height
         width: wrapper.width - (scrollbar.width + 5) - listOperationsContainer.width
         clip: true

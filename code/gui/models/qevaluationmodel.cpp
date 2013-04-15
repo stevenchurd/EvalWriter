@@ -27,6 +27,23 @@ QString QEvaluationModel::getFullEvalText() const
 }
 
 
+int QEvaluationModel::isEvalComplete() const
+{
+    return (m_eval->getProgress() == Eval::Complete);
+}
+
+
+void QEvaluationModel::toggleEvalComplete() const
+{
+    if(m_eval->getProgress() == Eval::Complete)
+        m_eval->setProgressInProgress();
+    else
+        m_eval->setProgressCompleted();
+
+    emit PDM().evalDataChanged(m_eval->getUuid());
+}
+
+
 int QEvaluationModel::rowCount(const QModelIndex &/*parent*/) const
 {
     return m_eval->getNumEvalItems();
@@ -66,7 +83,7 @@ QVariant QEvaluationModel::data(const QModelIndex &index, int role) const
                         QString::fromStdString(item->getItemTitleStr()));
             break;
 
-        case InPlaceEditable:
+        case InPlaceEditableRole:
             return QVariant::fromValue(item->isItemEditable());
             break;
 
@@ -88,7 +105,7 @@ QHash<int,QByteArray> QEvaluationModel::roleNames() const
         roleNames[LevelRole] = "evalItemLevel";
         roleNames[SelectedRole] = "evalItemSelected";
         roleNames[TitleRole] = "evalItemTitle";
-        roleNames[InPlaceEditable] = "evalItemIsEditable";
+        roleNames[InPlaceEditableRole] = "evalItemIsEditable";
    }
 
     return roleNames;
@@ -101,6 +118,8 @@ void QEvaluationModel::addCustomTextItem(QString title, QString customText)
     beginInsertRows(QModelIndex(), m_eval->getNumEvalItems(), m_eval->getNumEvalItems());
     boost::shared_ptr<EvalItem> cti(new CustomTextItem(title.toStdString(), customText.toStdString()));
     m_eval->addEvalItem(cti);
+    m_eval->setProgressInProgress();
+    emit PDM().evalDataChanged(m_eval->getUuid());
     endInsertRows();
 }
 
@@ -122,6 +141,8 @@ void QEvaluationModel::addCriteriaItem(int destIndex, QString uuid)
     {
         beginInsertRows(QModelIndex(), destIndex, destIndex);
         m_eval->addEvalItemAt(destIndex, item);
+        m_eval->setProgressInProgress();
+        emit PDM().evalDataChanged(m_eval->getUuid());
         endInsertRows();
     }
 }
@@ -136,6 +157,8 @@ void QEvaluationModel::moveEvalItem(int srcIndex, int destIndex)
            return;
 
         m_eval->moveEvalItem(srcIndex, destIndex);
+        m_eval->setProgressInProgress();
+        emit PDM().evalDataChanged(m_eval->getUuid());
         endMoveRows();
     }
 }
@@ -146,6 +169,8 @@ void QEvaluationModel::removeItem(int row)
     beginRemoveRows(QModelIndex(), row, row);
     deselectItem(row);
     m_eval->removeEvalItemAt(row);
+    m_eval->setProgressInProgress();
+    emit PDM().evalDataChanged(m_eval->getUuid());
     endRemoveRows();
 }
 

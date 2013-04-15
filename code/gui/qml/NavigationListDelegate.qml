@@ -23,7 +23,7 @@ MouseArea {
 
         color: (modelType === QGenericListModel.EvaluationList ||
                 modelType === QGenericListModel.EvalSetList) ?
-                   mapProgressIndicatorToColor(wrapper.model.getProgressIndicator(index)) :
+                   mapProgressIndicatorToColor(progressLevel) :
                    "transparent"
     }
 

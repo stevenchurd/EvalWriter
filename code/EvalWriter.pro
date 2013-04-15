@@ -121,7 +121,8 @@ OTHER_FILES += \
     gui/qml/ListChooserDialog.qml \
     gui/qml/AddStudentDialog.qml \
     gui/qml/NavigationListDelegate.qml \
-    gui/qml/PageOperationsContainer.qml
+    gui/qml/PageOperationsContainer.qml \
+    gui/qml/Checkbox.qml
 
 RESOURCES += \
     images.qrc

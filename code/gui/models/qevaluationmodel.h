@@ -38,11 +38,13 @@ public:
         LevelRole,
         SelectedRole,
         TitleRole,
-        InPlaceEditable
+        InPlaceEditableRole
     };
 
     Q_INVOKABLE QString getEvalTitle() const;
     Q_INVOKABLE QString getFullEvalText() const;
+    Q_INVOKABLE int isEvalComplete() const;
+    Q_INVOKABLE void toggleEvalComplete() const;
 
     // operation interface
     Q_INVOKABLE QList<int> getSubModelOperations();

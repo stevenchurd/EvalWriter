@@ -20,6 +20,47 @@ QEvalsListModel::QEvalsListModel(boost::shared_ptr<EvalSet> evalSet, QObject* pa
 }
 
 
+QVariant QEvalsListModel::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid())
+        return QVariant();
+
+    if (index.row() >= getNumItems())
+        return QVariant();
+
+    switch(role)
+    {
+        case Qt::DisplayRole:
+        case StringRole:
+            return QVariant::fromValue(
+                        QString::fromStdString(getItemString(index.row())));
+            break;
+
+        case ProgressRole:
+            return QVariant::fromValue(getProgressIndicator(index.row()));
+            break;
+
+        default:
+            return QVariant();
+            break;
+    }
+}
+
+
+QHash<int,QByteArray> QEvalsListModel::roleNames() const
+{
+    static QHash<int, QByteArray> roleNames;
+
+    if (roleNames.isEmpty())
+    {
+        roleNames[StringRole] = "displayString";
+        roleNames[ProgressRole] = "progressLevel";
+    }
+
+    return roleNames;
+}
+
+
 int QEvalsListModel::getProgressIndicator(int row) const
 {
     boost::shared_ptr<Eval> eval;

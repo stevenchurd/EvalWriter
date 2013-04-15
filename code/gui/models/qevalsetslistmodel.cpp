@@ -9,6 +9,9 @@ QEvalSetsListModel::QEvalSetsListModel(QObject* parent) :
 {
     assert(QObject::connect(&PDM(), SIGNAL(evalSetDataChanged(std::string)),
                             this, SLOT(onEvalSetDataChanged(std::string))));
+
+    assert(QObject::connect(&PDM(), SIGNAL(evalDataChanged(std::string)),
+                            this, SLOT(onEvalDataChanged(std::string))));
 }
 
 
@@ -17,6 +20,50 @@ QEvalSetsListModel::QEvalSetsListModel(boost::shared_ptr<EvalSet> evalSet, QObje
 {
     assert(QObject::connect(&PDM(), SIGNAL(evalSetDataChanged(std::string)),
                             this, SLOT(onEvalSetDataChanged(std::string))));
+
+    assert(QObject::connect(&PDM(), SIGNAL(evalDataChanged(std::string)),
+                            this, SLOT(onEvalDataChanged(std::string))));
+}
+
+
+QVariant QEvalSetsListModel::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid())
+        return QVariant();
+
+    if (index.row() >= getNumItems())
+        return QVariant();
+
+    switch(role)
+    {
+        case Qt::DisplayRole:
+        case StringRole:
+            return QVariant::fromValue(
+                        QString::fromStdString(getItemString(index.row())));
+            break;
+
+        case ProgressRole:
+            return QVariant::fromValue(getProgressIndicator(index.row()));
+            break;
+
+        default:
+            return QVariant();
+            break;
+    }
+}
+
+
+QHash<int,QByteArray> QEvalSetsListModel::roleNames() const
+{
+    static QHash<int, QByteArray> roleNames;
+
+    if (roleNames.isEmpty())
+    {
+        roleNames[StringRole] = "displayString";
+        roleNames[ProgressRole] = "progressLevel";
+    }
+
+    return roleNames;
 }
 
 
@@ -192,6 +239,33 @@ void QEvalSetsListModel::onEvalSetDataChanged(std::string uuid)
                   [&uuid, &i, this] (boost::shared_ptr<EvalSet> evalSet)
     {
         if(evalSet->getUuid() == uuid)
+        {
+            emit dataChanged(index(i), index(i));
+        }
+        ++i;
+    });
+}
+
+
+void QEvalSetsListModel::onEvalDataChanged(std::string uuid)
+{
+    // need to find out if any of the eval sets in the list contain the
+    // eval.  If so, they can be updated
+
+    auto evalSetsBegin = PDM().evalSetsBegin();
+    auto evalSetsEnd = PDM().evalSetsEnd();
+
+    if(m_evalSet != nullptr)
+    {
+        evalSetsBegin = m_evalSet->evalSetsBegin();
+        evalSetsEnd = m_evalSet->evalSetsEnd();
+    }
+
+    int i = 0;
+    std::for_each(evalSetsBegin, evalSetsEnd,
+                  [&uuid, &i, this] (boost::shared_ptr<EvalSet> evalSet)
+    {
+        if(evalSet->containsEval(uuid))
         {
             emit dataChanged(index(i), index(i));
         }

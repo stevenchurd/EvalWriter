@@ -39,6 +39,8 @@ public:
     std::string getUuid(void) const { return to_string(m_uuid); }
     boost::shared_ptr<EvalSet> getParentEvalSet(void) const { return m_parentEvalSet; }
 
+    bool containsEval(std::string uuid) const;
+
     /*
      * VisitorElement functions
      */
