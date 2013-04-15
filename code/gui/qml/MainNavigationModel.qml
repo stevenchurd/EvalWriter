@@ -18,7 +18,7 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
 
         height: parent.height
-        width: 300
+        width: 200
 
         model: wrapper.model
         delegate: SideListDelegate{}

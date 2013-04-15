@@ -68,6 +68,8 @@ int main(int argc, char *argv[])
         // set view properties
         view.setSource(QUrl::fromLocalFile("../code/gui/qml/main.qml"));
         view.setResizeMode(QQuickView::SizeRootObjectToView);
+
+        view.setMinimumSize(QSize(600,400));
         view.show();
 
         return a.exec();
