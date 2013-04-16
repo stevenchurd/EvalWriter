@@ -5,11 +5,13 @@ MouseArea {
     property string myText: submodelName
 
     anchors.horizontalCenter: parent.horizontalCenter
-    width: parent.width-20
+    width: parent.width
     height: 45
 
     Text {
         anchors.verticalCenter:  parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 5
         font.pointSize: 14
         renderType: Text.NativeRendering
         text: submodelName

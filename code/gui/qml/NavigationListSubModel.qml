@@ -17,11 +17,7 @@ Rectangle {
         height: parent.height
         width: parent.width - listOperationsContainer.width - (scrollbar.width + 5)
         model: wrapper.model
-
-        highlight: Rectangle {
-            width: listOfItems.width
-            color: "lightsteelblue"
-        }
+        spacing: 5
 
         onCountChanged: listOperationsContainer.fillListOperationsModel()
 

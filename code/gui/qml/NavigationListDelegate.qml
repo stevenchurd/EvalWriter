@@ -2,7 +2,7 @@ import QtQuick 2.0
 import "pageCreator.js" as PageCreator
 import ModelTypeEnums 1.0
 
-MouseArea {
+Rectangle {
     id: wrapper
     height: 40
     width: parent.width
@@ -12,64 +12,74 @@ MouseArea {
 
     readonly property string itemString: displayString
 
-    Rectangle {
-        id: progressIndicator
-        width: 5
-        height: parent.height
-        anchors.rightMargin: 5
+    color: ListView.isCurrentItem ? "#BBBBBB" : "#EEEEEE"
 
-        visible: (modelType === QGenericListModel.EvaluationList ||
-                  modelType === QGenericListModel.EvalSetList)
+    MouseArea {
+        anchors.fill: parent
 
-        color: (modelType === QGenericListModel.EvaluationList ||
-                modelType === QGenericListModel.EvalSetList) ?
-                   mapProgressIndicatorToColor(progressLevel) :
-                   "transparent"
-    }
+        Rectangle {
+            id: progressIndicator
+            width: 5
+            height: parent.height
+            anchors.rightMargin: 5
 
-    Text {
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left:  progressIndicator.right
-        anchors.leftMargin: 5
-        renderType: Text.NativeRendering
-        text: displayString
-    }
+            visible: (modelType === QGenericListModel.EvaluationList ||
+                      modelType === QGenericListModel.EvalSetList)
 
-    Rectangle {
-        height:20
-        width: 20
-        anchors.right: parent.right
-        anchors.margins: 10
-        anchors.verticalCenter: parent.verticalCenter
-        color: "green"
+            color: (modelType === QGenericListModel.EvaluationList ||
+                    modelType === QGenericListModel.EvalSetList) ?
+                       mapProgressIndicatorToColor(progressLevel) :
+                       "transparent"
+        }
+
+        Text {
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left:  progressIndicator.right
+            anchors.leftMargin: 5
+            renderType: Text.NativeRendering
+            text: displayString
+        }
+
         MouseArea {
-            anchors.fill: parent
+            height:20
+            width: 20
+            anchors.right: parent.right
+            anchors.rightMargin: 5
+            anchors.verticalCenter: parent.verticalCenter
+            hoverEnabled: true
+
+            Text {
+                text: "\uf061"
+                font.family: fontAwesome.name
+                font.pointSize: 16
+                color: (parent.containsMouse) ? "" : "#AAAAAA"
+            }
 
             onClicked: {
                 pageStack.push(PageCreator.createModelByType(wrapper.modelType,
                                                              wrapper.model.getNextPageFromIndex(index)))
             }
         }
-    }
 
-    onClicked: wrapper.ListView.view.currentIndex = index
+        onClicked: wrapper.ListView.view.currentIndex = index
+    }
 
     function mapProgressIndicatorToColor(progressLevel)
     {
         switch(progressLevel)
         {
-            case 0:
-                return "red"
+        case 0:
+            return "red"
 
-            case 1:
-                return "yellow"
+        case 1:
+            return "yellow"
 
-            case 2:
-                return "green"
+        case 2:
+            return "green"
 
-            default:
-                console.log("Error: progressLevel not expected: " + progressLevel)
-                return "transparent"
+        default:
+            console.log("Error: progressLevel not expected: " + progressLevel)
+            return "transparent"
         }
     }
 }

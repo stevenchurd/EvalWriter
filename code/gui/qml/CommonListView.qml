@@ -7,4 +7,5 @@ ListView {
         width: parent.width
         color: "lightsteelblue"
     }
+    spacing: 5
 }
