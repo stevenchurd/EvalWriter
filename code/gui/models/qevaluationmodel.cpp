@@ -1,6 +1,7 @@
 // (C) Copyright Steven Hurd 2013
 
 #include "qevaluationmodel.h"
+#include "model/eval.h"
 #include "model/gradingcriteria.h"
 #include "model/customtextitem.h"
 

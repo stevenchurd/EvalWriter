@@ -5,11 +5,12 @@
 
 #include <string>
 #include "evalitem.h"
-#include "model/visitors/visitor.h"
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
+
+class Visitor;
 
 class CriteriaItem : public EvalItem
 {
@@ -38,7 +39,7 @@ public:
     /*
      * VisitorElement functions
      */
-    void accept(Visitor& visitor) { visitor.visit(*this); }
+    void accept(Visitor& visitor);
 
 private:
     std::string m_parentCriteriaName;

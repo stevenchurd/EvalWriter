@@ -12,9 +12,10 @@
 #include <sstream>
 #include <iostream>
 
-#include "evalitem.h"
-#include "model/visitors/visitor.h"
 #include "model/visitors/visitorelement.h"
+
+class Visitor;
+class EvalItem;
 
 class Eval : public VisitorElement
 {
@@ -53,7 +54,7 @@ public:
     /*
      * Visitor interface functions
      */
-    void accept(Visitor& visitor) { visitor.visit(*this); }
+    void accept(Visitor& visitor);
     void acceptChildren(Visitor& visitor);
 
 #ifdef _DEBUG

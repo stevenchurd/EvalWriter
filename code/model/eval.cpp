@@ -1,6 +1,8 @@
 // (C) Copyright Steven Hurd 2013
 
 #include "eval.h"
+#include "evalitem.h"
+#include "visitors/visitor.h"
 #include <boost/algorithm/string.hpp>
 
 #ifdef _DEBUG
@@ -82,6 +84,12 @@ boost::shared_ptr<EvalItem> Eval::getEvalItem(unsigned int index) const
     }
 
     return m_evalItems[index];
+}
+
+
+void Eval::accept(Visitor& visitor)
+{
+    visitor.visit(*this);
 }
 
 

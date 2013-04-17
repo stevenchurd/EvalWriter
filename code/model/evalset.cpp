@@ -1,6 +1,8 @@
 // (C) Copyright Steven Hurd 2013
 
 #include "evalset.h"
+#include "eval.h"
+#include "visitors/visitor.h"
 
 EvalSet::EvalSet(std::string name,
                  boost::shared_ptr<EvalSet> parentEvalSet,
@@ -77,6 +79,12 @@ void EvalSet::addEvalSet(boost::shared_ptr<EvalSet> evalSet)
 void EvalSet::removeEvalSet(std::vector<boost::shared_ptr<EvalSet> >::const_iterator it)
 {
     m_subEvalSets.erase(it);
+}
+
+
+void EvalSet::accept(Visitor& visitor)
+{
+    visitor.visit(*this);
 }
 
 

@@ -5,8 +5,6 @@
 
 #include <vector>
 #include "visitors/visitorelement.h"
-#include "visitors/visitor.h"
-#include "course.h"
 
 #include <boost/shared_ptr.hpp>
 #include <boost/uuid/uuid.hpp>
@@ -16,6 +14,8 @@
 
 //forward declarations
 class Eval;
+class Visitor;
+class Course;
 
 class Student : public VisitorElement
 {
@@ -70,7 +70,7 @@ public:
     /*
      * VisitorElement functions
      */
-    void accept(Visitor& visitor) { visitor.visit(*this); }
+    void accept(Visitor& visitor);
     void acceptChildren(Visitor& visitor);
 
 private:

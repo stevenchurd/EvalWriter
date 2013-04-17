@@ -5,10 +5,8 @@
 #include "qgenericlistmodel.h"
 #include "globalenums.h"
 
-#ifndef Q_MOC_RUN
-#include "model/eval.h"
-#include "model/student.h"
-#endif
+class Student;
+class EvalSet;
 
 class QEvalsListModel : public QGenericListModel
 {

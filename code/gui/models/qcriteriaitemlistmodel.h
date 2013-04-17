@@ -5,8 +5,9 @@
 
 #ifndef Q_MOC_RUN
 #include "boost/shared_ptr.hpp"
-#include "model/gradingcriteria.h"
 #endif
+
+class GradingCriteria;
 
 class QCriteriaItemListModel : public QAbstractListModel
 {

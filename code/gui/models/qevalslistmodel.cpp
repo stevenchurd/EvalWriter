@@ -1,9 +1,10 @@
 #include <set>
 
 #include "qevalslistmodel.h"
-#include "utilities/persistentdatamanager.h"
 #include "qevaluationmodel.h"
+#include "utilities/persistentdatamanager.h"
 #include "model/visitors/removeevalvisitor.h"
+#include "model/eval.h"
 
 QEvalsListModel::QEvalsListModel(boost::shared_ptr<Student> student, QObject* parent) :
     QGenericListModel(parent), m_student(student)

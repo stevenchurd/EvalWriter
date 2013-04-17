@@ -12,9 +12,6 @@
 
 #ifndef Q_MOC_RUN
 #include <boost/shared_ptr.hpp>
-
-#include "model/gradingcriteria.h"
-#include "qgenericlistmodel.h"
 #endif
 
 

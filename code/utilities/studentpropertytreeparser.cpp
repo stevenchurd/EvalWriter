@@ -4,6 +4,8 @@
 
 #include "studentpropertytreeparser.h"
 #include "xmlnodenames.h"
+#include "evalexceptions.h"
+
 #include "model/student.h"
 #include "model/course.h"
 #include "model/eval.h"

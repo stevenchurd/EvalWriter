@@ -4,6 +4,7 @@
 #include <sstream>
 #include "gradingcriteria.h"
 #include "criteriaitem.h"
+#include "visitors/visitor.h"
 
 GradingCriteria::GradingCriteria(std::string criteriaName,
                                  boost::uuids::uuid objUuid) :
@@ -13,17 +14,15 @@ GradingCriteria::GradingCriteria(std::string criteriaName,
 {
 }
 
-void GradingCriteria::addCriteriaItem(std::string descStr, CriteriaItem::CriteriaItemLevelType level)
+
+void GradingCriteria::accept(Visitor& visitor)
 {
-    boost::shared_ptr<CriteriaItem> ci(new CriteriaItem(m_criteriaName, descStr, level));
-    m_criteriaItems.push_back(ci);
+    visitor.visit(*this);
 }
 
 
-void GradingCriteria::addExistingCriteriaItem(std::string descStr, CriteriaItem::CriteriaItemLevelType level,
-                                              boost::uuids::uuid objUuid)
+void GradingCriteria::addCriteriaItem(boost::shared_ptr<CriteriaItem> ci)
 {
-    boost::shared_ptr<CriteriaItem> ci(new CriteriaItem(m_criteriaName, descStr, level, objUuid));
     m_criteriaItems.push_back(ci);
 }
 

@@ -8,10 +8,9 @@
 
 #ifndef Q_MOC_RUN
 #include <boost/shared_ptr.hpp>
-
-#include "model/eval.h"
-#include "qmainnavigationmodel.h"
 #endif
+
+class Eval;
 
 class QEvaluationModel : public QAbstractListModel
 {

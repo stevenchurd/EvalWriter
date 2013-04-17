@@ -71,7 +71,10 @@ QHash<int,QByteArray> QCriteriaItemListModel::roleNames() const
 void QCriteriaItemListModel::addCriteriaItem(QString string, int level)
 {
     beginResetModel();
-    m_gradingCriteria->addCriteriaItem(string.toStdString(), static_cast<CriteriaItem::CriteriaItemLevelType>(level));
+    boost::shared_ptr<CriteriaItem> ci(new CriteriaItem(m_gradingCriteria->getCriteriaName(),
+                                                        string.toStdString(),
+                                                        static_cast<CriteriaItem::CriteriaItemLevelType>(level)));
+    m_gradingCriteria->addCriteriaItem(ci);
     endResetModel();
 }
 

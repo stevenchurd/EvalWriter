@@ -7,7 +7,10 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/string_generator.hpp>
 #include <boost/foreach.hpp>
+
 #include "xmlnodenames.h"
+#include "model/criteriaitem.h"
+#include "model/gradingcriteria.h"
 
 class GradingCriteriaPropertyTreeParser
 {
@@ -99,7 +102,11 @@ void GradingCriteriaPropertyTreeParser::parseGradingCriteriaNode(
                             std::string("Element not found: ") + pte.what());
             }
 
-            gc->addExistingCriteriaItem(itemName, itemLevel, itemUuid);
+            boost::shared_ptr<CriteriaItem> ci(new CriteriaItem(gc->getCriteriaName(),
+                                                                itemName,
+                                                                itemLevel,
+                                                                itemUuid));
+            gc->addCriteriaItem(ci);
         }
     }
 

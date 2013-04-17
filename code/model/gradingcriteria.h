@@ -10,6 +10,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
+class Visitor;
 
 class GradingCriteria : public VisitorElement
 {
@@ -21,12 +22,7 @@ public:
     std::string getCriteriaName(void) const { return m_criteriaName; }
     void setCriteriaName(const std::string name) { m_criteriaName = name; }
 
-    void addCriteriaItem(std::string descStr,
-                        CriteriaItem::CriteriaItemLevelType level) ;
-
-    void addExistingCriteriaItem(std::string descStr,
-                        CriteriaItem::CriteriaItemLevelType level,
-                        boost::uuids::uuid objUuid) ;
+    void addCriteriaItem(boost::shared_ptr<CriteriaItem> ci) ;
 
     boost::shared_ptr<CriteriaItem> getCriteriaItemAt(unsigned int index) const;
     bool getCriteriaItemById(std::string id, boost::shared_ptr<CriteriaItem> &gc) const;
@@ -40,7 +36,7 @@ public:
     /*
      * VisitorElement functions
      */
-    void accept(Visitor& visitor) { visitor.visit(*this); }
+    void accept(Visitor& visitor);
     void acceptChildren(Visitor& visitor);
 
 private:

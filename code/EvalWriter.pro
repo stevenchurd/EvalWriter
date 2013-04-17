@@ -125,4 +125,4 @@ OTHER_FILES += \
     gui/qml/Checkbox.qml
 
 RESOURCES += \
-    images.qrc
+    resources.qrc

@@ -1,6 +1,7 @@
 // (C) Copyright Steven Hurd 2013
 
 #include "qevalsetslistmodel.h"
+#include "model/eval.h"
 #include "utilities/persistentdatamanager.h"
 #include "qmainnavigationmodel.h"
 

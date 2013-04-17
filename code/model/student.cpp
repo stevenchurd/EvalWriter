@@ -2,6 +2,8 @@
 
 #include "student.h"
 #include "eval.h"
+#include "course.h"
+#include "visitors/visitor.h"
 
 #include "boost/shared_ptr.hpp"
 
@@ -102,6 +104,12 @@ void Student::removeCourse(std::vector<boost::shared_ptr<Course> >::const_iterat
 bool Student::isInCourse(boost::shared_ptr<Course> course) const
 {
     return (std::find(m_courses.begin(), m_courses.end(), course) != m_courses.end());
+}
+
+
+void Student::accept(Visitor& visitor)
+{
+    visitor.visit(*this);
 }
 
 

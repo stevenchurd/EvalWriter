@@ -3,13 +3,17 @@
 #ifndef EVALSET_H
 #define EVALSET_H
 
+#include <vector>
+
 #include "visitors/visitorelement.h"
-#include "eval.h"
 
 #include "boost/shared_ptr.hpp"
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
+
+class Visitor;
+class Eval;
 
 class EvalSet : public VisitorElement
 {
@@ -44,7 +48,7 @@ public:
     /*
      * VisitorElement functions
      */
-    void accept(Visitor& visitor) { visitor.visit(*this); }
+    void accept(Visitor& visitor);
     void acceptChildren(Visitor& visitor);
 
 private:

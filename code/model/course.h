@@ -5,12 +5,14 @@
 
 
 #include <list>
-#include "student.h"
+#include "visitors/visitorelement.h"
 
 #include <boost/shared_ptr.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
+
+class Visitor;
 
 class Course : public VisitorElement
 {
@@ -25,7 +27,7 @@ public:
     /*
      * VisitorElement interface functions
      */
-    void accept(Visitor& visitor) { visitor.visit(*this); }
+    void accept(Visitor& visitor);
 
     bool operator==(const Course&) const;
 

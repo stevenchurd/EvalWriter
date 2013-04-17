@@ -1,6 +1,7 @@
 // (C) Copyright Steven Hurd 2013
 
 #include "course.h"
+#include "visitors/visitor.h"
 
 Course::Course(std::string courseName, boost::uuids::uuid objUuid) : VisitorElement(),
     m_name(courseName), m_uuid(objUuid)
@@ -10,6 +11,12 @@ Course::Course(std::string courseName, boost::uuids::uuid objUuid) : VisitorElem
 void Course::updateCourseName(std::string newName)
 {
     m_name = newName ;
+}
+
+
+void Course::accept(Visitor& visitor)
+{
+    visitor.visit(*this);
 }
 
 

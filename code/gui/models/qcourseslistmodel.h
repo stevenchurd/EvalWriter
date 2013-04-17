@@ -6,9 +6,7 @@
 #include "qgenericlistmodel.h"
 #include "globalenums.h"
 
-#ifndef Q_MOC_RUN
-#include "model/course.h"
-#endif
+class Student;
 
 class QCoursesListModel : public QGenericListModel
 {

@@ -7,9 +7,7 @@
 #include "qgenericlistmodel.h"
 #include "globalenums.h"
 
-#ifndef Q_MOC_RUN
-#include "model/evalset.h"
-#endif
+class EvalSet;
 
 class QEvalSetsListModel : public QGenericListModel
 {

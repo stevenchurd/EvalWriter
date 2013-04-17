@@ -31,7 +31,7 @@ void StudentSaveVisitor::visit(Student& student)
     newStudentNode.add_child(xml_node_names::studentCoursesNode, m_coursesPt);
     newStudentNode.add_child(xml_node_names::studentEvalsNode, m_evalsPt);
 
-    // add the new student to the full property tree
+    // add the student to the full property tree
     m_pt.add_child(xml_node_names::studentRootNode +
                    xml_node_names::separator +
                    xml_node_names::singleStudentNode, newStudentNode);
