@@ -149,9 +149,9 @@
 <StudentsRoot>
     <student>
         <uuid>ae096308-3da8-4638-b265-fb65a305b4da</uuid>
-        <firstName>Steven</firstName>
+        <firstName>Jeff</firstName>
         <middleName>C</middleName>
-        <lastName>Hurd</lastName>
+        <lastName>Mexican</lastName>
         <gender>1</gender>
         <Courses>
             <course>

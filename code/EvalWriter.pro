@@ -123,7 +123,8 @@ OTHER_FILES += \
     gui/qml/AddStudentDialog.qml \
     gui/qml/NavigationListDelegate.qml \
     gui/qml/PageOperationsContainer.qml \
-    gui/qml/Checkbox.qml
+    gui/qml/Checkbox.qml \
+    gui/qml/NavigationBarDelegate.qml
 
 RESOURCES += \
     resources.qrc

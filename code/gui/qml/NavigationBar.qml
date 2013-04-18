@@ -20,28 +20,19 @@ Rectangle {
 
     ListModel{
         id: titlesModel
-
     }
 
     ListView {
-        anchors.fill: parent
+        height: parent.height
+        width: parent.width
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.margins: 5
 
         orientation: ListView.Horizontal
         interactive: false
 
         model: titlesModel
-        delegate: Text {
-                id: titleText
-
-                // TODO: do something if the list goes off the screen
-                font.pointSize: 16
-                font.family: (index === 0) ? fontAwesome.name : ""
-                text: (index === 0) ? "\uf015" : " / " + title
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: pageStack.popTo(index)
-                }
-            }
+        delegate: NavigationBarDelegate {}
     }
 
     Component.onCompleted: getTitleStrings()
