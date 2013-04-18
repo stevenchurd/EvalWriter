@@ -9,7 +9,7 @@ Rectangle {
 
     FontLoader {
         id: fontAwesome
-        source: "../../../../../FortAwesome-Font-Awesome-v3.0.2-0-g13d5dd3/FortAwesome-Font-Awesome-13d5dd3/font/fontawesome-webfont.ttf"
+        source: "qrc:Files/fontawesome-webfont.ttf"
     }
 
     NavigationBar {

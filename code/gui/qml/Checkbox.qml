@@ -9,14 +9,14 @@ Rectangle {
     state: (initiallyChecked) ? "checked" : "unchecked"
 
     border.color: "black"
-    clip: true
 
     Text {
         id: checkmark
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         font.pointSize: 10
-        text:"\u2713"
+        font.family: fontAwesome.name
+        text:"\uf00c"
         renderType: Text.NativeRendering
     }
 

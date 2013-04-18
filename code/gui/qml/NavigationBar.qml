@@ -24,8 +24,11 @@ Rectangle {
         model: titlesModel
         delegate: Text {
                 id: titleText
-                font.pointSize: 15
-                text: " / " + title
+
+                // TODO: do something if the list goes off the screen
+                font.pointSize: 16
+                font.family: (index === 0) ? fontAwesome.name : ""
+                text: (index === 0) ? "\uf015" : " / " + title
                 MouseArea {
                     anchors.fill: parent
                     onClicked: pageStack.popTo(index)
