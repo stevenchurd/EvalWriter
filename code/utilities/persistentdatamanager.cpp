@@ -4,6 +4,7 @@
 #include "model/visitors/gradingcriteriasavevisitor.h"
 #include "model/visitors/evalsetsavevisitor.h"
 #include "model/visitors/removeevalvisitor.h"
+#include "model/visitors/containerinsertvisitor.h"
 
 #include "utilities/coursespropertytreeparser.h"
 #include "utilities/gradingcriteriapropertytreeparser.h"
@@ -62,6 +63,8 @@ std::vector<boost::shared_ptr<Student> >::const_iterator PersistentDataManager::
 void PersistentDataManager::add(boost::shared_ptr<Student> newStudent)
 {
     m_allStudents.push_back(newStudent);
+    m_uuidMap.insert(std::make_pair<std::string, boost::any>(
+                         newStudent->getUuid(), newStudent));
 }
 
 
@@ -111,6 +114,8 @@ std::vector<boost::shared_ptr<Course> >::const_iterator PersistentDataManager::c
 void PersistentDataManager::add(boost::shared_ptr<Course> newCourse)
 {
     m_allCourses.push_back(newCourse);
+    m_uuidMap.insert(std::make_pair<std::string, boost::any>(
+                         newCourse->getUuid(), newCourse));
 }
 
 
@@ -149,6 +154,8 @@ std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator PersistentDataM
 void PersistentDataManager::add(boost::shared_ptr<GradingCriteria> newGradingCriteria)
 {
     m_allGradingCriteria.push_back(newGradingCriteria);
+    m_uuidMap.insert(std::make_pair<std::string, boost::any>(
+                         newGradingCriteria->getUuid(), newGradingCriteria));
 }
 
 
@@ -178,6 +185,8 @@ std::vector<boost::shared_ptr<EvalSet> >::const_iterator PersistentDataManager::
 void PersistentDataManager::add(boost::shared_ptr<EvalSet> newEvalSet)
 {
     m_allEvalSets.push_back(newEvalSet);
+    m_uuidMap.insert(std::make_pair<std::string, boost::any>(
+                         newEvalSet->getUuid(), newEvalSet));
 }
 
 
@@ -225,6 +234,45 @@ void PersistentDataManager::loadFile(std::string filename)
                                   m_allStudents.cbegin(),
                                   m_allStudents.cend());
     }
+
+
+    // set up the Uuid map after loading the data
+    setupUuidMap();
+}
+
+
+void PersistentDataManager::setupUuidMap(void)
+{
+    ContainerInsertVisitor<decltype(m_uuidMap)> civ(m_uuidMap);
+
+    m_uuidMap.clear();
+
+    std::for_each(m_allEvalSets.begin(), m_allEvalSets.end(),
+                  [&civ, this] (boost::shared_ptr<EvalSet> evalSet)
+    {
+        evalSet->accept(civ);
+        m_uuidMap.insert(std::make_pair<std::string, boost::any>(evalSet->getUuid(), evalSet));
+    });
+
+    std::for_each(m_allCourses.begin(), m_allCourses.end(),
+                  [&civ, this] (boost::shared_ptr<Course> course)
+    {
+        m_uuidMap.insert(std::make_pair<std::string, boost::any>(course->getUuid(), course));
+    });
+
+    std::for_each(m_allStudents.begin(), m_allStudents.end(),
+                  [&civ, this] (boost::shared_ptr<Student> student)
+    {
+        m_uuidMap.insert(std::make_pair<std::string, boost::any>(student->getUuid(), student));
+    });
+
+    std::for_each(m_allGradingCriteria.begin(), m_allGradingCriteria.end(),
+                  [&civ, this] (boost::shared_ptr<GradingCriteria> gc)
+    {
+        gc->accept(civ);
+        m_uuidMap.insert(std::make_pair<std::string, boost::any>(gc->getUuid(), gc));
+    });
+
 }
 
 

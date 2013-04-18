@@ -77,7 +77,8 @@ HEADERS  += mainwindow.h \
     model/visitors/evalsetsavevisitor.h \
     utilities/evalsetpropertytreeparser.h \
     model/visitors/removeevalvisitor.h \
-    globalenums.h
+    globalenums.h \
+    model/visitors/containerinsertvisitor.h
 
 FORMS    +=
 

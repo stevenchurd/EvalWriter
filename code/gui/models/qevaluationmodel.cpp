@@ -128,15 +128,9 @@ void QEvaluationModel::addCustomTextItem(QString title, QString customText)
 void QEvaluationModel::addCriteriaItem(int destIndex, QString uuid)
 {
     boost::shared_ptr<CriteriaItem> item;
+    PDM().getItemByUuid(uuid.toStdString(), item);
 
-    for(auto it = PDM().gradingCriteriaBegin();
-        it != PDM().gradingCriteriaEnd(); ++it)
-    {
-        if((*it)->getCriteriaItemById(uuid.toStdString(), item) == true)
-        {
-            break;
-        }
-    }
+    assert(item != nullptr);
 
     if(destIndex <= static_cast<int>(m_eval->getNumEvalItems()))
     {

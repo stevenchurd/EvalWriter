@@ -101,35 +101,27 @@ std::string getDisplayableTitleFromUuid(std::string uuid)
         return std::string();
 
     // need to find the item with the associated UUID
-
-    // first look through courses, they are quick
-    auto itCourse = std::find_if(PDM().coursesBegin(), PDM().coursesEnd(),
-                                 [&uuid] (boost::shared_ptr<Course> course)
-                                 { return (course->getUuid() == uuid); });
-
-    if(itCourse != PDM().coursesEnd())
+    boost::shared_ptr<Student> student;
+    if(PDM().getItemByUuid(uuid, student))
     {
-        return (*itCourse)->getCourseName();
+        return student->getDisplayName();
     }
 
-    // next look through students
-    auto itStudent = std::find_if(PDM().studentsBegin(), PDM().studentsEnd(),
-                                  [&uuid] (boost::shared_ptr<Student> student)
-                                  { return (student->getUuid() == uuid); });
-
-    if(itStudent != PDM().studentsEnd())
+    boost::shared_ptr<Course> course;
+    if(PDM().getItemByUuid(uuid, course))
     {
-        return (*itStudent)->getDisplayName();
+        return course->getCourseName();
     }
 
-
-
-
-
+    boost::shared_ptr<EvalSet> evalSet;
+    if(PDM().getItemByUuid(uuid, evalSet))
+    {
+        return evalSet->getEvalSetName();
+    }
 
     // nothing found, return a string indicating an error
     assert(false);
-    return std::string("Item Not Found");
+    throw ItemNotFoundException("Item not found with UUID: " + uuid);
 }
 
 

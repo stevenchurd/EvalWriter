@@ -48,7 +48,7 @@ public:
     void remove(std::vector<boost::shared_ptr<EvalSet> >::const_iterator it);
 
     template <typename T>
-    void getItemByUuid(std::string uuid, boost::shared_ptr<T>& item);
+    bool getItemByUuid(std::string uuid, boost::shared_ptr<T>& item);
 
 signals:
     void courseDataChanged(std::string uuid);
@@ -67,25 +67,50 @@ private:
     std::vector<boost::shared_ptr<EvalSet> > m_allEvalSets;
     std::vector<boost::shared_ptr<GradingCriteria> > m_allGradingCriteria;
 
-    std::unordered_map<std::string, boost::any> uuidMap;
+    void setupUuidMap(void);
+
+    std::unordered_map<std::string, boost::any> m_uuidMap;
 };
 
 
 template <typename T>
-void PersistentDataManager::getItemByUuid(std::string uuid, boost::shared_ptr<T>& item)
+bool PersistentDataManager::getItemByUuid(std::string uuid, boost::shared_ptr<T>& item)
 {
-    auto it = uuidMap.find(uuid);
+    auto it = m_uuidMap.find(uuid);
 
-    if(it != uuidMap.end())
+    if(it != m_uuidMap.end())
     {
-        item = *it;
+        try {
+            item = boost::any_cast<boost::shared_ptr<T> >(it->second);
+        } catch(boost::bad_any_cast&) {
+            return false;
+        }
     }
     else
     {
-        // there should never be an item not in the map
-        assert(false);
-        throw ItemNotFoundException(std::string("Item not found with UUID: " + uuid));
+        // if the item wasn't found, attempt to rebuild the map since we don't
+        // update after every item add
+        setupUuidMap();
+
+        it = m_uuidMap.find(uuid);
+
+        if(it != m_uuidMap.end())
+        {
+            try {
+                item = boost::any_cast<boost::shared_ptr<T> >(it->second);
+            } catch(boost::bad_any_cast&) {
+                return false;
+            }
+        }
+        else
+        {
+            // there should never be an item not in the map
+            assert(false);
+            throw ItemNotFoundException(std::string("Item not found with UUID: " + uuid));
+        }
     }
+
+    return true;
 }
 
 

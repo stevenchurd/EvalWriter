@@ -22,10 +22,7 @@ void Course::accept(Visitor& visitor)
 
 bool Course::operator==(const Course& rhs) const
 {
-    if(rhs.getUuid() == this->getUuid())
-        return true;
-    else
-        return false;
+    return (rhs.getUuid() == this->getUuid());
 }
 
 
