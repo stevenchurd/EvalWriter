@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "hoverTextCreator.js" as HoverText
 
 Text {
     id: titleText
@@ -16,8 +17,16 @@ Text {
         onClicked: pageStack.popTo(index)
         hoverEnabled: true
 
-        onEntered: titleText.state = "mouseIn"
-        onExited: titleText.state = "mouseOut"
+        onEntered: {
+            titleText.state = "mouseIn"
+        }
+        onPositionChanged: {
+            HoverText.createHoverText(mouse, title)
+        }
+        onExited: {
+            titleText.state = "mouseOut"
+            HoverText.destroyHoverText()
+        }
     }
 
 

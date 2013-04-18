@@ -124,7 +124,9 @@ OTHER_FILES += \
     gui/qml/NavigationListDelegate.qml \
     gui/qml/PageOperationsContainer.qml \
     gui/qml/Checkbox.qml \
-    gui/qml/NavigationBarDelegate.qml
+    gui/qml/NavigationBarDelegate.qml \
+    gui/qml/hoverTextCreator.js \
+    gui/qml/HoverText.qml
 
 RESOURCES += \
     resources.qrc
