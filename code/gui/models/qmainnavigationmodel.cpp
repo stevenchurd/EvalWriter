@@ -4,10 +4,10 @@
 #include "qevalslistmodel.h"
 #include "qstudentslistmodel.h"
 #include "qevalsetslistmodel.h"
+#include "utilities/persistentdatamanager.h"
 
-
-QMainNavigationModel::QMainNavigationModel(QString modelTitle, QObject *parent) :
-    QAbstractListModel(parent), m_modelTitle(modelTitle)
+QMainNavigationModel::QMainNavigationModel(std::string uuidForTitle, QObject *parent) :
+    QAbstractListModel(parent), m_uuidForTitle(uuidForTitle)
 {
 }
 
@@ -32,7 +32,7 @@ int QMainNavigationModel::getSubModelType(int index) const
 
 QString QMainNavigationModel::getModelTitle() const
 {
-    return m_modelTitle;
+    return QString::fromStdString(getDisplayableTitleFromUuid(m_uuidForTitle));
 }
 
 
@@ -92,10 +92,50 @@ QHash<int,QByteArray> QMainNavigationModel::roleNames() const
 }
 
 
+//
+// Non-class/non-friend helper functions
+//
+std::string getDisplayableTitleFromUuid(std::string uuid)
+{
+    if(uuid.empty())
+        return std::string();
+
+    // need to find the item with the associated UUID
+
+    // first look through courses, they are quick
+    auto itCourse = std::find_if(PDM().coursesBegin(), PDM().coursesEnd(),
+                                 [&uuid] (boost::shared_ptr<Course> course)
+                                 { return (course->getUuid() == uuid); });
+
+    if(itCourse != PDM().coursesEnd())
+    {
+        return (*itCourse)->getCourseName();
+    }
+
+    // next look through students
+    auto itStudent = std::find_if(PDM().studentsBegin(), PDM().studentsEnd(),
+                                  [&uuid] (boost::shared_ptr<Student> student)
+                                  { return (student->getUuid() == uuid); });
+
+    if(itStudent != PDM().studentsEnd())
+    {
+        return (*itStudent)->getDisplayName();
+    }
+
+
+
+
+
+
+    // nothing found, return a string indicating an error
+    assert(false);
+    return std::string("Item Not Found");
+}
+
+
 QAbstractItemModel* makeMainNavModel(boost::shared_ptr<Student> student)
 {
-    QMainNavigationModel* navModel = new QMainNavigationModel(
-                QString::fromStdString(student->getDisplayName()));
+    QMainNavigationModel* navModel = new QMainNavigationModel(student->getUuid());
 
     QCoursesListModel* coursesList = new QCoursesListModel(student);
     QEvalsListModel* evalsList = new QEvalsListModel(student);
@@ -109,8 +149,7 @@ QAbstractItemModel* makeMainNavModel(boost::shared_ptr<Student> student)
 
 QAbstractItemModel* makeMainNavModel(boost::shared_ptr<Course> course)
 {
-    QMainNavigationModel* navModel = new QMainNavigationModel(
-                QString::fromStdString(course->getCourseName()));
+    QMainNavigationModel* navModel = new QMainNavigationModel(course->getUuid());
 
     QStudentsListModel* studentsList = new QStudentsListModel(course);
 
@@ -122,8 +161,7 @@ QAbstractItemModel* makeMainNavModel(boost::shared_ptr<Course> course)
 
 QAbstractItemModel* makeMainNavModel(boost::shared_ptr<EvalSet> evalSet)
 {
-    QMainNavigationModel* navModel = new QMainNavigationModel(
-                QString::fromStdString(evalSet->getEvalSetName()));
+    QMainNavigationModel* navModel = new QMainNavigationModel(evalSet->getUuid());
 
     QEvalsListModel* evalsList = new QEvalsListModel(evalSet);
     QEvalSetsListModel* evalSetsList = new QEvalSetsListModel(evalSet);

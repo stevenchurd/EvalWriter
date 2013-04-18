@@ -2,9 +2,13 @@
 #define PERSISTENTDATAMANAGER_H
 
 #include <vector>
+#include <unordered_map>
 #include <QObject>
 
+#include "evalexceptions.h"
+
 #ifndef Q_MOC_RUN
+#include "boost/any.hpp"
 #include "model/student.h"
 #include "model/course.h"
 #include "model/evalset.h"
@@ -43,6 +47,9 @@ public:
     void add(boost::shared_ptr<EvalSet> newEvalSet);
     void remove(std::vector<boost::shared_ptr<EvalSet> >::const_iterator it);
 
+    template <typename T>
+    void getItemByUuid(std::string uuid, boost::shared_ptr<T>& item);
+
 signals:
     void courseDataChanged(std::string uuid);
     void studentDataChanged(std::string uuid);
@@ -60,7 +67,26 @@ private:
     std::vector<boost::shared_ptr<EvalSet> > m_allEvalSets;
     std::vector<boost::shared_ptr<GradingCriteria> > m_allGradingCriteria;
 
+    std::unordered_map<std::string, boost::any> uuidMap;
 };
+
+
+template <typename T>
+void PersistentDataManager::getItemByUuid(std::string uuid, boost::shared_ptr<T>& item)
+{
+    auto it = uuidMap.find(uuid);
+
+    if(it != uuidMap.end())
+    {
+        item = *it;
+    }
+    else
+    {
+        // there should never be an item not in the map
+        assert(false);
+        throw ItemNotFoundException(std::string("Item not found with UUID: " + uuid));
+    }
+}
 
 
 template <typename T>

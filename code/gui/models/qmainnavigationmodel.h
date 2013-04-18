@@ -8,16 +8,18 @@
 
 #ifndef Q_MOC_RUN
 #include <boost/shared_ptr.hpp>
-#include "model/student.h"
 #endif
 
+class Student;
+class Course;
+class EvalSet;
 
 class QMainNavigationModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    explicit QMainNavigationModel(QString modelTitle, QObject *parent = 0);
+    explicit QMainNavigationModel(std::string uuidForTitle, QObject *parent = 0);
     virtual ~QMainNavigationModel() {}
 
     enum MainNavModelRoles {
@@ -40,9 +42,13 @@ public:
 
 private:
 
-    QString m_modelTitle;
+    std::string m_uuidForTitle;
     std::vector<std::tuple<std::string, QAbstractItemModel*, QGenericListModel::SubModelType> > m_submodels;
+
 };
+
+
+std::string getDisplayableTitleFromUuid(std::string uuid);
 
 
 QAbstractItemModel* makeMainNavModel(boost::shared_ptr<Student> student);

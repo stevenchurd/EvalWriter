@@ -7,6 +7,8 @@
 #include <QFileDialog>
 #include <QQmlEngine>
 #include <QQmlComponent>
+#include <QFont>
+#include <QFontDatabase>
 
 #ifdef _DEBUG
 #include <QDebug>
@@ -56,7 +58,7 @@ int main(int argc, char *argv[])
         QGenericListModel* studentsModel = new QStudentsListModel() ;
         QGenericListModel* evalSetModel = new QEvalSetsListModel();
 
-        QMainNavigationModel* mainModel = new QMainNavigationModel("Home");
+        QMainNavigationModel* mainModel = new QMainNavigationModel(std::string());
         mainModel->addSubModel("Classes", coursesModel, QGenericListModel::CourseList);
         mainModel->addSubModel("Students", studentsModel, QGenericListModel::StudentList);
         mainModel->addSubModel("Evaluation Sets", evalSetModel, QGenericListModel::EvalSetList);
