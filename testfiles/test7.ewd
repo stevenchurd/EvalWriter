@@ -149,9 +149,10 @@
 <StudentsRoot>
     <student>
         <uuid>ae096308-3da8-4638-b265-fb65a305b4da</uuid>
-        <firstName>Steve</firstName>
-        <middleName>Christopher</middleName>
+        <firstName>Steven</firstName>
+        <middleName>C</middleName>
         <lastName>Hurd</lastName>
+        <gender>1</gender>
         <Courses>
             <course>
                 <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
@@ -164,6 +165,7 @@
             <eval>
                 <uuid>7dd1261c-9c4f-4b0e-96ad-7cbf9d8303a1</uuid>
                 <name>Jeffs 1st semester eval</name>
+                <progress>0</progress>
                 <criteriaItem>
                     <uuid>ce738116-e654-44cd-9bc6-8dc89573dc55</uuid>
                 </criteriaItem>
@@ -182,6 +184,7 @@
             <eval>
                 <uuid>9942c450-1572-4f80-b66b-335c4b921d71</uuid>
                 <name>Jeffs 2nd semester eval</name>
+                <progress>2</progress>
                 <criteriaItem>
                     <uuid>3c67881f-5f94-493a-b162-eebedad58c4f</uuid>
                 </criteriaItem>
@@ -198,6 +201,7 @@
         <firstName>Hairy</firstName>
         <middleName>J</middleName>
         <lastName>Houdini</lastName>
+        <gender>1</gender>
         <Courses>
             <course>
                 <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
@@ -210,6 +214,7 @@
         <firstName>Jim</firstName>
         <middleName>F</middleName>
         <lastName>Wonderman</lastName>
+        <gender>2</gender>
         <Courses>
             <course>
                 <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
@@ -219,9 +224,10 @@
     </student>
     <student>
         <uuid>28fa7fc4-c252-4c96-88dd-7188ab78ceea</uuid>
-        <firstName>Jaclyn</firstName>
-        <middleName>Deyo</middleName>
-        <lastName>Hurd</lastName>
+        <firstName>Ganny</firstName>
+        <middleName>F</middleName>
+        <lastName>Smith</lastName>
+        <gender>0</gender>
         <Courses>
             <course>
                 <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
@@ -234,6 +240,7 @@
         <firstName>Diana</firstName>
         <middleName>C</middleName>
         <lastName>Amundson</lastName>
+        <gender>0</gender>
         <Courses>
             <course>
                 <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>
@@ -246,6 +253,7 @@
         <firstName>Lebron</firstName>
         <middleName>Y</middleName>
         <lastName>James</lastName>
+        <gender>1</gender>
         <Courses>
             <course>
                 <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
@@ -258,6 +266,7 @@
         <firstName>J.R.</firstName>
         <middleName>S</middleName>
         <lastName>Smithy</lastName>
+        <gender>1</gender>
         <Courses>
             <course>
                 <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
@@ -270,6 +279,7 @@
         <firstName>Ronald</firstName>
         <middleName>B</middleName>
         <lastName>McDonald</lastName>
+        <gender>1</gender>
         <Courses>
             <course>
                 <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
@@ -282,6 +292,7 @@
         <firstName>Griffin</firstName>
         <middleName>G</middleName>
         <lastName>GaGriffen</lastName>
+        <gender>1</gender>
         <Courses>
             <course>
                 <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>

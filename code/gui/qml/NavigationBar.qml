@@ -10,6 +10,14 @@ Rectangle {
         }
     }
 
+    Connections {
+        target: pdm
+        onCourseDataChanged: getTitleStrings()
+        onStudentDataChanged: getTitleStrings()
+        onEvalSetDataChanged: getTitleStrings()
+        onEvalDataChanged: getTitleStrings()
+    }
+
     ListModel{
         id: titlesModel
 

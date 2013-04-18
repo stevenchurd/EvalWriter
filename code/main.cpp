@@ -66,6 +66,7 @@ int main(int argc, char *argv[])
 
         context->setContextProperty("mainModel", mainModel);
         context->setContextProperty("gradingCriteriaModel", &gcModel);
+        context->setContextProperty("pdm", &PDM());
 
         // set view properties
         view.setSource(QUrl::fromLocalFile("../code/gui/qml/main.qml"));
