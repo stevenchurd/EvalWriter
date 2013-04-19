@@ -2,12 +2,13 @@ import QtQuick 2.0
 
 Item {
     property alias text: label.text
-    height: label.height + 5
-    width: label.width + 5
+    height: label.height + 10
+    width: label.width + 10
 
     visible: false
+
     Timer {
-        interval: 2000
+        interval: 1000
         running: true
         onTriggered: {
             parent.visible = true
@@ -18,14 +19,15 @@ Item {
     Rectangle {
         anchors.fill: parent
 
-        border.color: "black"
-        color: "darkgray"
+        border.color: "#AAAAAA"
+        color: "#333333"
 
         Text {
             id: label
             anchors.centerIn: parent
 
-            color: "black"
+            renderType: Text.NativeRendering
+            color: "white"
         }
 
     }

@@ -21,11 +21,13 @@ Text {
             titleText.state = "mouseIn"
         }
         onPositionChanged: {
-            HoverText.createHoverText(mouse, title)
+            if(index !== 0)
+                HoverText.createHoverText(mouse, title, titleText)
         }
         onExited: {
             titleText.state = "mouseOut"
-            HoverText.destroyHoverText()
+            if(index !== 0)
+                HoverText.destroyHoverText()
         }
     }
 

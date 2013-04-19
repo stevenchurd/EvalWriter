@@ -37,27 +37,30 @@ Item {
             renderType: Text.NativeRendering
         }
 
-        TextButton {
+        IconButton {
             id: textOnlyViewButton
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            text: "T"
+            icon: "\uf031"
+            hoverText: "Text Only View"
             onClicked: currentViewType = "textOnlyView"
         }
 
-        TextButton {
+        IconButton {
             id: smallDelegateViewButton
             anchors.right: textOnlyViewButton.left
             anchors.bottom: parent.bottom
-            text: "s"
+            icon: "\uf066"
+            hoverText: "Small Item View"
             onClicked: currentViewType = "smallDelegateView"
         }
 
-        TextButton {
+        IconButton {
             id: largeDelegateViewButton
             anchors.right: smallDelegateViewButton.left
             anchors.bottom: parent.bottom
-            text: "L"
+            icon: "\uf065"
+            hoverText: "Large Item View"
             onClicked: currentViewType = "largeDelegateView"
         }
     }

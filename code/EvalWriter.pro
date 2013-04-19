@@ -126,7 +126,8 @@ OTHER_FILES += \
     gui/qml/Checkbox.qml \
     gui/qml/NavigationBarDelegate.qml \
     gui/qml/hoverTextCreator.js \
-    gui/qml/HoverText.qml
+    gui/qml/HoverText.qml \
+    gui/qml/IconButton.qml
 
 RESOURCES += \
     resources.qrc

@@ -1,9 +1,11 @@
 var hoverTextItem = null
 
-function createHoverText(mouse, text)
+function createHoverText(mouse, text, parent)
 {
+    var posnInWindow = parent.mapToItem(screenContainer, 0, 0);
+
     if(hoverTextItem !== null) {
-        updatePosition(mouse)
+        updatePosition(mouse, posnInWindow)
         return
     }
 
@@ -11,40 +13,38 @@ function createHoverText(mouse, text)
 
     if(hoverComponent.status === Component.Ready && hoverComponent !== null) {
         hoverTextItem = hoverComponent.createObject(screenContainer,
-                                                    {"x": mouse.x,
-                                                     "y": mouse.y,
-                                                     "text": text});
+                                                     {"text": text});
+        updatePosition(mouse, posnInWindow)
     }
 }
 
 
-function updatePosition(mouse)
+function updatePosition(mouse, posnInWindow)
 {
+    if(hoverTextItem.visible === false)
+    {
+        hoverTextItem.x = posnInWindow.x + mouse.x
+        hoverTextItem.y = posnInWindow.y + mouse.y + 20
+
+        if(hoverTextItem.x + hoverTextItem.width > screenContainer.width)
+        {
+            hoverTextItem.x -= hoverTextItem.width
+        }
+
+        if(hoverTextItem.y + hoverTextItem.height > screenContainer.height)
+        {
+            hoverTextItem.y -= hoverTextItem.height
+        }
+    }
 }
 
 
 function destroyHoverText()
 {
-    hoverTextItem.destroy()
-    hoverTextItem = null
-}
-
-
-function createModel(modelFile, cppModel, typeString) {
-    var itemComponent = Qt.createComponent(modelFile);
-
-    createdComponents.push(itemComponent)
-
-    if (itemComponent.status === Component.Ready) {
-        var newPage = itemComponent.createObject(null, {"model": cppModel, "pageType": typeString});
-
-    } else if (itemComponent.status === Component.Error) {
-        console.log("error creating component");
-        console.log(itemComponent.errorString());
+    if(hoverTextItem !== null)
+    {
+        hoverTextItem.destroy()
+        hoverTextItem = null
     }
-
-    if(itemComponent === null)
-        console.log("Error, created invalid component")
-
-    return newPage
 }
+
