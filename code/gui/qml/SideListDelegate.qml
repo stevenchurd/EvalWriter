@@ -8,18 +8,10 @@ MouseArea {
     width: parent.width
     height: 45
 
-    Rectangle {
-        anchors.left: wrapper.left
-        height: parent.height
-        width: 3
-
-        color: "#33AAEE"
-    }
-
     Text {
         anchors.verticalCenter:  parent.verticalCenter
         anchors.left: parent.left
-        anchors.leftMargin: 10
+        anchors.leftMargin: 5
         font.pointSize: 14
         renderType: Text.NativeRendering
         text: submodelName
