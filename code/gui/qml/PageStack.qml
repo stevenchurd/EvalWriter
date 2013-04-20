@@ -57,6 +57,7 @@ Rectangle {
         {
             var page = Stack.pop()
             page.parent = null
+            page.destroy()
             page = Stack.top()
             pageContainer.setAsParent(page)
         }
@@ -70,6 +71,7 @@ Rectangle {
         {
             var page = Stack.pop()
             page.parent = null
+            page.destroy()
             page = Stack.top()
             pageContainer.setAsParent(page)
         }
