@@ -58,5 +58,5 @@ Rectangle {
             when: mouseArea.pressed
             PropertyChanges { target: label; color: "#33CCEE" }
         }
-
-    ]}
+    ]
+}
