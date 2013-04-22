@@ -213,11 +213,12 @@ QStringList QEvalsListModel::getOptionListForOperation(int operation)
 
 void QEvalsListModel::addItem(QString newEvalName)
 {
-    beginResetModel();
     assert(m_student != nullptr && m_evalSet == nullptr);
     boost::shared_ptr<Eval> newEval(new Eval(newEvalName.toStdString(), Eval::New));
-    m_student->addEval(newEval);
-    endResetModel(); // TODO: replace with beginInsertRow
+
+    unsigned int newRow = m_student->addEval(newEval);
+    beginInsertRows(QModelIndex(), newRow, newRow);
+    endInsertRows();
 }
 
 
@@ -321,9 +322,12 @@ void QEvalsListModel::optionListSelection(int operation, int row)
             // now that we have the list, add the selected course to the student
             if(row < static_cast<int>(evals.size()))
             {
-                beginResetModel(); // TODO eventually replace this with a beginInsertRows
+                unsigned int newRow = insertLocation(evals[row],
+                                                     m_evalSet->evalsBegin(),
+                                                     m_evalSet->evalsEnd());
+                beginInsertRows(QModelIndex(), newRow, newRow);
                 m_evalSet->addEval(evals[row]);
-                endResetModel();
+                endInsertRows();
             }
        }
             break;

@@ -29,22 +29,22 @@ public:
 
     std::vector<boost::shared_ptr<Student> >::const_iterator studentsBegin(void) const;
     std::vector<boost::shared_ptr<Student> >::const_iterator studentsEnd(void) const;
-    void add(boost::shared_ptr<Student> newStudent);
+    unsigned int add(boost::shared_ptr<Student> newStudent);
     void remove(std::vector<boost::shared_ptr<Student> >::const_iterator it);
 
     std::vector<boost::shared_ptr<Course> >::const_iterator coursesBegin(void) const;
     std::vector<boost::shared_ptr<Course> >::const_iterator coursesEnd(void) const;
-    void add(boost::shared_ptr<Course> newCourse);
+    unsigned int add(boost::shared_ptr<Course> newCourse);
     void remove(std::vector<boost::shared_ptr<Course> >::const_iterator it);
 
     std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator gradingCriteriaBegin(void) const;
     std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator gradingCriteriaEnd(void) const;
-    void add(boost::shared_ptr<GradingCriteria> newGradingCriteria);
+    unsigned int add(boost::shared_ptr<GradingCriteria> newGradingCriteria);
     void remove(std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator it);
 
     std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsBegin(void) const;
     std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsEnd(void) const;
-    void add(boost::shared_ptr<EvalSet> newEvalSet);
+    unsigned int add(boost::shared_ptr<EvalSet> newEvalSet);
     void remove(std::vector<boost::shared_ptr<EvalSet> >::const_iterator it);
 
     template <typename T>
@@ -61,6 +61,9 @@ private:
     ~PersistentDataManager();
     PersistentDataManager(const PersistentDataManager&);
     PersistentDataManager& operator=(const PersistentDataManager&);
+
+    template <typename T, typename C>
+    int add(T& item, C& container);
 
     std::vector<boost::shared_ptr<Student> > m_allStudents;
     std::vector<boost::shared_ptr<Course> > m_allCourses;
@@ -114,6 +117,36 @@ bool PersistentDataManager::getItemByUuid(std::string uuid, boost::shared_ptr<T>
 }
 
 
+template <typename T, typename C>
+int PersistentDataManager::add(T& newItem, C& container)
+{
+    auto it = std::find_if(container.begin(), container.end(),
+                           [&newItem] (T item)
+                           { return (newItem < item); });
+
+    unsigned int row = std::distance(container.begin(), it);
+    container.insert(it, newItem);
+    m_uuidMap.insert(std::make_pair<std::string, boost::any>(
+                         newItem->getUuid(), newItem));
+    return row;
+}
+
+
+template <typename T, typename C>
+int insertLocation(T& newItem, C& containerBegin, C& containerEnd)
+{
+    auto it = std::find_if(containerBegin, containerEnd,
+                           [&newItem] (T item)
+                           { return (newItem < item); });
+
+    unsigned int row = std::distance(containerBegin, it);
+    return row;
+}
+
+
+//
+// Non-class, non-friend helper functions
+//
 template <typename T>
 boost::shared_ptr<T> elementAt(typename std::vector<boost::shared_ptr<T> >::const_iterator begin, int index)
 {

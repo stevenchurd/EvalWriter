@@ -21,9 +21,15 @@ void GradingCriteria::accept(Visitor& visitor)
 }
 
 
-void GradingCriteria::addCriteriaItem(boost::shared_ptr<CriteriaItem> ci)
+unsigned int GradingCriteria::addCriteriaItem(boost::shared_ptr<CriteriaItem> newCi)
 {
-    m_criteriaItems.push_back(ci);
+    auto it = std::find_if(m_criteriaItems.begin(), m_criteriaItems.end(),
+                           [&newCi] (boost::shared_ptr<CriteriaItem> ci)
+                           { return (newCi < ci); });
+
+    unsigned int row = std::distance(m_criteriaItems.begin(), it);
+    m_criteriaItems.insert(it, newCi);
+    return row;
 }
 
 
@@ -78,5 +84,14 @@ void GradingCriteria::acceptChildren(Visitor& visitor)
 }
 
 
+bool GradingCriteria::operator==(const GradingCriteria& rhs) const
+{
+    return (getUuid() == rhs.getUuid());
+}
 
+
+bool operator<(const boost::shared_ptr<GradingCriteria>& rhs, const boost::shared_ptr<GradingCriteria>& lhs)
+{
+    return (rhs->getCriteriaName() < lhs->getCriteriaName());
+}
 

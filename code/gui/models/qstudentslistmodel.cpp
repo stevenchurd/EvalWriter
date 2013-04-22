@@ -128,10 +128,10 @@ void QStudentsListModel::addStudent(QString firstName, QString middleName,
                             middleName.toStdString(),
                             lastName.toStdString(),
                             static_cast<Student::Gender>(gender)));
-
-    beginResetModel();
+    unsigned int newRow = insertLocation(newStudent, PDM().studentsBegin(), PDM().studentsEnd());
+    beginInsertRows(QModelIndex(), newRow, newRow);
     PDM().add(newStudent);
-    endResetModel();
+    endInsertRows();
 }
 
 
@@ -197,9 +197,17 @@ void QStudentsListModel::optionListSelection(int operation, int row)
 
             if(row < static_cast<int>(students.size()))
             {
-                beginResetModel();
+                unsigned int newRow = 0;
+                boost::shared_ptr<Student> nthStudent = getNthStudentInCourse(newRow, m_course);
+                while(nthStudent != nullptr && nthStudent < students[row])
+                {
+                    ++newRow;
+                    nthStudent = getNthStudentInCourse(newRow, m_course);
+                }
+
+                beginInsertRows(QModelIndex(), newRow, newRow);
                 students[row]->addCourse(m_course);
-                endResetModel(); // TODO replace with beginInsertRow
+                endInsertRows();
             }
         }
             break;

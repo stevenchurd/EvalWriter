@@ -57,6 +57,8 @@ public:
     void accept(Visitor& visitor);
     void acceptChildren(Visitor& visitor);
 
+    bool operator==(const Eval&) const;
+
 #ifdef _DEBUG
     void printItems(void);
 #endif
@@ -71,8 +73,8 @@ private:
     // disable copy constructor and assignment
     Eval(const Eval&);
     Eval& operator= (const Eval&);
-
-
 };
+
+bool operator<(const boost::shared_ptr<Eval>& rhs, const boost::shared_ptr<Eval>& lhs);
 
 #endif // EVAL_H

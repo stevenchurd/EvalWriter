@@ -127,18 +127,19 @@ void QGradingCriteriaModel::addItem(QString itemName)
 {
     boost::shared_ptr<GradingCriteria> newGc(new GradingCriteria(itemName.toStdString()));
 
-    beginResetModel();
+    unsigned int newRow = insertLocation(newGc, PDM().gradingCriteriaBegin(),
+                                         PDM().gradingCriteriaEnd());
     // created grading criteria, now add it to PDM
-    PDM().add(newGc);  // TODO: eventually this should return an index to where it was added
+    beginInsertRows(QModelIndex(), newRow, newRow);
+    assert(PDM().add(newGc) == newRow);
 
     // now add the model and connect the signal
     auto newModel = std::make_tuple(new QCriteriaItemListModel(newGc, m_criteriaItemListModels.size(), this), false);
-
-    m_criteriaItemListModels.push_back(newModel);
+    m_criteriaItemListModels.insert(std::next(m_criteriaItemListModels.begin(), newRow), newModel);
 
     connect(std::get<0>(newModel), SIGNAL(dataChanged(int)),
             this, SLOT(criteriaListDataChanged(int)));
-    endResetModel(); // TODO: add by index and use beginInsertRows
+    endInsertRows();
 }
 
 

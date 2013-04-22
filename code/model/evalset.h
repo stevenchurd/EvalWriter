@@ -27,14 +27,14 @@ public:
     std::string getEvalSetName(void) const { return m_evalSetName; }
     void updateEvalSetName(std::string newName) { m_evalSetName = newName; }
 
-    void addEval(boost::shared_ptr<Eval> eval);
+    unsigned int addEval(boost::shared_ptr<Eval> eval);
     void removeEval(std::vector<boost::shared_ptr<Eval> >::const_iterator it);
     void removeEval(std::vector<std::string> uuids);
 
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin(void);
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd(void);
 
-    void addEvalSet(boost::shared_ptr<EvalSet> evalSet);
+    unsigned int addEvalSet(boost::shared_ptr<EvalSet> evalSet);
     void removeEvalSet(std::vector<boost::shared_ptr<EvalSet> >::const_iterator it);
 
     std::vector<boost::shared_ptr<EvalSet> >::const_iterator evalSetsBegin(void);
@@ -51,6 +51,8 @@ public:
     void accept(Visitor& visitor);
     void acceptChildren(Visitor& visitor);
 
+    bool operator==(const EvalSet&) const;
+
 private:
     std::string m_evalSetName;
     std::vector<boost::shared_ptr<Eval> > m_evals;
@@ -64,5 +66,8 @@ private:
     EvalSet& operator= (const EvalSet&);
 
 };
+
+bool operator<(const boost::shared_ptr<EvalSet>& lhs, const boost::shared_ptr<EvalSet>& rhs);
+
 
 #endif // EVALSET_H

@@ -19,6 +19,10 @@ Rectangle {
         model: wrapper.model
         spacing: 5
 
+        displaced: Transition {
+            NumberAnimation { properties: "x,y"; duration: 200 }
+        }
+
         onCountChanged: listOperationsContainer.fillListOperationsModel()
 
         delegate: NavigationListDelegate{

@@ -8,3 +8,9 @@ EvalItem::EvalItem(std::string str, bool editable,
     m_itemEditable(editable), m_itemStr(str), m_uuid(objUuid)
 {
 }
+
+
+bool EvalItem::operator==(const EvalItem& rhs) const
+{
+    return (getUuid() == rhs.getUuid());
+}

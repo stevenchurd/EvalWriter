@@ -14,3 +14,13 @@ void CriteriaItem::accept(Visitor& visitor)
 {
     visitor.visit(*this);
 }
+
+
+bool operator<(const boost::shared_ptr<CriteriaItem>& rhs, const boost::shared_ptr<CriteriaItem>& lhs)
+{
+    if(rhs->getCriteriaItemLevel() == lhs->getCriteriaItemLevel())
+        return (rhs->getItemStr() < lhs->getItemStr());
+    else
+        return (rhs->getCriteriaItemLevel() < lhs->getCriteriaItemLevel());
+}
+

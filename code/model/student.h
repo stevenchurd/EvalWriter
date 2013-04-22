@@ -50,7 +50,7 @@ public:
     /*
      * Eval functions
      */
-    void addEval(boost::shared_ptr<Eval> newEval) ;
+    unsigned int addEval(boost::shared_ptr<Eval> newEval) ;
     unsigned int getNumEvals(void) { return static_cast<unsigned int>(m_evals.size()); }
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin() const;
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd() const;
@@ -62,7 +62,7 @@ public:
      */
     std::vector<boost::shared_ptr<Course> >::const_iterator coursesBegin() const;
     std::vector<boost::shared_ptr<Course> >::const_iterator coursesEnd() const;
-    void addCourse(boost::shared_ptr<Course> course) ;
+    unsigned int addCourse(boost::shared_ptr<Course> course);
     void removeCourse(std::string uuid);
     void removeCourse(std::vector<boost::shared_ptr<Course> >::const_iterator it);
     bool isInCourse(boost::shared_ptr<Course> course) const;
@@ -72,6 +72,8 @@ public:
      */
     void accept(Visitor& visitor);
     void acceptChildren(Visitor& visitor);
+
+    bool operator==(const Student&) const;
 
 private:
 
@@ -91,6 +93,6 @@ private:
 
 };
 
-bool operator <(const boost::shared_ptr<Student>& lhs, const boost::shared_ptr<Student>& rhs);
+bool operator<(const boost::shared_ptr<Student>& lhs, const boost::shared_ptr<Student>& rhs);
 
 #endif // STUDENT_H

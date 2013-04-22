@@ -40,9 +40,15 @@ std::vector<boost::shared_ptr<Eval> >::const_iterator Student::evalsEnd() const
 }
 
 
-void Student::addEval(boost::shared_ptr<Eval> newEval)
+unsigned int Student::addEval(boost::shared_ptr<Eval> newEval)
 {
-    m_evals.push_back(newEval) ;
+    auto it = std::find_if(m_evals.begin(), m_evals.end(),
+                           [&newEval] (boost::shared_ptr<Eval> eval)
+                           { return (newEval < eval); });
+
+    unsigned int row = std::distance(m_evals.begin(), it);
+    m_evals.insert(it, newEval);
+    return row;
 }
 
 
@@ -80,9 +86,15 @@ std::vector<boost::shared_ptr<Course> >::const_iterator Student::coursesEnd() co
 }
 
 
-void Student::addCourse(boost::shared_ptr<Course> course)
+unsigned int Student::addCourse(boost::shared_ptr<Course> newCourse)
 {
-    m_courses.push_back(course) ;
+    auto it = std::find_if(m_courses.begin(), m_courses.end(),
+                           [&newCourse] (boost::shared_ptr<Course> course)
+                           { return (newCourse < course); });
+
+    unsigned int row = std::distance(m_courses.begin(), it);
+    m_courses.insert(it, newCourse);
+    return row;
 }
 
 
@@ -123,7 +135,13 @@ void Student::acceptChildren(Visitor& visitor)
 }
 
 
-bool operator <(const boost::shared_ptr<Student>& lhs, const boost::shared_ptr<Student>& rhs)
+bool Student::operator==(const Student& rhs) const
+{
+    return (getUuid() == rhs.getUuid());
+}
+
+
+bool operator<(const boost::shared_ptr<Student>& lhs, const boost::shared_ptr<Student>& rhs)
 {
     return lhs->getDisplayName() < rhs->getDisplayName();
 }

@@ -102,6 +102,18 @@ void Eval::acceptChildren(Visitor& visitor)
 }
 
 
+bool Eval::operator==(const Eval& rhs) const
+{
+    return (getUuid() == rhs.getUuid());
+}
+
+
+bool operator<(const boost::shared_ptr<Eval>& rhs, const boost::shared_ptr<Eval>& lhs)
+{
+    return (rhs->getEvalName() < lhs->getEvalName());
+}
+
+
 #ifdef _DEBUG
     void Eval::printItems(void)
     {

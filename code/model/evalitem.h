@@ -35,6 +35,8 @@ public:
 
     std::string getUuid(void) const { return to_string(m_uuid); }
 
+    bool operator==(const EvalItem&) const;
+
 private:
     std::string m_itemStr;
     bool m_itemEditable;

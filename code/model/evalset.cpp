@@ -15,9 +15,15 @@ EvalSet::EvalSet(std::string name,
 }
 
 
-void EvalSet::addEval(boost::shared_ptr<Eval> eval)
+unsigned int EvalSet::addEval(boost::shared_ptr<Eval> newEval)
 {
-    m_evals.push_back(eval);
+    auto it = std::find_if(m_evals.begin(), m_evals.end(),
+                           [&newEval] (boost::shared_ptr<Eval> eval)
+                           { return (newEval < eval); });
+
+    unsigned int row = std::distance(m_evals.begin(), it);
+    m_evals.insert(it, newEval);
+    return row;
 }
 
 
@@ -70,9 +76,15 @@ bool EvalSet::containsEval(std::string uuid) const
 }
 
 
-void EvalSet::addEvalSet(boost::shared_ptr<EvalSet> evalSet)
+unsigned int EvalSet::addEvalSet(boost::shared_ptr<EvalSet> newEvalSet)
 {
-    m_subEvalSets.push_back(evalSet);
+    auto it = std::find_if(m_subEvalSets.begin(), m_subEvalSets.end(),
+                           [&newEvalSet] (boost::shared_ptr<EvalSet> evalSet)
+                           { return (newEvalSet < evalSet); });
+
+    unsigned int row = std::distance(m_subEvalSets.begin(), it);
+    m_subEvalSets.insert(it, newEvalSet);
+    return row;
 }
 
 
@@ -102,3 +114,16 @@ void EvalSet::acceptChildren(Visitor& visitor)
         eval->accept(visitor);
     });
 }
+
+
+bool EvalSet::operator== (const EvalSet& rhs) const
+{
+    return (getUuid() == rhs.getUuid());
+}
+
+
+bool operator<(const boost::shared_ptr<EvalSet>& lhs, const boost::shared_ptr<EvalSet>& rhs)
+{
+    return (lhs->getEvalSetName() < rhs->getEvalSetName());
+}
+

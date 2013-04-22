@@ -124,15 +124,12 @@ QStringList QCoursesListModel::getOptionListForOperation(int operation)
 void QCoursesListModel::addItem(QString courseName)
 {
     assert(m_student == nullptr);
-
-    beginResetModel();
     boost::shared_ptr<Course> newCourse(new Course(courseName.toStdString()));
 
+    unsigned int newRow = insertLocation(newCourse, PDM().coursesBegin(), PDM().coursesEnd());
+    beginInsertRows(QModelIndex(), newRow, newRow);
     PDM().add(newCourse);
-
-    // don't necessarily know where it added the new item, so just emit data
-    // TODO: eventually want to emit the actual index that changed so animations work
-    endResetModel();
+    endInsertRows();
 }
 
 
@@ -181,9 +178,12 @@ void QCoursesListModel::optionListSelection(int operation, int row)
             // now that we have the list, add the selected course to the student
             if(row < static_cast<int>(courses.size()))
             {
-                beginResetModel(); // TODO eventually replace this with a beginInsertRows
+                unsigned int newRow = insertLocation(courses[row],
+                                                     m_student->coursesBegin(),
+                                                     m_student->coursesEnd());
+                beginInsertRows(QModelIndex(), newRow, newRow);
                 m_student->addCourse(courses[row]);
-                endResetModel();
+                endInsertRows();
             }
         }
             break;

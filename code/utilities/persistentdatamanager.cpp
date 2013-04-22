@@ -13,6 +13,13 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
+#include <algorithm>
+
+#include "model/course.h"
+#include "model/student.h"
+#include "model/gradingcriteria.h"
+#include "model/evalset.h"
+
 PersistentDataManager::PersistentDataManager()
 {
 }
@@ -60,11 +67,9 @@ std::vector<boost::shared_ptr<Student> >::const_iterator PersistentDataManager::
 }
 
 
-void PersistentDataManager::add(boost::shared_ptr<Student> newStudent)
+unsigned int PersistentDataManager::add(boost::shared_ptr<Student> newStudent)
 {
-    m_allStudents.push_back(newStudent);
-    m_uuidMap.insert(std::make_pair<std::string, boost::any>(
-                         newStudent->getUuid(), newStudent));
+    return add(newStudent, m_allStudents);
 }
 
 
@@ -111,11 +116,9 @@ std::vector<boost::shared_ptr<Course> >::const_iterator PersistentDataManager::c
 }
 
 
-void PersistentDataManager::add(boost::shared_ptr<Course> newCourse)
+unsigned int PersistentDataManager::add(boost::shared_ptr<Course> newCourse)
 {
-    m_allCourses.push_back(newCourse);
-    m_uuidMap.insert(std::make_pair<std::string, boost::any>(
-                         newCourse->getUuid(), newCourse));
+    return add(newCourse, m_allCourses);
 }
 
 
@@ -151,11 +154,9 @@ std::vector<boost::shared_ptr<GradingCriteria> >::const_iterator PersistentDataM
 }
 
 
-void PersistentDataManager::add(boost::shared_ptr<GradingCriteria> newGradingCriteria)
+unsigned int PersistentDataManager::add(boost::shared_ptr<GradingCriteria> newGradingCriteria)
 {
-    m_allGradingCriteria.push_back(newGradingCriteria);
-    m_uuidMap.insert(std::make_pair<std::string, boost::any>(
-                         newGradingCriteria->getUuid(), newGradingCriteria));
+    return add(newGradingCriteria, m_allGradingCriteria);
 }
 
 
@@ -182,11 +183,9 @@ std::vector<boost::shared_ptr<EvalSet> >::const_iterator PersistentDataManager::
 }
 
 
-void PersistentDataManager::add(boost::shared_ptr<EvalSet> newEvalSet)
+unsigned int PersistentDataManager::add(boost::shared_ptr<EvalSet> newEvalSet)
 {
-    m_allEvalSets.push_back(newEvalSet);
-    m_uuidMap.insert(std::make_pair<std::string, boost::any>(
-                         newEvalSet->getUuid(), newEvalSet));
+    return add(newEvalSet, m_allEvalSets);
 }
 
 
@@ -235,6 +234,10 @@ void PersistentDataManager::loadFile(std::string filename)
                                   m_allStudents.cend());
     }
 
+    std::sort(m_allCourses.begin(), m_allCourses.end());
+    std::sort(m_allGradingCriteria.begin(), m_allGradingCriteria.end());
+    std::sort(m_allStudents.begin(), m_allStudents.end());
+    std::sort(m_allEvalSets.begin(), m_allEvalSets.end());
 
     // set up the Uuid map after loading the data
     setupUuidMap();

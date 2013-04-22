@@ -160,20 +160,30 @@ QList<int> QEvalSetsListModel::getSubModelOperations()
 
 void QEvalSetsListModel::addItem(QString evalSetName)
 {
-    beginResetModel();
     if(m_evalSet == nullptr)
     {
         // add the new eval set to the global list
         boost::shared_ptr<EvalSet> newEvalSet(new EvalSet(evalSetName.toStdString(), boost::shared_ptr<EvalSet>()));
+
+        unsigned int newRow = insertLocation(newEvalSet,
+                                             PDM().evalSetsBegin(),
+                                             PDM().evalSetsEnd());
+        beginInsertRows(QModelIndex(), newRow, newRow);
         PDM().add(newEvalSet);
+        endInsertRows();
     }
     else
     {
         // otherwise add it as a sub-eval set
         boost::shared_ptr<EvalSet> newEvalSet(new EvalSet(evalSetName.toStdString(), m_evalSet));
+
+        unsigned int newRow = insertLocation(newEvalSet,
+                                             m_evalSet->evalSetsBegin(),
+                                             m_evalSet->evalSetsEnd());
+        beginInsertRows(QModelIndex(), newRow, newRow);
         m_evalSet->addEvalSet(newEvalSet);
+        endInsertRows();
     }
-    endResetModel(); // TODO replace with begin/endInsertRow
 }
 
 

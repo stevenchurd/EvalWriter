@@ -53,4 +53,6 @@ private:
 };
 
 
+bool operator<(const boost::shared_ptr<CriteriaItem>& rhs, const boost::shared_ptr<CriteriaItem>& lhs);
+
 #endif // CRITERIAITEM_H

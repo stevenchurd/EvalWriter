@@ -22,7 +22,7 @@ public:
     std::string getCriteriaName(void) const { return m_criteriaName; }
     void setCriteriaName(const std::string name) { m_criteriaName = name; }
 
-    void addCriteriaItem(boost::shared_ptr<CriteriaItem> ci) ;
+    unsigned int addCriteriaItem(boost::shared_ptr<CriteriaItem> ci) ;
 
     boost::shared_ptr<CriteriaItem> getCriteriaItemAt(unsigned int index) const;
     bool getCriteriaItemById(std::string id, boost::shared_ptr<CriteriaItem> &gc) const;
@@ -39,6 +39,8 @@ public:
     void accept(Visitor& visitor);
     void acceptChildren(Visitor& visitor);
 
+    bool operator==(const GradingCriteria& rhs) const;
+
 private:
     std::string m_criteriaName ;
     std::vector<boost::shared_ptr<CriteriaItem> > m_criteriaItems;
@@ -49,6 +51,8 @@ private:
     GradingCriteria(const GradingCriteria&);
     GradingCriteria& operator= (const GradingCriteria&);
 };
+
+bool operator<(const boost::shared_ptr<GradingCriteria>& rhs, const boost::shared_ptr<GradingCriteria>& lhs);
 
 
 #endif // GRADINGCRITERIA_H
