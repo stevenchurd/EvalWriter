@@ -7,9 +7,8 @@ Rectangle {
     property int gcIndex: index
 
     width: parent.width
-    height: column.height
-    border.color: "black"
-    border.width: (wrapper.ListView.view.currentIndex === index) ? 2 : 1
+    height: column.height + 5
+    color: ListView.isCurrentItem ? "#BBBBBB" : "#EEEEEE"
     clip: true
 
     Behavior on height {

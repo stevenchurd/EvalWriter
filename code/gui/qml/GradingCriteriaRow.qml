@@ -27,7 +27,6 @@ Rectangle {
         id: rowContainer
 
         width: parent.width
-        spacing: 5
 
         Image {
             id: openArrow
@@ -77,7 +76,7 @@ Rectangle {
 
         IconButton {
             id: deleteButton
-            icon: "\uf00d"
+            icon: "\uf014"
             hoverText: "Delete"
             anchors.top: parent.top
             visible: buttonsVisible

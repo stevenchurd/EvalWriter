@@ -98,7 +98,7 @@ Rectangle {
 
         IconButton{
             id: deleteButton
-            icon: "\uf00d"
+            icon: "\uf014"
             hoverText: "Delete"
             size: 12
             anchors.top: parent.top
