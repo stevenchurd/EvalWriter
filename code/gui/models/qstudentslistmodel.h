@@ -30,9 +30,14 @@ public:
     static_assert(EndOfEnum < ModelOperationRanges::StudentsListOperationsEnd,
                   "Too many items in enumeration");
 
+    Q_INVOKABLE QString getStudentFirstName(int row) const;
+    Q_INVOKABLE QString getStudentMiddleName(int row) const;
+    Q_INVOKABLE QString getStudentLastName(int row) const;
+    Q_INVOKABLE int getStudentGender(int row) const;
+
 public slots:
     void addStudent(QString firstName, QString middleName, QString lastName, int gender);
-    void renameStudent(QString firstName, QString middleName, QString lastName, int row);
+    void renameStudent(QString firstName, QString middleName, QString lastName, int gender, int row);
     virtual void removeItem(int index);
     virtual void renameItem(QString newName, int row);
     virtual void optionListSelection(int operation, int row);

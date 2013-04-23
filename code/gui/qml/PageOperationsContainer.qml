@@ -304,10 +304,10 @@ Rectangle {
     }
 
 
-    function renameStudent(firstName, middleName, lastName)
+    function renameStudent(firstName, middleName, lastName, gender)
     {
         wrapper.model.renameStudent(firstName, middleName,
-                                    lastName, listOfItems.currentIndex)
+                                    lastName, gender, listOfItems.currentIndex)
     }
 
     function removeItem()
@@ -350,6 +350,10 @@ Rectangle {
         AddStudentDialog {
             id: dialog
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
+            startingFirstName: wrapper.model.getStudentFirstName(listOfItems.currentIndex)
+            startingMiddleName: wrapper.model.getStudentMiddleName(listOfItems.currentIndex)
+            startingLastName: wrapper.model.getStudentLastName(listOfItems.currentIndex)
+            startingGender: wrapper.model.getStudentGender(listOfItems.currentIndex)
 
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)

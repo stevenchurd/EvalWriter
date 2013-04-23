@@ -120,6 +120,86 @@ QStringList QStudentsListModel::getOptionListForOperation(int operation)
 }
 
 
+QString QStudentsListModel::getStudentFirstName(int row) const
+{
+    if(row < 0)
+        return QString();
+
+    boost::shared_ptr<Student> student;
+
+    if(m_course != nullptr)
+    {
+        student = getNthStudentInCourse(row, m_course);
+    }
+    else
+    {
+        student = elementAt<Student>(PDM().studentsBegin(), row);
+    }
+
+    return QString::fromStdString(student->getFirstName());
+}
+
+
+QString QStudentsListModel::getStudentMiddleName(int row) const
+{
+    if(row < 0)
+        return QString();
+
+    boost::shared_ptr<Student> student;
+
+    if(m_course != nullptr)
+    {
+        student = getNthStudentInCourse(row, m_course);
+    }
+    else
+    {
+        student = elementAt<Student>(PDM().studentsBegin(), row);
+    }
+
+    return QString::fromStdString(student->getMiddleName());
+}
+
+
+QString QStudentsListModel::getStudentLastName(int row) const
+{
+    if(row < 0)
+        return QString();
+
+    boost::shared_ptr<Student> student;
+
+    if(m_course != nullptr)
+    {
+        student = getNthStudentInCourse(row, m_course);
+    }
+    else
+    {
+        student = elementAt<Student>(PDM().studentsBegin(), row);
+    }
+
+    return QString::fromStdString(student->getLastName());
+}
+
+
+int QStudentsListModel::getStudentGender(int row) const
+{
+    if(row < 0)
+        return -1;
+
+    boost::shared_ptr<Student> student;
+
+    if(m_course != nullptr)
+    {
+        student = getNthStudentInCourse(row, m_course);
+    }
+    else
+    {
+        student = elementAt<Student>(PDM().studentsBegin(), row);
+    }
+
+    return student->getGender();
+}
+
+
 void QStudentsListModel::addStudent(QString firstName, QString middleName,
                                     QString lastName, int gender)
 {
@@ -135,7 +215,7 @@ void QStudentsListModel::addStudent(QString firstName, QString middleName,
 }
 
 
-void QStudentsListModel::renameStudent(QString firstName, QString middleName, QString lastName, int row)
+void QStudentsListModel::renameStudent(QString firstName, QString middleName, QString lastName, int gender, int row)
 {
     boost::shared_ptr<Student> student;
     if(m_course != nullptr)
@@ -150,6 +230,7 @@ void QStudentsListModel::renameStudent(QString firstName, QString middleName, QS
     // TODO: eventually will want to update the ordering if this changes
     student->updateName(firstName.toStdString(), middleName.toStdString(),
                         lastName.toStdString());
+    student->updateGender(static_cast<Student::Gender>(gender));
     emit PDM().studentDataChanged(student->getUuid());
 }
 

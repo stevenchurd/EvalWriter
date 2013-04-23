@@ -1,7 +1,10 @@
 import QtQuick 2.0
 
 Dialog {
-    property string startingText
+    property string startingFirstName
+    property string startingMiddleName
+    property string startingLastName
+    property int startingGender
     property string explanationText
     property int textInputWidth: 300
     property int textInputHeight: 25
@@ -44,7 +47,7 @@ Dialog {
                             Keys.onTabPressed: middleName.focus = true
 
                             renderType: TextInput.NativeRendering
-                            text: startingText
+                            text: startingFirstName
                             cursorVisible: true
                             selectByMouse: true
                             selectionColor: "steelblue"
@@ -78,7 +81,7 @@ Dialog {
                             Keys.onTabPressed: lastName.focus = true
 
                             renderType: TextInput.NativeRendering
-                            text: startingText
+                            text: startingMiddleName
                             selectByMouse: true
                             selectionColor: "steelblue"
 
@@ -109,7 +112,7 @@ Dialog {
                             Keys.onTabPressed: genderList.focus = true
 
                             renderType: TextInput.NativeRendering
-                            text: startingText
+                            text: startingLastName
                             selectByMouse: true
                             selectionColor: "steelblue"
 
@@ -134,7 +137,7 @@ Dialog {
                     anchors.fill: parent
 
                     Keys.onTabPressed: okButton.focus = true
-                    currentIndex: 0
+                    currentIndex: startingGender
                     model: genderModel
                     delegate: Text {
                         text: name
