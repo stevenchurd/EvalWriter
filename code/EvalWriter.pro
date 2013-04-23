@@ -92,7 +92,6 @@ OTHER_FILES += \
     gui/qml/CourseListDelegateItem.qml \
     gui/qml/Scrollbar.qml \
     gui/qml/main.qml \
-    gui/qml/CourseListPrototype.qml \
     gui/qml/VerticalSplitter.qml \
     gui/qml/GradingCriteriaRow.qml \
     gui/qml/CriteriaItemRow.qml \
