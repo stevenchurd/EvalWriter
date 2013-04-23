@@ -19,9 +19,8 @@ Rectangle {
 
     signal itemClicked(int index)
 
-    height: criteriaText.height
+    height: criteriaText.height + 5
     color: (isSelected) ? "lightsteelblue" : "transparent"
-    border.color: "lightgray"
     clip: true
 
     MouseArea {
@@ -62,7 +61,8 @@ Rectangle {
         id: rowContainer
 
         width: parent.width
-        spacing: 10
+        height: parent.height
+        spacing: 5
 
         Rectangle {
             id: levelIndicator
@@ -83,9 +83,11 @@ Rectangle {
             renderType: Text.NativeRendering
         }
 
-        TextButton{
+        IconButton{
             id: modifyButton
-            text: "Modify"
+            icon: "\uf040"
+            hoverText: "Modify"
+            size: 12
             anchors.top: parent.top
             visible: buttonsVisible
             onClicked: {
@@ -94,9 +96,11 @@ Rectangle {
             }
         }
 
-        TextButton{
+        IconButton{
             id: deleteButton
-            text: "Delete"
+            icon: "\uf00d"
+            hoverText: "Delete"
+            size: 12
             anchors.top: parent.top
             visible: buttonsVisible
             onClicked: {

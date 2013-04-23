@@ -27,7 +27,7 @@ Rectangle {
         id: rowContainer
 
         width: parent.width
-        spacing: 10
+        spacing: 5
 
         Image {
             id: openArrow
@@ -51,9 +51,10 @@ Rectangle {
             wrapMode: Text.WordWrap
         }
 
-        TextButton {
+        IconButton {
             id: addButton
-            text: "Add Item"
+            icon: "\uf067"
+            hoverText: "Add Item"
             anchors.top: parent.top
             visible: buttonsVisible
             onClicked: {
@@ -62,9 +63,10 @@ Rectangle {
             }
         }
 
-        TextButton {
+        IconButton {
             id: modifyButton
-            text: "Modify"
+            icon: "\uf040"
+            hoverText: "Modify"
             anchors.top: parent.top
             visible: buttonsVisible
             onClicked: {
@@ -73,9 +75,10 @@ Rectangle {
             }
         }
 
-        TextButton {
+        IconButton {
             id: deleteButton
-            text: "Delete"
+            icon: "\uf00d"
+            hoverText: "Delete"
             anchors.top: parent.top
             visible: buttonsVisible
             onClicked: {
