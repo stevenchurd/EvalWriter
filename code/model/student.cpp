@@ -28,6 +28,12 @@ void Student::updateName(std::string firstName, std::string middleName, std::str
 }
 
 
+void Student::updateGender(Gender gender)
+{
+    m_gender = gender;
+}
+
+
 std::vector<boost::shared_ptr<Eval> >::const_iterator Student::evalsBegin() const
 {
     return m_evals.cbegin();

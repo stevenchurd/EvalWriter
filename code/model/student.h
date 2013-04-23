@@ -32,6 +32,7 @@ public:
 
 
     void updateName(std::string firstName, std::string middleName, std::string lastName);
+    void updateGender(Gender gender);
 
     std::string getFirstName(void) const { return m_firstName; }
     std::string getMiddleName(void) const { return m_middleName; }
