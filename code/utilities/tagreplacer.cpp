@@ -1,5 +1,6 @@
 #include "tagreplacer.h"
 #include "evalexceptions.h"
+#include "tagstrings.h"
 
 #include <regex>
 #include <sstream>
@@ -27,16 +28,37 @@ void TagReplacer::addTag(std::string tagText, std::string replaceText)
 
 std::string TagReplacer::performReplacement(std::string origString) const
 {
+    std::string retString;
     std::string newString = origString;
-    std::smatch m;
-    std::regex e("<.*>");
+    std::smatch sm;
+    std::regex exp("<[^ >]*>");
 
-    while (std::regex_search (origString,m,e)) {
-        for(auto it = m.begin(); it != m.end(); ++it)
+
+    while(std::regex_search(newString, sm, exp))
+    {
+        qDebug() << QString::fromStdString(newString);
+        qDebug() << QString::fromStdString(retString);
+
+        auto tagSet = m_replacementTextMap.find(sm[0]);
+
+        if(tagSet != m_replacementTextMap.end())
         {
-            qDebug() << QString::fromStdString(*it);
+            std::regex replaceExp(tagSet->first);
+            newString = std::regex_replace(newString, replaceExp, tagSet->second);
+        }
+        else
+        {
+            if(sm.begin() != sm.end())
+            {
+                retString += sm.prefix() + sm[0];
+                newString = sm.suffix();
+            }
         }
     }
+    retString += newString;
 
-    return std::string();
+    qDebug() << QString::fromStdString(newString);
+    qDebug() << QString::fromStdString(retString);
+
+    return retString;
 }
