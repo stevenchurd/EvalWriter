@@ -9,7 +9,8 @@
 
 QEvaluationModel::QEvaluationModel(boost::shared_ptr<Eval> eval,
                  QObject* parent) :
-    QAbstractListModel(parent), m_eval(eval)
+    QAbstractListModel(parent), m_eval(eval),
+    m_tagReplacer(createTagReplacer(eval))
 {
 }
 
@@ -24,7 +25,8 @@ QString QEvaluationModel::getFullEvalText() const
 {
     std::stringstream ss;
     m_eval->getPrintableEvalString(ss);
-    return QString::fromStdString(ss.str());
+    std::string displayString = m_tagReplacer->performReplacement(ss.str());
+    return QString::fromStdString(displayString);
 }
 
 
@@ -65,8 +67,10 @@ QVariant QEvaluationModel::data(const QModelIndex &index, int role) const
     {
         case Qt::DisplayRole:
         case StringRole:
-            return QVariant::fromValue(
-                        QString::fromStdString(item->getItemStr()));
+        {
+            std::string displayString = m_tagReplacer->performReplacement(item->getItemStr());
+            return QVariant::fromValue(QString::fromStdString(displayString));
+        }
             break;
 
         case LevelRole:

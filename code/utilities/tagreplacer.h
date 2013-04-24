@@ -24,4 +24,8 @@ private:
 
 boost::shared_ptr<TagReplacer> createTagReplacer(boost::shared_ptr<Eval> eval);
 
+#ifdef _DEBUG
+void testTagReplacer(void);
+#endif
+
 #endif // TAGREPLACER_H

@@ -53,21 +53,10 @@ int main(int argc, char *argv[])
         // set up view with QML main
         QQuickView view;
 
-        std::string testString = TagStrings::studentFirstLastName + " " + TagStrings::studentMiddleName + " " +
-                TagStrings::studentLastName + " " + TagStrings::studentHimselfHerself + " " +
-                TagStrings::studentMrMsLastName + " " + TagStrings::studentFirstName;
-        qDebug() << QString::fromStdString(testString);
-        TagReplacer tagReplacer;
-        tagReplacer.addTag(TagStrings::studentFirstLastName, "John");
-        tagReplacer.addTag(TagStrings::studentMiddleName, "Wyatt");
-        tagReplacer.addTag(TagStrings::studentLastName, "Earp");
-        tagReplacer.addTag(TagStrings::studentHimselfHerself, "Him");
-        qDebug() << QString::fromStdString(tagReplacer.performReplacement(testString));
-
-
-
         // set context properties of view
         QQmlContext* context = view.rootContext();
+
+        testTagReplacer();
 
         QGenericListModel* coursesModel = new QCoursesListModel();
         QGenericListModel* studentsModel = new QStudentsListModel() ;
