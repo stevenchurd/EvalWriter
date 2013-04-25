@@ -1,14 +1,10 @@
 // (C) Copyright Steven Hurd 2013
 
 #include <QApplication>
-#include <QVector>
 #include <QQuickView>
 #include <QQmlContext>
-#include <QFileDialog>
-#include <QQmlEngine>
 #include <QQmlComponent>
-#include <QFont>
-#include <QFontDatabase>
+#include <QStandardPaths>
 
 #ifdef _DEBUG
 #include <QDebug>
@@ -33,9 +29,17 @@
 int main(int argc, char *argv[])
 {
     try {
-        PDM().loadFile("../testfiles/test6.ewd");
-
         QApplication a(argc, argv);
+
+        a.setApplicationName("EvalWriter");
+        QString applicationDataFile(QStandardPaths::locate(QStandardPaths::DataLocation,
+                                                           QString::fromStdString("/" + PersistentDataManager::saveFileName)));
+
+        if(!applicationDataFile.isEmpty())
+        {
+            PDM().loadFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation).toStdString(),
+                           PersistentDataManager::saveFileName);
+        }
 
         qmlRegisterUncreatableType<QCoursesListModel>("CppEnums", 1, 0, "QCoursesListModel", "Need enum types");
         qmlRegisterUncreatableType<QEvalSetsListModel>("CppEnums", 1, 0, "QEvalSetsListModel", "Need enum types");
@@ -79,6 +83,16 @@ int main(int argc, char *argv[])
 
     } catch(std::exception& e) {
         FileLogger::getInst()->log(e.what());
+
+        try {
+            //attempt to save the data as an alternate file, if this fails, do nothing
+            PDM().saveFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation).toStdString(),
+                           PersistentDataManager::crashFileName);
+        } catch(...) {
+            // log an error but otherwise do nothing
+            FileLogger::getInst()->log(std::string("FAILSAFE SAVE ERROR: ") + e.what());
+        }
+
         //rethrow
         throw;
     }

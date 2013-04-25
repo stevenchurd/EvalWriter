@@ -10,8 +10,10 @@
 #include "utilities/gradingcriteriapropertytreeparser.h"
 #include "utilities/studentpropertytreeparser.h"
 #include "utilities/evalsetpropertytreeparser.h"
+
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
+#include <boost/filesystem.hpp>
 
 #include <algorithm>
 
@@ -19,6 +21,13 @@
 #include "model/student.h"
 #include "model/gradingcriteria.h"
 #include "model/evalset.h"
+
+
+const std::string PersistentDataManager::saveFileName = "evaldata.ewd";
+const std::string PersistentDataManager::crashFileName = "~evaldata.bak";
+const std::string PersistentDataManager::initialWriteFileName = "evalLastWrite.bak";
+const std::string PersistentDataManager::lastReadFileName = "evalLastRead.bak";
+
 
 PersistentDataManager::PersistentDataManager()
 {
@@ -29,7 +38,12 @@ PersistentDataManager::~PersistentDataManager()
 {
     try
     {
-        saveFile("../testfiles/test7.ewd");
+        // if at any point a file was loaded or saved, we should have
+        // the path for saves.  If not, don't attempt a save
+        if(m_savepath.length() != 0)
+        {
+            saveFile(m_savepath, saveFileName);
+        }
     }
     catch(...)
     {
@@ -200,13 +214,14 @@ void PersistentDataManager::remove(std::vector<boost::shared_ptr<EvalSet> >::con
 // Load and save functions
 //
 
-void PersistentDataManager::loadFile(std::string filename)
+void PersistentDataManager::loadFile(std::string path, std::string filename)
 {
     boost::property_tree::ptree loadPt;
 
-    if(filename.length() != 0)
+    if(path.length() != 0 && filename.length() != 0)
     {
-        boost::property_tree::xml_parser::read_xml(filename, loadPt);
+        m_savepath = path;
+        boost::property_tree::xml_parser::read_xml(path + "/" + filename, loadPt);
 
         m_allCourses.clear();
         m_allGradingCriteria.clear();
@@ -232,15 +247,20 @@ void PersistentDataManager::loadFile(std::string filename)
                                   std::inserter(m_allEvalSets, m_allEvalSets.begin()),
                                   m_allStudents.cbegin(),
                                   m_allStudents.cend());
+
+        std::sort(m_allCourses.begin(), m_allCourses.end());
+        std::sort(m_allGradingCriteria.begin(), m_allGradingCriteria.end());
+        std::sort(m_allStudents.begin(), m_allStudents.end());
+        std::sort(m_allEvalSets.begin(), m_allEvalSets.end());
+
+        // set up the Uuid map after loading the data
+        setupUuidMap();
+
+        //assuming this all went well, copy the file as the last successful read file
+        boost::filesystem::copy_file(path + "/" + filename,
+                                     path + "/" + lastReadFileName,
+                                     boost::filesystem::copy_option::overwrite_if_exists);
     }
-
-    std::sort(m_allCourses.begin(), m_allCourses.end());
-    std::sort(m_allGradingCriteria.begin(), m_allGradingCriteria.end());
-    std::sort(m_allStudents.begin(), m_allStudents.end());
-    std::sort(m_allEvalSets.begin(), m_allEvalSets.end());
-
-    // set up the Uuid map after loading the data
-    setupUuidMap();
 }
 
 
@@ -279,13 +299,14 @@ void PersistentDataManager::setupUuidMap(void)
 }
 
 
-void PersistentDataManager::saveFile(std::string filename) const
+void PersistentDataManager::saveFile(std::string path, std::string filename)
 {
     std::ofstream file;
 
-    if(filename.size() != 0)
+    if(path.length() != 0 && filename.size() != 0)
     {
-        file.open(filename);
+        m_savepath = path;
+        file.open(path + "/" + initialWriteFileName);
 
         CourseSaveVisitor csv;
         std::for_each(m_allCourses.begin(), m_allCourses.end(),
@@ -320,6 +341,11 @@ void PersistentDataManager::saveFile(std::string filename) const
         esv.saveFile(file);
 
         file.close();
+
+        // assuming everything got here fine, copy and overwrite the last save
+        boost::filesystem::copy_file(path + "/" + initialWriteFileName,
+                                     path + "/" + filename,
+                                     boost::filesystem::copy_option::overwrite_if_exists);
     }
 }
 

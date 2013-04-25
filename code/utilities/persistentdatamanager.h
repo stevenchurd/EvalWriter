@@ -24,8 +24,13 @@ class PersistentDataManager : public QObject
 public:
     static PersistentDataManager& Instance(void);
 
-    void loadFile(std::string filename);
-    void saveFile(std::string filename) const;
+    static const std::string saveFileName;
+    static const std::string crashFileName;
+    static const std::string initialWriteFileName;
+    static const std::string lastReadFileName;
+
+    void loadFile(std::string path, std::string filename);
+    void saveFile(std::string path, std::string filename);
 
     std::vector<boost::shared_ptr<Student> >::const_iterator studentsBegin(void) const;
     std::vector<boost::shared_ptr<Student> >::const_iterator studentsEnd(void) const;
@@ -64,6 +69,8 @@ private:
 
     template <typename T, typename C>
     int add(T& item, C& container);
+
+    std::string m_savepath;
 
     std::vector<boost::shared_ptr<Student> > m_allStudents;
     std::vector<boost::shared_ptr<Course> > m_allCourses;
