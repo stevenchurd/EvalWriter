@@ -46,7 +46,7 @@ std::string TagReplacer::performReplacement(std::string origString) const
 
         if(tagSet != m_replacementTextMap.end())
         {
-            std::regex replaceExpWithCap("(([.:?!][ ][ ]?)|(^))" + tagSet->first);
+            std::regex replaceExpWithCap("(([.:?!][\\s][\\s]?)|(^))" + tagSet->first);
             std::regex replaceExpNoCap(tagSet->first);
 
             std::string capStr = tagSet->second;
