@@ -15,10 +15,8 @@
 #endif
 
 #include "mainwindow.h"
-#include "tagstrings.h"
 #include "utilities/filelogger.h"
 #include "utilities/persistentdatamanager.h"
-#include "utilities/tagreplacer.h"
 #include "model/course.h"
 #include "model/student.h"
 #include "model/gradingcriteria.h"
@@ -55,8 +53,6 @@ int main(int argc, char *argv[])
 
         // set context properties of view
         QQmlContext* context = view.rootContext();
-
-        testTagReplacer();
 
         QGenericListModel* coursesModel = new QCoursesListModel();
         QGenericListModel* studentsModel = new QStudentsListModel() ;

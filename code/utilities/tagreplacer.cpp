@@ -46,10 +46,13 @@ std::string TagReplacer::performReplacement(std::string origString) const
 
         if(tagSet != m_replacementTextMap.end())
         {
-            std::regex replaceExpWithCap("(?<=[.:?!]\\s)" + tagSet->first);
+            std::regex replaceExpWithCap("(([.:?!][ ][ ]?)|(^))" + tagSet->first);
             std::regex replaceExpNoCap(tagSet->first);
 
-            newString = std::regex_replace(newString, replaceExpWithCap, tagSet->second);
+            std::string capStr = tagSet->second;
+            capStr[0] = toupper(capStr[0]);
+
+            newString = std::regex_replace(newString, replaceExpWithCap, "$1" + capStr);
             newString = std::regex_replace(newString, replaceExpNoCap, tagSet->second);
         }
         else
@@ -107,6 +110,7 @@ boost::shared_ptr<TagReplacer> createTagReplacer(boost::shared_ptr<Eval> eval)
 #ifdef _DEBUG
 void testTagReplacer(void)
 {
+    std::string anotherTestString = "<Student_his_her> is a jerk: <Student_he_she> really needs to work on <Student_his_her> attitude.  <Student_him_her> is dumb.  What is <Student_his_her> problem?";
     std::string testString = TagStrings::studentFirstLastName + " " + TagStrings::studentMiddleName + " " +
             TagStrings::studentLastName + " " + TagStrings::studentHimselfHerself + " " +
             TagStrings::studentFirstName + TagStrings::studentFirstLastName;
@@ -115,8 +119,14 @@ void testTagReplacer(void)
     tagReplacer.addTag(TagStrings::studentFirstLastName, "John Earp");
     tagReplacer.addTag(TagStrings::studentMiddleName, "Wyatt");
     tagReplacer.addTag(TagStrings::studentLastName, "Earp");
-    tagReplacer.addTag(TagStrings::studentHimselfHerself, "Him");
-    qDebug() << QString::fromStdString(tagReplacer.performReplacement(testString));
+
+    tagReplacer.addTag(TagStrings::studentHimselfHerself, "him");
+    tagReplacer.addTag(TagStrings::studentHeShe, "he");
+    tagReplacer.addTag(TagStrings::studentHimHer, "him");
+    tagReplacer.addTag(TagStrings::studentHisHer, "his");
+
+    //qDebug() << QString::fromStdString(tagReplacer.performReplacement(testString));
+    qDebug() << QString::fromStdString(tagReplacer.performReplacement(anotherTestString));
 }
 
 #endif
