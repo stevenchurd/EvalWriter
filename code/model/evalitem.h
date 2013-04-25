@@ -6,71 +6,46 @@
 #include <string>
 #include <functional>
 #include "visitors/visitorelement.h"
+
 #include <boost/shared_ptr.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 class EvalItem : public VisitorElement
 {
 public:
-    typedef unsigned int ItemUniqueIdType ;
-
     /*
      * Constructors/destructor
      */
-    EvalItem(std::string str) : m_itemStr(str)
-    {
-        m_uniqueItemId = s_itemCounter++;
-    }
+    static const int INVALID_ITEM_LEVEL = -1;
 
+    EvalItem(std::string str, bool editable = false,
+             boost::uuids::uuid objUuid = boost::uuids::random_generator()());
     virtual ~EvalItem() {}
 
+    virtual std::string getItemTitleStr(void) const { return ""; }
+    virtual void setItemTitleStr(const std::string title){}
+
+    virtual int getItemLevel(void) const { return INVALID_ITEM_LEVEL; }
+    bool isItemEditable(void) const { return m_itemEditable; }
+
     std::string getItemStr(void) const { return m_itemStr; }
-    void setItemStr(std::string str) { m_itemStr = str; }
+    void setItemStr(const std::string str) { m_itemStr = str; }
 
-    ItemUniqueIdType getUniqueId(void) const { return m_uniqueItemId; }
+    std::string getUuid(void) const { return to_string(m_uuid); }
 
-    class hasId {
-        ItemUniqueIdType m_id;
-    public:
-        hasId(ItemUniqueIdType id) : m_id(id){}
-        bool operator()(const EvalItem& item) {
-            return (item.getUniqueId() == this->m_id);
-        }
-        bool operator()(const boost::shared_ptr<EvalItem>& item) {
-            return (item->getUniqueId() == this->m_id);
-        }
-    };
-
-protected:
-    std::string m_itemStr;
+    bool operator==(const EvalItem&) const;
 
 private:
-    static ItemUniqueIdType s_itemCounter ;
-    int m_uniqueItemId;
+    std::string m_itemStr;
+    bool m_itemEditable;
+
+    boost::uuids::uuid m_uuid;
 
     // disable copy constructor and assignment
     EvalItem(const EvalItem&);
     EvalItem& operator= (const EvalItem&);
 };
-
-
-/*
- * Predicate definitions
- */
-
-class findEvalItem
-{
-protected:
-    std::string m_itemName;
-
-public:
-    findEvalItem(std::string itemName) :
-        m_itemName(itemName) {}
-    virtual ~findEvalItem(){}
-    bool operator() (const EvalItem& evalItem) {
-        return (evalItem.getItemStr() == m_itemName);
-    }
-};
-
-
 
 #endif // EVALITEM_H

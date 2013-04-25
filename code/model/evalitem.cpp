@@ -2,4 +2,15 @@
 
 #include "evalitem.h"
 
-EvalItem::ItemUniqueIdType EvalItem::s_itemCounter = 0;
+EvalItem::EvalItem(std::string str, bool editable,
+                   boost::uuids::uuid objUuid) :
+    VisitorElement(),
+    m_itemEditable(editable), m_itemStr(str), m_uuid(objUuid)
+{
+}
+
+
+bool EvalItem::operator==(const EvalItem& rhs) const
+{
+    return (getUuid() == rhs.getUuid());
+}

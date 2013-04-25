@@ -1,5 +1,6 @@
 // (C) Copyright Steven Hurd 2013
 
+#if 0 //TODO: This is here for reference for now...remove later
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -65,3 +66,4 @@ public slots:
 };
 
 #endif // MAINWINDOW_H
+#endif

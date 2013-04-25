@@ -29,6 +29,13 @@ public:
     virtual ~ItemNotFoundException() {}
 };
 
+class DuplicateItemException : public std::runtime_error
+{
+public:
+    DuplicateItemException(std::string const& msg) : runtime_error(msg) {}
+    virtual ~DuplicateItemException() {}
+};
+
 
 class UnexpectedModelException : public std::runtime_error
 {
@@ -37,5 +44,12 @@ public:
     virtual ~UnexpectedModelException() {}
 };
 
+
+class GenericModelException : public std::runtime_error
+{
+public:
+    GenericModelException(std::string const& msg) : runtime_error(msg) {}
+    virtual ~GenericModelException() {}
+};
 
 #endif // EVALEXCEPTIONS_H

@@ -3,59 +3,90 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-#include <list>
-#include <boost/shared_ptr.hpp>
+#include <vector>
 #include "visitors/visitorelement.h"
-#include "visitors/visitor.h"
-#include "course.h"
-#include <boost/foreach.hpp>
+
+#include <boost/shared_ptr.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
 
 //forward declarations
 class Eval;
+class Visitor;
+class Course;
 
 class Student : public VisitorElement
 {
 public:
-    typedef unsigned int UniqueStudentId ;
+    /* enum types */
+    enum Gender { Female, Male };
 
     /*
      * Constructors/destructor
      */
-    Student(std::string firstName, std::string middleName, std::string lastName);
+    Student(std::string firstName, std::string middleName, std::string lastName,
+            Gender gender, boost::uuids::uuid objUuid = boost::uuids::random_generator()());
     virtual ~Student() {}
+
+
+    void updateName(std::string firstName, std::string middleName, std::string lastName);
+    void updateGender(Gender gender);
 
     std::string getFirstName(void) const { return m_firstName; }
     std::string getMiddleName(void) const { return m_middleName; }
-    std::string getLastName (void) const { return m_lastName; }
+    std::string getLastName(void) const { return m_lastName; }
+    std::string getDisplayName(void) const {
+        if(m_middleName.length() == 0)
+            return m_firstName + " " + m_lastName;
 
-    boost::shared_ptr<Eval> addEval(std::string evalName) ;
-    void addCourse(boost::shared_ptr<Course> course) ;
+        return m_firstName + " " + m_middleName + " " + m_lastName;
+    }
 
-    UniqueStudentId getUniqueId(void) { return m_id; }
+    Gender getGender() const { return m_gender; }
 
-    template <typename OutputIterator>
-    void getCourseNames(OutputIterator dest);
+    std::string getUuid(void) const { return to_string(m_uuid); }
 
-    template <typename OutputIterator>
-    void getEvals(OutputIterator dest);
+    /*
+     * Eval functions
+     */
+    unsigned int addEval(boost::shared_ptr<Eval> newEval) ;
+    unsigned int getNumEvals(void) { return static_cast<unsigned int>(m_evals.size()); }
+    std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin() const;
+    std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd() const;
+    bool getEvalById(std::string id, boost::shared_ptr<Eval>& eval) const;
+    void removeEval(std::vector<boost::shared_ptr<Eval> >::const_iterator it);
+
+    /*
+     * Course functions
+     */
+    std::vector<boost::shared_ptr<Course> >::const_iterator coursesBegin() const;
+    std::vector<boost::shared_ptr<Course> >::const_iterator coursesEnd() const;
+    unsigned int addCourse(boost::shared_ptr<Course> course);
+    void removeCourse(std::string uuid);
+    void removeCourse(std::vector<boost::shared_ptr<Course> >::const_iterator it);
+    bool isInCourse(boost::shared_ptr<Course> course) const;
 
     /*
      * VisitorElement functions
      */
-    void accept(Visitor& visitor) { visitor.visit(*this); }
+    void accept(Visitor& visitor);
     void acceptChildren(Visitor& visitor);
+
+    bool operator==(const Student&) const;
 
 private:
 
     std::string m_firstName ;
     std::string m_lastName ;
     std::string m_middleName ;
+    Gender m_gender;
 
-    std::list<boost::shared_ptr<Eval> > m_evals ;
-    std::list<boost::shared_ptr<Course> > m_courses ;
+    std::vector<boost::shared_ptr<Eval> > m_evals ;
+    std::vector<boost::shared_ptr<Course> > m_courses ;
 
-    UniqueStudentId m_id ;
-    static UniqueStudentId s_idCounter ;
+    boost::uuids::uuid m_uuid;
 
     // disable copy constructor and assignment
     Student(const Student&);
@@ -63,43 +94,6 @@ private:
 
 };
 
-
-template <typename OutputIterator>
-void Student::getCourseNames(OutputIterator dest)
-{
-    BOOST_FOREACH(boost::shared_ptr<Course> course, m_courses)
-    {
-        dest++ = course->getCourseName();
-    }
-}
-
-
-template <typename OutputIterator>
-void Student::getEvals(OutputIterator dest)
-{
-    BOOST_FOREACH(boost::shared_ptr<Eval> eval, m_evals)
-    {
-        dest++ = eval;
-    }
-}
-
-
-
-/*
- * Predicate definitions
- */
-
- class hasStudentName {
-     std::string m_fn, m_mn, m_ln;
- public:
-     hasStudentName(std::string fn, std::string mn, std::string ln) :
-         m_fn(fn), m_mn(mn), m_ln(ln) {}
-     bool operator()(const Student& student) {
-         return (m_fn.compare(student.getFirstName()) &&
-                 m_mn.compare(student.getMiddleName()) &&
-                 m_ln.compare(student.getLastName()));
-     }
- };
-
+bool operator<(const boost::shared_ptr<Student>& lhs, const boost::shared_ptr<Student>& rhs);
 
 #endif // STUDENT_H

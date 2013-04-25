@@ -4,51 +4,77 @@
 #define EVAL_H
 
 #include <boost/shared_ptr.hpp>
-#include <list>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
+#include <vector>
 #include <sstream>
 #include <iostream>
-#include "evalitem.h"
-#include "model/visitors/visitor.h"
+
 #include "model/visitors/visitorelement.h"
+
+class Visitor;
+class EvalItem;
 
 class Eval : public VisitorElement
 {
 public:
+    enum Progress { New, InProgress, Complete };
 
     /*
      * Constructors/destructor
      */
-    Eval(std::string evalName);
+    Eval(std::string evalName, Progress progress,
+         boost::uuids::uuid objUuid = boost::uuids::random_generator()());
+
     virtual ~Eval() {}
 
     std::string getEvalName(void) const { return m_evalName; }
+    void setEvalName(std::string name) { m_evalName = name; }
 
     void getPrintableEvalString(std::stringstream &ss) ;
 
     void addEvalItem(boost::shared_ptr<EvalItem> evalItem) ;
+    void addEvalItemAt(int index, boost::shared_ptr<EvalItem> evalItem);
+    void removeEvalItemAt(int index);
+    void moveEvalItem(int oldPosition, int newPosition) ;
+    void replaceEvalItem(boost::shared_ptr<EvalItem> newItem, std::string oldUuid);
 
-    void removeEvalItem(EvalItem::ItemUniqueIdType itemId) ;
+    unsigned int getNumEvalItems(void) { return static_cast<unsigned int>(m_evalItems.size()); }
 
-    void moveEvalItem(int oldPosition, int newPos) ;
+    boost::shared_ptr<EvalItem> getEvalItem(unsigned int index) const;
 
-    size_t getNumEvalItems(void) { return m_evalItems.size(); }
+    void setProgressCompleted(void) { m_progress = Complete; }
+    void setProgressInProgress(void) { m_progress = InProgress; }
+    Progress getProgress(void) const { return m_progress; }
+
+    std::string getUuid(void) const { return to_string(m_uuid); }
 
     /*
      * Visitor interface functions
      */
-    void accept(Visitor& visitor) { visitor.visit(*this); }
+    void accept(Visitor& visitor);
     void acceptChildren(Visitor& visitor);
+
+    bool operator==(const Eval&) const;
+
+#ifdef _DEBUG
+    void printItems(void);
+#endif
 
 private:
     std::string m_evalName;
+    Progress m_progress;
+    boost::uuids::uuid m_uuid;
 
-    std::list<boost::shared_ptr<EvalItem> > m_evalItems;
+    std::vector<boost::shared_ptr<EvalItem> > m_evalItems;
 
     // disable copy constructor and assignment
     Eval(const Eval&);
     Eval& operator= (const Eval&);
-
-
 };
+
+bool operator<(const boost::shared_ptr<Eval>& rhs, const boost::shared_ptr<Eval>& lhs);
 
 #endif // EVAL_H

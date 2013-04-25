@@ -16,6 +16,7 @@ class EvalItem;
 class GradingCriteria;
 class CriteriaItem;
 class CustomTextItem;
+class EvalSet;
 
 class Visitor
 {
@@ -51,6 +52,11 @@ public:
     virtual void visit(CustomTextItem& )
     {
         throw InvalidVisitorException("CustomTextItem visit not implemented in derived class");
+    }
+
+    virtual void visit(EvalSet& )
+    {
+        throw InvalidVisitorException("EvalSet visit not implemented in derived class");
     }
 };
 

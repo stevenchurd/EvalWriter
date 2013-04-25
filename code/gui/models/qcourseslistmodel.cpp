@@ -1,90 +1,259 @@
 // (C) Copyright Steven Hurd 2013
 
+#include <set>
+
 #include "qcourseslistmodel.h"
+#include "qstudentslistmodel.h"
+#include "utilities/persistentdatamanager.h"
+#include "qmainnavigationmodel.h"
 
-int QCoursesListModel::rowCount(const QModelIndex &) const
+#ifndef Q_MOC_RUN
+#include <boost/iterator/indirect_iterator.hpp>
+#endif
+
+QCoursesListModel::QCoursesListModel(QObject* parent) :
+    QGenericListModel(parent)
 {
-    return m_courses.size();
+    assert(QObject::connect(&PDM(), SIGNAL(courseDataChanged(std::string)),
+                            this, SLOT(onCourseDataChanged(std::string))));
 }
 
 
-QVariant QCoursesListModel::data(const QModelIndex &index, int role) const
+QCoursesListModel::QCoursesListModel(boost::shared_ptr<Student> student, QObject* parent) :
+    QGenericListModel(parent), m_student(student)
 {
-    if (!index.isValid())
-        return QVariant();
+    assert(QObject::connect(&PDM(), SIGNAL(courseDataChanged(std::string)),
+                            this, SLOT(onCourseDataChanged(std::string))));
+}
 
-    if (index.row() >= m_courses.size())
-        return QVariant();
 
-    if (role == Qt::DisplayRole || role == Qt::EditRole)
-        return QString::fromStdString(
-                    m_courses.at(index.row())->getCourseName());
+std::string QCoursesListModel::getItemString(int index) const
+{
+    if(m_student == nullptr)
+    {
+        return elementAt<Course>(PDM().coursesBegin(), index)->getCourseName();
+    }
     else
-        return QVariant();
+    {
+        return elementAt<Course>(m_student->coursesBegin(), index)->getCourseName();
+    }
 }
 
 
-QVariant QCoursesListModel::headerData(int section,
-                                       Qt::Orientation orientation,
-                                       int role) const
+int QCoursesListModel::getNumItems() const
 {
-    if (role != Qt::DisplayRole)
-          return QVariant();
-
-      if (orientation == Qt::Horizontal)
-          return QString("Column %1").arg(section);
-      else
-          return QString("Row %1").arg(section);
-}
-
-
-Qt::ItemFlags QCoursesListModel::flags(const QModelIndex &index) const
-{
-    Qt::ItemFlags defaultFlags = QAbstractListModel::flags(index);
-
-    if (index.isValid())
-        return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable | defaultFlags;
+    if(m_student == nullptr)
+    {
+        return std::distance(PDM().coursesBegin(),
+                             PDM().coursesEnd());
+    }
     else
-        return Qt::ItemIsDropEnabled | defaultFlags;
+    {
+        return std::distance(m_student->coursesBegin(),
+                             m_student->coursesEnd());
+    }
 }
 
 
-bool QCoursesListModel::setData(const QModelIndex &index, const QVariant &value,
-             int role)
+QAbstractItemModel* QCoursesListModel::getNextPageFromIndex(int index)
 {
-    if (index.isValid() && role == Qt::EditRole) {
+    if(m_student == nullptr)
+    {
+        return makeMainNavModel(elementAt<Course>(PDM().coursesBegin(), index));
+    }
+    else
+    {
+        return makeMainNavModel(elementAt<Course>(m_student->coursesBegin(), index));
+    }
+}
 
-        m_courses.at(index.row())->updateCourseName(value.toString().toStdString());
-        emit dataChanged(index, index);
-        return true;
+
+QList<int> QCoursesListModel::getSubModelOperations()
+{
+    QList<int> opList;
+
+    if(m_student == nullptr)
+    {
+        opList.push_back(AddCourse);
+        opList.push_back(RemoveCourse);
+        opList.push_back(RenameCourse);
+    }
+    else
+    {
+        opList.push_back(AddExistingCourseToStudent);
+        opList.push_back(RemoveExistingCourseFromStudent);
     }
 
-    return false;
+    return opList;
 }
 
 
-bool QCoursesListModel::insertRows(int row, int count, const QModelIndex &)
+QStringList QCoursesListModel::getOptionListForOperation(int operation)
 {
-    beginInsertRows(QModelIndex(), row, row+count);
+    QStringList optionsList;
 
-    for (int i = 0; i < count; ++i) {
-        boost::shared_ptr<Course> newCourse(new Course(""));
-        m_courses.insert(i, newCourse);
+    switch(operation)
+    {
+        case AddExistingCourseToStudent:
+        {
+            assert(m_student != nullptr);
+            std::vector<boost::shared_ptr<Course> > courses;
+            std::set<boost::shared_ptr<Course> > allCourses(PDM().coursesBegin(), PDM().coursesEnd());
+            std::set<boost::shared_ptr<Course> > studentCourses(m_student->coursesBegin(), m_student->coursesEnd());
+            std::set_difference(allCourses.begin(), allCourses.end(), studentCourses.begin(), studentCourses.end(),
+                                std::back_inserter(courses));
+            std::sort(courses.begin(), courses.end());
+            std::for_each(courses.begin(), courses.end(),
+                          [&courses, &optionsList] (boost::shared_ptr<Course> course)
+            {
+                optionsList.push_back(QString::fromStdString(course->getCourseName()));
+            });
+        }
+            break;
+
+        default:
+            // no other operation should have a list
+            assert(false);
+            break;
     }
 
+    return optionsList;
+}
+
+
+void QCoursesListModel::addItem(QString courseName)
+{
+    assert(m_student == nullptr);
+    boost::shared_ptr<Course> newCourse(new Course(courseName.toStdString()));
+
+    unsigned int newRow = insertLocation(newCourse, PDM().coursesBegin(), PDM().coursesEnd());
+    beginInsertRows(QModelIndex(), newRow, newRow);
+    PDM().add(newCourse);
     endInsertRows();
-    return true;
 }
 
 
-bool QCoursesListModel::removeRows(int row, int count, const QModelIndex &)
+void QCoursesListModel::removeItem(int row)
 {
-    beginRemoveRows(QModelIndex(), row, row+count);
+    beginRemoveRows(QModelIndex(), row, row);
 
-    for (int i = 0; i < count; ++i) {
-        m_courses.remove(i);
+    if(m_student == nullptr)
+    {
+        PDM().remove(iterAt<Course>(PDM().coursesBegin(), row));
+    }
+    else
+    {
+        m_student->removeCourse(iterAt<Course>(m_student->coursesBegin(), row));
     }
 
     endRemoveRows();
-    return true;
+}
+
+
+void QCoursesListModel::renameItem(QString newName, int row)
+{
+    assert(m_student == nullptr);
+    boost::shared_ptr<Course> course = elementAt<Course>(PDM().coursesBegin(), row);
+    course->updateCourseName(newName.toStdString());
+    emit PDM().courseDataChanged(course->getUuid());
+}
+
+
+void QCoursesListModel::optionListSelection(int operation, int row)
+{
+    switch(operation)
+    {
+        case AddExistingCourseToStudent:
+        {
+            assert(m_student != nullptr);
+            // perform the same actions that originally generated the courses list
+            // so that we can determine the selected course
+            std::vector<boost::shared_ptr<Course> > courses;
+            std::set<boost::shared_ptr<Course> > allCourses(PDM().coursesBegin(), PDM().coursesEnd());
+            std::set<boost::shared_ptr<Course> > studentCourses(m_student->coursesBegin(), m_student->coursesEnd());
+            std::set_difference(allCourses.begin(), allCourses.end(), studentCourses.begin(), studentCourses.end(),
+                                std::back_inserter(courses));
+            std::sort(courses.begin(), courses.end());
+
+            // now that we have the list, add the selected course to the student
+            if(row < static_cast<int>(courses.size()))
+            {
+                unsigned int newRow = insertLocation(courses[row],
+                                                     m_student->coursesBegin(),
+                                                     m_student->coursesEnd());
+                beginInsertRows(QModelIndex(), newRow, newRow);
+                m_student->addCourse(courses[row]);
+                endInsertRows();
+            }
+        }
+            break;
+
+        default:
+            // no other operation should have a list
+            assert(false);
+            break;
+    }
+}
+
+
+void QCoursesListModel::onCourseDataChanged(std::string uuid)
+{
+    auto coursesBegin = PDM().coursesBegin();
+    auto coursesEnd = PDM().coursesEnd();
+
+    if(m_student != nullptr)
+    {
+        coursesBegin = m_student->coursesBegin();
+        coursesEnd = m_student->coursesEnd();
+    }
+
+    int i = 0;
+    std::for_each(coursesBegin, coursesEnd,
+                  [&uuid, &i, this] (boost::shared_ptr<Course> course)
+    {
+        if(course->getUuid() == uuid)
+        {
+            emit dataChanged(index(i), index(i));
+        }
+        ++i;
+    });
+}
+
+
+QString QCoursesListModel::getOperationExplanationText(int operation, int row)
+{
+    switch(operation)
+    {
+        case AddCourse:
+            return QString("Enter the name of the class to add:");
+
+        case RemoveCourse:
+            if(row < 0) return QString();
+            return QString("Permanently remove the class \"" +
+                           QString::fromStdString(elementAt<Course>(PDM().coursesBegin(), row)->getCourseName()) +
+                           "\"?");
+
+        case RenameCourse:
+            if(row < 0) return QString();
+            return QString("Permanently rename the class \"" +
+                           QString::fromStdString(elementAt<Course>(PDM().coursesBegin(), row)->getCourseName()) +
+                           "\" to:");
+
+        case AddExistingCourseToStudent:
+            assert(m_student != nullptr);
+            return QString("Add " + QString::fromStdString(m_student->getDisplayName()) + " to the class:");
+
+        case RemoveExistingCourseFromStudent:
+            assert(m_student != nullptr);
+            if(row < 0) return QString();
+            return QString("Remove " + QString::fromStdString(m_student->getDisplayName()) + " from the class \"" +
+                           QString::fromStdString(elementAt<Course>(m_student->coursesBegin(), row)->getCourseName()) +
+                           "\"?");
+
+        default:
+            assert(false);
+            break;
+    }
+
+    return QString();
 }

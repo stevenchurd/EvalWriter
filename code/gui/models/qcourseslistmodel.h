@@ -3,41 +3,51 @@
 #ifndef QCOURSESLISTMODEL_H
 #define QCOURSESLISTMODEL_H
 
-#include <QAbstractListModel>
-#include <QVector>
+#include "qgenericlistmodel.h"
+#include "globalenums.h"
 
-#ifndef Q_MOC_RUN
-#include "model/course.h"
-#endif
+class Student;
 
-class QCoursesListModel : public QAbstractListModel
+class QCoursesListModel : public QGenericListModel
 {
     Q_OBJECT
+    Q_ENUMS(CoursesListOperations)
 
 public:
-    QCoursesListModel(QVector<boost::shared_ptr<Course> >& courses, QObject* parent = 0) :
-        QAbstractListModel(parent), m_courses(courses)
-    {
-    }
+    QCoursesListModel(QObject* parent = 0);
+    QCoursesListModel(boost::shared_ptr<Student> student, QObject* parent = 0);
 
     virtual ~QCoursesListModel() {}
 
+    enum CoursesListOperations {
+        AddCourse = ModelOperationRanges::CoursesListOperationsBegin,
+        RemoveCourse,
+        RenameCourse,
+        AddExistingCourseToStudent,
+        RemoveExistingCourseFromStudent,
 
-    /* virtual functions from QAbstractListModel */
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation,
-                        int role) const;
+        EndOfEnum
+    };
+    static_assert(EndOfEnum < ModelOperationRanges::CoursesListOperationsEnd,
+                  "Too many items in enumeration");
 
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool setData(const QModelIndex &index, const QVariant &value,
-                 int role = Qt::EditRole);
+public slots:
+    virtual void addItem(QString newName);
+    virtual void removeItem(int row);
+    virtual void renameItem(QString newName, int row);
+    virtual void optionListSelection(int operation, int row);
 
-    bool insertRows(int row, int count, const QModelIndex &parent);
-    bool removeRows(int row, int count, const QModelIndex &parent);
+    void onCourseDataChanged(std::string uuid);
 
 private:
-    QVector<boost::shared_ptr<Course> >& m_courses;
+    boost::shared_ptr<Student> m_student;
+
+    virtual QString getOperationExplanationText(int operation, int row);
+    virtual QStringList getOptionListForOperation(int operation);
+    virtual QAbstractItemModel* getNextPageFromIndex(int index);
+    virtual QList<int> getSubModelOperations();
+    virtual std::string getItemString(int index) const;
+    virtual int getNumItems() const;
 };
 
 #endif // QCOURSESLISTMODEL_H

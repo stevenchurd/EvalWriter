@@ -18,23 +18,23 @@ StudentSaveVisitor::StudentSaveVisitor() :
 
 void StudentSaveVisitor::visit(Student& student)
 {
-    std::list<std::string> courseNames;
     boost::property_tree::ptree newStudentNode;
 
-    // get all the student's course names
-    student.getCourseNames(inserter(courseNames, courseNames.begin()));
-
-    newStudentNode.put(studentFirstNameNode, student.getFirstName());
-    newStudentNode.put(studentMiddleNameNode, student.getMiddleName());
-    newStudentNode.put(studentLastNameNode, student.getLastName());
+    newStudentNode.put(xml_node_names::elementUuidNode, student.getUuid());
+    newStudentNode.put(xml_node_names::studentFirstNameNode, student.getFirstName());
+    newStudentNode.put(xml_node_names::studentMiddleNameNode, student.getMiddleName());
+    newStudentNode.put(xml_node_names::studentLastNameNode, student.getLastName());
+    newStudentNode.put(xml_node_names::studentGenderNode, student.getGender());
 
     student.acceptChildren(*this);
 
-    newStudentNode.add_child(studentCoursesNode, m_coursesPt);
-    newStudentNode.add_child(studentEvalsNode, m_evalsPt);
+    newStudentNode.add_child(xml_node_names::studentCoursesNode, m_coursesPt);
+    newStudentNode.add_child(xml_node_names::studentEvalsNode, m_evalsPt);
 
-    // add the new student to the full property tree
-    m_pt.add_child(studentRootNode + separator + singleStudentNode, newStudentNode);
+    // add the student to the full property tree
+    m_pt.add_child(xml_node_names::studentRootNode +
+                   xml_node_names::separator +
+                   xml_node_names::singleStudentNode, newStudentNode);
 
     m_coursesPt.clear();
     m_evalsPt.clear();
@@ -43,17 +43,21 @@ void StudentSaveVisitor::visit(Student& student)
 
 void StudentSaveVisitor::visit(Course& course)
 {
-    m_coursesPt.add(singleCourseNode, course.getCourseName());
+    boost::property_tree::ptree coursePt;
+    coursePt.add(xml_node_names::elementUuidNode, course.getUuid());
+    m_coursesPt.add_child(xml_node_names::singleCourseNode, coursePt);
 }
 
 
 void StudentSaveVisitor::visit(Eval& eval)
 {
-    m_evalItemsPt.add(elementNameNode, eval.getEvalName());
+    m_evalItemsPt.add(xml_node_names::elementUuidNode, eval.getUuid());
+    m_evalItemsPt.add(xml_node_names::elementNameNode, eval.getEvalName());
+    m_evalItemsPt.add(xml_node_names::evalProgressNode, eval.getProgress());
 
     eval.acceptChildren(*this);
 
-    m_evalsPt.add_child(singleEvalNode, m_evalItemsPt);
+    m_evalsPt.add_child(xml_node_names::singleEvalNode, m_evalItemsPt);
 
     m_evalItemsPt.clear();
 }
@@ -61,14 +65,22 @@ void StudentSaveVisitor::visit(Eval& eval)
 
 void StudentSaveVisitor::visit(CriteriaItem& ci)
 {
-    m_evalItemsPt.add(singleCriteriaItemNode + separator + elementValueNode, ci.getItemStr());
-    m_evalItemsPt.add(singleCriteriaItemNode + separator + criteriaItemParentItemNode, ci.getParentCriteriaName());
-    m_evalItemsPt.add(singleCriteriaItemNode + separator + criteriaItemLevelNode, ci.getCriteriaItemLevel());
+    boost::property_tree::ptree ciPt;
+
+    ciPt.add(xml_node_names::elementUuidNode, ci.getUuid());
+
+    m_evalItemsPt.add_child(xml_node_names::singleCriteriaItemNode, ciPt);
 }
 
 
 void StudentSaveVisitor::visit(CustomTextItem& ct)
 {
-    m_evalItemsPt.add(customTextItemNode + separator + elementValueNode, ct.getItemStr());
+    boost::property_tree::ptree ctPt;
+
+    ctPt.add(xml_node_names::elementUuidNode, ct.getUuid());
+    ctPt.add(xml_node_names::elementTitleNode, ct.getItemTitleStr());
+    ctPt.add(xml_node_names::elementValueNode, ct.getItemStr());
+
+    m_evalItemsPt.add_child(xml_node_names::customTextItemNode, ctPt);
 }
 

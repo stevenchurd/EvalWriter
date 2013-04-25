@@ -1,5 +1,6 @@
 // (C) Copyright Steven Hurd 2013
 
+#if 0 //TODO: This is here for reference for now...remove later
 #include "mainwindow.h"
 
 #include <QFileDialog>
@@ -13,6 +14,8 @@
 #include <QTreeView>
 #include <QMenuBar>
 #include <QHeaderView>
+#include <QQuickView>
+#include <QQmlContext>
 
 #include "utilities/coursespropertytreeparser.h"
 #include "utilities/gradingcriteriapropertytreeparser.h"
@@ -114,7 +117,6 @@ void MainWindow::loadFile()
 
         /* update data changed */
         setGradingCriteriaListView();
-//        setCoursesView();
     }
 }
 
@@ -122,7 +124,7 @@ void MainWindow::loadFile()
 void MainWindow::setCoursesView()
 {
     QListView* listView = new QListView(this);
-    QAbstractListModel* coursesModel = new QCoursesListModel(m_courses);
+//    QAbstractListModel* coursesModel = new QCoursesListModel(m_courses);
 
     listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     listView->setDragEnabled(true);
@@ -130,7 +132,7 @@ void MainWindow::setCoursesView()
     listView->setDropIndicatorShown(true);
     listView->setDragDropMode(QAbstractItemView::InternalMove);
 
-    listView->setModel(coursesModel);
+    //listView->setModel(coursesModel);
 
     connect(listView, SIGNAL(clicked(const QModelIndex&)),
             this, SLOT(courseSelected(const QModelIndex&)));
@@ -168,19 +170,15 @@ void MainWindow::setStudentsView(boost::shared_ptr<Course> course)
 
 void MainWindow::setGradingCriteriaListView()
 {
-    QTreeView* treeView = new QTreeView(this);
-    QAbstractItemDelegate* itemDelegate = new QExpandableItemDelegate(treeView);
-    new QExpandableDelegateHelper(treeView);
-    QAbstractItemModel* gcModel = new QGradingCriteriaModel(m_gradingCriteria);
-    QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
+#if 0
+    QGradingCriteriaModel gcModel(m_gradingCriteria, m_students);
+    QQuickView view(QUrl::fromLocalFile("../EvalWriter/code/gui/qml/main.qml"));
+    QQmlContext* context = view.rootContext();
+    view.setResizeMode(QQuickView::SizeRootObjectToView);
+    context->setContextProperty("gradingCriteriaModel", &gcModel);
 
-    proxyModel->setSourceModel(gcModel);
-    proxyModel->sort(0);
-    treeView->setModel(proxyModel);
-    treeView->setItemDelegate(itemDelegate);
-    treeView->setAnimated(true);
-
-    setCentralWidget(treeView);
+    //setCentralWidget(view);
+#endif
 }
 
 
@@ -292,3 +290,4 @@ void MainWindow::studentSelected(const QModelIndex & index)
     }
 }
 
+#endif

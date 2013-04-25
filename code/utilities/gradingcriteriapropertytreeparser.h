@@ -4,8 +4,13 @@
 #define GRADINGCRITERIAPROPERTYTREEPARSER_H
 
 #include <boost/property_tree/ptree.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/string_generator.hpp>
 #include <boost/foreach.hpp>
+
 #include "xmlnodenames.h"
+#include "model/criteriaitem.h"
+#include "model/gradingcriteria.h"
 
 class GradingCriteriaPropertyTreeParser
 {
@@ -30,11 +35,15 @@ void GradingCriteriaPropertyTreeParser::parseTree(
         boost::property_tree::ptree& pt,
         OutputIterator& dest)
 {
+    // if the tree is empty, just return
+    if(pt.empty() || pt.get_child_optional(xml_node_names::gradingCriteriaRootNode) == nullptr)
+        return;
+
     BOOST_FOREACH(const boost::property_tree::ptree::value_type &v,
-                  pt.get_child(gradingCriteriaRootNode))
+                  pt.get_child(xml_node_names::gradingCriteriaRootNode))
     {
         // v.first is the name of the child.
-        if(v.first != singleGradingCriteriaNode)
+        if(v.first != xml_node_names::singleGradingCriteriaNode)
         {
             throw InvalidXmlException(
                     std::string("Expected gradingCriteria node: ") + v.first);
@@ -52,39 +61,52 @@ void GradingCriteriaPropertyTreeParser::parseGradingCriteriaNode(
         boost::property_tree::ptree& pt, OutputIterator& dest)
 {
     std::string gcName;
+    boost::uuids::uuid gcUuid;
+    boost::uuids::string_generator gen;
 
     try{
-        gcName = pt.get<std::string>(elementNameNode);
+        gcName = pt.get<std::string>(xml_node_names::elementNameNode);
+        gcUuid = gen(pt.get<std::string>(xml_node_names::elementUuidNode));
     } catch(boost::property_tree::ptree_error& pte) {
         throw InvalidXmlException(
-                    std::string("No name element found: ") + pte.what());
+                    std::string("Element not found: ") + pte.what());
     }
 
-    boost::shared_ptr<GradingCriteria> gc(new GradingCriteria(gcName));
+    boost::shared_ptr<GradingCriteria> gc(new GradingCriteria(gcName, gcUuid));
 
     for (boost::property_tree::ptree::const_iterator it = pt.begin(); it != pt.end(); ++it)
     {
         std::string itemName;
         CriteriaItem::CriteriaItemLevelType itemLevel;
+        boost::uuids::uuid itemUuid;
+        boost::uuids::string_generator gen;
 
-        if(it->first != singleCriteriaItemNode && it->first != elementNameNode)
+        // check the keys to make sure this is XML that we are expecting
+        if(it->first != xml_node_names::singleCriteriaItemNode &&
+                it->first != xml_node_names::elementNameNode &&
+                it->first != xml_node_names::elementUuidNode)
         {
             throw InvalidXmlException(
-                        std::string("Expected criteria item node: ") + it->first);
+                        std::string("Unexpected key under gradingCriteria node: ") + it->first);
         }
 
-        if(it->first == singleCriteriaItemNode)
+        if(it->first == xml_node_names::singleCriteriaItemNode)
         {
             try {
-                itemName = it->second.get<std::string>(elementNameNode);
+                itemName = it->second.get<std::string>(xml_node_names::elementNameNode);
                 itemLevel = static_cast<CriteriaItem::CriteriaItemLevelType>(
-                            it->second.get<unsigned int>(criteriaItemLevelNode));
+                            it->second.get<unsigned int>(xml_node_names::criteriaItemLevelNode));
+                itemUuid = gen(it->second.get<std::string>(xml_node_names::elementUuidNode));
             } catch(boost::property_tree::ptree_error& pte) {
                 throw InvalidXmlException(
                             std::string("Element not found: ") + pte.what());
             }
 
-            gc->addCriteriaItem(itemName, itemLevel);
+            boost::shared_ptr<CriteriaItem> ci(new CriteriaItem(gc->getCriteriaName(),
+                                                                itemName,
+                                                                itemLevel,
+                                                                itemUuid));
+            gc->addCriteriaItem(ci);
         }
     }
 

@@ -5,7 +5,12 @@
 
 #include <string>
 #include "evalitem.h"
-#include "model/visitors/visitor.h"
+
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
+class Visitor;
 
 class CriteriaItem : public EvalItem
 {
@@ -17,9 +22,14 @@ public:
         BELOW_AVERAGE,
         POOR
     };
+    static_assert(INVALID_ITEM_LEVEL != EXCELLENT, "INVALID_ITEM_LEVEL must not be the same as the first enum value.");
 
+    CriteriaItem(std::string parentName, std::string itemStr, CriteriaItemLevelType level,
+                 boost::uuids::uuid objUuid = boost::uuids::random_generator()());
 
-    CriteriaItem(std::string parentName, std::string itemStr, CriteriaItemLevelType level);
+    // virtual override functions
+    virtual std::string getItemTitleStr(void) const override { return getParentCriteriaName(); }
+    virtual int getItemLevel(void) const override { return getCriteriaItemLevel(); }
 
     std::string getParentCriteriaName(void) const { return m_parentCriteriaName; }
 
@@ -29,7 +39,7 @@ public:
     /*
      * VisitorElement functions
      */
-    void accept(Visitor& visitor) { visitor.visit(*this); }
+    void accept(Visitor& visitor);
 
 private:
     std::string m_parentCriteriaName;
@@ -43,35 +53,6 @@ private:
 };
 
 
-/*
- * Predicate definitions
- */
-
-class findCriteriaItem : public findEvalItem
-{
-protected:
-    std::string m_parentName;
-    CriteriaItem::CriteriaItemLevelType m_level;
-
-public:
-    findCriteriaItem(std::string itemName, std::string parentName,
-                 CriteriaItem::CriteriaItemLevelType level) :
-        findEvalItem(itemName), m_parentName(parentName), m_level(level) {}
-    virtual ~findCriteriaItem() {}
-
-    bool operator() (const CriteriaItem& criteriaItem) {
-        return (criteriaItem.getItemStr() == m_itemName &&
-                criteriaItem.getParentCriteriaName() == m_parentName &&
-                criteriaItem.getCriteriaItemLevel() == m_level);
-    }
-
-    bool operator() (const boost::shared_ptr<CriteriaItem>& criteriaItem) {
-        return (criteriaItem->getItemStr() == m_itemName &&
-                criteriaItem->getParentCriteriaName() == m_parentName &&
-                criteriaItem->getCriteriaItemLevel() == m_level);
-    }
-};
-
-
+bool operator<(const boost::shared_ptr<CriteriaItem>& rhs, const boost::shared_ptr<CriteriaItem>& lhs);
 
 #endif // CRITERIAITEM_H
