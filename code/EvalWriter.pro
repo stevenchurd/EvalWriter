@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     utilities/persistentdatamanager.cpp \
     model/visitors/evalsetsavevisitor.cpp \
     utilities/evalsetpropertytreeparser.cpp \
-    model/visitors/removeevalvisitor.cpp
+    model/visitors/removeevalvisitor.cpp \
+    utilities/tagreplacer.cpp
 
 HEADERS  += mainwindow.h \
     evalexceptions.h \
@@ -78,7 +79,9 @@ HEADERS  += mainwindow.h \
     utilities/evalsetpropertytreeparser.h \
     model/visitors/removeevalvisitor.h \
     globalenums.h \
-    model/visitors/containerinsertvisitor.h
+    model/visitors/containerinsertvisitor.h \
+    utilities/tagreplacer.h \
+    tagstrings.h
 
 FORMS    +=
 

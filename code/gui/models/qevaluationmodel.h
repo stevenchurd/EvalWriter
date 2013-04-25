@@ -5,6 +5,7 @@
 
 #include <QAbstractListModel>
 #include "globalenums.h"
+#include "utilities/tagreplacer.h"
 
 #ifndef Q_MOC_RUN
 #include <boost/shared_ptr.hpp>
@@ -68,6 +69,7 @@ public slots:
 
 private:
     boost::shared_ptr<Eval> m_eval;
+    boost::shared_ptr<TagReplacer> m_tagReplacer;
     std::list<int> m_selected;
 };
 
