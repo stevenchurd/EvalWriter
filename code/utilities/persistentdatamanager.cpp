@@ -217,10 +217,11 @@ void PersistentDataManager::remove(std::vector<boost::shared_ptr<EvalSet> >::con
 void PersistentDataManager::loadFile(std::string path, std::string filename)
 {
     boost::property_tree::ptree loadPt;
+    m_savepath = path;
 
-    if(path.length() != 0 && filename.length() != 0)
+    if(path.length() != 0 && filename.length() != 0 &&
+            boost::filesystem::exists(path + "/" + filename))
     {
-        m_savepath = path;
         boost::property_tree::xml_parser::read_xml(path + "/" + filename, loadPt);
 
         m_allCourses.clear();
@@ -302,10 +303,10 @@ void PersistentDataManager::setupUuidMap(void)
 void PersistentDataManager::saveFile(std::string path, std::string filename)
 {
     std::ofstream file;
+    m_savepath = path;
 
     if(path.length() != 0 && filename.size() != 0)
     {
-        m_savepath = path;
         file.open(path + "/" + initialWriteFileName);
 
         CourseSaveVisitor csv;

@@ -32,14 +32,9 @@ int main(int argc, char *argv[])
         QApplication a(argc, argv);
 
         a.setApplicationName("EvalWriter");
-        QString applicationDataFile(QStandardPaths::locate(QStandardPaths::DataLocation,
-                                                           QString::fromStdString("/" + PersistentDataManager::saveFileName)));
 
-        if(!applicationDataFile.isEmpty())
-        {
-            PDM().loadFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation).toStdString(),
-                           PersistentDataManager::saveFileName);
-        }
+        PDM().loadFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation).toStdString(),
+                       PersistentDataManager::saveFileName);
 
         qmlRegisterUncreatableType<QCoursesListModel>("CppEnums", 1, 0, "QCoursesListModel", "Need enum types");
         qmlRegisterUncreatableType<QEvalSetsListModel>("CppEnums", 1, 0, "QEvalSetsListModel", "Need enum types");
