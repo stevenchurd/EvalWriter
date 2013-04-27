@@ -85,6 +85,7 @@ int QEvalSetsListModel::getProgressIndicator(int row) const
         evalSet = elementAt<EvalSet>(PDM().evalSetsBegin(), row);
     }
 
+
     // for each eval in the eval set, see what it's progress is.
     std::for_each(evalSet->evalsBegin(), evalSet->evalsEnd(),
                   [&minProgress, &maxProgress] (boost::shared_ptr<Eval> eval)
@@ -101,7 +102,9 @@ int QEvalSetsListModel::getProgressIndicator(int row) const
     if(minProgress == maxProgress)
         return minProgress;
     else if(minProgress < maxProgress)
-        return Eval::InProgress;
+        return EvalSetInProgress;
+    else if(minProgress > maxProgress)
+        return EvalSetEmpty;
 
     return -1;
 }

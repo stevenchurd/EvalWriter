@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import "pageCreator.js" as PageCreator
 import ModelTypeEnums 1.0
+import CppEnums 1.0
 
 Rectangle {
     id: wrapper
@@ -35,27 +36,47 @@ Rectangle {
         anchors.fill: parent
 
         Rectangle {
-            id: progressIndicator
-            width: 5
+            id: highlight
+            width: 2
             height: parent.height
+            color: "#33AAEE"
+        }
+
+        Text {
+            id: listItemText
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: highlight.right
+            anchors.leftMargin: 5
             anchors.rightMargin: 5
+            renderType: Text.NativeRendering
+            text: displayString
+        }
+
+        IconButton {
+            id: progressIndicator
+            height: parent.height
+
+            anchors.leftMargin: 5
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: listItemText.right
+
+            icon: "\uf058"
+            pressableIcon: false
+
+            hoverText: (modelType === QGenericListModel.EvaluationList ||
+                        modelType === QGenericListModel.EvalSetList) ?
+                           mapProgressIndicatorToHoverText(progressLevel) :
+                           ""
 
             visible: (modelType === QGenericListModel.EvaluationList ||
                       modelType === QGenericListModel.EvalSetList)
 
-            color: (modelType === QGenericListModel.EvaluationList ||
-                    modelType === QGenericListModel.EvalSetList) ?
-                       mapProgressIndicatorToColor(progressLevel) :
-                       "transparent"
+            iconColor: (modelType === QGenericListModel.EvaluationList ||
+                        modelType === QGenericListModel.EvalSetList) ?
+                           mapProgressIndicatorToColor(progressLevel) :
+                           "transparent"
         }
 
-        Text {
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left:  progressIndicator.right
-            anchors.leftMargin: 5
-            renderType: Text.NativeRendering
-            text: displayString
-        }
 
         MouseArea {
             id: arrowMouseArea
@@ -90,18 +111,43 @@ Rectangle {
     {
         switch(progressLevel)
         {
-        case 0:
+        case QEvalSetsListModel.EvalSetNew:
             return "red"
 
-        case 1:
+        case QEvalSetsListModel.EvalSetInProgress:
             return "yellow"
 
-        case 2:
+        case QEvalSetsListModel.EvalSetComplete:
             return "green"
+
+        case QEvalSetsListModel.EvalSetEmpty:
+            return "#888888"
 
         default:
             console.log("Error: progressLevel not expected: " + progressLevel)
             return "transparent"
+        }
+    }
+
+    function mapProgressIndicatorToHoverText(progressLevel)
+    {
+        switch(progressLevel)
+        {
+        case QEvalSetsListModel.EvalSetNew:
+            return "New"
+
+        case QEvalSetsListModel.EvalSetInProgress:
+            return "In Progress"
+
+        case QEvalSetsListModel.EvalSetComplete:
+            return "Complete"
+
+        case QEvalSetsListModel.EvalSetEmpty:
+            return "No evals added"
+
+        default:
+            console.log("Error: progressLevel not expected: " + progressLevel)
+            return ""
         }
     }
 }

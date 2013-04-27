@@ -40,6 +40,13 @@ Rectangle {
             }
         }
 
+        Rectangle {
+            id: highlight
+            width: parent.width
+            height: 1
+            color: wrapper.ListView.isCurrentItem ? "#33AAEE" : "transparent"
+        }
+
         GradingCriteriaRow {
             id: gcRow
             text: gradingCriteriaString + " (" + numCriteriaItems + ")"

@@ -4,7 +4,6 @@ Dialog {
     property string startingText
     property string explanationText
     property int currentLevel
-    property int textInputWidth: 300
     property int textInputHeight: 100
     property bool isModifyVisible: true
 
@@ -24,7 +23,7 @@ Dialog {
             }
 
             Rectangle {
-                width: textInputWidth
+                width: parent.width
                 height: textInputHeight
                 border.color: "black"
                 clip: true

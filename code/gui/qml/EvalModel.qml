@@ -7,7 +7,7 @@ Item {
     property var evalModel
 
     anchors.fill: parent
-    anchors.margins: 5
+    anchors.margins: 10
 
     Rectangle {
         id: headerItem
@@ -63,6 +63,20 @@ Item {
             hoverText: "Large Item View"
             onClicked: currentViewType = "largeDelegateView"
         }
+
+        IconButton {
+            id: copyText
+            anchors.right: largeDelegateViewButton.left
+            anchors.bottom: parent.bottom
+            icon: "\uf0c5"
+            hoverText: "Copy Text"
+            onClicked: {
+                evTxt.selectAll()
+                evTxt.copy()
+                evTxt.deselect()
+            }
+            visible: currentViewType == "textOnlyView"
+        }
     }
 
     DropArea {
@@ -104,24 +118,27 @@ Item {
         id: evalTextView
 
         contentWidth: width;
-        contentHeight: childrenRect.height
+        contentHeight: evTxt.contentHeight
 
         clip: true
 
         anchors.top: headerItem.bottom
-        anchors.margins: 20
+        anchors.margins: 5
         height: parent.height - headerItem.height
         width: wrapper.width - (scrollbar.width + 5)
         visible: (currentViewType === "textOnlyView")
 
-        Text {
+        TextEdit {
             id: evTxt
+            height: wrapper.height
             width: wrapper.width - (scrollbar.width + 5)
+            anchors.margins: 5
 
             text: evalModel.getFullEvalText()
-            wrapMode:Text.WordWrap
-            renderType: Text.NativeRendering
+            wrapMode:TextEdit.WordWrap
+            renderType: TextEdit.NativeRendering
             font.pointSize: 12
+            readOnly: true
         }
 
         function updateEvalText() { evTxt.text = evalModel.getFullEvalText() }

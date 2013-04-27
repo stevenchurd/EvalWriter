@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/Files">
-        <file>arrowdown.png</file>
-        <file>arrowright.png</file>
         <file>fontawesome-webfont.ttf</file>
     </qresource>
 </RCC>

@@ -7,18 +7,30 @@
 #include "qgenericlistmodel.h"
 #include "globalenums.h"
 
+#ifndef Q_MOC_RUN
+#include "model/eval.h"
+#endif
+
 class EvalSet;
 
 class QEvalSetsListModel : public QGenericListModel
 {
     Q_OBJECT
     Q_ENUMS(EvalSetsListOperations)
+    Q_ENUMS(EvalSetsProgressLevels)
 
 public:
     QEvalSetsListModel(QObject* parent = 0);
     QEvalSetsListModel(boost::shared_ptr<EvalSet> evalSet, QObject* parent = 0);
 
     virtual ~QEvalSetsListModel() {}
+
+    enum EvalSetsProgressLevels {
+        EvalSetNew = Eval::New,
+        EvalSetInProgress = Eval::InProgress,
+        EvalSetComplete = Eval::Complete,
+        EvalSetEmpty
+    };
 
     enum EvalSetsListOperations {
         AddEvalSet = ModelOperationRanges::EvalSetsListOperationsBegin,

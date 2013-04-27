@@ -8,6 +8,9 @@ Rectangle {
     property alias size: label.font.pointSize
     property string hoverText
 
+    property bool pressableIcon: true
+    property color iconColor
+
     signal clicked
 
     width: label.width + 10
@@ -20,10 +23,14 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
 
-        onEntered: { container.state = "mouseIn" }
+        onEntered: {
+            if(pressableIcon)
+                container.state = "mouseIn"
+        }
 
         onExited: {
-            container.state = "mouseOut"
+            if(pressableIcon)
+                container.state = "mouseOut"
             if(hoverText.length > 0)
                 HoverText.destroyHoverText()
         }
@@ -42,6 +49,7 @@ Rectangle {
         font.family: fontAwesome.name
         font.pointSize: 14
         wrapMode: Text.WordWrap
+        color: (pressableIcon) ? "#555555" : iconColor
     }
 
     states: [
@@ -51,11 +59,11 @@ Rectangle {
         },
         State {
             name: "mouseOut"
-            PropertyChanges { target: label; color: "black" }
+            PropertyChanges { target: label; color: "#555555" }
         },
         State {
             name: "pressed"
-            when: mouseArea.pressed
+            when: pressableIcon && mouseArea.pressed
             PropertyChanges { target: label; color: "#33CCEE" }
         }
     ]

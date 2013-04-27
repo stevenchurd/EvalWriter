@@ -28,18 +28,20 @@ Rectangle {
 
         width: parent.width
 
-        Image {
+        IconButton {
             id: openArrow
 
             anchors.verticalCenter: parent.verticalCenter
-            source: { (expanded) ? "qrc:Files/arrowdown.png" : "qrc:Files/arrowright.png" }
+            icon: (expanded) ? "\uf0d7" : "\uf0da"
             opacity: { (expandable) ? 1 : 0 }
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: expandClicked()
-                enabled: { (expandable) ? 1: 0 }
+            onClicked: {
+                expandClicked()
+                addButton.state = "mouseOut"
+                modifyButton.state = "mouseOut"
+                deleteButton.state = "mouseOut"
             }
+            enabled: { (expandable) ? 1: 0 }
         }
 
         Text {
@@ -54,7 +56,7 @@ Rectangle {
             id: addButton
             icon: "\uf067"
             hoverText: "Add Item"
-            anchors.top: parent.top
+            anchors.verticalCenter: parent.verticalCenter
             visible: buttonsVisible
             onClicked: {
                 wizardContent.sourceComponent = addCriteriaItemDialog
@@ -66,7 +68,7 @@ Rectangle {
             id: modifyButton
             icon: "\uf040"
             hoverText: "Modify"
-            anchors.top: parent.top
+            anchors.verticalCenter: parent.verticalCenter
             visible: buttonsVisible
             onClicked: {
                 wizardContent.sourceComponent = modifyGradingCriteriaDialog
@@ -78,7 +80,7 @@ Rectangle {
             id: deleteButton
             icon: "\uf014"
             hoverText: "Delete"
-            anchors.top: parent.top
+            anchors.verticalCenter: parent.verticalCenter
             visible: buttonsVisible
             onClicked: {
                 wizardContent.sourceComponent = isDeleteGradingCriteriaOkDialog
@@ -124,6 +126,15 @@ Rectangle {
         CriteriaItemEditDialog {
             id: dialog
             isModifyVisible: false
+            explanationText: "Add grading criteria item.  Use the following tags to automatically insert text in Evaluations:\n" +
+                             "<Student_First_Name> = Student's first name\n" +
+                             "<Student_Middle_Name> = Student's middle name\n" +
+                             "<Student_Last_Name> = Student's last name\n" +
+                             "<Student_First_Last_Name> = Student's first and last name (e.g. John Smith)\n" +
+                             "<Student_he_she> = either \"he\" or \"she\" based on gender\n" +
+                             "<Student_his_her> = either \"his\" or \"her\" based on gender\n" +
+                             "<Student_him_her> = either \"him\" or \"her\" based on gender\n" +
+                             "<Student_himself_herself> = either \"himself\" or \"herself\" based on gender";
 
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)

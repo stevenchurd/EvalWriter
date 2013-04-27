@@ -20,7 +20,7 @@ Rectangle {
     signal itemClicked(int index)
 
     height: criteriaText.height + 5
-    color: (isSelected) ? "lightsteelblue" : "transparent"
+    color: (isSelected) ? "#EEEEEE" : "transparent"
     clip: true
 
     MouseArea {
@@ -66,17 +66,16 @@ Rectangle {
 
         Rectangle {
             id: levelIndicator
-            width: 7
+            width: 3
             height: rowContainer.height
             anchors.verticalCenter: rowContainer.verticalCenter
-
-            border.color: "black"
             color: JsUtil.getEvalItemColor(criteriaLevelValue)
         }
 
         Text {
             id: criteriaText
             width: calculateTextWidth()
+            anchors.verticalCenter: parent.verticalCenter
 
             font.pointSize: 10
             wrapMode: Text.WordWrap
