@@ -24,10 +24,10 @@
 #include <QDir>
 
 
-const std::string PersistentDataManager::saveFileName = "evaldata.ewd";
-const std::string PersistentDataManager::crashFileName = "~evaldata.bak";
-const std::string PersistentDataManager::initialWriteFileName = "evalLastWrite.bak";
-const std::string PersistentDataManager::lastReadFileName = "evalLastRead.bak";
+const std::string PersistentDataManager::s_saveFileName = "evaldata.ewd";
+const std::string PersistentDataManager::s_crashFileName = "~evaldata.bak";
+const std::string PersistentDataManager::s_initialWriteFileName = "evalLastWrite.bak";
+const std::string PersistentDataManager::s_lastReadFileName = "evalLastRead.bak";
 
 
 PersistentDataManager::PersistentDataManager()
@@ -43,7 +43,7 @@ PersistentDataManager::~PersistentDataManager()
         // the path for saves.  If not, don't attempt a save
         if(m_savepath.length() != 0)
         {
-            saveFile(m_savepath, saveFileName);
+            saveFile(m_savepath, s_saveFileName);
         }
     }
     catch(...)
@@ -260,12 +260,12 @@ void PersistentDataManager::loadFile(std::string path, std::string filename)
         // set up the Uuid map after loading the data
         setupUuidMap();
 
-        QFile oldFile(QString::fromStdString(path + "/" + lastReadFileName));
+        QFile oldFile(QString::fromStdString(path + "/" + s_lastReadFileName));
         oldFile.remove();
 
         //assuming this all went well, copy the file as the last successful read file
         assert(QFile::copy(QString::fromStdString(path + "/" + filename),
-                           QString::fromStdString(path + "/" + lastReadFileName)));
+                           QString::fromStdString(path + "/" + s_lastReadFileName)));
     }
 }
 
@@ -319,7 +319,7 @@ void PersistentDataManager::saveFile(std::string path, std::string filename)
             directory.mkpath(QString::fromStdString(path));
         }
 
-        file.open(path + "\\" + initialWriteFileName);
+        file.open(path + "\\" + s_initialWriteFileName);
 
         CourseSaveVisitor csv;
         std::for_each(m_allCourses.begin(), m_allCourses.end(),
@@ -359,7 +359,7 @@ void PersistentDataManager::saveFile(std::string path, std::string filename)
         oldFile.remove();
 
         // assuming everything got here fine, copy and overwrite the last save
-        assert(QFile::copy(QString::fromStdString(path + "/" + initialWriteFileName),
+        assert(QFile::copy(QString::fromStdString(path + "/" + s_initialWriteFileName),
                            QString::fromStdString(path + "/" + filename)));
     }
 }

@@ -24,10 +24,10 @@ class PersistentDataManager : public QObject
 public:
     static PersistentDataManager& Instance(void);
 
-    static const std::string saveFileName;
-    static const std::string crashFileName;
-    static const std::string initialWriteFileName;
-    static const std::string lastReadFileName;
+    static const std::string s_saveFileName;
+    static const std::string s_crashFileName;
+    static const std::string s_initialWriteFileName;
+    static const std::string s_lastReadFileName;
 
     void loadFile(std::string path, std::string filename);
     void saveFile(std::string path, std::string filename);
