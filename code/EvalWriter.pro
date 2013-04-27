@@ -10,7 +10,6 @@ TARGET = EvalWriter
 TEMPLATE = app
 
 DEFINES += _SCL_SECURE_NO_WARNINGS
-LIBS += -L$$(BOOST_INCLUDE_PATH)stage/lib -llibboost_filesystem-vc100-mt-gd-1_53
 
 SOURCES += main.cpp\
     mainwindow.cpp \

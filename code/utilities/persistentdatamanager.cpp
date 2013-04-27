@@ -13,7 +13,6 @@
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
-#include <boost/filesystem.hpp>
 
 #include <algorithm>
 
@@ -21,6 +20,8 @@
 #include "model/student.h"
 #include "model/gradingcriteria.h"
 #include "model/evalset.h"
+
+#include <QDir>
 
 
 const std::string PersistentDataManager::saveFileName = "evaldata.ewd";
@@ -217,10 +218,12 @@ void PersistentDataManager::remove(std::vector<boost::shared_ptr<EvalSet> >::con
 void PersistentDataManager::loadFile(std::string path, std::string filename)
 {
     boost::property_tree::ptree loadPt;
+    QDir dir(QString::fromStdString(path));
+
     m_savepath = path;
 
     if(path.length() != 0 && filename.length() != 0 &&
-            boost::filesystem::exists(path + "/" + filename))
+            dir.exists())
     {
         boost::property_tree::xml_parser::read_xml(path + "/" + filename, loadPt);
 
@@ -257,10 +260,12 @@ void PersistentDataManager::loadFile(std::string path, std::string filename)
         // set up the Uuid map after loading the data
         setupUuidMap();
 
+        QFile oldFile(QString::fromStdString(path + "/" + lastReadFileName));
+        oldFile.remove();
+
         //assuming this all went well, copy the file as the last successful read file
-        boost::filesystem::copy_file(path + "/" + filename,
-                                     path + "/" + lastReadFileName,
-                                     boost::filesystem::copy_option::overwrite_if_exists);
+        assert(QFile::copy(QString::fromStdString(path + "/" + filename),
+                           QString::fromStdString(path + "/" + lastReadFileName)));
     }
 }
 
@@ -307,7 +312,14 @@ void PersistentDataManager::saveFile(std::string path, std::string filename)
 
     if(path.length() != 0 && filename.size() != 0)
     {
-        file.open(path + "/" + initialWriteFileName);
+        QDir directory(QString::fromStdString(path));
+        // if the path exists but the directory doesn't exist, create it
+        if(!directory.exists())
+        {
+            directory.mkpath(QString::fromStdString(path));
+        }
+
+        file.open(path + "\\" + initialWriteFileName);
 
         CourseSaveVisitor csv;
         std::for_each(m_allCourses.begin(), m_allCourses.end(),
@@ -343,10 +355,12 @@ void PersistentDataManager::saveFile(std::string path, std::string filename)
 
         file.close();
 
+        QFile oldFile(QString::fromStdString(path + "/" + filename));
+        oldFile.remove();
+
         // assuming everything got here fine, copy and overwrite the last save
-        boost::filesystem::copy_file(path + "/" + initialWriteFileName,
-                                     path + "/" + filename,
-                                     boost::filesystem::copy_option::overwrite_if_exists);
+        assert(QFile::copy(QString::fromStdString(path + "/" + initialWriteFileName),
+                           QString::fromStdString(path + "/" + filename)));
     }
 }
 

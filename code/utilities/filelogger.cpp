@@ -5,6 +5,8 @@
 #include <iostream>
 #include <fstream>
 #include <QDateTime>
+#include <QStandardPaths>
+#include <QDir>
 #include <iostream>
 
 FileLogger* FileLogger::s_inst = NULL;
@@ -12,8 +14,15 @@ std::string FileLogger::s_defaultFile = "errors";
 
 FileLogger::FileLogger(std::string filename)
 {
+    QDir dir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+
+    if(!dir.exists())
+    {
+        dir.mkpath(dir.path());
+    }
+
     // create and open file
-    file.open(filename, std::ios::app);
+    file.open(dir.path().toStdString() + "/" + filename, std::ios::app);
 }
 
 
