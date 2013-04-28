@@ -44,6 +44,7 @@ Item {
             icon: "\uf031"
             hoverText: "Text Only View"
             onClicked: currentViewType = "textOnlyView"
+            color: (currentViewType == "textOnlyView") ? "#CCCCCC" : "transparent"
         }
 
         IconButton {
@@ -53,6 +54,8 @@ Item {
             icon: "\uf066"
             hoverText: "Small Item View"
             onClicked: currentViewType = "smallDelegateView"
+            enabled: currentViewType != "smallDelegateView"
+            color: (currentViewType == "smallDelegateView") ? "#CCCCCC" : "transparent"
         }
 
         IconButton {
@@ -62,6 +65,7 @@ Item {
             icon: "\uf065"
             hoverText: "Large Item View"
             onClicked: currentViewType = "largeDelegateView"
+            color: (currentViewType == "largeDelegateView") ? "#CCCCCC" : "transparent"
         }
 
         IconButton {
@@ -167,6 +171,7 @@ Item {
     PageOperationsContainer {
         id: listOperationsContainer
         enabled: currentViewType !== "textOnlyView"
+        visible: currentViewType !== "textOnlyView"
         anchors.left: scrollbar.right
         anchors.top: headerItem.bottom
         model: evalModel
