@@ -90,6 +90,12 @@ bool PersistentDataManager::getItemByUuid(std::string uuid, boost::shared_ptr<T>
 
     if(it != m_uuidMap.end())
     {
+        // first see if it's of the same type
+        if(it->second.type() != typeid(item))
+        {
+            return false;
+        }
+
         try {
             item = boost::any_cast<boost::shared_ptr<T> >(it->second);
         } catch(boost::bad_any_cast&) {

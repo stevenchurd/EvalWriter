@@ -43,8 +43,8 @@ MouseArea {
             horizontalCenter: parent.horizontalCenter;
             verticalCenter: parent.verticalCenter
         }
-        color: (evalItemSelected) ? "lightsteelblue" : "white"
-        border.color: "black"
+        color: (evalItemSelected) ? "#BBBBBB" : "#EEEEEE"
+        border.color: "#EEEEEE"
 
         Drag.onActiveChanged: if(!evalItemSelected) { toggleItemSelection() }
 
@@ -56,9 +56,9 @@ MouseArea {
 
         Rectangle {
             id: colorIndicator
-            height: parent.height
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height-(parent.border.width*2)
             width: 5
-            border.color: "black"
             color: JsUtil.getEvalItemColor(evalItemLevel)
         }
 
@@ -80,10 +80,11 @@ MouseArea {
                 renderType: Text.NativeRendering
             }
 
-            TextButton {
+            IconButton {
                 id: editButton
                 anchors.right: removeButton.left
-                text: "Edit"
+                icon: "\uf040"
+                hoverText: "Edit"
                 visible: evalItemIsEditable && evalItemSelected
                 onClicked: {
                     wizardContent.sourceComponent = editCustomTextItemDialog
@@ -91,10 +92,12 @@ MouseArea {
                 }
             }
 
-            TextButton {
+            IconButton {
                 id: removeButton
                 anchors.right: topRow.right
-                text: "X"
+                anchors.rightMargin: 5
+                icon: "\uf014"
+                hoverText: "Remove"
                 visible: evalItemSelected
                 onClicked: {
                     wizardContent.sourceComponent = isRemoveEvalItemOkDialog

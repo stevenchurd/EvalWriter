@@ -61,8 +61,7 @@ function createCriteriaItemRow() {
                                                      "text": copiedItem.text,
                                                      "criteriaLevelValue": copiedItem.criteriaLevelValue,
                                                      "isSelected": false,
-                                                     "color": "lightsteelblue",
-                                                     "border.color": "black",
+                                                     "color": "#EEEEEE",
                                                      "visible": false });
 
         if(draggedItem === null)

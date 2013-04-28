@@ -91,6 +91,18 @@ Item {
                 flowListView.model.model.addCriteriaItem(flowListView.findNearestItemIndex(drop.x, drop.y), drop.source.itemUniqueId)
             }
         }
+
+    }
+
+    Text {
+        anchors.fill: flowListView
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+
+        visible: flowListView.count == 0
+        text: "Drop Items Here"
+        color: "#DDDDDD"
+        font.pointSize: 24
     }
 
     FlowListView {
