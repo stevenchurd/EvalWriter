@@ -9,10 +9,19 @@ Rectangle {
     signal canceled
 
     anchors.centerIn: parent
-    height: dialogContent.height + dialogHeader.height + 30
+    height: dialogContent.height + dialogHeader.height + 10
     width: dialogContent.width + 30
 
-    border.color: "black"
+    color: "#AAAAAA"
+    border.color: "#EEEEEE"
+
+    Rectangle {
+        id: highlight
+        width: 2
+        height: parent.height - (parent.border.width*2)
+        anchors.verticalCenter: parent.verticalCenter
+        color: "#33AAEE"
+    }
 
     Rectangle {
         id: dialogHeader
@@ -22,9 +31,9 @@ Rectangle {
         color: "transparent"
         anchors.top: parent.top
 
-        TextButton {
+        IconButton {
             id: cancelButton
-            text: "X"
+            icon: "\uf00d"
             onClicked: canceled()
             anchors.top: parent.top
             anchors.right: parent.right
@@ -33,7 +42,8 @@ Rectangle {
 
     Loader {
         id: dialogContent
-        anchors.centerIn: parent
+        anchors.top: dialogHeader.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
         focus: true
     }
 }

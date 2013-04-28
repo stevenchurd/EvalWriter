@@ -19,13 +19,14 @@ Rectangle {
 
         height: parent.height
         width: 200
+        spacing: 5
 
         model: wrapper.model
         delegate: SideListDelegate{}
 
         highlight: Rectangle {
             width: parent.width
-            color: "lightsteelblue"
+            color: "#555555"
         }
         interactive: false
 

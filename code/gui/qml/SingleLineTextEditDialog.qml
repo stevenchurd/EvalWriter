@@ -25,7 +25,7 @@ Dialog {
 
                 width: textInputWidth
                 height: textInputHeight
-                border.color: "black"
+                color: "#EEEEEE"
                 clip: true
 
                 TextInput {

@@ -5,7 +5,7 @@ Rectangle {
     property variant target
 
     clip: true
-    color: "#b3b3b3"
+    color: "#DDDDDD"
     width: 10
 
     anchors.top: target.top
@@ -66,8 +66,8 @@ Rectangle {
 
         Rectangle {
             id:slider
-            color: "#343434"
             width: parent.width
+            state: "mouseOut"
 
             anchors.bottom: (target.visibleArea.yPosition > 1)? parent.bottom: undefined
             height: {
@@ -79,18 +79,38 @@ Rectangle {
             y: Math.max(0,Math.min(track.height-30, target.visibleArea.yPosition * track.height));
 
             MouseArea {
+                id: sliderArea
                 anchors.fill: parent
                 drag.target: parent
                 drag.axis: Drag.YAxis
                 drag.minimumY: 0
                 drag.maximumY: track.height - height
+                hoverEnabled: true
 
                 onPositionChanged: {
                     if (pressedButtons == Qt.LeftButton) {
                         target.contentY = slider.y * target.contentHeight / track.height
                     }
                 }
+                onEntered: slider.state = "mouseIn"
+                onExited: slider.state = "mouseOut"
             }
+
+            states: [
+                State {
+                    name: "mouseOut"
+                    PropertyChanges { target: slider; color: "#555555" }
+                },
+                State {
+                    name: "mouseIn"
+                    PropertyChanges { target: slider; color: "#444444" }
+                },
+                State {
+                    when: sliderArea.pressed
+                    name: "pressed"
+                    PropertyChanges { target: slider; color: "#555555" }
+                }
+            ]
         }
     }
 
