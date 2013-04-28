@@ -36,7 +36,7 @@ Dialog {
 
                         width: textInputWidth/3
                         height: textInputHeight
-                        border.color: "black"
+                        color: "#EEEEEE"
                         clip: true
 
                         TextInput {
@@ -70,7 +70,7 @@ Dialog {
 
                         width: textInputWidth/3
                         height: textInputHeight
-                        border.color: "black"
+                        color: "#EEEEEE"
                         clip: true
 
                         TextInput {
@@ -101,7 +101,7 @@ Dialog {
 
                         width: textInputWidth/3
                         height: textInputHeight
-                        border.color: "black"
+                        color: "#EEEEEE"
                         clip: true
 
                         TextInput {
@@ -123,8 +123,9 @@ Dialog {
             }
 
             Rectangle {
-                height: 30
+                height: 48
                 width: parent.width
+                color: "transparent"
 
                 ListModel {
                     id: genderModel
@@ -139,12 +140,8 @@ Dialog {
                     Keys.onTabPressed: okButton.focus = true
                     currentIndex: startingGender
                     model: genderModel
-                    delegate: Text {
+                    delegate: CommonListDelegate {
                         text: name
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: genderList.currentIndex = index
-                        }
                     }
                 }
             }
@@ -182,16 +179,6 @@ Dialog {
                 else
                 {
                     firstNameInputRect.border.color = "red"
-                    valid = false
-                }
-
-                if(isValid(middleName.text))
-                {
-                    middleNameInputRect.border.color = "black"
-                }
-                else
-                {
-                    middleNameInputRect.border.color = "red"
                     valid = false
                 }
 

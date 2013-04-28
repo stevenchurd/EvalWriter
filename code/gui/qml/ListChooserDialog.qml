@@ -20,18 +20,14 @@ Dialog {
 
             Rectangle {
                 width: parent.width
-                height: 100
+                height: itemSelectorList.contentHeight + 10
+                color: "transparent"
                 CommonListView {
                     id: itemSelectorList
                     anchors.fill: parent
-                    currentIndex: 0
                     model: stringList
-                    delegate: Text {
+                    delegate: CommonListDelegate {
                         text: modelData
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: itemSelectorList.currentIndex = index
-                        }
                     }
                 }
             }

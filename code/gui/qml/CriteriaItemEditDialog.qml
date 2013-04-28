@@ -25,7 +25,7 @@ Dialog {
             Rectangle {
                 width: parent.width
                 height: textInputHeight
-                border.color: "black"
+                color: "#EEEEEE"
                 clip: true
 
                 TextEdit {
@@ -46,34 +46,27 @@ Dialog {
             }
 
             Rectangle {
-                height: 100
+                height: 110
                 width: parent.width
+                color: "transparent"
+
+                ListModel {
+                    id: criteriaLevelModel
+
+                    ListElement { level: "Excellent" }
+                    ListElement { level: "Above Average" }
+                    ListElement { level: "Average" }
+                    ListElement { level: "Below Average" }
+                    ListElement { level: "Poor" }
+                }
+
                 CommonListView {
                     id: criteriaLevelSelector
                     anchors.fill: parent
                     currentIndex: currentLevel
-                    model: 5
+                    model: criteriaLevelModel
                     delegate: CommonListDelegate {
-                        itemsToHold: Text {
-                            text: {
-                                switch(index+1)
-                                {
-                                    case 1:
-                                        return "Excellent"
-                                    case 2:
-                                        return "Above Average"
-                                    case 3:
-                                        return "Average"
-                                    case 4:
-                                        return "Below Average"
-                                    case 5:
-                                        return "Poor"
-                                    default:
-                                        return "Invalid"
-                                }
-                            }
-                            renderType: Text.NativeRendering
-                        }
+                        text: level
                     }
                 }
             }

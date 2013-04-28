@@ -10,13 +10,13 @@ function getEvalItemColor(level)
         case 0:
             return "green"
         case 1:
-            return "#00EE00"
+            return "#00bb33"
         case 2:
             return "yellow"
         case 3:
-            return "#CCCC00"
+            return "#ffbb00"
         case 4:
-            return "red"
+            return "#990000"
         default:
             return "transparent"
     }

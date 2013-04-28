@@ -5,7 +5,8 @@ ListView {
     highlightResizeDuration: 1
     highlight: Rectangle {
         width: parent.width
-        color: "lightsteelblue"
+        color: "#EEEEEE"
     }
     spacing: 5
+    anchors.margins: 5
 }

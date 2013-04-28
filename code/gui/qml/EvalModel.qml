@@ -54,7 +54,6 @@ Item {
             icon: "\uf066"
             hoverText: "Small Item View"
             onClicked: currentViewType = "smallDelegateView"
-            enabled: currentViewType != "smallDelegateView"
             color: (currentViewType == "smallDelegateView") ? "#CCCCCC" : "transparent"
         }
 

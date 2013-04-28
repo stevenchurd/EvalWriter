@@ -127,14 +127,14 @@ Rectangle {
             id: dialog
             isModifyVisible: false
             explanationText: "Add grading criteria item.  Use the following tags to automatically insert text in Evaluations:\n" +
-                             "<Student_First_Name> = Student's first name\n" +
-                             "<Student_Middle_Name> = Student's middle name\n" +
-                             "<Student_Last_Name> = Student's last name\n" +
-                             "<Student_First_Last_Name> = Student's first and last name (e.g. John Smith)\n" +
-                             "<Student_he_she> = either \"he\" or \"she\" based on gender\n" +
-                             "<Student_his_her> = either \"his\" or \"her\" based on gender\n" +
-                             "<Student_him_her> = either \"him\" or \"her\" based on gender\n" +
-                             "<Student_himself_herself> = either \"himself\" or \"herself\" based on gender";
+                             "  <Student_First_Name> = Student's first name\n" +
+                             "  <Student_Middle_Name> = Student's middle name\n" +
+                             "  <Student_Last_Name> = Student's last name\n" +
+                             "  <Student_First_Last_Name> = Student's first and last name (e.g. John Smith)\n" +
+                             "  <Student_he_she> = either \"he\" or \"she\" based on gender\n" +
+                             "  <Student_his_her> = either \"his\" or \"her\" based on gender\n" +
+                             "  <Student_him_her> = either \"him\" or \"her\" based on gender\n" +
+                             "  <Student_himself_herself> = either \"himself\" or \"herself\" based on gender";
 
             Component.onCompleted: {
                 dialog.onCanceled.connect(wizardContent.close)

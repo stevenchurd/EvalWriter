@@ -2,13 +2,25 @@ import QtQuick 2.0
 
 Item {
     id: delegateItem
+    property alias text: textItem.text
+    height: textItem.height
 
-    property alias itemsToHold: container.sourceComponent
-    height: container.height
     width: parent.width
+    Rectangle {
+        id: highlight
+        height: parent.height
+        width: 2
+        visible: delegateItem.ListView.isCurrentItem
+        color: "#33AAEE"
+    }
 
-    Loader {
-        id: container
+    Text {
+        id: textItem
+        anchors.left: highlight.right
+        anchors.leftMargin: 5
+
+        font.pointSize: 10
+        renderType: Text.NativeRendering
     }
 
     MouseArea {
