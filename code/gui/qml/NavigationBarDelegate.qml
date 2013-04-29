@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import "hoverTextCreator.js" as HoverText
 
 Text {
     id: titleText
@@ -20,14 +19,8 @@ Text {
         onEntered: {
             titleText.state = "mouseIn"
         }
-        onPositionChanged: {
-            if(index !== 0)
-                HoverText.createHoverText(mouse, title, titleText)
-        }
         onExited: {
             titleText.state = "mouseOut"
-            if(index !== 0)
-                HoverText.destroyHoverText()
         }
     }
 

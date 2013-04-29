@@ -32,7 +32,7 @@ Dialog {
 
                 width: textInputWidth
                 height: 25
-                border.color: "black"
+                color: "#EEEEEE"
                 clip: true
 
                 TextInput {
@@ -65,7 +65,7 @@ Dialog {
 
                 width: textInputWidth
                 height: textInputHeight
-                border.color: "black"
+                color: "#EEEEEE"
                 clip: true
 
                 TextEdit {
