@@ -1,14 +1,26 @@
 import QtQuick 2.0
+import ModelTypeEnums 1.0
 
 MouseArea {
     id: wrapper
-    property string myText: submodelName
 
     anchors.horizontalCenter: parent.horizontalCenter
     width: parent.width
     height: 45
 
+    Text {
+        id: typeIcon
+        anchors.verticalCenter:  parent.verticalCenter
+        x: parent.x - width/2
+        font.pointSize: 28
+        font.family: fontAwesome.name
+        renderType: Text.NativeRendering
+        text: mapSubModelTypeToIcon(submodelType)
+        color: "#888888"
+    }
+
     Rectangle {
+        id: hightlight
         anchors.left: wrapper.left
         height: parent.height
         width: 2
@@ -18,8 +30,8 @@ MouseArea {
 
     Text {
         anchors.verticalCenter:  parent.verticalCenter
-        anchors.left: parent.left
-        anchors.leftMargin: 10
+        anchors.left: typeIcon.right
+        anchors.leftMargin: 5
         font.pointSize: 14
         renderType: Text.NativeRendering
         text: submodelName
@@ -28,5 +40,29 @@ MouseArea {
 
     onClicked: {
         wrapper.ListView.view.currentIndex = index
+    }
+
+    function mapSubModelTypeToIcon(submodelType)
+    {
+        switch(submodelType)
+        {
+            case QGenericListModel.StudentList:
+                return "\uf001"
+
+            case QGenericListModel.EvaluationList:
+                return "\uf002"
+
+            case QGenericListModel.CourseList:
+                return "\uf02d"
+
+            case QGenericListModel.EvalSetList:
+                return "\uf004"
+
+            case QGenericListModel.GradingCriteria:
+                return "\uf004"
+
+            default:
+                break;
+        }
     }
 }
