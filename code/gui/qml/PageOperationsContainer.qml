@@ -31,7 +31,9 @@ Rectangle {
             text: operationText
             onClicked: {
                 mostRecentOperation = operation
-                if(componentToDisplay === itemChooserDialog)
+                if(componentToDisplay === itemChooserDialog ||
+                   componentToDisplay === createEvalSetFromCourseDialog ||
+                   componentToDisplay === createEvalSetFromEvalSetDialog)
                 {
                     mostRecentItemChooserList = wrapper.model.getOptionListForOperation(operation)
                 }
@@ -79,6 +81,12 @@ Rectangle {
             //
             // Eval Set operations
             //
+            case QEvalSetsListModel.CreateEvalSetFromCourse:
+                return createEvalSetFromCourseDialog
+
+            case QEvalSetsListModel.CreateEvalSetFromEvalSet:
+                return createEvalSetFromEvalSetDialog
+
             case QEvalSetsListModel.AddEvalSet:
                 return addItemDialog
 
@@ -92,7 +100,6 @@ Rectangle {
             // Student operations
             //
             case QStudentsListModel.AddStudent:
-                // TODO
                 return addStudentDialog
 
             case QStudentsListModel.AddExistingStudentToCourse:
@@ -163,6 +170,12 @@ Rectangle {
 
 
             // Eval Set List Operations
+            case QEvalSetsListModel.CreateEvalSetFromCourse:
+                return "Create from Course"
+
+            case QEvalSetsListModel.CreateEvalSetFromEvalSet:
+                return "Create from Evaluation Set"
+
             case QEvalSetsListModel.AddEvalSet:
                 return "Add Evaluation Set"
 
@@ -245,6 +258,12 @@ Rectangle {
 
 
             // Eval Set List Operations
+            case QEvalSetsListModel.CreateEvalSetFromCourse:
+                return false
+
+            case QEvalSetsListModel.CreateEvalSetFromEvalSet:
+                return false
+
             case QEvalSetsListModel.AddEvalSet:
                 return false
 
@@ -341,7 +360,6 @@ Rectangle {
                 dialog.onOkClicked.connect(wizardContent.close)
             }
         }
-
     }
 
 
@@ -361,7 +379,6 @@ Rectangle {
                 dialog.onOkClicked.connect(renameStudent)
                 dialog.onOkClicked.connect(wizardContent.close)
             }
-
         }
     }
 
@@ -380,7 +397,42 @@ Rectangle {
                 dialog.onAcceptedClicked.connect(wrapper.model.addCustomTextItem)
                 dialog.onAcceptedClicked.connect(wizardContent.close)
             }
+        }
+    }
 
+
+    Component {
+        id: createEvalSetFromCourseDialog
+        CreateEvalSetDialog {
+            id: dialog
+            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
+            stringList: mostRecentItemChooserList
+
+            Component.onCompleted:
+            {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
+                //dialog.onOkClicked.connect()
+                dialog.onOkClicked.connect(wizardContent.close)
+            }
+        }
+    }
+
+
+    Component {
+        id: createEvalSetFromEvalSetDialog
+        CreateEvalSetDialog {
+            id: dialog
+            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
+            stringList: mostRecentItemChooserList
+
+            Component.onCompleted:
+            {
+                dialog.onCanceled.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(wizardContent.close)
+                //dialog.onAcceptedClicked.connect(wrapper.model.addCustomTextItem)
+                dialog.onAcceptedClicked.connect(wizardContent.close)
+            }
         }
     }
 

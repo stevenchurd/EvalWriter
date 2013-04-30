@@ -129,7 +129,8 @@ OTHER_FILES += \
     gui/qml/NavigationBarDelegate.qml \
     gui/qml/hoverTextCreator.js \
     gui/qml/HoverText.qml \
-    gui/qml/IconButton.qml
+    gui/qml/IconButton.qml \
+    gui/qml/CreateEvalSetDialog.qml
 
 RESOURCES += \
     resources.qrc

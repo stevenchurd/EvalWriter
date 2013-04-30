@@ -153,6 +153,13 @@ QList<int> QEvalSetsListModel::getSubModelOperations()
 {
     QList<int> opList;
 
+    // if this is the root menu, allow these options
+    if(m_evalSet == nullptr)
+    {
+        opList.push_back(CreateEvalSetFromCourse);
+        opList.push_back(CreateEvalSetFromEvalSet);
+    }
+
     opList.push_back(AddEvalSet);
     opList.push_back(RemoveEvalSet);
     opList.push_back(RenameEvalSet);
@@ -223,10 +230,35 @@ void QEvalSetsListModel::renameItem(QString evalSetName, int row)
 }
 
 
-QStringList QEvalSetsListModel::getOptionListForOperation(int /*operation*/)
+QStringList QEvalSetsListModel::getOptionListForOperation(int operation)
 {
     QStringList optionsList;
-    assert(false); // this function should not be used for eval sets
+
+    assert(m_evalSet == nullptr);
+
+    switch(operation)
+    {
+        case CreateEvalSetFromCourse:
+            std::for_each(PDM().coursesBegin(), PDM().coursesEnd(),
+                          [&optionsList] (boost::shared_ptr<Course> course)
+            {
+                optionsList.push_back(QString::fromStdString(course->getCourseName()));
+            });
+            break;
+
+        case CreateEvalSetFromEvalSet:
+            std::for_each(PDM().evalSetsBegin(), PDM().evalSetsEnd(),
+                          [&optionsList] (boost::shared_ptr<EvalSet> evalSet)
+            {
+                optionsList.push_back(QString::fromStdString(evalSet->getEvalSetName()));
+            });
+            break;
+
+        default:
+            assert(false);
+            break;
+    }
+
     return optionsList;
 }
 
@@ -321,6 +353,14 @@ QString QEvalSetsListModel::getOperationExplanationText(int operation, int row)
             explanationString = QString("Permanently rename the Evaluation Set \"" +
                                         QString::fromStdString(evalSet->getEvalSetName()) +
                                         "\" to:");
+            break;
+
+        case CreateEvalSetFromCourse:
+            explanationString = QString("Create an Evaluation Set from a class.  This will create a new Evaluation Set with a new evaluation for each student in the class.");
+            break;
+
+        case CreateEvalSetFromEvalSet:
+            explanationString = QString("Create an Evaluation Set from a previous evaluation.  This will create a new Evaluation Set with a new copy of each contained Evaluation from the original set.");
             break;
 
         default:

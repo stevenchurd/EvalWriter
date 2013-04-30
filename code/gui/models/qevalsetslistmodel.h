@@ -36,6 +36,8 @@ public:
         AddEvalSet = ModelOperationRanges::EvalSetsListOperationsBegin,
         RemoveEvalSet,
         RenameEvalSet,
+        CreateEvalSetFromCourse,
+        CreateEvalSetFromEvalSet,
 
         EndOfEnum
     };
