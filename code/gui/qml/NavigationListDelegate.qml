@@ -89,6 +89,7 @@ Rectangle {
 
             Text {
                 id: arrowButton
+                anchors.centerIn: parent
                 text: "\uf061"
                 font.family: fontAwesome.name
                 font.pointSize: 16
