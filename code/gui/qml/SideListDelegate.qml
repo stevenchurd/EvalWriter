@@ -11,12 +11,10 @@ MouseArea {
     Text {
         id: typeIcon
         anchors.verticalCenter:  parent.verticalCenter
-        x: parent.x - width/2
+        x: parent.x - width/3
         font.pointSize: 28
         font.family: fontAwesome.name
-        renderType: Text.NativeRendering
         text: mapSubModelTypeToIcon(submodelType)
-        color: "#888888"
     }
 
     Rectangle {
@@ -33,7 +31,6 @@ MouseArea {
         anchors.left: typeIcon.right
         anchors.leftMargin: 5
         font.pointSize: 14
-        renderType: Text.NativeRendering
         text: submodelName
         //color: (wrapper.ListView.isCurrentItem) ? "#EEEEEE" : "black"
     }
@@ -47,19 +44,19 @@ MouseArea {
         switch(submodelType)
         {
             case QGenericListModel.StudentList:
-                return "\uf001"
+                return "\uf0c0"
 
             case QGenericListModel.EvaluationList:
-                return "\uf002"
+                return "\uf044"
 
             case QGenericListModel.CourseList:
                 return "\uf02d"
 
             case QGenericListModel.EvalSetList:
-                return "\uf004"
+                return "\uf08d"
 
             case QGenericListModel.GradingCriteria:
-                return "\uf004"
+                return "\uf046"
 
             default:
                 break;
