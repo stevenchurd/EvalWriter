@@ -12,6 +12,7 @@
 #endif
 
 class EvalSet;
+class Course;
 
 class QEvalSetsListModel : public QGenericListModel
 {
@@ -59,6 +60,8 @@ public slots:
     virtual void renameItem(QString newName, int index);
     virtual void optionListSelection(int operation, int row);
 
+    void createEvalSet(int selectedItem, int operation, QString evalSetName, QString evalPrefix);
+
     void onEvalSetDataChanged(std::string uuid);
     void onEvalDataChanged(std::string uuid);
 
@@ -74,5 +77,13 @@ private:
 
     int getProgressIndicator(int row) const;
 };
+
+
+// non-friend, non-member helper functions
+boost::shared_ptr<EvalSet> createEvalSetFromEvalSet(boost::shared_ptr<EvalSet>,
+                                                    std::string evalSetName, std::string evalNamePrefix);
+
+boost::shared_ptr<EvalSet> createEvalSetFromCourse(boost::shared_ptr<Course>,
+                                                    std::string evalSetName, std::string evalNamePrefix);
 
 #endif // QEVALSETSLISTMODEL_H

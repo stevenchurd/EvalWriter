@@ -16,6 +16,18 @@ Eval::Eval(std::string evalName, Progress progress,
 {
 }
 
+
+Eval::Eval(std::string evalName, const Eval& eval) :
+    VisitorElement(), m_evalName(evalName),
+    m_progress(New), m_uuid(boost::uuids::random_generator()())
+{
+    for(unsigned int i = 0; i < eval.getNumEvalItems(); i++)
+    {
+        m_evalItems.push_back(eval.getEvalItem(i));
+    }
+}
+
+
 void Eval::getPrintableEvalString(std::stringstream& ss)
 {
     for(auto it = m_evalItems.begin();

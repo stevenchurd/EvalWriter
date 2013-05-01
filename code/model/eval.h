@@ -28,6 +28,8 @@ public:
     Eval(std::string evalName, Progress progress,
          boost::uuids::uuid objUuid = boost::uuids::random_generator()());
 
+    Eval(std::string evalName, const Eval& eval);
+
     virtual ~Eval() {}
 
     std::string getEvalName(void) const { return m_evalName; }
@@ -41,7 +43,7 @@ public:
     void moveEvalItem(int oldPosition, int newPosition) ;
     void replaceEvalItem(boost::shared_ptr<EvalItem> newItem, std::string oldUuid);
 
-    unsigned int getNumEvalItems(void) { return static_cast<unsigned int>(m_evalItems.size()); }
+    unsigned int getNumEvalItems(void) const { return static_cast<unsigned int>(m_evalItems.size()); }
 
     boost::shared_ptr<EvalItem> getEvalItem(unsigned int index) const;
 

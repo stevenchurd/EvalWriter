@@ -12,11 +12,14 @@ Dialog {
         id: itemChooser
 
         Column {
+            width: 300
             spacing: 15
 
             Text {
+                width: parent.width
                 text: explanationText
                 renderType: Text.NativeRendering
+                wrapMode: Text.WordWrap
             }
 
             Rectangle {

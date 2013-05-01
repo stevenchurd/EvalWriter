@@ -156,8 +156,16 @@ QList<int> QEvalSetsListModel::getSubModelOperations()
     // if this is the root menu, allow these options
     if(m_evalSet == nullptr)
     {
-        opList.push_back(CreateEvalSetFromCourse);
-        opList.push_back(CreateEvalSetFromEvalSet);
+        // only allow the options if a a Course or Eval set exists
+        if(PDM().coursesBegin() != PDM().coursesEnd())
+        {
+            opList.push_back(CreateEvalSetFromCourse);
+        }
+
+        if(PDM().evalSetsBegin() != PDM().evalSetsEnd())
+        {
+            opList.push_back(CreateEvalSetFromEvalSet);
+        }
     }
 
     opList.push_back(AddEvalSet);
@@ -269,6 +277,23 @@ void QEvalSetsListModel::optionListSelection(int /*operation*/, int /*row*/)
 }
 
 
+void QEvalSetsListModel::createEvalSet(int selectedItem, int operation, QString evalSetName, QString evalPrefix)
+{
+   switch(operation)
+    {
+        case CreateEvalSetFromCourse:
+            break;
+
+        case CreateEvalSetFromEvalSet:
+            break;
+
+        default:
+            assert(false);
+            break;
+    }
+}
+
+
 void QEvalSetsListModel::onEvalSetDataChanged(std::string uuid)
 {
     auto evalSetsBegin = PDM().evalSetsBegin();
@@ -369,5 +394,44 @@ QString QEvalSetsListModel::getOperationExplanationText(int operation, int row)
     }
 
     return explanationString;
+}
+
+
+
+boost::shared_ptr<EvalSet> createEvalSetFromEvalSet(boost::shared_ptr<EvalSet>,
+                                                    std::string evalSetName, std::string evalNamePrefix)
+{
+    boost::shared_ptr<EvalSet> newSet(new EvalSet(evalSetName, boost::shared_ptr<EvalSet>()));
+
+
+    return newSet;
+}
+
+
+boost::shared_ptr<EvalSet> createEvalSetFromCourse(boost::shared_ptr<Course> course,
+                                                    std::string evalSetName, std::string evalNamePrefix)
+{
+    boost::shared_ptr<EvalSet> newSet(new EvalSet(evalSetName, boost::shared_ptr<EvalSet>()));
+
+    // for each student in the course, we need to create a new Eval and add it to them.
+    unsigned int i = 0;
+    boost::shared_ptr<Student> student = getNthStudentInCourse(i, course);
+
+    while(student != nullptr)
+    {
+        // the new eval name will always be of the format:
+        // evalNamePrefix: StudentDisplayName, evalSetName
+        std::string evalName(evalNamePrefix + ": " + student->getDisplayName() + ", " + evalSetName);
+        boost::shared_ptr<Eval> newEval(new Eval(evalName, Eval::New));
+
+        // now add the eval to both the student and the eval set
+        student->addEval(newEval);
+        newSet->addEval(newEval);
+
+        ++i;
+        student = getNthStudentInCourse(i, course);
+    }
+
+    return newSet;
 }
 
