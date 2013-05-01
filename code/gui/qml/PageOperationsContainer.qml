@@ -407,12 +407,13 @@ Rectangle {
             id: dialog
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
             stringList: mostRecentItemChooserList
+            operation: mostRecentOperation
 
             Component.onCompleted:
             {
                 dialog.onCanceled.connect(wizardContent.close)
                 dialog.onCancelClicked.connect(wizardContent.close)
-                //dialog.onOkClicked.connect()
+                dialog.onOkClicked.connect(wrapper.model.createEvalSet)
                 dialog.onOkClicked.connect(wizardContent.close)
             }
         }
@@ -425,13 +426,14 @@ Rectangle {
             id: dialog
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
             stringList: mostRecentItemChooserList
+            operation: mostRecentOperation
 
             Component.onCompleted:
             {
                 dialog.onCanceled.connect(wizardContent.close)
                 dialog.onCancelClicked.connect(wizardContent.close)
-                //dialog.onAcceptedClicked.connect(wrapper.model.addCustomTextItem)
-                dialog.onAcceptedClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(wrapper.model.createEvalSet)
+                dialog.onOkClicked.connect(wizardContent.close)
             }
         }
     }

@@ -12,7 +12,6 @@ TEMPLATE = app
 DEFINES += _SCL_SECURE_NO_WARNINGS
 
 SOURCES += main.cpp\
-    mainwindow.cpp \
     model/student.cpp \
     model/gradingcriteria.cpp \
     model/evalitem.cpp \
@@ -43,7 +42,7 @@ SOURCES += main.cpp\
     model/visitors/removeevalvisitor.cpp \
     utilities/tagreplacer.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     evalexceptions.h \
     xmlnodenames.h \
     model/student.h \

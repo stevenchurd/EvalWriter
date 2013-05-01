@@ -74,6 +74,18 @@ bool Student::getEvalById(std::string id, boost::shared_ptr<Eval>& eval) const
 }
 
 
+bool Student::hasEval(std::string id) const
+{
+    auto it = std::find_if(m_evals.begin(), m_evals.end(),
+                           [&id] (boost::shared_ptr<Eval> eval)
+                           {
+                               return (eval->getUuid() == id);
+                           });
+
+    return it != m_evals.end();
+}
+
+
 void Student::removeEval(std::vector<boost::shared_ptr<Eval> >::const_iterator it)
 {
     m_evals.erase(it);

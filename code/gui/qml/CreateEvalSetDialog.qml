@@ -1,6 +1,8 @@
 import QtQuick 2.0
 
 Dialog {
+    id: wrapper
+
     property string explanationText
     property var stringList
     property int operation
@@ -42,7 +44,7 @@ Dialog {
                 TextButton {
                     id: okButton
                     text: "Create"
-                    onClicked: okClicked(itemSelectorList.currentIndex)
+                    onClicked: trySubmit()
                 }
 
                 TextButton {
@@ -51,6 +53,12 @@ Dialog {
                     onClicked: cancelClicked()
                 }
             }
+
+            function trySubmit()
+            {
+                okClicked(itemSelectorList.currentIndex, wrapper.operation, "test", "test")
+            }
+
         }
     }
 

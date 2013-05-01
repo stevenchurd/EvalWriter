@@ -11,8 +11,7 @@ MouseArea {
     Text {
         id: typeIcon
         anchors.verticalCenter:  parent.verticalCenter
-        x: parent.x - width/3
-        font.pointSize: 28
+        font.pointSize: 14
         font.family: fontAwesome.name
         text: mapSubModelTypeToIcon(submodelType)
     }

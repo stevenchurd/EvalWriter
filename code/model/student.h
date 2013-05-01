@@ -56,6 +56,7 @@ public:
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsBegin() const;
     std::vector<boost::shared_ptr<Eval> >::const_iterator evalsEnd() const;
     bool getEvalById(std::string id, boost::shared_ptr<Eval>& eval) const;
+    bool hasEval(std::string id) const;
     void removeEval(std::vector<boost::shared_ptr<Eval> >::const_iterator it);
 
     /*

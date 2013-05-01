@@ -279,18 +279,37 @@ void QEvalSetsListModel::optionListSelection(int /*operation*/, int /*row*/)
 
 void QEvalSetsListModel::createEvalSet(int selectedItem, int operation, QString evalSetName, QString evalPrefix)
 {
-   switch(operation)
+    assert(selectedItem >= 0);
+    assert(!evalSetName.isEmpty() && !evalPrefix.isEmpty());
+
+    boost::shared_ptr<EvalSet> newEvalSet;
+
+    switch(operation)
     {
         case CreateEvalSetFromCourse:
+            newEvalSet = createEvalSetFromCourse(elementAt<Course>(PDM().coursesBegin(), selectedItem),
+                                    evalSetName.toStdString(),
+                                    evalPrefix.toStdString());
             break;
 
         case CreateEvalSetFromEvalSet:
+            newEvalSet = createEvalSetFromEvalSet(elementAt<EvalSet>(PDM().evalSetsBegin(), selectedItem),
+                                     evalSetName.toStdString(),
+                                     evalPrefix.toStdString());
             break;
 
         default:
             assert(false);
             break;
     }
+
+    unsigned int newRow = insertLocation(newEvalSet,
+                                         PDM().evalSetsBegin(),
+                                         PDM().evalSetsEnd());
+    beginInsertRows(QModelIndex(), newRow, newRow);
+    PDM().add(newEvalSet);
+    endInsertRows();
+
 }
 
 
@@ -398,18 +417,36 @@ QString QEvalSetsListModel::getOperationExplanationText(int operation, int row)
 
 
 
-boost::shared_ptr<EvalSet> createEvalSetFromEvalSet(boost::shared_ptr<EvalSet>,
-                                                    std::string evalSetName, std::string evalNamePrefix)
+boost::shared_ptr<EvalSet> createEvalSetFromEvalSet(boost::shared_ptr<EvalSet> oldSet,
+                                                    std::string evalSetName,
+                                                    std::string evalNamePrefix)
 {
     boost::shared_ptr<EvalSet> newSet(new EvalSet(evalSetName, boost::shared_ptr<EvalSet>()));
 
+
+    std::for_each(oldSet->evalsBegin(), oldSet->evalsEnd(),
+                  [&newSet, &evalSetName, &evalNamePrefix] (boost::shared_ptr<Eval> eval)
+    {
+        boost::shared_ptr<Student> student = *(std::find_if(PDM().studentsBegin(), PDM().studentsEnd(),
+                                                          [&eval] (boost::shared_ptr<Student> student)
+                                                        { return student->hasEval(eval->getUuid()); }));
+
+        // evalNamePrefix: StudentDisplayName, evalSetName
+        std::string evalName(evalNamePrefix + ": " + student->getDisplayName() + ", " + evalSetName);
+        boost::shared_ptr<Eval> newEval(new Eval(evalName, *eval));
+
+        // now add the eval to both the student and the eval set
+        student->addEval(newEval);
+        newSet->addEval(newEval);
+    });
 
     return newSet;
 }
 
 
 boost::shared_ptr<EvalSet> createEvalSetFromCourse(boost::shared_ptr<Course> course,
-                                                    std::string evalSetName, std::string evalNamePrefix)
+                                                   std::string evalSetName,
+                                                   std::string evalNamePrefix)
 {
     boost::shared_ptr<EvalSet> newSet(new EvalSet(evalSetName, boost::shared_ptr<EvalSet>()));
 

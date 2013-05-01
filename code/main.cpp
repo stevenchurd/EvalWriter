@@ -10,7 +10,6 @@
 #include <QDebug>
 #endif
 
-#include "mainwindow.h"
 #include "utilities/filelogger.h"
 #include "utilities/persistentdatamanager.h"
 #include "model/course.h"
