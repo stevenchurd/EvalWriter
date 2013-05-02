@@ -174,7 +174,7 @@ Dialog {
 
                 if(isValid(firstName.text))
                 {
-                    firstNameInputRect.border.color = "black"
+                    firstNameInputRect.border.color = "transparent"
                 }
                 else
                 {
@@ -184,7 +184,7 @@ Dialog {
 
                 if(isValid(lastName.text))
                 {
-                    lastNameInputRect.border.color = "black"
+                    lastNameInputRect.border.color = "transparent"
                 }
                 else
                 {

@@ -67,7 +67,7 @@ Dialog {
                 question.text = question.text.trim()
                 if(isValid(question.text))
                 {
-                    textInputRect.border.color = "black"
+                    textInputRect.border.color = "transparent"
                     okClicked(question.text)
                 }
                 else

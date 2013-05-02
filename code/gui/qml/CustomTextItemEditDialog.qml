@@ -123,7 +123,7 @@ Dialog {
                 }
                 else
                 {
-                    titleRect.border.color = "black"
+                    titleRect.border.color = "transparent"
                 }
 
                 if(customTextItem.text.length <= 0)
@@ -133,13 +133,13 @@ Dialog {
                 }
                 else
                 {
-                    bodyRect.border.color = "black"
+                    bodyRect.border.color = "transparent"
                 }
 
                 if(accept == true)
                 {
-                    bodyRect.border.color = "black"
-                    titleRect.border.color = "black"
+                    bodyRect.border.color = "transparent"
+                    titleRect.border.color = "transparent"
                     acceptedClicked(customTextTitle.text, customTextItem.text)
                 }
             }

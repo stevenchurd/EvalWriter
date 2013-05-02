@@ -431,8 +431,8 @@ boost::shared_ptr<EvalSet> createEvalSetFromEvalSet(boost::shared_ptr<EvalSet> o
                                                           [&eval] (boost::shared_ptr<Student> student)
                                                         { return student->hasEval(eval->getUuid()); }));
 
-        // evalNamePrefix: StudentDisplayName, evalSetName
-        std::string evalName(evalNamePrefix + ": " + student->getDisplayName() + ", " + evalSetName);
+        // evalNamePrefix: StudentDisplayName
+        std::string evalName(evalNamePrefix + ": " + student->getDisplayName());
         boost::shared_ptr<Eval> newEval(new Eval(evalName, *eval));
 
         // now add the eval to both the student and the eval set
@@ -457,8 +457,8 @@ boost::shared_ptr<EvalSet> createEvalSetFromCourse(boost::shared_ptr<Course> cou
     while(student != nullptr)
     {
         // the new eval name will always be of the format:
-        // evalNamePrefix: StudentDisplayName, evalSetName
-        std::string evalName(evalNamePrefix + ": " + student->getDisplayName() + ", " + evalSetName);
+        // evalNamePrefix: StudentDisplayName
+        std::string evalName(evalNamePrefix + ": " + student->getDisplayName());
         boost::shared_ptr<Eval> newEval(new Eval(evalName, Eval::New));
 
         // now add the eval to both the student and the eval set
