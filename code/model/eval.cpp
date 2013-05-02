@@ -2,6 +2,7 @@
 
 #include "eval.h"
 #include "evalitem.h"
+#include "customtextitem.h"
 #include "visitors/visitor.h"
 #include <boost/algorithm/string.hpp>
 
@@ -23,7 +24,18 @@ Eval::Eval(std::string evalName, const Eval& eval) :
 {
     for(unsigned int i = 0; i < eval.getNumEvalItems(); i++)
     {
-        m_evalItems.push_back(eval.getEvalItem(i));
+        boost::shared_ptr<EvalItem> oldEvalItem = eval.getEvalItem(i);
+
+        // copying a custom text item requires us to create a new one
+        // so that it can get a unique uuid
+        if(typeid(*oldEvalItem) == typeid(CustomTextItem))
+        {
+            boost::shared_ptr<EvalItem> newCustomText(new CustomTextItem(oldEvalItem->getItemTitleStr(),
+                                                                         oldEvalItem->getItemStr()));
+            oldEvalItem = newCustomText;
+        }
+
+        m_evalItems.push_back(oldEvalItem);
     }
 }
 
