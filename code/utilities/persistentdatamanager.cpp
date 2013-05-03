@@ -223,7 +223,7 @@ void PersistentDataManager::loadFile(std::string path, std::string filename)
     m_savepath = path;
 
     if(path.length() != 0 && filename.length() != 0 &&
-            dir.exists())
+            dir.exists() && QFile::exists(QString::fromStdString(path + "/" + filename)))
     {
         boost::property_tree::xml_parser::read_xml(path + "/" + filename, loadPt);
 
