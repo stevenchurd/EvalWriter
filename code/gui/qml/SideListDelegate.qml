@@ -8,13 +8,6 @@ MouseArea {
     width: parent.width
     height: 45
 
-    Text {
-        id: typeIcon
-        anchors.verticalCenter:  parent.verticalCenter
-        font.pointSize: 14
-        font.family: fontAwesome.name
-        text: mapSubModelTypeToIcon(submodelType)
-    }
 
     Rectangle {
         id: hightlight
@@ -23,6 +16,16 @@ MouseArea {
         width: 2
 
         color: "#33AAEE"
+    }
+
+    Text {
+        id: typeIcon
+        anchors.verticalCenter:  parent.verticalCenter
+        anchors.left: hightlight.right
+        anchors.leftMargin: 5
+        font.pointSize: 14
+        font.family: fontAwesome.name
+        text: mapSubModelTypeToIcon(submodelType)
     }
 
     Text {
