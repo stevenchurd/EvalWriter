@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoursesRoot>
+    <course>
+        <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+        <name>Spanish 1, 2012-2013</name>
+    </course>
+    <course>
+        <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>
+        <name>Spanish 2, 2012-2013</name>
+    </course>
+    <course>
+        <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
+        <name>Spanish 3, 2011-2012</name>
+    </course>
+</CoursesRoot>
+<?xml version="1.0" encoding="utf-8"?>
+<GradingCriteriaRoot>
+    <gradingCriteria>
+        <uuid>9497a29a-fcf5-455f-afbb-a589911ea031</uuid>
+        <name>Listening Skills</name>
+        <criteriaItem>
+            <uuid>42039171-5164-4b28-af75-87e6d3e0878f</uuid>
+            <name>&lt;Student_First_Name&gt; is excellent at listening.  &lt;Student_he_she&gt; never has any issues hearing me.</name>
+            <level>0</level>
+        </criteriaItem>
+        <criteriaItem>
+            <uuid>7c931b69-36cb-4749-b957-db4d703b0232</uuid>
+            <name>&lt;Student_First_Name&gt; is good at listening.  &lt;Student_he_she&gt; never has any issues hearing me.</name>
+            <level>1</level>
+        </criteriaItem>
+        <criteriaItem>
+            <uuid>64ba520c-1bba-4cc3-87a6-56ebf2162239</uuid>
+            <name>&lt;Student_First_Name&gt; is average at listening.  &lt;Student_he_she&gt; never has any issues hearing me.</name>
+            <level>2</level>
+        </criteriaItem>
+        <criteriaItem>
+            <uuid>38630cb6-b040-49ca-b069-43c41d61d9b0</uuid>
+            <name>&lt;Student_First_Name&gt; is not very good at listening.  &lt;Student_he_she&gt; has issues hearing me.</name>
+            <level>3</level>
+        </criteriaItem>
+        <criteriaItem>
+            <uuid>b48afe4a-a595-4fe7-a926-87e36946a8ba</uuid>
+            <name>&lt;Student_First_Name&gt; is bad at listening.  &lt;Student_he_she&gt; never hears me.</name>
+            <level>4</level>
+        </criteriaItem>
+    </gradingCriteria>
+    <gradingCriteria>
+        <uuid>24332a12-c3bb-4a01-b633-4e8bc375b6e2</uuid>
+        <name>Speaking Skills</name>
+        <criteriaItem>
+            <uuid>566c66a0-cbc5-4e33-a2cc-fef1ca45374d</uuid>
+            <name>&lt;Student_First_Name&gt; is excellent at speaking.  &lt;Student_he_she&gt; never has any issues speaking.</name>
+            <level>0</level>
+        </criteriaItem>
+        <criteriaItem>
+            <uuid>ee3e0883-ec8c-4987-8202-21bb21ba026c</uuid>
+            <name>&lt;Student_First_Name&gt; is average at speaking.  &lt;Student_he_she&gt; never has any issues speaking.</name>
+            <level>2</level>
+        </criteriaItem>
+        <criteriaItem>
+            <uuid>c3ccb974-5ff3-40c9-8864-ab98e2fb6fbb</uuid>
+            <name>&lt;Student_First_Name&gt; is below average at speaking.  &lt;Student_he_she&gt; has some issues speaking.</name>
+            <level>3</level>
+        </criteriaItem>
+        <criteriaItem>
+            <uuid>6733859c-d440-491f-8393-38aefda768e7</uuid>
+            <name>&lt;Student_First_Name&gt; is poor at speaking.  &lt;Student_he_she&gt; has issues speaking.</name>
+            <level>4</level>
+        </criteriaItem>
+    </gradingCriteria>
+</GradingCriteriaRoot>
+<?xml version="1.0" encoding="utf-8"?>
+<StudentsRoot>
+    <student>
+        <uuid>33296cf5-9f95-488a-aa57-b1d2fbb3961a</uuid>
+        <firstName>Diana</firstName>
+        <middleName>C</middleName>
+        <lastName>Amundson</lastName>
+        <gender>0</gender>
+        <Courses>
+            <course>
+                <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>
+            </course>
+        </Courses>
+        <Evals>
+            <eval>
+                <uuid>589ccaa8-691d-4d78-bafc-e8ed4c7c69a6</uuid>
+                <name>Diana&apos;s Eval</name>
+                <progress>1</progress>
+                <customTextItemNode>
+                    <uuid>069919a4-0c85-46f1-bc8f-a906318cf60d</uuid>
+                    <title>Custom Text Before</title>
+                    <value>my custom text before</value>
+                </customTextItemNode>
+            </eval>
+            <eval>
+                <uuid>23616238-3bf4-41c4-8a47-9471bc27c04a</uuid>
+                <name>Spanish 1: 2nd Quarter: Diana C Amundson</name>
+                <progress>1</progress>
+                <criteriaItem>
+                    <uuid>7c931b69-36cb-4749-b957-db4d703b0232</uuid>
+                </criteriaItem>
+                <criteriaItem>
+                    <uuid>64ba520c-1bba-4cc3-87a6-56ebf2162239</uuid>
+                </criteriaItem>
+                <criteriaItem>
+                    <uuid>ee3e0883-ec8c-4987-8202-21bb21ba026c</uuid>
+                </criteriaItem>
+                <criteriaItem>
+                    <uuid>64ba520c-1bba-4cc3-87a6-56ebf2162239</uuid>
+                </criteriaItem>
+                <criteriaItem>
+                    <uuid>64ba520c-1bba-4cc3-87a6-56ebf2162239</uuid>
+                </criteriaItem>
+                <criteriaItem>
+                    <uuid>64ba520c-1bba-4cc3-87a6-56ebf2162239</uuid>
+                </criteriaItem>
+                <customTextItemNode>
+                    <uuid>02ddb6b2-e558-40ef-9f75-9c5cd3e98732</uuid>
+                    <title>Cooking skill</title>
+                    <value>Diana is an excellent cook and brings me brownies on a daily basis.</value>
+                </customTextItemNode>
+                <criteriaItem>
+                    <uuid>ee3e0883-ec8c-4987-8202-21bb21ba026c</uuid>
+                </criteriaItem>
+            </eval>
+            <eval>
+                <uuid>5275dc9e-682c-4e50-994d-f3e84c683835</uuid>
+                <name>after: Diana C Amundson</name>
+                <progress>0</progress>
+            </eval>
+            <eval>
+                <uuid>3ac13219-7e21-46bc-8466-dbe17b2e506f</uuid>
+                <name>after: Diana C Amundson</name>
+                <progress>0</progress>
+                <customTextItemNode>
+                    <uuid>1179188e-3bd4-4cb4-87bb-fab0abdbed94</uuid>
+                    <title>Custom Text After</title>
+                    <value>my custom text after</value>
+                </customTextItemNode>
+            </eval>
+            <eval>
+                <uuid>08a7c36e-e6f8-4f4d-98a9-f2450c368516</uuid>
+                <name>test, after: Diana C Amundson</name>
+                <progress>0</progress>
+            </eval>
+        </Evals>
+    </student>
+    <student>
+        <uuid>28fa7fc4-c252-4c96-88dd-7188ab78ceea</uuid>
+        <firstName>Ganny</firstName>
+        <middleName>F</middleName>
+        <lastName>Smith</lastName>
+        <gender>0</gender>
+        <Courses>
+            <course>
+                <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+            </course>
+        </Courses>
+        <Evals>
+            <eval>
+                <uuid>f9c0e306-e005-433d-992a-3248d89d1c05</uuid>
+                <name>New Eval</name>
+                <progress>1</progress>
+                <criteriaItem>
+                    <uuid>64ba520c-1bba-4cc3-87a6-56ebf2162239</uuid>
+                </criteriaItem>
+            </eval>
+            <eval>
+                <uuid>dda106b9-752b-4004-979c-2f03e91104cd</uuid>
+                <name>Spanish 1: 2nd Quarter: Ganny F Smith</name>
+                <progress>0</progress>
+                <criteriaItem>
+                    <uuid>64ba520c-1bba-4cc3-87a6-56ebf2162239</uuid>
+                </criteriaItem>
+            </eval>
+        </Evals>
+    </student>
+    <student>
+        <uuid>6ac342cc-d2eb-420a-8165-fc29ccb1cc64</uuid>
+        <firstName>Griffin</firstName>
+        <middleName>G</middleName>
+        <lastName>GaGriffen</lastName>
+        <gender>1</gender>
+        <Courses>
+            <course>
+                <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>
+            </course>
+        </Courses>
+        <Evals>
+            <eval>
+                <uuid>fa25088e-10ae-4d05-999b-0fcd611eaac3</uuid>
+                <name>Spanish 2, 2nd Quarter: Griffin G GaGriffen</name>
+                <progress>0</progress>
+            </eval>
+            <eval>
+                <uuid>e2d4e210-3366-48ac-a160-31361403311a</uuid>
+                <name>test: Griffin G GaGriffen, test</name>
+                <progress>0</progress>
+            </eval>
+        </Evals>
+    </student>
+    <student>
+        <uuid>802427c2-7fab-4d88-902f-28c606f22f9c</uuid>
+        <firstName>Hairy</firstName>
+        <middleName>J</middleName>
+        <lastName>Houdini</lastName>
+        <gender>1</gender>
+        <Courses>
+            <course>
+                <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
+            </course>
+        </Courses>
+        <Evals>
+            <eval>
+                <uuid>e048cc7c-0386-4f86-a035-1cd326c01a4f</uuid>
+                <name>test: Hairy J Houdini, test</name>
+                <progress>0</progress>
+            </eval>
+        </Evals>
+    </student>
+    <student>
+        <uuid>e4cf6d07-2775-4af0-8192-7c149bd256ea</uuid>
+        <firstName>J.R.</firstName>
+        <middleName>S</middleName>
+        <lastName>Smithy</lastName>
+        <gender>1</gender>
+        <Courses>
+            <course>
+                <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+            </course>
+        </Courses>
+        <Evals/>
+    </student>
+    <student>
+        <uuid>e4b0d92b-31d4-4027-acc9-d1072a7c2278</uuid>
+        <firstName>Jamie</firstName>
+        <middleName>&quot;BigRed&quot;</middleName>
+        <lastName>Kronwald</lastName>
+        <gender>0</gender>
+        <Courses/>
+        <Evals/>
+    </student>
+    <student>
+        <uuid>ae096308-3da8-4638-b265-fb65a305b4da</uuid>
+        <firstName>Jeff</firstName>
+        <middleName>C</middleName>
+        <lastName>Mexican</lastName>
+        <gender>1</gender>
+        <Courses>
+            <course>
+                <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+            </course>
+            <course>
+                <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>
+            </course>
+        </Courses>
+        <Evals>
+            <eval>
+                <uuid>7dd1261c-9c4f-4b0e-96ad-7cbf9d8303a1</uuid>
+                <name>Jeffs 1st semester eval</name>
+                <progress>1</progress>
+                <customTextItemNode>
+                    <uuid>21462acf-d9e2-43c8-883c-142631c123b3</uuid>
+                    <title>Speaking Skills</title>
+                    <value>[StudentName] is average at speaking.</value>
+                </customTextItemNode>
+                <criteriaItem>
+                    <uuid>7c931b69-36cb-4749-b957-db4d703b0232</uuid>
+                </criteriaItem>
+                <criteriaItem>
+                    <uuid>42039171-5164-4b28-af75-87e6d3e0878f</uuid>
+                </criteriaItem>
+                <criteriaItem>
+                    <uuid>566c66a0-cbc5-4e33-a2cc-fef1ca45374d</uuid>
+                </criteriaItem>
+                <customTextItemNode>
+                    <uuid>dd6214d9-86ec-480d-96a0-e8506b5d7c8f</uuid>
+                    <title>Nose picking ability</title>
+                    <value>This is a really long category item that talks a lot about the student.  We need to be able to display this entire text without losing any of it because how else will someone know what they are selecting when the click on the item?</value>
+                </customTextItemNode>
+                <customTextItemNode>
+                    <uuid>dd6214d9-86ec-480d-96a0-e8506b5d7c8f</uuid>
+                    <title>Nose picking ability</title>
+                    <value>This is a really long category item that talks a lot about the student.  We need to be able to display this entire text without losing any of it because how else will someone know what they are selecting when the click on the item?</value>
+                </customTextItemNode>
+                <customTextItemNode>
+                    <uuid>dd6214d9-86ec-480d-96a0-e8506b5d7c8f</uuid>
+                    <title>Nose picking ability</title>
+                    <value>This is a really long category item that talks a lot about the student.  We need to be able to display this entire text without losing any of it because how else will someone know what they are selecting when the click on the item?</value>
+                </customTextItemNode>
+                <criteriaItem>
+                    <uuid>38630cb6-b040-49ca-b069-43c41d61d9b0</uuid>
+                </criteriaItem>
+                <criteriaItem>
+                    <uuid>7c931b69-36cb-4749-b957-db4d703b0232</uuid>
+                </criteriaItem>
+            </eval>
+            <eval>
+                <uuid>9942c450-1572-4f80-b66b-335c4b921d71</uuid>
+                <name>Jeffs 2nd semester eval</name>
+                <progress>1</progress>
+                <customTextItemNode>
+                    <uuid>5e1150d6-a5ed-4272-9647-d193c29a07fc</uuid>
+                    <title>Nose picking ability</title>
+                    <value>Average at picking his nose</value>
+                </customTextItemNode>
+                <customTextItemNode>
+                    <uuid>34e72df4-4670-4e98-92d2-a7f98d9ced27</uuid>
+                    <title>Butt picking ability</title>
+                    <value>Excellent at picking his butt</value>
+                </customTextItemNode>
+                <customTextItemNode>
+                    <uuid>7a085f99-c8cf-4b1f-bdb0-e89466b2f259</uuid>
+                    <title>Bathroom time</title>
+                    <value>Never uses bathroom</value>
+                </customTextItemNode>
+                <customTextItemNode>
+                    <uuid>02847f59-99ac-48db-a20b-9250a9c2dc78</uuid>
+                    <title>Butt picking ability</title>
+                    <value>Average at picking his butt</value>
+                </customTextItemNode>
+                <customTextItemNode>
+                    <uuid>7ae15bad-497c-4f57-b579-7ccda4dabcb7</uuid>
+                    <title>Butt picking ability</title>
+                    <value>Good at picking his butt</value>
+                </customTextItemNode>
+                <criteriaItem>
+                    <uuid>6733859c-d440-491f-8393-38aefda768e7</uuid>
+                </criteriaItem>
+                <customTextItemNode>
+                    <uuid>34e72df4-4670-4e98-92d2-a7f98d9ced27</uuid>
+                    <title>Butt picking ability</title>
+                    <value>Excellent at picking his butt</value>
+                </customTextItemNode>
+                <customTextItemNode>
+                    <uuid>f97032d2-f335-455d-b032-a809f23fd416</uuid>
+                    <title>Speaking Skills</title>
+                    <value>[StudentName] is above average at speaking.</value>
+                </customTextItemNode>
+                <criteriaItem>
+                    <uuid>7c931b69-36cb-4749-b957-db4d703b0232</uuid>
+                </criteriaItem>
+                <customTextItemNode>
+                    <uuid>f97032d2-f335-455d-b032-a809f23fd416</uuid>
+                    <title>Speaking Skills</title>
+                    <value>[StudentName] is above average at speaking.</value>
+                </customTextItemNode>
+            </eval>
+            <eval>
+                <uuid>d836f29b-7c10-4e7c-b6e4-bcaa4c7651ff</uuid>
+                <name>Spanish 1: 2nd Quarter: Jeff C Mexican</name>
+                <progress>0</progress>
+                <customTextItemNode>
+                    <uuid>5e1150d6-a5ed-4272-9647-d193c29a07fc</uuid>
+                    <title>Nose picking ability</title>
+                    <value>Average at picking his nose</value>
+                </customTextItemNode>
+                <customTextItemNode>
+                    <uuid>34e72df4-4670-4e98-92d2-a7f98d9ced27</uuid>
+                    <title>Butt picking ability</title>
+                    <value>Excellent at picking his butt</value>
+                </customTextItemNode>
+                <customTextItemNode>
+                    <uuid>7a085f99-c8cf-4b1f-bdb0-e89466b2f259</uuid>
+                    <title>Bathroom time</title>
+                    <value>Never uses bathroom</value>
+                </customTextItemNode>
+                <customTextItemNode>
+                    <uuid>02847f59-99ac-48db-a20b-9250a9c2dc78</uuid>
+                    <title>Butt picking ability</title>
+                    <value>Average at picking his butt</value>
+                </customTextItemNode>
+                <customTextItemNode>
+                    <uuid>7ae15bad-497c-4f57-b579-7ccda4dabcb7</uuid>
+                    <title>Butt picking ability</title>
+                    <value>Good at picking his butt</value>
+                </customTextItemNode>
+                <criteriaItem>
+                    <uuid>6733859c-d440-491f-8393-38aefda768e7</uuid>
+                </criteriaItem>
+                <customTextItemNode>
+                    <uuid>34e72df4-4670-4e98-92d2-a7f98d9ced27</uuid>
+                    <title>Butt picking ability</title>
+                    <value>Excellent at picking his butt</value>
+                </customTextItemNode>
+                <customTextItemNode>
+                    <uuid>f97032d2-f335-455d-b032-a809f23fd416</uuid>
+                    <title>Speaking Skills</title>
+                    <value>[StudentName] is above average at speaking.</value>
+                </customTextItemNode>
+                <criteriaItem>
+                    <uuid>7c931b69-36cb-4749-b957-db4d703b0232</uuid>
+                </criteriaItem>
+                <customTextItemNode>
+                    <uuid>f97032d2-f335-455d-b032-a809f23fd416</uuid>
+                    <title>Speaking Skills</title>
+                    <value>[StudentName] is above average at speaking.</value>
+                </customTextItemNode>
+            </eval>
+            <eval>
+                <uuid>cde69471-52da-4d55-a1e8-7bb2c8ac1a51</uuid>
+                <name>Spanish 2, 2nd Quarter: Jeff C Mexican</name>
+                <progress>0</progress>
+            </eval>
+            <eval>
+                <uuid>abfc807e-1421-4938-b9ad-edc634b03c77</uuid>
+                <name>test: Jeff C Mexican, test</name>
+                <progress>0</progress>
+            </eval>
+        </Evals>
+    </student>
+    <student>
+        <uuid>1d63225d-d8fc-4b79-8492-7456bc6b6f64</uuid>
+        <firstName>Jim</firstName>
+        <middleName>F</middleName>
+        <lastName>Wonderman</lastName>
+        <gender>2</gender>
+        <Courses>
+            <course>
+                <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
+            </course>
+        </Courses>
+        <Evals>
+            <eval>
+                <uuid>94d9d875-5df2-49ae-a27f-12274a1ffa35</uuid>
+                <name>test: Jim F Wonderman, test</name>
+                <progress>0</progress>
+            </eval>
+        </Evals>
+    </student>
+    <student>
+        <uuid>0df594e5-fddd-4705-8fd3-4292428c4846</uuid>
+        <firstName>Lebron</firstName>
+        <middleName>Y</middleName>
+        <lastName>James</lastName>
+        <gender>1</gender>
+        <Courses>
+            <course>
+                <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+            </course>
+        </Courses>
+        <Evals/>
+    </student>
+    <student>
+        <uuid>85fd8a13-1340-4517-a4af-fdab880d6cb4</uuid>
+        <firstName>Ronald</firstName>
+        <middleName>B</middleName>
+        <lastName>McDonald</lastName>
+        <gender>1</gender>
+        <Courses>
+            <course>
+                <uuid>0dbdea9e-69d5-44ff-bc7e-78feefac76ef</uuid>
+            </course>
+            <course>
+                <uuid>7389fd81-f382-4687-b240-d4dbd51f8bf9</uuid>
+            </course>
+        </Courses>
+        <Evals>
+            <eval>
+                <uuid>b3a7ae4d-a2a6-4e66-99ee-90f9d03cd908</uuid>
+                <name>test: Ronald B McDonald, test</name>
+                <progress>0</progress>
+            </eval>
+        </Evals>
+    </student>
+    <student>
+        <uuid>5debcf91-f97a-4c3d-bdcf-56be88dc37ba</uuid>
+        <firstName>Steven</firstName>
+        <middleName/>
+        <lastName>Hurd</lastName>
+        <gender>0</gender>
+        <Courses>
+            <course>
+                <uuid>50cb4e67-6ffa-40fe-bdf1-cdd4615353f6</uuid>
+            </course>
+        </Courses>
+        <Evals>
+            <eval>
+                <uuid>c4cbe42c-478b-4e5e-a61d-5053b548bd9f</uuid>
+                <name>Spanish 2, 2nd Quarter: Steven Hurd</name>
+                <progress>0</progress>
+            </eval>
+            <eval>
+                <uuid>be294ff7-5c3c-481f-87b9-4564fcc2c3c9</uuid>
+                <name>test: Steven Hurd, test</name>
+                <progress>0</progress>
+            </eval>
+        </Evals>
+    </student>
+</StudentsRoot>
+<?xml version="1.0" encoding="utf-8"?>
+<EvalSetsRoot>
+    <evalSet>
+        <uuid>c8f018e2-c04e-4641-b13c-528f3c1dae8c</uuid>
+        <title>Test, Before</title>
+        <eval>
+            <uuid>589ccaa8-691d-4d78-bafc-e8ed4c7c69a6</uuid>
+        </eval>
+    </evalSet>
+    <evalSet>
+        <uuid>c5555354-1efa-40a5-b6d7-5395f26fd21c</uuid>
+        <title>test, after</title>
+        <eval>
+            <uuid>3ac13219-7e21-46bc-8466-dbe17b2e506f</uuid>
+        </eval>
+    </evalSet>
+</EvalSetsRoot>
