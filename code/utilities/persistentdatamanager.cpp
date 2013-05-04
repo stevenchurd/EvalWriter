@@ -1,3 +1,4 @@
+#include "application.h"
 #include "persistentdatamanager.h"
 #include "model/visitors/coursesavevisitor.h"
 #include "model/visitors/studentsavevisitor.h"
@@ -307,8 +308,9 @@ void PersistentDataManager::setupUuidMap(void)
 
 void PersistentDataManager::saveFile(std::string path, std::string filename)
 {
-    std::ofstream file;
     m_savepath = path;
+    boost::property_tree::ptree savePt;
+    savePt.add(xml_node_names::versionNode, applicationDefinitions::saveFileVersion);
 
     if(path.length() != 0 && filename.size() != 0)
     {
@@ -319,41 +321,35 @@ void PersistentDataManager::saveFile(std::string path, std::string filename)
             directory.mkpath(QString::fromStdString(path));
         }
 
-        file.open(path + "\\" + s_initialWriteFileName);
-
-        CourseSaveVisitor csv;
+        CourseSaveVisitor csv(savePt);
         std::for_each(m_allCourses.begin(), m_allCourses.end(),
                       [&csv] (boost::shared_ptr<Course> singleCourse)
         {
             singleCourse->accept(csv);
         });
-        csv.saveFile(file);
 
-        GradingCriteriaSaveVisitor gcsv;
+        GradingCriteriaSaveVisitor gcsv(savePt);
         std::for_each(m_allGradingCriteria.begin(), m_allGradingCriteria.end(),
                       [&gcsv] (boost::shared_ptr<GradingCriteria> singleGradingCriteria)
         {
             singleGradingCriteria->accept(gcsv);
         });
-        gcsv.saveFile(file);
 
-        StudentSaveVisitor ssv;
+        StudentSaveVisitor ssv(savePt);
         std::for_each(m_allStudents.begin(), m_allStudents.end(),
                       [&ssv] (boost::shared_ptr<Student> singleStudent)
         {
             singleStudent->accept(ssv);
         });
-        ssv.saveFile(file);
 
-        EvalSetSaveVisitor esv;
+        EvalSetSaveVisitor esv(savePt);
         std::for_each(m_allEvalSets.begin(), m_allEvalSets.end(),
                       [&esv] (boost::shared_ptr<EvalSet> singleEvalSet)
         {
             singleEvalSet->accept(esv);
         });
-        esv.saveFile(file);
 
-        file.close();
+        SaveVisitor::saveFile(path + "\\" + s_initialWriteFileName, savePt);
 
         QFile oldFile(QString::fromStdString(path + "/" + filename));
         oldFile.remove();

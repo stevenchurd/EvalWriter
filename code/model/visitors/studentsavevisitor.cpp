@@ -11,8 +11,8 @@
 #include "xmlnodenames.h"
 
 
-StudentSaveVisitor::StudentSaveVisitor() :
-    SaveVisitor()
+StudentSaveVisitor::StudentSaveVisitor(boost::property_tree::ptree &parentPt) :
+    SaveVisitor(parentPt)
 {
 }
 

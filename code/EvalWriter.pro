@@ -80,7 +80,8 @@ HEADERS  += \
     globalenums.h \
     model/visitors/containerinsertvisitor.h \
     utilities/tagreplacer.h \
-    tagstrings.h
+    tagstrings.h \
+    application.h
 
 FORMS    +=
 

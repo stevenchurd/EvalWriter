@@ -10,6 +10,7 @@
 #include <QDebug>
 #endif
 
+#include "application.h"
 #include "utilities/filelogger.h"
 #include "utilities/persistentdatamanager.h"
 #include "model/course.h"
@@ -31,6 +32,7 @@ int main(int argc, char *argv[])
         QApplication a(argc, argv);
 
         a.setApplicationName("EvalWriter");
+        a.setApplicationVersion(QString::fromStdString(applicationDefinitions::appVersion));
 
         PDM().loadFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation).toStdString(),
                        PersistentDataManager::s_saveFileName);

@@ -4,8 +4,8 @@
 #include "xmlnodenames.h"
 
 
-EvalSetSaveVisitor::EvalSetSaveVisitor() :
-    SaveVisitor()
+EvalSetSaveVisitor::EvalSetSaveVisitor(boost::property_tree::ptree &parentPt) :
+    SaveVisitor(parentPt)
 {
 }
 

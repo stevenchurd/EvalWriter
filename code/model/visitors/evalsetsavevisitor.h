@@ -10,7 +10,7 @@ class Eval;
 class EvalSetSaveVisitor : public SaveVisitor
 {
 public:
-    EvalSetSaveVisitor();
+    EvalSetSaveVisitor(boost::property_tree::ptree& parentPt);
 
     virtual ~EvalSetSaveVisitor() {}
 

@@ -5,6 +5,12 @@
 #include "xmlnodenames.h"
 
 
+CourseSaveVisitor::CourseSaveVisitor(boost::property_tree::ptree& parentPt) :
+    SaveVisitor(parentPt)
+{
+}
+
+
 void CourseSaveVisitor::visit(Course& course)
 {
     boost::property_tree::ptree singleCoursePt;

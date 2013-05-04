@@ -10,7 +10,7 @@ class Course;
 class CourseSaveVisitor : public SaveVisitor
 {
 	public:
-        CourseSaveVisitor() : SaveVisitor() {}
+        CourseSaveVisitor(boost::property_tree::ptree& parentPt);
 
 		virtual ~CourseSaveVisitor() {}
 

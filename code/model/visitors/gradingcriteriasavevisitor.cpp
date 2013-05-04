@@ -7,6 +7,12 @@
 #include <boost/property_tree/ptree.hpp>
 
 
+GradingCriteriaSaveVisitor::GradingCriteriaSaveVisitor(boost::property_tree::ptree& parentPt) :
+    SaveVisitor(parentPt)
+{
+}
+
+
 void GradingCriteriaSaveVisitor::visit(GradingCriteria& gc)
 {
     m_gradingCriteriaItemPt.put(xml_node_names::elementUuidNode, gc.getUuid());

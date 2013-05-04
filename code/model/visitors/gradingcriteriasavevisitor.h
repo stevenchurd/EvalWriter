@@ -12,7 +12,7 @@ class CriteriaItem;
 class GradingCriteriaSaveVisitor : public SaveVisitor
 {
 	public:
-        GradingCriteriaSaveVisitor() : SaveVisitor() {}
+        GradingCriteriaSaveVisitor(boost::property_tree::ptree& parentPt);
 		virtual ~GradingCriteriaSaveVisitor() {}
 
 		void visit(GradingCriteria& gc);

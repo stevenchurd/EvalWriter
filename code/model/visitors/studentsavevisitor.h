@@ -14,7 +14,7 @@ class CustomTextItem;
 class StudentSaveVisitor : public SaveVisitor
 {
 public:
-    StudentSaveVisitor();
+    StudentSaveVisitor(boost::property_tree::ptree& parentPt);
     virtual ~StudentSaveVisitor() {}
 
     void visit(Student& );

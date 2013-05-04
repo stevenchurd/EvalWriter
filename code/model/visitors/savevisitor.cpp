@@ -4,15 +4,14 @@
 #include <boost/property_tree/xml_parser.hpp>
 
 
-void SaveVisitor::saveFile(std::string& saveFile)
+SaveVisitor::SaveVisitor(boost::property_tree::ptree& pt) :
+    Visitor(), m_pt(pt)
 {
-    boost::property_tree::xml_parser::xml_writer_settings<char> w(' ', 4);
-    boost::property_tree::xml_parser::write_xml(saveFile, m_pt, std::locale(), w);
 }
 
 
-void SaveVisitor::saveFile(std::ofstream& filestream)
+void SaveVisitor::saveFile(std::string& saveFile, boost::property_tree::ptree& pt)
 {
     boost::property_tree::xml_parser::xml_writer_settings<char> w(' ', 4);
-    boost::property_tree::xml_parser::write_xml(filestream, m_pt, w);
+    boost::property_tree::xml_parser::write_xml(saveFile, pt, std::locale(), w);
 }

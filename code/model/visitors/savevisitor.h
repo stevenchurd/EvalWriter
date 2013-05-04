@@ -9,16 +9,15 @@
 class SaveVisitor : public Visitor
 {
 public:
-    SaveVisitor() {}
+    SaveVisitor(boost::property_tree::ptree& pt);
 
     virtual ~SaveVisitor(void) {}
 
-    void saveFile(std::string &saveFile) ;
-    void saveFile(std::ofstream& filestream);
+    static void saveFile(std::string &saveFile, boost::property_tree::ptree& pt) ;
 
 protected:
 
-    boost::property_tree::ptree m_pt;
+    boost::property_tree::ptree& m_pt;
 
 };
 
