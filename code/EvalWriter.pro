@@ -130,7 +130,8 @@ OTHER_FILES += \
     gui/qml/hoverTextCreator.js \
     gui/qml/HoverText.qml \
     gui/qml/IconButton.qml \
-    gui/qml/CreateEvalSetDialog.qml
+    gui/qml/CreateEvalSetDialog.qml \
+    gui/qml/InfoDialog.qml
 
 RESOURCES += \
     resources.qrc

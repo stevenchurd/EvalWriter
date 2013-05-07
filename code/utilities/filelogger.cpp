@@ -9,6 +9,8 @@
 #include <QDir>
 #include <iostream>
 
+#include "application.h"
+
 FileLogger* FileLogger::s_inst = NULL;
 std::string FileLogger::s_defaultFile = "errors";
 
@@ -50,5 +52,6 @@ FileLogger* FileLogger::getInst(void)
 
 void FileLogger::log(std::string msg)
 {
-    file << QDateTime::currentDateTime().toString().toStdString() << " " << msg << std::endl;
+    file << QDateTime::currentDateTime().toString().toStdString() << " "
+         << applicationDefinitions::appVersion << " " << msg << std::endl;
 }

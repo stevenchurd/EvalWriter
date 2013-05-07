@@ -25,6 +25,7 @@ Item {
         wizardContent.visible = true
         pageStack.enabled = false
         navBar.enabled = false
+        aboutButton.enabled = false
     }
 
     function close()
@@ -33,6 +34,7 @@ Item {
         wizardContent.visible = false
         pageStack.enabled = true
         navBar.enabled = true
+        aboutButton.enabled = true
     }
 
     Component {
