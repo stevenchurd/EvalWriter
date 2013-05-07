@@ -76,6 +76,7 @@ void QCriteriaItemListModel::addCriteriaItem(QString string, int level)
     unsigned int newRow = m_gradingCriteria->addCriteriaItem(ci);
     beginInsertRows(QModelIndex(), newRow, newRow);
     endInsertRows();
+    emit dataChanged(m_parentIndex);
 }
 
 
