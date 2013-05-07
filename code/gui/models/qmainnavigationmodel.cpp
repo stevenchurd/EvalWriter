@@ -129,10 +129,10 @@ QAbstractItemModel* makeMainNavModel(boost::shared_ptr<Student> student)
 {
     QMainNavigationModel* navModel = new QMainNavigationModel(student->getUuid());
 
-    QCoursesListModel* coursesList = new QCoursesListModel(student);
+    //QCoursesListModel* coursesList = new QCoursesListModel(student);
     QEvalsListModel* evalsList = new QEvalsListModel(student);
 
-    navModel->addSubModel("Classes", coursesList, QGenericListModel::CourseList);
+    //navModel->addSubModel("Classes", coursesList, QGenericListModel::CourseList);
     navModel->addSubModel("Evaluations", evalsList, QGenericListModel::EvaluationList);
 
     return navModel;
