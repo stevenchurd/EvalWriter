@@ -229,6 +229,7 @@ void QEvalsListModel::removeItem(int row)
     {
         // removing from an eval set just removes the eval
         m_evalSet->removeEval(iterAt<Eval>(m_evalSet->evalsBegin(), row));
+        emit PDM().evalSetDataChanged(m_evalSet->getUuid());
     }
     else if(m_student != nullptr)
     {
@@ -328,6 +329,7 @@ void QEvalsListModel::optionListSelection(int operation, int row)
                 beginInsertRows(QModelIndex(), newRow, newRow);
                 m_evalSet->addEval(evals[row]);
                 endInsertRows();
+                emit PDM().evalSetDataChanged(m_evalSet->getUuid());
             }
        }
             break;
