@@ -40,6 +40,7 @@ Dialog {
                     selectionColor: "steelblue"
                     focus: true
 
+                    onFocusChanged: selectAll()
                     Component.onCompleted: selectAll()
                     onAccepted: trySubmit()
                 }

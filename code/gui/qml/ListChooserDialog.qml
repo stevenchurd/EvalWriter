@@ -25,6 +25,7 @@ Dialog {
                 CommonListView {
                     id: itemSelectorList
                     anchors.fill: parent
+                    clip: true
                     model: stringList
                     delegate: CommonListDelegate {
                         text: modelData

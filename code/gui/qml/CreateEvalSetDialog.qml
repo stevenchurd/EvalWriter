@@ -76,6 +76,7 @@ Dialog {
                         selectByMouse: true
                         selectionColor: "steelblue"
 
+                        onFocusChanged: selectAll()
                         onAccepted: trySubmit()
                     }
                 }
@@ -107,6 +108,7 @@ Dialog {
                         selectByMouse: true
                         selectionColor: "steelblue"
 
+                        onFocusChanged: selectAll()
                         onAccepted: trySubmit()
                     }
                 }

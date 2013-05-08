@@ -55,13 +55,14 @@ Dialog {
 
                             Component.onCompleted: selectAll()
                             onAccepted: trySubmit()
+                            onFocusChanged: selectAll()
                         }
                     }
                 }
 
                 Column {
                     Text {
-                        text: "Middle Name"
+                        text: "Middle Initial"
                         renderType: Text.NativeRendering
                     }
 
@@ -79,12 +80,14 @@ Dialog {
                             anchors.margins: 5
 
                             Keys.onTabPressed: lastName.focus = true
+                            maximumLength: 1
 
                             renderType: TextInput.NativeRendering
                             text: startingMiddleName
                             selectByMouse: true
                             selectionColor: "steelblue"
 
+                            onFocusChanged: selectAll()
                             onAccepted: trySubmit()
                         }
                     }
@@ -116,6 +119,7 @@ Dialog {
                             selectByMouse: true
                             selectionColor: "steelblue"
 
+                            onFocusChanged: selectAll()
                             onAccepted: trySubmit()
                         }
                     }
