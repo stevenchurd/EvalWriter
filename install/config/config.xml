@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>EvalWriter</Name>
+    <Version>beta 1.0</Version>
+    <Title>EvalWriter Installer</Title>
+    <Publisher>Steven Hurd</Publisher>
+    <StartMenuDir>EvalWriter</StartMenuDir>
+    <RepositorySettingsPageVisible>false
+</RepositorySettingsPageVisible>
+    <AllowSpaceInPath>true</AllowSpaceInPath>
+    <TargetDir>@rootDir@Program Files (x86)\EvalWriter</TargetDir>
+    <AdminTargetDir>@rootDir@Program Files (x86)\EvalWriter</AdminTargetDir>
+</Installer>

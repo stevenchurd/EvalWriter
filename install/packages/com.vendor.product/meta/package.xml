@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>EvalWriter</DisplayName>
+    <Description>The Eval Writer application.</Description>
+    <Version>1.0</Version>
+    <ReleaseDate>2013-05-11</ReleaseDate>
+    <Name>com.vendor.product</Name>
+    <Licenses>
+        <License name="Public License Agreement" file="license.txt" />
+    </Licenses>
+    <Default>script</Default>
+    <Script>installscript.qs</Script>
+    <ForcedInstallation>true</ForcedInstallation>
+</Package>
