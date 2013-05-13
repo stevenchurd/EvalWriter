@@ -1,0 +1,47 @@
+<RCC>
+    <qresource prefix="/Qml">
+        <file>AddStudentDialog.qml</file>
+        <file>Checkbox.qml</file>
+        <file>CommonListDelegate.qml</file>
+        <file>CommonListView.qml</file>
+        <file>CourseListDelegateItem.qml</file>
+        <file>CreateEvalSetDialog.qml</file>
+        <file>CriteriaItemEditDialog.qml</file>
+        <file>CriteriaItemRow.qml</file>
+        <file>criteriaItemRowCreation.js</file>
+        <file>CustomTextItemEditDialog.qml</file>
+        <file>Dialog.qml</file>
+        <file>EvalEditor.qml</file>
+        <file>EvalItemDelegate.qml</file>
+        <file>EvalModel.qml</file>
+        <file>FlowListView.qml</file>
+        <file>GradingCriteriaDelegate.qml</file>
+        <file>GradingCriteriaModel.qml</file>
+        <file>GradingCriteriaRow.qml</file>
+        <file>HoverText.qml</file>
+        <file>hoverTextCreator.js</file>
+        <file>IconButton.qml</file>
+        <file>InfoDialog.qml</file>
+        <file>ListChooserDialog.qml</file>
+        <file>main.qml</file>
+        <file>MainNavigationModel.qml</file>
+        <file>NavigationBar.qml</file>
+        <file>NavigationBarDelegate.qml</file>
+        <file>NavigationListDelegate.qml</file>
+        <file>NavigationListSubModel.qml</file>
+        <file>pageCreator.js</file>
+        <file>PageOperationsContainer.qml</file>
+        <file>PageStack.qml</file>
+        <file>qml.qrc</file>
+        <file>Scrollbar.qml</file>
+        <file>SideListDelegate.qml</file>
+        <file>SingleLineTextEditDialog.qml</file>
+        <file>stack.js</file>
+        <file>subModelCreator.js</file>
+        <file>TextButton.qml</file>
+        <file>utilities.js</file>
+        <file>VerticalSplitter.qml</file>
+        <file>WizardLoader.qml</file>
+        <file>YesNoDialog.qml</file>
+    </qresource>
+</RCC>

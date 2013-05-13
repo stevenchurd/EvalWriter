@@ -134,4 +134,5 @@ OTHER_FILES += \
     gui/qml/InfoDialog.qml
 
 RESOURCES += \
-    resources.qrc
+    resources.qrc \
+    gui/qml/qml.qrc

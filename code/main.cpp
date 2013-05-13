@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
         context->setContextProperty("appVersion", a.applicationVersion());
 
         // set view properties
-        view.setSource(QUrl::fromLocalFile("../code/gui/qml/main.qml"));
+        view.setSource(QUrl("qrc:/Qml/main.qml"));
         view.setResizeMode(QQuickView::SizeRootObjectToView);
 
         view.setMinimumSize(QSize(600,400));

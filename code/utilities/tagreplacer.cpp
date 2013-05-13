@@ -1,6 +1,7 @@
 #include "tagreplacer.h"
 #include "evalexceptions.h"
 #include "persistentdatamanager.h"
+#include "tagstrings.h"
 
 #include "model/eval.h"
 #include "model/student.h"
@@ -8,7 +9,6 @@
 #include <regex>
 
 #ifdef _DEBUG
-#include "tagstrings.h"
 #include <QDebug>
 #endif
 
