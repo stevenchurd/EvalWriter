@@ -19,21 +19,26 @@ Rectangle {
     states: [
         State {
             name: "mouseIn"
-            PropertyChanges { target: arrowButton; color: "#33AAEE" }
+            PropertyChanges { target: wrapper; color: wrapper.ListView.isCurrentItem ? "#AAAAAA" : "#DDDDDD" }
         },
         State {
             name: "mouseOut"
-            PropertyChanges { target: arrowButton; color: "#AAAAAA" }
+            PropertyChanges { target: wrapper; color: wrapper.ListView.isCurrentItem ? "#BBBBBB" : "#EEEEEE" }
         },
         State {
             name: "pressed"
-            when: arrowMouseArea.pressed
-            PropertyChanges { target: arrowButton; color: "#33CCEE" }
+            when: listItemMouseArea.pressed
+            PropertyChanges { target: wrapper; color: "#CCCCCC" }
         }
     ]
 
     MouseArea {
+        id: listItemMouseArea
         anchors.fill: parent
+        hoverEnabled: true
+
+        onEntered: wrapper.state = "mouseIn"
+        onExited: wrapper.state = "mouseOut"
 
         Rectangle {
             id: highlight
@@ -77,7 +82,6 @@ Rectangle {
                            "transparent"
         }
 
-
         MouseArea {
             id: arrowMouseArea
             height:20
@@ -86,6 +90,23 @@ Rectangle {
             anchors.rightMargin: 5
             anchors.verticalCenter: parent.verticalCenter
             hoverEnabled: true
+            state: "mouseOut"
+
+            states: [
+                State {
+                    name: "mouseIn"
+                    PropertyChanges { target: arrowButton; color: "#33AAEE" }
+                },
+                State {
+                    name: "mouseOut"
+                    PropertyChanges { target: arrowButton; color: wrapper.ListView.isCurrentItem ? "#444444" : "#AAAAAA" }
+                },
+                State {
+                    name: "pressed"
+                    when: arrowMouseArea.pressed
+                    PropertyChanges { target: arrowButton; color: "#33CCEE" }
+                }
+            ]
 
             Text {
                 id: arrowButton
@@ -95,11 +116,11 @@ Rectangle {
                 font.pointSize: 16
             }
 
-            onEntered: wrapper.state = "mouseIn"
-            onExited: wrapper.state = "mouseOut"
+            onEntered: arrowMouseArea.state = "mouseIn"
+            onExited: arrowMouseArea.state = "mouseOut"
 
             onClicked: {
-                wrapper.state = "mouseOut"
+                arrowMouseArea.state = "mouseOut"
                 pageStack.push(PageCreator.createModelByType(wrapper.modelType,
                                                              wrapper.model.getNextPageFromIndex(index)))
             }

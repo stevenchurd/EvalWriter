@@ -11,6 +11,8 @@ Rectangle {
     property var model
     property string pageType
 
+    onParentChanged: navList.highlightItem.requestPaint()
+
     ListView {
         id: navList
 
@@ -18,16 +20,37 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
 
         height: parent.height
-        width: 200
+        width: 250
         spacing: 5
 
         model: wrapper.model
         delegate: SideListDelegate{}
 
-        highlight: Rectangle {
-            width: parent.width
-            color: "#555555"
+        highlight: Canvas {
+            id: canvas
+            antialiasing: true
+            renderTarget: Canvas.Image
+
+            onPaint: {
+                var ctx = canvas.getContext('2d');
+                ctx.save()
+
+                ctx.fillStyle = "#666666"
+                // Draw shapes
+                ctx.clearRect(0,0,canvas.width, canvas.height);
+                ctx.beginPath();
+                ctx.moveTo(0,0)
+                ctx.lineTo(0, canvas.height)
+                ctx.lineTo(canvas.width*.93, canvas.height)
+                ctx.lineTo(canvas.width, canvas.height/2)
+                ctx.lineTo(canvas.width*.93, 0)
+                ctx.lineTo(canvas.width*.93, 0)
+                ctx.lineTo(0, 0)
+                ctx.fill()
+                ctx.restore()
+            }
         }
+
         interactive: false
 
         onCurrentIndexChanged: {
@@ -36,7 +59,7 @@ Rectangle {
             if(subModel !== undefined)
                 subModel.parent = subList
         }
-    }
+   }
 
     Rectangle {
         id: subList

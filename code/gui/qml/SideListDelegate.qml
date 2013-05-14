@@ -7,21 +7,21 @@ MouseArea {
     anchors.horizontalCenter: parent.horizontalCenter
     width: parent.width
     height: 45
-
+    hoverEnabled: true
+    state: "mouseOut"
 
     Rectangle {
-        id: hightlight
+        id: highlight
         anchors.left: wrapper.left
         height: parent.height
         width: 2
-
         color: "#33AAEE"
     }
 
     Text {
         id: typeIcon
         anchors.verticalCenter:  parent.verticalCenter
-        anchors.left: hightlight.right
+        anchors.left: highlight.right
         anchors.leftMargin: 5
         font.pointSize: 14
         font.family: fontAwesome.name
@@ -29,6 +29,7 @@ MouseArea {
     }
 
     Text {
+        id: listText
         anchors.verticalCenter:  parent.verticalCenter
         anchors.left: typeIcon.right
         anchors.leftMargin: 5
@@ -40,6 +41,28 @@ MouseArea {
     onClicked: {
         wrapper.ListView.view.currentIndex = index
     }
+
+    onEntered: wrapper.state = "mouseIn"
+    onExited: wrapper.state = "mouseOut"
+
+    states: [
+        State {
+            name: "mouseIn"
+            PropertyChanges { target: typeIcon; color: "#33AAEE" }
+            PropertyChanges { target: listText; color: "#33AAEE" }
+        },
+        State {
+            name: "mouseOut"
+            PropertyChanges { target: typeIcon; color: "black" }
+            PropertyChanges { target: listText; color: "black" }
+        },
+        State {
+            name: "pressed"
+            when: wrapper.pressed
+            PropertyChanges { target: typeIcon; color: "#33CCEE" }
+            PropertyChanges { target: listText; color: "#33CCEE" }
+        }
+    ]
 
     function mapSubModelTypeToIcon(submodelType)
     {
