@@ -5,10 +5,7 @@
 #include <QQmlContext>
 #include <QQmlComponent>
 #include <QStandardPaths>
-
-#ifdef _DEBUG
-#include <QDebug>
-#endif
+#include <QSettings>
 
 #include "application.h"
 #include "utilities/filelogger.h"
@@ -74,9 +71,22 @@ int main(int argc, char *argv[])
         view.setResizeMode(QQuickView::SizeRootObjectToView);
 
         view.setMinimumSize(QSize(600,400));
+
+        QSettings settings("EvalWriterCorp", "EvalWriter");
+        view.setGeometry(settings.value("geometry").toRect());
+        view.setWindowState(static_cast<Qt::WindowState>(settings.value("windowState").toInt()));
+
         view.show();
 
-        return a.exec();
+        int retVal = a.exec();
+
+        // if this was a normal shutdown, save the window position and geometry
+        if(retVal == 0)
+        {
+            settings.setValue("geometry", view.geometry());
+            settings.setValue("windowState", view.windowState());
+        }
+        return retVal;
 
     } catch(std::exception& e) {
         FileLogger::getInst()->log(e.what());
