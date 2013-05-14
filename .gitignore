@@ -169,4 +169,10 @@ pip-log.txt
 Makefile
 Makefile.Debug
 Makefile.Release
+
+#############
+## Installer
+#############
+
 data
+EvalWriterInstaller.exe
