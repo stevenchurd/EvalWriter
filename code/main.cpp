@@ -69,21 +69,27 @@ int main(int argc, char *argv[])
         // set view properties
         view.setSource(QUrl("qrc:/Qml/main.qml"));
         view.setResizeMode(QQuickView::SizeRootObjectToView);
+        view.setFlags(Qt::Window | Qt::WindowTitleHint |
+                      Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint |
+                      Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint);
 
         view.setMinimumSize(QSize(600,400));
 
         QSettings settings("EvalWriterCorp", "EvalWriter");
         view.setGeometry(settings.value("geometry").toRect());
-        view.setWindowState(static_cast<Qt::WindowState>(settings.value("windowState").toInt()));
 
         view.show();
+        view.setWindowState(static_cast<Qt::WindowState>(settings.value("windowState").toInt()));
 
         int retVal = a.exec();
 
         // if this was a normal shutdown, save the window position and geometry
         if(retVal == 0)
         {
-            settings.setValue("geometry", view.geometry());
+            if(view.windowState() != Qt::WindowMaximized)
+            {
+                settings.setValue("geometry", view.geometry());
+            }
             settings.setValue("windowState", view.windowState());
         }
         return retVal;
