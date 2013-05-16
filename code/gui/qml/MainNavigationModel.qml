@@ -11,8 +11,6 @@ Rectangle {
     property var model
     property string pageType
 
-    onParentChanged: navList.highlightItem.requestPaint()
-
     ListView {
         id: navList
 
@@ -26,31 +24,10 @@ Rectangle {
         model: wrapper.model
         delegate: SideListDelegate{}
 
-        highlight: Canvas {
-            id: canvas
-            antialiasing: true
-            renderTarget: Canvas.Image
-
-            onPaint: {
-                var ctx = canvas.getContext('2d');
-                ctx.save()
-
-                ctx.fillStyle = "#666666"
-                // Draw shapes
-                ctx.clearRect(0,0,canvas.width, canvas.height);
-                ctx.beginPath();
-                ctx.moveTo(0,0)
-                ctx.lineTo(0, canvas.height)
-                ctx.lineTo(canvas.width*.93, canvas.height)
-                ctx.lineTo(canvas.width, canvas.height/2)
-                ctx.lineTo(canvas.width*.93, 0)
-                ctx.lineTo(canvas.width*.93, 0)
-                ctx.lineTo(0, 0)
-                ctx.fill()
-                ctx.restore()
-            }
+        highlight: Rectangle {
+            width: parent.width
+            color: "#555555"
         }
-
         interactive: false
 
         onCurrentIndexChanged: {
@@ -59,7 +36,7 @@ Rectangle {
             if(subModel !== undefined)
                 subModel.parent = subList
         }
-   }
+    }
 
     Rectangle {
         id: subList
