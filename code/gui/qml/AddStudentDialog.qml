@@ -55,7 +55,7 @@ Dialog {
 
                             Component.onCompleted: selectAll()
                             onAccepted: trySubmit()
-                            onFocusChanged: selectAll()
+                            onFocusChanged: if(focus) { selectAll() }
                         }
                     }
                 }
@@ -87,7 +87,7 @@ Dialog {
                             selectByMouse: true
                             selectionColor: "steelblue"
 
-                            onFocusChanged: selectAll()
+                            onFocusChanged: if(focus) { selectAll() }
                             onAccepted: trySubmit()
                         }
                     }
@@ -119,7 +119,7 @@ Dialog {
                             selectByMouse: true
                             selectionColor: "steelblue"
 
-                            onFocusChanged: selectAll()
+                            onFocusChanged: if(focus) { selectAll() }
                             onAccepted: trySubmit()
                         }
                     }
