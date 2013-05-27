@@ -442,7 +442,7 @@ Rectangle {
     // Generic components
     Component {
         id: addItemDialog
-        SingleLineTextEditDialog {
+        SingleLineTextInputDialog {
             id: dialog
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
 
@@ -474,7 +474,7 @@ Rectangle {
 
     Component {
         id: renameItemDialog
-        SingleLineTextEditDialog {
+        SingleLineTextInputDialog {
             id: dialog
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
             startingText: listOfItems.currentItem.itemString

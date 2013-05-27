@@ -147,7 +147,7 @@ Rectangle {
 
     Component {
         id: modifyGradingCriteriaDialog
-        SingleLineTextEditDialog {
+        SingleLineTextInputDialog {
             id: dialog
             startingText: gradingCriteriaString
             explanationText: "Change the category name to:"

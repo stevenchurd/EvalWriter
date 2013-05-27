@@ -120,7 +120,6 @@ OTHER_FILES += \
     gui/qml/NavigationBar.qml \
     gui/qml/subModelCreator.js \
     gui/qml/NavigationListSubModel.qml \
-    gui/qml/SingleLineTextEditDialog.qml \
     gui/qml/ListChooserDialog.qml \
     gui/qml/AddStudentDialog.qml \
     gui/qml/NavigationListDelegate.qml \
@@ -131,7 +130,8 @@ OTHER_FILES += \
     gui/qml/HoverText.qml \
     gui/qml/IconButton.qml \
     gui/qml/CreateEvalSetDialog.qml \
-    gui/qml/InfoDialog.qml
+    gui/qml/InfoDialog.qml \
+    gui/qml/SingleLineTextInputDialog.qml
 
 RESOURCES += \
     resources.qrc \
