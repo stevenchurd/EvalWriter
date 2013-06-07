@@ -122,7 +122,7 @@ Rectangle {
             onClicked: {
                 arrowMouseArea.state = "mouseOut"
                 pageStack.push(PageCreator.createModelByType(wrapper.modelType,
-                                                             wrapper.model.getNextPageFromIndex(index)))
+                                                             wrapper.model.getGenericListModel().getNextPageFromIndex(index)))
             }
         }
 

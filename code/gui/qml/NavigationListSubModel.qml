@@ -11,13 +11,28 @@ Rectangle {
 
     clip: true
 
+    SearchBox {
+        id: searchBox
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.margins: 2
+
+        height: 25
+        activeWidth: 300
+
+        onTextChanged: model.setFilterFixedString(newText)
+    }
+
     ListView {
         id: listOfItems
 
-        height: parent.height
+        anchors.top: searchBox.bottom
+        anchors.margins: 2
+        height: parent.height - searchBox.height
         width: parent.width - listOperationsContainer.width - (scrollbar.width + 5)
         model: wrapper.model
         spacing: 5
+        clip: true
 
         displaced: Transition {
             NumberAnimation { properties: "x,y"; duration: 200 }

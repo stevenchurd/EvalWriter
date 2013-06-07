@@ -4,6 +4,7 @@
 #include "qevalslistmodel.h"
 #include "qstudentslistmodel.h"
 #include "qevalsetslistmodel.h"
+#include "qgenericlistsortfilterproxymodel.h"
 #include "utilities/persistentdatamanager.h"
 
 QMainNavigationModel::QMainNavigationModel(std::string uuidForTitle, QObject *parent) :
@@ -41,6 +42,18 @@ void QMainNavigationModel::addSubModel(std::string displayString, QAbstractItemM
     // reparent model
     listModel->setParent(this);
     m_submodels.push_back(std::make_tuple(displayString, listModel, modelType));
+}
+
+
+void QMainNavigationModel::addSubModelWithListSortFilterProxy(std::string displayString,
+                                    QAbstractItemModel* listModel,
+                                    QGenericListModel::SubModelType modelType)
+{
+    QSortFilterProxyModel* listProxy = new QGenericListSortFilterProxyModel();
+    listProxy->setFilterRole(QGenericListModel::StringRole);
+    listProxy->setSourceModel(listModel);
+
+    addSubModel(displayString, listProxy, modelType);
 }
 
 
@@ -133,7 +146,7 @@ QAbstractItemModel* makeMainNavModel(boost::shared_ptr<Student> student)
     QEvalsListModel* evalsList = new QEvalsListModel(student);
 
     //navModel->addSubModel("Classes", coursesList, QGenericListModel::CourseList);
-    navModel->addSubModel("Evaluations", evalsList, QGenericListModel::EvaluationList);
+    navModel->addSubModelWithListSortFilterProxy("Evaluations", evalsList, QGenericListModel::EvaluationList);
 
     return navModel;
 }
@@ -145,7 +158,7 @@ QAbstractItemModel* makeMainNavModel(boost::shared_ptr<Course> course)
 
     QStudentsListModel* studentsList = new QStudentsListModel(course);
 
-    navModel->addSubModel("Students", studentsList, QGenericListModel::StudentList);
+    navModel->addSubModelWithListSortFilterProxy("Students", studentsList, QGenericListModel::StudentList);
 
     return navModel;
 }
@@ -158,8 +171,8 @@ QAbstractItemModel* makeMainNavModel(boost::shared_ptr<EvalSet> evalSet)
     QEvalsListModel* evalsList = new QEvalsListModel(evalSet);
     QEvalSetsListModel* evalSetsList = new QEvalSetsListModel(evalSet);
 
-    navModel->addSubModel("Evaluations", evalsList, QGenericListModel::EvaluationList);
-    navModel->addSubModel("Evaluation Sets", evalSetsList, QGenericListModel::EvalSetList);
+    navModel->addSubModelWithListSortFilterProxy("Evaluations", evalsList, QGenericListModel::EvaluationList);
+    navModel->addSubModelWithListSortFilterProxy("Evaluation Sets", evalSetsList, QGenericListModel::EvalSetList);
 
     return navModel;
 }

@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     model/visitors/evalsetsavevisitor.cpp \
     utilities/evalsetpropertytreeparser.cpp \
     model/visitors/removeevalvisitor.cpp \
-    utilities/tagreplacer.cpp
+    utilities/tagreplacer.cpp \
+    gui/models/qgenericlistsortfilterproxymodel.cpp
 
 HEADERS  += \
     evalexceptions.h \
@@ -81,7 +82,8 @@ HEADERS  += \
     model/visitors/containerinsertvisitor.h \
     utilities/tagreplacer.h \
     tagstrings.h \
-    application.h
+    application.h \
+    gui/models/qgenericlistsortfilterproxymodel.h
 
 FORMS    +=
 
@@ -131,7 +133,8 @@ OTHER_FILES += \
     gui/qml/HoverText.qml \
     gui/qml/IconButton.qml \
     gui/qml/CreateEvalSetDialog.qml \
-    gui/qml/InfoDialog.qml
+    gui/qml/InfoDialog.qml \
+    gui/qml/SearchBox.qml
 
 RESOURCES += \
     resources.qrc \

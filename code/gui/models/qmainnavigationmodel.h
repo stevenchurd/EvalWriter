@@ -32,7 +32,13 @@ public:
     Q_INVOKABLE QString getModelTitle() const;
     Q_INVOKABLE unsigned int getSubModelCount(void) const { return static_cast<unsigned int>(m_submodels.size()); }
 
-    void addSubModel(std::string displayString, QAbstractItemModel *listModel, QGenericListModel::SubModelType modelType);
+    void addSubModel(std::string displayString,
+                     QAbstractItemModel *listModel,
+                     QGenericListModel::SubModelType modelType);
+
+    void addSubModelWithListSortFilterProxy(std::string displayString,
+                                        QAbstractItemModel* listModel,
+                                        QGenericListModel::SubModelType modelType);
 
     /* virtual functions from QAbstractListModel */
     int rowCount(const QModelIndex &parent) const;

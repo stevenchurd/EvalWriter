@@ -53,12 +53,13 @@ int main(int argc, char *argv[])
 
         QGenericListModel* coursesModel = new QCoursesListModel();
         QGenericListModel* studentsModel = new QStudentsListModel() ;
-        QGenericListModel* evalSetModel = new QEvalSetsListModel();
+        QGenericListModel* evalSetsModel = new QEvalSetsListModel();
 
         QMainNavigationModel* mainModel = new QMainNavigationModel(std::string());
-        mainModel->addSubModel("Classes", coursesModel, QGenericListModel::CourseList);
-        mainModel->addSubModel("Students", studentsModel, QGenericListModel::StudentList);
-        mainModel->addSubModel("Evaluation Sets", evalSetModel, QGenericListModel::EvalSetList);
+
+        mainModel->addSubModelWithListSortFilterProxy("Classes", coursesModel, QGenericListModel::CourseList);
+        mainModel->addSubModelWithListSortFilterProxy("Students", studentsModel, QGenericListModel::StudentList);
+        mainModel->addSubModelWithListSortFilterProxy("Evaluation Sets", evalSetsModel, QGenericListModel::EvalSetList);
         mainModel->addSubModel("Grading Categories", &gcModel, QGenericListModel::GradingCriteria);
 
         context->setContextProperty("mainModel", mainModel);

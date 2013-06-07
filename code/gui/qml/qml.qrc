@@ -32,7 +32,6 @@
         <file>pageCreator.js</file>
         <file>PageOperationsContainer.qml</file>
         <file>PageStack.qml</file>
-        <file>qml.qrc</file>
         <file>Scrollbar.qml</file>
         <file>SideListDelegate.qml</file>
         <file>SingleLineTextEditDialog.qml</file>
@@ -43,5 +42,6 @@
         <file>VerticalSplitter.qml</file>
         <file>WizardLoader.qml</file>
         <file>YesNoDialog.qml</file>
+        <file>SearchBox.qml</file>
     </qresource>
 </RCC>
