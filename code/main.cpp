@@ -6,6 +6,7 @@
 #include <QQmlComponent>
 #include <QStandardPaths>
 #include <QSettings>
+#include <QDebug>
 
 #include "application.h"
 #include "utilities/filelogger.h"
@@ -22,6 +23,7 @@
 #include "gui/models/qmainnavigationmodel.h"
 #include "gui/models/qgenericlistmodel.h"
 #include "gui/models/qevalsetslistmodel.h"
+#include "gui/models/modeloperation.h"
 
 int main(int argc, char *argv[])
 {

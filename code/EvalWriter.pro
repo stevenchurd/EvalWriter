@@ -41,7 +41,9 @@ SOURCES += main.cpp\
     utilities/evalsetpropertytreeparser.cpp \
     model/visitors/removeevalvisitor.cpp \
     utilities/tagreplacer.cpp \
-    gui/models/qgenericlistsortfilterproxymodel.cpp
+    gui/models/qgenericlistsortfilterproxymodel.cpp \
+    gui/models/modeloperation.cpp \
+    gui/models/qmodeloperationsmodel.cpp
 
 HEADERS  += \
     evalexceptions.h \
@@ -83,7 +85,9 @@ HEADERS  += \
     utilities/tagreplacer.h \
     tagstrings.h \
     application.h \
-    gui/models/qgenericlistsortfilterproxymodel.h
+    gui/models/qgenericlistsortfilterproxymodel.h \
+    gui/models/modeloperation.h \
+    gui/models/qmodeloperationsmodel.h
 
 FORMS    +=
 

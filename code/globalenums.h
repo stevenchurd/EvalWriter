@@ -29,6 +29,8 @@ enum SubModelOperationRanges {
     EvaluationOperationsBegin = 51,
     EvaluationOperationsEnd = 60
 };
+
+typedef SubModelOperationRanges ModelOperationEnum;
 }
 
 
