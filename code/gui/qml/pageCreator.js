@@ -1,5 +1,3 @@
-var createdComponents = []
-
 function createModelByType(modelType, cppModel)
 {
     switch(modelType)
@@ -26,8 +24,6 @@ function createModelByType(modelType, cppModel)
 
 function createModel(modelFile, cppModel, typeString) {
     var itemComponent = Qt.createComponent(modelFile);
-
-    createdComponents.push(itemComponent)
 
     if (itemComponent.status === Component.Ready) {
         var newPage = itemComponent.createObject(null, {"model": cppModel, "pageType": typeString});

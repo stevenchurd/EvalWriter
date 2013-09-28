@@ -1,19 +1,16 @@
-import QtQuick 2.0
-import "stack.js" as Stack
+import QtQuick 2.1
+import QtQuick.Controls 1.0
 
 Rectangle {
     id: wrapper
+    property alias stackDepth: pageContainer.depth
 
     signal pageChanged
 
-    Rectangle {
+    StackView {
         id: pageContainer
         height: parent.height
         width: parent.width
-
-        function setAsParent(item) {
-            item.parent = pageContainer
-        }
     }
 
     function push(page)
@@ -22,12 +19,12 @@ Rectangle {
         if(page.pageType === "StudentNavPage")
         {
             // if it's a student, see if we can take out any lower students
-            for(var i = Stack.count()-1; i > 0; i--)
+            for(var i = pageContainer.depth-1; i > 0; i--)
             {
-                var stackPage = Stack.get(i)
+                var stackPage = pageContainer.get(i)
                 if(stackPage.pageType === "StudentNavPage")
                 {
-                    Stack.removeAt(i)
+                    pageContainer.removeAt(i)
                 }
             }
         }
@@ -35,31 +32,26 @@ Rectangle {
         if(page.pageType === "CourseNavPage")
         {
             // if it's a student, see if we can take out any lower students
-            for(var j = Stack.count()-1; j > 0; j--)
+            for(var j = pageContainer.depth-1; j > 0; j--)
             {
-                var stackPage2 = Stack.get(j)
+                var stackPage2 = pageContainer.get(j)
                 if(stackPage2.pageType === "CourseNavPage")
                 {
-                    Stack.removeAt(j)
+                    pageContainer.removeAt(j)
                 }
             }
         }
 
-        Stack.push(page)
-        pageContainer.setAsParent(page)
+        pageContainer.push(page)
         //printTitles()
         pageChanged()
     }
 
     function pop()
     {
-        if(Stack.count() > 1)
+        if(pageContainer.depth > 1)
         {
-            var page = Stack.pop()
-            page.parent = null
-            page.destroy()
-            page = Stack.top()
-            pageContainer.setAsParent(page)
+            pageContainer.pop()
         }
         //printTitles()
         pageChanged()
@@ -67,13 +59,9 @@ Rectangle {
 
     function popTo(i)
     {
-        while(i < Stack.count()-1 && Stack.count() > 1)
+        while(i < pageContainer.depth-1 && pageContainer.depth > 1)
         {
-            var page = Stack.pop()
-            page.parent = null
-            page.destroy()
-            page = Stack.top()
-            pageContainer.setAsParent(page)
+            var page = pageContainer.pop()
         }
 
         //printTitles()
@@ -84,9 +72,9 @@ Rectangle {
     {
         var titles = []
 
-        for(var i = 0; i < Stack.count(); i++)
+        for(var i = 0; i < pageContainer.depth; i++)
         {
-            var item = Stack.get(i)
+            var item = pageContainer.get(i)
             titles.push(item.getTitle())
         }
         return titles
@@ -94,15 +82,15 @@ Rectangle {
 
     function getTopTitle()
     {
-        return Stack.top().getTitle()
+        return pageContainer.top().getTitle()
     }
 
     function printTitles()
     {
         console.log("\nPageStack Titles")
-        for(var i = 0; i < Stack.count(); i++)
+        for(var i = 0; i < pageContainer.depth; i++)
         {
-            var item = Stack.get(i)
+            var item = pageContainer.get(i)
             console.log(item.getTitle());
         }
         console.log("\n")

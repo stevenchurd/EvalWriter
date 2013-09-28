@@ -6,7 +6,6 @@ import CppEnums 1.0
 
 Rectangle {
     id: wrapper
-    anchors.fill: parent
 
     property var model
     property string pageType
