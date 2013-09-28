@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.0
 
 Dialog {
     property string startingText
@@ -28,18 +29,16 @@ Dialog {
                 color: "#EEEEEE"
                 clip: true
 
-                TextEdit {
+                TextArea {
                     id: question
                     anchors.fill: parent
-                    textMargin: 5
 
                     wrapMode: TextEdit.Wrap
-                    renderType: TextEdit.NativeRendering
                     text: startingText
-                    cursorVisible: true
                     selectByMouse: true
-                    selectionColor: "steelblue"
                     focus: true
+                    tabChangesFocus: true
+                    backgroundVisible: false
 
                     Component.onCompleted: selectAll()
                 }

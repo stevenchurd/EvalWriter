@@ -1,4 +1,5 @@
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Controls 1.0
 
 Dialog {
     property string dialogText
@@ -68,16 +69,16 @@ Dialog {
                 color: "#EEEEEE"
                 clip: true
 
-                TextEdit {
+                TextArea {
                     id: customTextItem
                     anchors.fill: parent
-                    textMargin: 5
+                    backgroundVisible: false
+                    tabChangesFocus: true
 
                     wrapMode: TextEdit.Wrap
-                    renderType: TextEdit.NativeRendering
                     text: startingText
                     selectByMouse: true
-                    selectionColor: "steelblue"
+                    //selectionColor: "steelblue"
 
                     Keys.onTabPressed: acceptButton.focus = true
 
