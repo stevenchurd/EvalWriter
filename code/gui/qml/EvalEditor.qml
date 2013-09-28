@@ -1,22 +1,30 @@
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Controls 1.0
+import QtQuick.Layouts 1.0
 
 Item {
-    anchors.fill: parent
     property alias model: myeval.evalModel
 
-    Item {
-        id: leftColumn
-        height: parent.height
-        width: parent.width/3
-        GradingCriteriaModel{ editable: false }
-    }
+    SplitView {
+        anchors.fill: parent
+        orientation: Qt.Horizontal
 
-    Item {
-        id: rightColumn
-        height: parent.height
-        width: parent.width/3 * 2
-        anchors.left: leftColumn.right
-        EvalModel{ id: myeval }
+        Item {
+            id: leftColumn
+
+            Layout.minimumWidth: 200
+            GradingCriteriaModel{ editable: false }
+
+            Component.onCompleted: width = settings.value("evalSplit");
+        }
+
+        Item {
+            id: rightColumn
+            Layout.minimumWidth: 400
+            EvalModel{ id: myeval }
+        }
+
+        onResizingChanged: settings.setValue("evalSplit", leftColumn.width)
     }
 
     function getTitle()
