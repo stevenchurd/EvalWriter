@@ -1,15 +1,16 @@
 // (C) Copyright Steven Hurd 2013
 
 #include <QApplication>
-#include <QQuickView>
+#include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QQuickWindow>
 #include <QQmlComponent>
 #include <QStandardPaths>
-#include <QSettings>
 
 #include "application.h"
 #include "utilities/filelogger.h"
 #include "utilities/persistentdatamanager.h"
+#include "utilities/localappsettings.h"
 #include "model/course.h"
 #include "model/student.h"
 #include "model/gradingcriteria.h"
@@ -46,10 +47,10 @@ int main(int argc, char *argv[])
         QGradingCriteriaModel gcModel;
 
         // set up view with QML main
-        QQuickView view;
+        QQmlApplicationEngine engine;
 
-        // set context properties of view
-        QQmlContext* context = view.rootContext();
+        // set context properties of engine
+        QQmlContext* context = engine.rootContext();
 
         QGenericListModel* coursesModel = new QCoursesListModel();
         QGenericListModel* studentsModel = new QStudentsListModel() ;
@@ -66,31 +67,37 @@ int main(int argc, char *argv[])
         context->setContextProperty("pdm", &PDM());
         context->setContextProperty("appVersion", a.applicationVersion());
 
-        // set view properties
-        view.setSource(QUrl("qrc:/Qml/main.qml"));
-        view.setResizeMode(QQuickView::SizeRootObjectToView);
-        view.setFlags(Qt::Window | Qt::WindowTitleHint |
+        // set eval editor split variable
+        LocalAppSettings settings("EvalWriterCorp", "EvalWriter");
+        context->setContextProperty("settings", &settings);
+
+        engine.load(QUrl("qrc:/Qml/main.qml"));
+        QObject *topLevel = engine.rootObjects().value(0);
+        QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+
+        // set window properties
+        //window->setResizeMode(QQuickView::SizeRootObjectToView);
+        window->setFlags(Qt::Window | Qt::WindowTitleHint |
                       Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint |
                       Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint);
 
-        view.setMinimumSize(QSize(600,400));
+        window->setMinimumSize(QSize(600,400));
 
-        QSettings settings("EvalWriterCorp", "EvalWriter");
-        view.setGeometry(settings.value("geometry").toRect());
+        window->setGeometry(settings.value("geometry").toRect());
 
-        view.show();
-        view.setWindowState(static_cast<Qt::WindowState>(settings.value("windowState").toInt()));
+        window->show();
+        window->setWindowState(static_cast<Qt::WindowState>(settings.value("windowState").toInt()));
 
         int retVal = a.exec();
 
         // if this was a normal shutdown, save the window position and geometry
         if(retVal == 0)
         {
-            if(view.windowState() != Qt::WindowMaximized)
+            if(window->windowState() != Qt::WindowMaximized)
             {
-                settings.setValue("geometry", view.geometry());
+                settings.setValue("geometry", window->geometry());
             }
-            settings.setValue("windowState", view.windowState());
+            settings.setValue("windowState", window->windowState());
         }
         return retVal;
 
