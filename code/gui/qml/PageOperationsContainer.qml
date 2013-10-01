@@ -37,8 +37,8 @@ Rectangle {
                 {
                     mostRecentItemChooserList = wrapper.model.getOptionListForOperation(operation)
                 }
-                wizardContent.sourceComponent = componentToDisplay
-                wizardContent.show()
+                dialogContent.sourceComponent = componentToDisplay
+                dialogContent.show()
             }
         }
     }
@@ -236,6 +236,49 @@ Rectangle {
         }
     }
 
+    function getDialogTitle(operation)
+    {
+        switch(operation)
+        {
+            case QCoursesListModel.AddExistingCourseToStudent:
+                return "add student to class"
+
+            case QCoursesListModel.AddCourse:
+                return "add new class"
+
+            case QCoursesListModel.RemoveCourse:
+                return "remove class"
+
+            case QCoursesListModel.RenameCourse:
+                return "rename class"
+
+            case QStudentsListModel.AddExistingStudentToCourse:
+                return "add student to class"
+
+            case QStudentsListModel.RemoveStudentFromCourse:
+                return "remove student from class"
+
+            case QStudentsListModel.RemoveStudent:
+                return "remove student"
+
+            case QEvalsListModel.AddExistingEvalToEvalSet:
+                return "add evaluation to set"
+
+            case QEvalsListModel.AddEval:
+                return "add evaluation"
+
+            case QEvalsListModel.RemoveEval:
+                return "remove evaluation"
+
+            case QEvalsListModel.RenameEval:
+                return "rename evaluation"
+
+            default:
+                console.log("Error: operation not defined: " + operation)
+                return String(operation)
+        }
+    }
+
 
     function isOperationIndexDependent(operation)
     {
@@ -352,12 +395,13 @@ Rectangle {
         AddStudentDialog {
             id: dialog
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
+            headerText: "add new student"
 
             Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
+                dialog.onCancelClicked.connect(dialogContent.close)
                 dialog.onOkClicked.connect(wrapper.model.addStudent)
-                dialog.onOkClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(dialogContent.close)
             }
         }
     }
@@ -368,16 +412,17 @@ Rectangle {
         AddStudentDialog {
             id: dialog
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
+            headerText: "rename student"
             startingFirstName: wrapper.model.getStudentFirstName(listOfItems.currentIndex)
             startingMiddleName: wrapper.model.getStudentMiddleName(listOfItems.currentIndex)
             startingLastName: wrapper.model.getStudentLastName(listOfItems.currentIndex)
             startingGender: wrapper.model.getStudentGender(listOfItems.currentIndex)
 
             Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
+                dialog.onCancelClicked.connect(dialogContent.close)
                 dialog.onOkClicked.connect(renameStudent)
-                dialog.onOkClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(dialogContent.close)
             }
         }
     }
@@ -392,10 +437,10 @@ Rectangle {
 
             Component.onCompleted:
             {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
+                dialog.onCancelClicked.connect(dialogContent.close)
                 dialog.onAcceptedClicked.connect(wrapper.model.addCustomTextItem)
-                dialog.onAcceptedClicked.connect(wizardContent.close)
+                dialog.onAcceptedClicked.connect(dialogContent.close)
             }
         }
     }
@@ -408,13 +453,13 @@ Rectangle {
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
             stringList: mostRecentItemChooserList
             operation: mostRecentOperation
+            headerText: "create set from existing class"
 
             Component.onCompleted:
             {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
                 dialog.onOkClicked.connect(wrapper.model.createEvalSet)
-                dialog.onOkClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(dialogContent.close)
             }
         }
     }
@@ -427,13 +472,13 @@ Rectangle {
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
             stringList: mostRecentItemChooserList
             operation: mostRecentOperation
+            headerText: "duplicate existing set"
 
             Component.onCompleted:
             {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
                 dialog.onOkClicked.connect(wrapper.model.createEvalSet)
-                dialog.onOkClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(dialogContent.close)
             }
         }
     }
@@ -445,12 +490,13 @@ Rectangle {
         SingleLineTextInputDialog {
             id: dialog
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
+            headerText: getDialogTitle(mostRecentOperation)
 
             Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
+                dialog.onCancelClicked.connect(dialogContent.close)
                 dialog.onOkClicked.connect(wrapper.model.addItem)
-                dialog.onOkClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(dialogContent.close)
             }
         }
     }
@@ -461,12 +507,12 @@ Rectangle {
         YesNoDialog {
             id: dialog
             dialogText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
+            headerText: getDialogTitle(mostRecentOperation)
 
             Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onNoClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
                 dialog.onYesClicked.connect(removeItem)
-                dialog.onYesClicked.connect(wizardContent.close)
+                dialog.onYesClicked.connect(dialogContent.close)
             }
         }
     }
@@ -478,12 +524,13 @@ Rectangle {
             id: dialog
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
             startingText: listOfItems.currentItem.itemString
+            headerText: getDialogTitle(mostRecentOperation)
 
             Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
+                dialog.onCancelClicked.connect(dialogContent.close)
                 dialog.onOkClicked.connect(renameItem)
-                dialog.onOkClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(dialogContent.close)
             }
         }
     }
@@ -494,12 +541,13 @@ Rectangle {
             id: dialog
             explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
             stringList: mostRecentItemChooserList
+            headerText: getDialogTitle(mostRecentOperation)
 
             Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
+                dialog.onCancelClicked.connect(dialogContent.close)
                 dialog.onOkClicked.connect(chooseItem)
-                dialog.onOkClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(dialogContent.close)
             }
         }
     }

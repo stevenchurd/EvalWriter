@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 Dialog {
+    id: wrapperDialog
     property string explanationText
     property var stringList
 
@@ -13,39 +14,36 @@ Dialog {
         Column {
             spacing: 15
 
+            Connections {
+                target: wrapperDialog
+                onSubmitted: okClicked(itemSelectorList.currentIndex)
+            }
+
             Text {
                 text: explanationText
+                color: dialogTextColor
                 renderType: Text.NativeRendering
             }
 
             Rectangle {
+                height: itemSelectorList.height
                 width: parent.width
-                height: itemSelectorList.contentHeight + 10
                 color: "transparent"
+
                 CommonListView {
                     id: itemSelectorList
-                    anchors.fill: parent
+                    numElementsVisible: 12
+                    width: parent.width - (scrollbar.width + 5)
                     clip: true
                     model: stringList
                     delegate: CommonListDelegate {
                         text: modelData
                     }
                 }
-            }
 
-            Row {
-                spacing: 15
-
-                TextButton {
-                    id: okButton
-                    text: "OK"
-                    onClicked: okClicked(itemSelectorList.currentIndex)
-                }
-
-                TextButton {
-                    id: cancelButton
-                    text: "Cancel"
-                    onClicked: cancelClicked()
+                Scrollbar {
+                    id: scrollbar
+                    target: itemSelectorList
                 }
             }
         }

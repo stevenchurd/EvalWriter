@@ -59,8 +59,8 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             visible: buttonsVisible
             onClicked: {
-                wizardContent.sourceComponent = addCriteriaItemDialog
-                wizardContent.show()
+                dialogContent.sourceComponent = addCriteriaItemDialog
+                dialogContent.show()
             }
         }
 
@@ -71,8 +71,8 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             visible: buttonsVisible
             onClicked: {
-                wizardContent.sourceComponent = modifyGradingCriteriaDialog
-                wizardContent.show()
+                dialogContent.sourceComponent = modifyGradingCriteriaDialog
+                dialogContent.show()
             }
         }
 
@@ -83,8 +83,8 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             visible: buttonsVisible
             onClicked: {
-                wizardContent.sourceComponent = isDeleteGradingCriteriaOkDialog
-                wizardContent.show()
+                dialogContent.sourceComponent = isDeleteGradingCriteriaOkDialog
+                dialogContent.show()
             }
         }
     }
@@ -104,19 +104,20 @@ Rectangle {
         model.modifyGradingCriteria(index, text);
     }
 
-    // wizard component specifications
+    // dialog component specifications
     Component {
         id: isDeleteGradingCriteriaOkDialog
         YesNoDialog {
             id: dialog
             dialogText: "Do you want to delete this item?\n\nIf you delete this item, all evaluations that use these\nelements will be converted to custom text items."
+            headerText: "delete category"
 
             Component.onCompleted:
             {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onNoClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
+                dialog.onNoClicked.connect(dialogContent.close)
                 dialog.onYesClicked.connect(deleteGradingCriteria)
-                dialog.onYesClicked.connect(wizardContent.close)
+                dialog.onYesClicked.connect(dialogContent.close)
             }
         }
     }
@@ -137,10 +138,10 @@ Rectangle {
                              "  <Student_himself_herself> = either \"himself\" or \"herself\" based on gender";
 
             Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
+                dialog.onCancelClicked.connect(dialogContent.close)
                 dialog.onAddClicked.connect(addNewCriteriaItem)
-                dialog.onAddClicked.connect(wizardContent.close)
+                dialog.onAddClicked.connect(dialogContent.close)
             }
         }
     }
@@ -151,12 +152,15 @@ Rectangle {
             id: dialog
             startingText: gradingCriteriaString
             explanationText: "Change the category name to:"
+            headerText: "edit category name"
+            cancelButtonEnabled: true
+            cancelButtonText: "Cancel"
 
             Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
+                dialog.onCancelClicked.connect(dialogContent.close)
                 dialog.onOkClicked.connect(modifyGradingCriteria)
-                dialog.onOkClicked.connect(wizardContent.close)
+                dialog.onOkClicked.connect(dialogContent.close)
             }
         }
     }

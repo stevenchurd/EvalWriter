@@ -90,8 +90,8 @@ Rectangle {
             anchors.top: parent.top
             visible: buttonsVisible
             onClicked: {
-                wizardContent.sourceComponent = modifyCriteriaItemDialog
-                wizardContent.show()
+                dialogContent.sourceComponent = modifyCriteriaItemDialog
+                dialogContent.show()
             }
         }
 
@@ -103,8 +103,8 @@ Rectangle {
             anchors.top: parent.top
             visible: buttonsVisible
             onClicked: {
-                wizardContent.sourceComponent = isDeleteCriteriaItemOkDialog
-                wizardContent.show()
+                dialogContent.sourceComponent = isDeleteCriteriaItemOkDialog
+                dialogContent.show()
             }
         }
     }
@@ -146,12 +146,13 @@ Rectangle {
         YesNoDialog {
             id: dialog
             dialogText: "Do you want to delete this item?\n\nIf you delete this item, any evaluations that use this item\nwill be converted to a custom text item."
+            headerText: "delete grading criteria"
 
             Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onNoClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
+                dialog.onNoClicked.connect(dialogContent.close)
                 dialog.onYesClicked.connect(deleteCriteriaItem)
-                dialog.onYesClicked.connect(wizardContent.close)
+                dialog.onYesClicked.connect(dialogContent.close)
             }
         }
     }
@@ -165,12 +166,12 @@ Rectangle {
             currentLevel: criteriaLevelValue
 
             Component.onCompleted: {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onModifyClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
+                dialog.onModifyClicked.connect(dialogContent.close)
                 dialog.onModifyClicked.connect(modifyCriteriaItem)
-                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onCancelClicked.connect(dialogContent.close)
                 dialog.onAddClicked.connect(sendAddCriteriaItem)
-                dialog.onAddClicked.connect(wizardContent.close)
+                dialog.onAddClicked.connect(dialogContent.close)
             }
         }
     }

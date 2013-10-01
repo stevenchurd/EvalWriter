@@ -102,8 +102,6 @@ OTHER_FILES += \
     gui/qml/CriteriaItemRow.qml \
     gui/qml/GradingCriteriaModel.qml \
     gui/qml/GradingCriteriaDelegate.qml \
-    gui/qml/YesNoDialog.qml \
-    gui/qml/WizardLoader.qml \
     gui/qml/Dialog.qml \
     gui/qml/CriteriaItemDialog.qml \
     gui/qml/CriteriaItemEditDialog.qml \
@@ -133,7 +131,9 @@ OTHER_FILES += \
     gui/qml/IconButton.qml \
     gui/qml/CreateEvalSetDialog.qml \
     gui/qml/InfoDialog.qml \
-    gui/qml/SingleLineTextInputDialog.qml
+    gui/qml/SingleLineTextInputDialog.qml \
+    gui/qml/DialogLoader.qml \
+    gui/qml/YesNoDialog.qml
 
 RESOURCES += \
     resources.qrc \

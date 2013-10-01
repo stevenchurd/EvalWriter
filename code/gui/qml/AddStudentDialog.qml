@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 Dialog {
+    id: wrapperDialog
     property string startingFirstName
     property string startingMiddleName
     property string startingLastName
@@ -12,29 +13,41 @@ Dialog {
     signal okClicked(string firstName, string middleName, string lastName, int gender)
     signal cancelClicked
 
+    submitButtonText: "OK"
+    cancelButtonEnabled: true
+    cancelButtonText: "Cancel"
+
     Component {
         id: textInputComponent
 
         Column {
+            id: columnWrapper
             spacing: 15
+
+            Connections {
+                target: wrapperDialog
+                onSubmitted: columnWrapper.trySubmit()
+            }
 
             Text {
                 text: explanationText
+                color: dialogTextColor
                 renderType: Text.NativeRendering
             }
 
-            Row {
+             Column {
                 spacing: 5
                 Column {
                     Text {
                         text: "First name"
+                        color: dialogTextColor
                         renderType: Text.NativeRendering
                     }
 
                     Rectangle {
                         id: firstNameInputRect
 
-                        width: textInputWidth/3
+                        width: textInputWidth
                         height: textInputHeight
                         color: "#EEEEEE"
                         clip: true
@@ -63,13 +76,14 @@ Dialog {
                 Column {
                     Text {
                         text: "Middle Initial"
+                        color: dialogTextColor
                         renderType: Text.NativeRendering
                     }
 
                     Rectangle {
                         id: middleNameInputRect
 
-                        width: textInputWidth/3
+                        width: textInputWidth
                         height: textInputHeight
                         color: "#EEEEEE"
                         clip: true
@@ -96,13 +110,14 @@ Dialog {
                 Column {
                     Text {
                         text: "Last Name"
+                        color: dialogTextColor
                         renderType: Text.NativeRendering
                     }
 
                     Rectangle {
                         id: lastNameInputRect
 
-                        width: textInputWidth/3
+                        width: textInputWidth
                         height: textInputHeight
                         color: "#EEEEEE"
                         clip: true
@@ -141,31 +156,12 @@ Dialog {
                     id: genderList
                     anchors.fill: parent
 
-                    Keys.onTabPressed: okButton.focus = true
+                    Keys.onTabPressed: giveTabControlAfterLastElement()
                     currentIndex: startingGender
                     model: genderModel
                     delegate: CommonListDelegate {
                         text: name
                     }
-                }
-            }
-
-            Row {
-                anchors.right: parent.right
-                spacing: 15
-
-                TextButton {
-                    id: okButton
-                    Keys.onTabPressed: cancelButton.focus = true
-                    text: "OK"
-                    onClicked: trySubmit()
-                }
-
-                TextButton {
-                    id: cancelButton
-                    Keys.onTabPressed: firstName.focus = true
-                    text: "Cancel"
-                    onClicked: cancelClicked()
                 }
             }
 
@@ -212,7 +208,6 @@ Dialog {
             }
         }
     }
-
 
     sourceComponent: textInputComponent
 }

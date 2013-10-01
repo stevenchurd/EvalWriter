@@ -9,18 +9,28 @@ Dialog {
     property int dialogWidth: 300
 
     signal okClicked(int itemSelected, int operation, string name, string prefix)
-    signal cancelClicked
+
+    cancelButtonEnabled: true
+    cancelButtonText: "Cancel"
+    submitButtonText: "Create"
 
     Component {
         id: itemChooser
 
         Column {
+            id: columnWrapper
             width: wrapper.dialogWidth
             spacing: 15
+
+            Connections {
+                target: wrapper
+                onSubmitted: columnWrapper.trySubmit()
+            }
 
             Text {
                 width: parent.width
                 text: explanationText
+                color: dialogTextColor
                 renderType: Text.NativeRendering
                 wrapMode: Text.WordWrap
             }
@@ -30,22 +40,31 @@ Dialog {
                 Text {
                     width: parent.width
                     text: "Choose item to base new Evaluation Set on:"
+                    color: dialogTextColor
                     renderType: Text.NativeRendering
                     wrapMode: Text.WordWrap
                 }
 
                 Rectangle {
                     width: parent.width
-                    height: itemSelectorList.contentHeight + 10
+                    height: itemSelectorList.height
                     color: "transparent"
+
                     CommonListView {
                         id: itemSelectorList
-                        anchors.fill: parent
+                        numElementsVisible: 5
+                        width: parent.width - (scrollbar.width + 5)
+                        clip: true
                         currentIndex: 0
                         model: stringList
                         delegate: CommonListDelegate {
                             text: modelData
                         }
+                    }
+
+                    Scrollbar {
+                        id: scrollbar
+                        target: itemSelectorList
                     }
                 }
             }
@@ -55,6 +74,7 @@ Dialog {
                 Text {
                     width: parent.width
                     text: "Enter the name of the new Evaluation Set:"
+                    color: dialogTextColor
                     renderType: Text.NativeRendering
                     wrapMode: Text.WordWrap
                 }
@@ -87,6 +107,7 @@ Dialog {
                 Text {
                     width: parent.width
                     text: "Enter the prefix to use for each newly created Evaluation:"
+                    color: dialogTextColor
                     renderType: Text.NativeRendering
                     wrapMode: Text.WordWrap
                 }
@@ -119,6 +140,7 @@ Dialog {
                 Text {
                     width: parent.width
                     text: "Sample evaluation name:"
+                    color: dialogTextColor
                     renderType: Text.NativeRendering
                     wrapMode: Text.WordWrap
                 }
@@ -141,21 +163,6 @@ Dialog {
 
                         renderType: TextInput.NativeRendering
                     }
-                }
-            }
-            Row {
-                spacing: 15
-
-                TextButton {
-                    id: okButton
-                    text: "Create"
-                    onClicked: trySubmit()
-                }
-
-                TextButton {
-                    id: cancelButton
-                    text: "Cancel"
-                    onClicked: cancelClicked()
                 }
             }
 

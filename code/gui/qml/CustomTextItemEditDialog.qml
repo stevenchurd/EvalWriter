@@ -2,6 +2,7 @@ import QtQuick 2.1
 import QtQuick.Controls 1.0
 
 Dialog {
+    id: wrapperDialog
     property string dialogText
     property string startingText
     property string startingTitle
@@ -12,19 +13,38 @@ Dialog {
     signal acceptedClicked(string newTitle, string newText)
     signal cancelClicked
 
+    headerText: "add custom text item"
+    cancelButtonEnabled: true
+    cancelButtonText: "Cancel"
+
     Component {
         id: editContainer
 
         Column {
-            spacing: 15
+            id: columnWrapper
+            spacing: 5
+
+            Connections {
+                target: wrapperDialog
+                onSubmitted: columnWrapper.trySubmit()
+            }
 
             Text {
                 text: dialogText
+                color: dialogTextColor
                 renderType: Text.NativeRendering
+            }
+
+            Rectangle {
+                id: spacingRectangle
+                height: 10
+                width: 5
+                color: "transparent"
             }
 
             Text {
                 text: "Title:"
+                color: dialogTextColor
                 renderType: Text.NativeRendering
             }
 
@@ -58,6 +78,7 @@ Dialog {
 
             Text {
                 text: "Custom text to display:"
+                color: dialogTextColor
                 renderType: Text.NativeRendering
             }
 
@@ -83,30 +104,6 @@ Dialog {
                     Keys.onTabPressed: acceptButton.focus = true
 
                     onActiveFocusChanged: if(focus) {selectAll()}
-                }
-            }
-
-            Row {
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 15
-
-                TextButton {
-                    id: acceptButton
-                    text: acceptButtonText
-
-                    Keys.onTabPressed: cancelButton.focus = true
-                    Keys.onEnterPressed: trySubmit()
-
-                    onClicked: trySubmit()
-                }
-
-                TextButton {
-                    id: cancelButton
-                    text: "Cancel"
-
-                    Keys.onTabPressed: customTextTitle.focus = true
-                    Keys.onEnterPressed: cancelClicked()
-                    onClicked: cancelClicked()
                 }
             }
 

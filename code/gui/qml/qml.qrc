@@ -41,7 +41,8 @@
         <file>TextButton.qml</file>
         <file>utilities.js</file>
         <file>VerticalSplitter.qml</file>
-        <file>WizardLoader.qml</file>
+        <file>DialogLoader.qml</file>
         <file>YesNoDialog.qml</file>
+        <file>DialogLoader.qml</file>
     </qresource>
 </RCC>

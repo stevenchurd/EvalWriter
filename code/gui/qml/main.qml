@@ -40,20 +40,35 @@ ApplicationWindow {
             hoverText: "About"
             visible: pageStack.stackDepth == 1
             onClicked: {
-                wizardContent.sourceComponent = aboutDialog
-                wizardContent.show()
+                dialogContent.sourceComponent = aboutDialog
+                dialogContent.show()
             }
         }
 
-        // this is expected to be globally accessable as a means of loading wizard pages
-        WizardLoader {
-            id: wizardContent
+        Rectangle {
+            id: screenOverlay
+            anchors.fill: parent
+            color: "lightgray"
+            opacity: .5
+
+            onEnabledChanged: PropertyAnimation {
+                target: screenOverlay;
+                property: "opacity";
+                duration: 200
+                to: (screenOverlay.enabled) ? .5 : 0
+            }
+        }
+
+        // this is expected to be globally accessable as a means of loading dialogs
+        DialogLoader {
+            id: dialogContent
         }
 
         Component {
             id: aboutDialog
             InfoDialog {
                 id: dialog
+                headerText: "about"
                 dialogText: "<b>EvalWriter</b>" +
                             "<br><br>Copyright 2013 Steven Hurd" +
                             "<br>All rights reserved" +
@@ -61,8 +76,8 @@ ApplicationWindow {
 
                 Component.onCompleted:
                 {
-                    dialog.onCanceled.connect(wizardContent.close)
-                    dialog.onCloseClicked.connect(wizardContent.close)
+                    dialog.onCanceled.connect(dialogContent.close)
+                    dialog.onCloseClicked.connect(dialogContent.close)
                 }
 
             }

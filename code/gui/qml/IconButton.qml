@@ -9,7 +9,9 @@ Rectangle {
     property string hoverText
 
     property bool pressableIcon: true
-    property color iconColor
+    property color iconColor: "#555555"
+    property color hoverColor: "#33AAEE"
+    property color pressedColor: "#33CCEE"
 
     signal clicked
 
@@ -46,25 +48,26 @@ Rectangle {
         id: label
         anchors.centerIn: parent
         renderType: Text.NativeRendering
+        smooth: true
         font.family: fontAwesome.name
         font.pointSize: 14
         wrapMode: Text.WordWrap
-        color: (pressableIcon) ? "#555555" : iconColor
+        color: iconColor
     }
 
     states: [
         State {
             name: "mouseIn"
-            PropertyChanges { target: label; color: "#33AAEE" }
+            PropertyChanges { target: label; color: hoverColor }
         },
         State {
             name: "mouseOut"
-            PropertyChanges { target: label; color: "#555555" }
+            PropertyChanges { target: label; color: iconColor }
         },
         State {
             name: "pressed"
             when: pressableIcon && mouseArea.pressed
-            PropertyChanges { target: label; color: "#33CCEE" }
+            PropertyChanges { target: label; color: pressedColor}
         }
     ]
 }

@@ -87,8 +87,8 @@ MouseArea {
                 hoverText: "Edit"
                 visible: evalItemIsEditable && evalItemSelected
                 onClicked: {
-                    wizardContent.sourceComponent = editCustomTextItemDialog
-                    wizardContent.show()
+                    dialogContent.sourceComponent = editCustomTextItemDialog
+                    dialogContent.show()
                 }
             }
 
@@ -100,8 +100,8 @@ MouseArea {
                 hoverText: "Remove"
                 visible: evalItemSelected
                 onClicked: {
-                    wizardContent.sourceComponent = isRemoveEvalItemOkDialog
-                    wizardContent.show()
+                    dialogContent.sourceComponent = isRemoveEvalItemOkDialog
+                    dialogContent.show()
                 }
             }
         }
@@ -208,19 +208,19 @@ MouseArea {
         delegateRoot.width = calculateDelegateWidth()
     }
 
-    // wizard component definitions
+    // dialog component definitions
     Component {
         id: isRemoveEvalItemOkDialog
         YesNoDialog {
             id: dialog
             dialogText: "Do you want to remove this item from the Evaluation?"
+            headerText: "remove eval item"
 
             Component.onCompleted:
             {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onNoClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
                 dialog.onYesClicked.connect(removeEvalItem)
-                dialog.onYesClicked.connect(wizardContent.close)
+                dialog.onYesClicked.connect(dialogContent.close)
             }
         }
     }
@@ -236,10 +236,10 @@ MouseArea {
 
             Component.onCompleted:
             {
-                dialog.onCanceled.connect(wizardContent.close)
-                dialog.onCancelClicked.connect(wizardContent.close)
+                dialog.onCanceled.connect(dialogContent.close)
+                dialog.onCancelClicked.connect(dialogContent.close)
                 dialog.onAcceptedClicked.connect(editCustomTextItem)
-                dialog.onAcceptedClicked.connect(wizardContent.close)
+                dialog.onAcceptedClicked.connect(dialogContent.close)
             }
         }
     }

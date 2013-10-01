@@ -1,26 +1,40 @@
 import QtQuick 2.0
 
-Item {
+Rectangle {
     id: delegateItem
     property alias text: textItem.text
     height: textItem.height
-
     width: parent.width
+    color: "#999999"
+
     Rectangle {
         id: highlight
+        anchors.left: parent.left
         height: parent.height
-        width: 2
+        width: parent.width
         visible: delegateItem.ListView.isCurrentItem
-        color: "#33AAEE"
+        color: "#111111"
     }
 
     Text {
         id: textItem
-        anchors.left: highlight.right
+        anchors.left: parent.left
         anchors.leftMargin: 5
+        color: "#DDDDDD"
 
-        font.pointSize: 10
+        font.pointSize: 12
         renderType: Text.NativeRendering
+    }
+
+    Text {
+        id: checkmark
+        anchors.right: parent.right
+        anchors.rightMargin: 5
+        color: "#DDDDDD"
+        font.pointSize: 12
+        font.family: fontAwesome.name
+        visible: delegateItem.ListView.isCurrentItem
+        text: "\uF00C"
     }
 
     MouseArea {
