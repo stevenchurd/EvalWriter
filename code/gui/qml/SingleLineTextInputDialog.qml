@@ -8,8 +8,12 @@ Dialog {
     property int textInputHeight: 25
     property color dialogTextColor: "#DDDDDD"
 
-    signal okClicked(string newText)
+    signal submitted(string newText)
     signal cancelClicked
+
+    submitButtonText: "OK"
+    cancelButtonEnabled: true
+    cancelButtonText: "Cancel"
 
     Component {
         id: textInputComponent
@@ -20,15 +24,8 @@ Dialog {
 
             Connections {
                 target: wrapperDialog
-                onSubmitted: columnWrapper.trySubmit()
-                onStartingTextChanged: {
-                    question.text = startingText
-                    question.selectAll()
-                }
-                onExplanationTextChanged: {
-                    explanation.text = explanationText
-                }
-            }
+                onSubmitClick: columnWrapper.trySubmit()
+           }
 
             Text {
                 id: explanation
@@ -69,7 +66,8 @@ Dialog {
                 if(isValid(question.text))
                 {
                     textInputRect.border.color = "transparent"
-                    okClicked(question.text)
+                    submitted(question.text)
+                    close()
                 }
                 else
                 {

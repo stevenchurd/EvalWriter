@@ -87,7 +87,12 @@ MouseArea {
                 hoverText: "Edit"
                 visible: evalItemIsEditable && evalItemSelected
                 onClicked: {
-                    dialogContent.sourceComponent = editCustomTextItemDialog
+                    dialogContent.setSourceComponentWithSubmit("CustomTextItemEditDialog.qml",
+                                                               { "dialogText": "Edit the custom text item:",
+                                                                 "startingText": evalItemString,
+                                                                 "startingTitle": evalItemTitle,
+                                                                 "acceptButtonText": "Edit" },
+                                                               editCustomTextItem)
                     dialogContent.show()
                 }
             }
@@ -100,7 +105,10 @@ MouseArea {
                 hoverText: "Remove"
                 visible: evalItemSelected
                 onClicked: {
-                    dialogContent.sourceComponent = isRemoveEvalItemOkDialog
+                    dialogContent.setSourceComponentWithSubmit("YesNoDialog.qml",
+                                                               { "dialogText": "Do you want to remove this item from the Evaluation?",
+                                                                 "headerText": "remove evaluation item" },
+                                                               removeEvalItem)
                     dialogContent.show()
                 }
             }
@@ -206,23 +214,6 @@ MouseArea {
     {
         delegateRoot.VisualDataModel.model.model.editItemString(index, newTitle, newString);
         delegateRoot.width = calculateDelegateWidth()
-    }
-
-    // dialog component definitions
-    Component {
-        id: isRemoveEvalItemOkDialog
-        YesNoDialog {
-            id: dialog
-            dialogText: "Do you want to remove this item from the Evaluation?"
-            headerText: "remove eval item"
-
-            Component.onCompleted:
-            {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onYesClicked.connect(removeEvalItem)
-                dialog.onYesClicked.connect(dialogContent.close)
-            }
-        }
     }
 
     Component {

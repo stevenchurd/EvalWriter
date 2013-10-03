@@ -7,8 +7,6 @@ Rectangle {
     width: 150
     color: "transparent"
 
-    property var mostRecentOperation
-    property var mostRecentItemChooserList
     property var model
     property var listOfItems
 
@@ -30,14 +28,19 @@ Rectangle {
 
             text: operationText
             onClicked: {
-                mostRecentOperation = operation
-                if(componentToDisplay === itemChooserDialog ||
-                   componentToDisplay === createEvalSetFromCourseDialog ||
-                   componentToDisplay === createEvalSetFromEvalSetDialog)
+                var component = getDialogComponent(operation)
+                var properties = getDialogProperties(operation)
+                var submitAction = getDialogSubmitAction(operation)
+
+                if(submitAction === null)
                 {
-                    mostRecentItemChooserList = wrapper.model.getOptionListForOperation(operation)
+                    dialogContent.setSourceComponent(component, properties)
+
                 }
-                dialogContent.sourceComponent = componentToDisplay
+                else
+                {
+                    dialogContent.setSourceComponentWithSubmit(component, properties, submitAction)
+                }
                 dialogContent.show()
             }
         }
@@ -51,103 +54,171 @@ Rectangle {
         for(var i = 0; i < supportedOperations.length; i++)
         {
             operationsModel.append({"operationText": getOperationString(supportedOperations[i]),
-                                    "componentToDisplay": getOperationComponent(supportedOperations[i]),
+                                    //"componentToDisplay": getOperationComponent(supportedOperations[i]),
                                     "operation": supportedOperations[i]})
         }
     }
 
 
-    function getOperationComponent(operation)
+    function getDialogComponent(operation)
     {
         switch(operation) {
-            //
-            // Course operations
-            //
+            case QEvalSetsListModel.AddEvalSet:
             case QCoursesListModel.AddCourse:
-                return addItemDialog
+            case QEvalsListModel.AddEval:
+            case QGradingCriteriaModel.AddGradingCriteria:
+            case QCoursesListModel.RenameCourse:
+            case QEvalSetsListModel.RenameEvalSet:
+            case QEvalsListModel.RenameEval:
+                return "SingleLineTextInputDialog.qml"
+
+            case QStudentsListModel.AddStudent:
+            case QStudentsListModel.RenameStudent:
+                return "AddStudentDialog.qml"
 
             case QCoursesListModel.RemoveCourse:
-                return removeItemDialog
-
-            case QCoursesListModel.RenameCourse:
-                return renameItemDialog
-
             case QCoursesListModel.RemoveExistingCourseFromStudent:
-                return removeItemDialog
+            case QEvalSetsListModel.RemoveEvalSet:
+            case QStudentsListModel.RemoveStudent:
+            case QStudentsListModel.RemoveStudentFromCourse:
+            case QEvalsListModel.RemoveEval:
+            case QEvalsListModel.RemoveEvalFromEvalSet:
+                return "YesNoDialog.qml"
+
+            case QEvalSetsListModel.CreateEvalSetFromCourse:
+            case QEvalSetsListModel.CreateEvalSetFromEvalSet:
+                return "CreateEvalSetDialog.qml"
 
             case QCoursesListModel.AddExistingCourseToStudent:
-                return itemChooserDialog
-
-            //
-            // Eval Set operations
-            //
-            case QEvalSetsListModel.CreateEvalSetFromCourse:
-                return createEvalSetFromCourseDialog
-
-            case QEvalSetsListModel.CreateEvalSetFromEvalSet:
-                return createEvalSetFromEvalSetDialog
-
-            case QEvalSetsListModel.AddEvalSet:
-                return addItemDialog
-
-            case QEvalSetsListModel.RemoveEvalSet:
-                return removeItemDialog
-
-            case QEvalSetsListModel.RenameEvalSet:
-                return renameItemDialog
-
-            //
-            // Student operations
-            //
-            case QStudentsListModel.AddStudent:
-                return addStudentDialog
-
             case QStudentsListModel.AddExistingStudentToCourse:
-                return itemChooserDialog
-
-            case QStudentsListModel.RenameStudent:
-                return renameStudentDialog
-
-            case QStudentsListModel.RemoveStudent:
-                return removeItemDialog
-
-            case QStudentsListModel.RemoveStudentFromCourse:
-                return removeItemDialog
-
-            //
-            // Eval operations
-            //
-            case QEvalsListModel.AddEval:
-                return addItemDialog
-
-            case QEvalsListModel.RemoveEval:
-                return removeItemDialog
-
-            case QEvalsListModel.RenameEval:
-                return renameItemDialog
-
             case QEvalsListModel.AddExistingEvalToEvalSet:
-                return itemChooserDialog
+                return "ListChooserDialog.qml"
 
-            case QEvalsListModel.RemoveEvalFromEvalSet:
-                return removeItemDialog
-
-            //
-            // Grading Criteria operations
-            //
-            case QGradingCriteriaModel.AddGradingCriteria:
-                return addItemDialog
-
-            //
-            // Evaluation operations
-            //
             case QEvaluationModel.AddCustomTextItem:
-                return addCustomTextDialog
+                return "CustomTextItemEditDialog.qml"
 
             default:
-                console.log("No component defined: " + operation)
+                console.log("getDialogComponent: No component defined: " + operation)
         }
     }
+
+
+    function getDialogProperties(operation)
+    {
+        switch(operation)
+        {
+            case QCoursesListModel.AddCourse:
+            case QEvalSetsListModel.AddEvalSet:
+            case QEvalsListModel.AddEval:
+            case QGradingCriteriaModel.AddGradingCriteria:
+                return { "explanationText": wrapper.model.getOperationExplanationText(operation, listOfItems.currentIndex),
+                         "headerText": getDialogTitle(operation)}
+
+            case QStudentsListModel.AddStudent:
+                return { "explanationText": wrapper.model.getOperationExplanationText(operation, listOfItems.currentIndex),
+                         "headerText": "add new student" }
+
+            case QStudentsListModel.RenameStudent:
+                return {
+                    "explanationText": wrapper.model.getOperationExplanationText(operation, listOfItems.currentIndex),
+                    "headerText": "rename student",
+                    "startingFirstName": wrapper.model.getStudentFirstName(listOfItems.currentIndex),
+                    "startingMiddleName": wrapper.model.getStudentMiddleName(listOfItems.currentIndex),
+                    "startingLastName": wrapper.model.getStudentLastName(listOfItems.currentIndex),
+                    "startingGender": wrapper.model.getStudentGender(listOfItems.currentIndex)
+                }
+
+            case QCoursesListModel.RemoveCourse:
+            case QCoursesListModel.RemoveExistingCourseFromStudent:
+            case QEvalSetsListModel.RemoveEvalSet:
+            case QStudentsListModel.RemoveStudent:
+            case QStudentsListModel.RemoveStudentFromCourse:
+            case QEvalsListModel.RemoveEval:
+            case QEvalsListModel.RemoveEvalFromEvalSet:
+                return { "dialogText": wrapper.model.getOperationExplanationText(operation, listOfItems.currentIndex),
+                         "headerText": getDialogTitle(operation) }
+
+            case QCoursesListModel.RenameCourse:
+            case QEvalSetsListModel.RenameEvalSet:
+            case QEvalsListModel.RenameEval:
+                return { "explanationText": wrapper.model.getOperationExplanationText(operation, listOfItems.currentIndex),
+                         "startingText": listOfItems.currentItem.itemString,
+                         "headerText": getDialogTitle(operation) }
+
+            case QCoursesListModel.AddExistingCourseToStudent:
+            case QStudentsListModel.AddExistingStudentToCourse:
+            case QEvalsListModel.AddExistingEvalToEvalSet:
+                return { "explanationText": wrapper.model.getOperationExplanationText(operation, listOfItems.currentIndex),
+                         "stringList": wrapper.model.getOptionListForOperation(operation),
+                         "operation": operation,
+                         "headerText": getDialogTitle(operation)}
+
+            case QEvaluationModel.AddCustomTextItem:
+                return { "explanationText": wrapper.model.getOperationExplanationText(operation, listOfItems.currentIndex),
+                         "headerText": getDialogTitle(operation) }
+
+            case QEvalSetsListModel.CreateEvalSetFromEvalSet:
+            case QEvalSetsListModel.CreateEvalSetFromCourse:
+                return { "explanationText": wrapper.model.getOperationExplanationText(operation, listOfItems.currentIndex),
+                    "stringList": wrapper.model.getOptionListForOperation(operation),
+                    "operation": operation,
+                    "headerText": getDialogTitle(operation) }
+
+
+            default:
+                console.log("getDialogProperties: No component defined: " + operation)
+        }
+    }
+
+
+    function getDialogSubmitAction(operation)
+    {
+        switch(operation)
+        {
+            case QStudentsListModel.AddStudent:
+                return wrapper.model.addStudent
+
+            case QStudentsListModel.RenameStudent:
+                return renameStudent
+
+            case QEvaluationModel.AddCustomTextItem:
+                return wrapper.model.addCustomTextItem
+
+            case QEvalSetsListModel.CreateEvalSetFromCourse:
+            case QEvalSetsListModel.CreateEvalSetFromEvalSet:
+                return wrapper.model.createEvalSet
+
+            case QEvalSetsListModel.AddEvalSet:
+            case QCoursesListModel.AddCourse:
+            case QEvalsListModel.AddEval:
+            case QGradingCriteriaModel.AddGradingCriteria:
+                return wrapper.model.addItem
+
+            case QCoursesListModel.RenameCourse:
+            case QEvalSetsListModel.RenameEvalSet:
+            case QEvalsListModel.RenameEval:
+                return renameItem
+
+            case QCoursesListModel.RemoveCourse:
+            case QCoursesListModel.RemoveExistingCourseFromStudent:
+            case QEvalSetsListModel.RemoveEvalSet:
+            case QStudentsListModel.RemoveStudent:
+            case QStudentsListModel.RemoveStudentFromCourse:
+            case QEvalsListModel.RemoveEval:
+            case QEvalsListModel.RemoveEvalFromEvalSet:
+                return removeItem
+
+            case QCoursesListModel.AddExistingCourseToStudent:
+            case QStudentsListModel.AddExistingStudentToCourse:
+            case QEvalsListModel.AddExistingEvalToEvalSet:
+                return wrapper.model.optionListSelection
+
+            default:
+                console.log("getDialogSubmitAction: No component defined: " + operation)
+
+        }
+    }
+
 
     function getOperationString(operation)
     {
@@ -273,8 +344,29 @@ Rectangle {
             case QEvalsListModel.RenameEval:
                 return "rename evaluation"
 
+            case QEvalSetsListModel.CreateEvalSetFromCourse:
+                return "create evaluation set from class"
+
+            case QEvalSetsListModel.CreateEvalSetFromEvalSet:
+                return "duplicate evaluation set"
+
+            case QEvalSetsListModel.AddEvalSet:
+                return "add new evaluation set"
+
+            case QEvalSetsListModel.RenameEvalSet:
+                return "rename evaluation set"
+
+            case QEvalSetsListModel.RemoveEvalSet:
+                return "remove evaluation set"
+
+            case QEvaluationModel.AddCustomTextItem:
+                return "add custom text item"
+
+            case QEvalsListModel.RemoveEvalFromEvalSet:
+                return "remove evaluation from set"
+
             default:
-                console.log("Error: operation not defined: " + operation)
+                console.log("getDialogTitle: operation not defined: " + operation)
                 return String(operation)
         }
     }
@@ -283,84 +375,34 @@ Rectangle {
     function isOperationIndexDependent(operation)
     {
         switch(operation) {
-            // Course List operations
             case QCoursesListModel.AddCourse:
-                return false
-
-            case QCoursesListModel.RemoveCourse:
-                return true
-
-            case QCoursesListModel.RenameCourse:
-                return true
-
-            case QCoursesListModel.RemoveExistingCourseFromStudent:
-                return true
-
             case QCoursesListModel.AddExistingCourseToStudent:
-                return false
-
-
-            // Eval Set List Operations
             case QEvalSetsListModel.CreateEvalSetFromCourse:
-                return false
-
             case QEvalSetsListModel.CreateEvalSetFromEvalSet:
-                return false
-
             case QEvalSetsListModel.AddEvalSet:
-                return false
-
-            case QEvalSetsListModel.RemoveEvalSet:
-                return true
-
-            case QEvalSetsListModel.RenameEvalSet:
-                return true
-
-
-            // Student List Operations
             case QStudentsListModel.AddStudent:
-                return false
-
-            case QStudentsListModel.RemoveStudent:
-                return true
-
-            case QStudentsListModel.RenameStudent:
-                return true
-
             case QStudentsListModel.AddExistingStudentToCourse:
-                return false
-
-            case QStudentsListModel.RemoveStudentFromCourse:
-                return true
-
-
-            // Eval List Operations
             case QEvalsListModel.AddEval:
-                return false
-
-            case QEvalsListModel.RemoveEval:
-                return true
-
-            case QEvalsListModel.RenameEval:
-                return true
-
             case QEvalsListModel.AddExistingEvalToEvalSet:
-                return false
-
-            case QEvalsListModel.RemoveEvalFromEvalSet:
-                return true
-
-
-            // Grading Category Operations
             case QGradingCriteriaModel.AddGradingCriteria:
-                return false
-
-            // Evaluation operations
             case QEvaluationModel.AddCustomTextItem:
                 return false
 
+            case QCoursesListModel.RemoveCourse:
+            case QCoursesListModel.RenameCourse:
+            case QCoursesListModel.RemoveExistingCourseFromStudent:
+            case QEvalSetsListModel.RemoveEvalSet:
+            case QEvalSetsListModel.RenameEvalSet:
+            case QStudentsListModel.RemoveStudent:
+            case QStudentsListModel.RenameStudent:
+            case QStudentsListModel.RemoveStudentFromCourse:
+            case QEvalsListModel.RemoveEval:
+            case QEvalsListModel.RenameEval:
+            case QEvalsListModel.RemoveEvalFromEvalSet:
+                return true
+
             default:
-                console.log("Error: operation not defined: " + operation)
+                console.log("isOperationIndexDependent: operation not defined: " + operation)
                 return false
         }
     }
@@ -381,174 +423,5 @@ Rectangle {
     function renameItem(newName)
     {
         wrapper.model.renameItem(newName, listOfItems.currentIndex)
-    }
-
-
-    function chooseItem(row)
-    {
-        wrapper.model.optionListSelection(mostRecentOperation, row);
-    }
-
-    // dialog components
-    Component {
-        id: addStudentDialog
-        AddStudentDialog {
-            id: dialog
-            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
-            headerText: "add new student"
-
-            Component.onCompleted: {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onCancelClicked.connect(dialogContent.close)
-                dialog.onOkClicked.connect(wrapper.model.addStudent)
-                dialog.onOkClicked.connect(dialogContent.close)
-            }
-        }
-    }
-
-
-    Component {
-        id: renameStudentDialog
-        AddStudentDialog {
-            id: dialog
-            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
-            headerText: "rename student"
-            startingFirstName: wrapper.model.getStudentFirstName(listOfItems.currentIndex)
-            startingMiddleName: wrapper.model.getStudentMiddleName(listOfItems.currentIndex)
-            startingLastName: wrapper.model.getStudentLastName(listOfItems.currentIndex)
-            startingGender: wrapper.model.getStudentGender(listOfItems.currentIndex)
-
-            Component.onCompleted: {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onCancelClicked.connect(dialogContent.close)
-                dialog.onOkClicked.connect(renameStudent)
-                dialog.onOkClicked.connect(dialogContent.close)
-            }
-        }
-    }
-
-
-    Component {
-        id: addCustomTextDialog
-        CustomTextItemEditDialog {
-            id: dialog
-            dialogText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
-            acceptButtonText: "OK"
-
-            Component.onCompleted:
-            {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onCancelClicked.connect(dialogContent.close)
-                dialog.onAcceptedClicked.connect(wrapper.model.addCustomTextItem)
-                dialog.onAcceptedClicked.connect(dialogContent.close)
-            }
-        }
-    }
-
-
-    Component {
-        id: createEvalSetFromCourseDialog
-        CreateEvalSetDialog {
-            id: dialog
-            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
-            stringList: mostRecentItemChooserList
-            operation: mostRecentOperation
-            headerText: "create set from existing class"
-
-            Component.onCompleted:
-            {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onOkClicked.connect(wrapper.model.createEvalSet)
-                dialog.onOkClicked.connect(dialogContent.close)
-            }
-        }
-    }
-
-
-    Component {
-        id: createEvalSetFromEvalSetDialog
-        CreateEvalSetDialog {
-            id: dialog
-            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
-            stringList: mostRecentItemChooserList
-            operation: mostRecentOperation
-            headerText: "duplicate existing set"
-
-            Component.onCompleted:
-            {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onOkClicked.connect(wrapper.model.createEvalSet)
-                dialog.onOkClicked.connect(dialogContent.close)
-            }
-        }
-    }
-
-
-    // Generic components
-    Component {
-        id: addItemDialog
-        SingleLineTextInputDialog {
-            id: dialog
-            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
-            headerText: getDialogTitle(mostRecentOperation)
-
-            Component.onCompleted: {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onCancelClicked.connect(dialogContent.close)
-                dialog.onOkClicked.connect(wrapper.model.addItem)
-                dialog.onOkClicked.connect(dialogContent.close)
-            }
-        }
-    }
-
-
-    Component {
-        id: removeItemDialog
-        YesNoDialog {
-            id: dialog
-            dialogText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
-            headerText: getDialogTitle(mostRecentOperation)
-
-            Component.onCompleted: {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onYesClicked.connect(removeItem)
-                dialog.onYesClicked.connect(dialogContent.close)
-            }
-        }
-    }
-
-
-    Component {
-        id: renameItemDialog
-        SingleLineTextInputDialog {
-            id: dialog
-            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
-            startingText: listOfItems.currentItem.itemString
-            headerText: getDialogTitle(mostRecentOperation)
-
-            Component.onCompleted: {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onCancelClicked.connect(dialogContent.close)
-                dialog.onOkClicked.connect(renameItem)
-                dialog.onOkClicked.connect(dialogContent.close)
-            }
-        }
-    }
-
-    Component {
-        id: itemChooserDialog
-        ListChooserDialog {
-            id: dialog
-            explanationText: wrapper.model.getOperationExplanationText(mostRecentOperation, listOfItems.currentIndex)
-            stringList: mostRecentItemChooserList
-            headerText: getDialogTitle(mostRecentOperation)
-
-            Component.onCompleted: {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onCancelClicked.connect(dialogContent.close)
-                dialog.onOkClicked.connect(chooseItem)
-                dialog.onOkClicked.connect(dialogContent.close)
-            }
-        }
     }
 }

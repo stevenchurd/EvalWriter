@@ -3,8 +3,6 @@ import QtQuick 2.0
 Dialog {
     property string dialogText
 
-    signal closeClicked
-
     submitButtonText: "Close"
 
     Component {
@@ -18,7 +16,7 @@ Dialog {
         }
     }
 
-    onSubmitted: closeClicked()
+    onSubmitClick: close()
 
     sourceComponent: infoContainer
 }

@@ -4,9 +4,9 @@ Dialog {
     id: wrapperDialog
     property string explanationText
     property var stringList
+    property var operation
 
-    signal okClicked(int itemSelected)
-    signal cancelClicked
+    signal submitted(int operation, int itemSelected)
 
     Component {
         id: itemChooser
@@ -16,7 +16,7 @@ Dialog {
 
             Connections {
                 target: wrapperDialog
-                onSubmitted: okClicked(itemSelectorList.currentIndex)
+                onSubmitClick: { submitted(operation, itemSelectorList.currentIndex); close() }
             }
 
             Text {

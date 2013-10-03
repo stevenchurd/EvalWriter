@@ -40,7 +40,12 @@ ApplicationWindow {
             hoverText: "About"
             visible: pageStack.stackDepth == 1
             onClicked: {
-                dialogContent.sourceComponent = aboutDialog
+                dialogContent.setSourceComponent("InfoDialog.qml",
+                                                 { "headerText": "about",
+                                                    "dialogText": "<b>EvalWriter</b>" +
+                                                                  "<br><br>Copyright 2013 Steven Hurd" +
+                                                                  "<br>All rights reserved" +
+                                                                  "<br><br>Version: " + appVersion })
                 dialogContent.show()
             }
         }
@@ -64,23 +69,14 @@ ApplicationWindow {
             id: dialogContent
         }
 
-        Component {
-            id: aboutDialog
-            InfoDialog {
-                id: dialog
-                headerText: "about"
-                dialogText: "<b>EvalWriter</b>" +
-                            "<br><br>Copyright 2013 Steven Hurd" +
-                            "<br>All rights reserved" +
-                            "<br><br>Version: " + appVersion
-
-                Component.onCompleted:
-                {
-                    dialog.onCanceled.connect(dialogContent.close)
-                    dialog.onCloseClicked.connect(dialogContent.close)
-                }
-
-            }
+        Component.onCompleted: {
+            dialogContent.setSourceComponent("InfoDialog.qml",
+                                             { "headerText": "about",
+                                               "dialogText": "<b>EvalWriter</b>" +
+                                                             "<br><br>Copyright 2013 Steven Hurd" +
+                                                             "<br>All rights reserved" +
+                                                             "<br><br>Version: " + appVersion
+                                             })
         }
     }
 }

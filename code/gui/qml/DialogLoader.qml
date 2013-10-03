@@ -2,7 +2,6 @@ import QtQuick 2.0
 
 Item {
     id: dialogContainer
-    property alias sourceComponent: pageLoader.sourceComponent
 
     height: parent.height
     width: pageLoader.width
@@ -12,6 +11,11 @@ Item {
         id:pageLoader
         anchors.left: parent.left
         focus: true
+
+        onSourceChanged: {
+            console.log("source component changed " + (0 - dialogContainer.width))
+            dialogContainer.x = (0 - dialogContainer.width)
+        }
     }
 
     Behavior on x {
@@ -20,11 +24,8 @@ Item {
 
     Component.onCompleted: {
         screenOverlay.enabled = false
-        sourceComponent = aboutDialog
         x = 0 - width
     }
-
-    onSourceComponentChanged: x = 0 - width
 
     function show()
     {
@@ -42,5 +43,18 @@ Item {
         navBar.enabled = true
         aboutButton.enabled = true
         screenOverlay.enabled = false
+    }
+
+    function setSourceComponent(newDialog, properties)
+    {
+        pageLoader.setSource(newDialog, properties)
+        pageLoader.item.canceled.connect(close)
+        pageLoader.item.close.connect(close)
+    }
+
+    function setSourceComponentWithSubmit(newDialog, properties, submitAction)
+    {
+        setSourceComponent(newDialog, properties)
+        pageLoader.item.submitted.connect(submitAction)
     }
 }

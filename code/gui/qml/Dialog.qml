@@ -13,9 +13,10 @@ Rectangle {
     property color dialogTextColor: "#DDDDDD"
 
     signal canceled
-    signal submitted
+    signal submitClick
+    signal close
 
-    Keys.onEscapePressed: canceled()
+    Keys.onEscapePressed: close()
 
     anchors.centerIn: parent
     height: screenContainer.height
@@ -43,7 +44,7 @@ Rectangle {
             pressedColor: "#DDDDDD"
             smooth: true
             size: 36
-            onClicked: canceled()
+            onClicked: close()
         }
 
         Text {
@@ -93,7 +94,7 @@ Rectangle {
                 TextButton {
                     id: submitButton
                     text: submitButtonText
-                    onClicked: submitted()
+                    onClicked: submitClick()
                 }
 
                 TextButton {

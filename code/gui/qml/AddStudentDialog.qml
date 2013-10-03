@@ -10,8 +10,7 @@ Dialog {
     property int textInputWidth: 300
     property int textInputHeight: 25
 
-    signal okClicked(string firstName, string middleName, string lastName, int gender)
-    signal cancelClicked
+    signal submitted(string firstName, string middleName, string lastName, int gender)
 
     submitButtonText: "OK"
     cancelButtonEnabled: true
@@ -26,7 +25,7 @@ Dialog {
 
             Connections {
                 target: wrapperDialog
-                onSubmitted: columnWrapper.trySubmit()
+                onSubmitClick: columnWrapper.trySubmit()
             }
 
             Text {
@@ -195,7 +194,8 @@ Dialog {
                 // if all the checks passed, we can submit
                 if(valid == true)
                 {
-                    okClicked(firstName.text, middleName.text, lastName.text, genderList.currentIndex)
+                    submitted(firstName.text, middleName.text, lastName.text, genderList.currentIndex)
+                    close()
                 }
             }
 

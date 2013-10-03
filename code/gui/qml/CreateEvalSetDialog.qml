@@ -8,7 +8,7 @@ Dialog {
     property int operation
     property int dialogWidth: 300
 
-    signal okClicked(int itemSelected, int operation, string name, string prefix)
+    signal submitted(int itemSelected, int operation, string name, string prefix)
 
     cancelButtonEnabled: true
     cancelButtonText: "Cancel"
@@ -24,7 +24,7 @@ Dialog {
 
             Connections {
                 target: wrapper
-                onSubmitted: columnWrapper.trySubmit()
+                onSubmitClick: columnWrapper.trySubmit()
             }
 
             Text {
@@ -177,10 +177,11 @@ Dialog {
                 if(evalNamePrefixTextInput.text.length > 0 &&
                         evalSetNameTextInput.text.length > 0)
                 {
-                    okClicked(itemSelectorList.currentIndex,
+                    submitted(itemSelectorList.currentIndex,
                               wrapper.operation,
                               evalSetNameTextInput.text,
-                              evalNamePrefixTextInput.text);
+                              evalNamePrefixTextInput.text)
+                    close()
                 }
 
                 if(evalSetNameTextInput.text.length <= 0)

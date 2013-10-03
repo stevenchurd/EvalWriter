@@ -10,8 +10,7 @@ Dialog {
     property int textInputHeight: 100
     property string acceptButtonText
 
-    signal acceptedClicked(string newTitle, string newText)
-    signal cancelClicked
+    signal submitted(string newTitle, string newText)
 
     headerText: "add custom text item"
     cancelButtonEnabled: true
@@ -26,7 +25,7 @@ Dialog {
 
             Connections {
                 target: wrapperDialog
-                onSubmitted: columnWrapper.trySubmit()
+                onSubmitClick: columnWrapper.trySubmit()
             }
 
             Text {
@@ -138,7 +137,8 @@ Dialog {
                 {
                     bodyRect.border.color = "transparent"
                     titleRect.border.color = "transparent"
-                    acceptedClicked(customTextTitle.text, customTextItem.text)
+                    submitted(customTextTitle.text, customTextItem.text)
+                    close()
                 }
             }
         }

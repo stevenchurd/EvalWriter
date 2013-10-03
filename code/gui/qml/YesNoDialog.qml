@@ -4,7 +4,7 @@ Dialog {
     id: wrapperDialog
     property string dialogText
 
-    signal yesClicked
+    signal submitted
 
     submitButtonText: "Yes"
     cancelButtonEnabled: true
@@ -19,10 +19,7 @@ Dialog {
 
             Connections {
                 target: wrapperDialog
-                onSubmitted: yesClicked()
-                onDialogTextChanged: {
-                    question.text = dialogText
-                }
+                onSubmitClick: { submitted(); close() }
             }
 
             Text {
