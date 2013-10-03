@@ -57,4 +57,10 @@ Item {
         setSourceComponent(newDialog, properties)
         pageLoader.item.submitted.connect(submitAction)
     }
+
+    function setSourceComponentWithSecondarySubmit(newDialog, properties, submitAction, secondarySubmitAction)
+    {
+        setSourceComponentWithSubmit(newDialog, properties, submitAction)
+        pageLoader.item.secondarySubmitted.connect(secondarySubmitAction)
+    }
 }

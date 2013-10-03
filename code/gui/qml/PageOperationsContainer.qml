@@ -365,6 +365,9 @@ Rectangle {
             case QEvalsListModel.RemoveEvalFromEvalSet:
                 return "remove evaluation from set"
 
+            case QGradingCriteriaModel.AddGradingCriteria:
+                return "add grading category"
+
             default:
                 console.log("getDialogTitle: operation not defined: " + operation)
                 return String(operation)

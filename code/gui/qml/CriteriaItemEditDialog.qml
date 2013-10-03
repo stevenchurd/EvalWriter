@@ -2,21 +2,35 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 
 Dialog {
+    id: dialogWrapper
+
     property string startingText
     property string explanationText
     property int currentLevel
     property int textInputHeight: 100
     property bool isModifyVisible: true
 
-    signal addClicked(string newText, int level)
-    signal modifyClicked(string newText, int level)
-    signal cancelClicked
+    signal submitted(string newText, int level)
+    signal secondarySubmitted(string newText, int level)
+
+    submitButtonText: "OK"
+    secondarySubmitButtonEnabled: isModifyVisible
+    secondarySubmitButtonText: "Modify Existing"
+    cancelButtonEnabled: true
+    cancelButtonText: "Cancel"
 
     Component {
         id: textInputComponent
 
         Column {
+            id: columnWrapper
             spacing: 15
+
+            Connections {
+                target: dialogWrapper
+                onSubmitClick: columnWrapper.trySubmit()
+                onSecondarySubmitClick: columnWrapper.trySecondarySubmit()
+            }
 
             Text {
                 text: explanationText
@@ -70,28 +84,18 @@ Dialog {
                 }
             }
 
-            Row {
-                anchors.right: parent.right
-                spacing: 15
+            function trySubmit()
+            {
+                //TODO add checking here
+                submitted(question.text, criteriaLevelSelector.currentIndex)
+                close()
+            }
 
-                TextButton {
-                    id: addButton
-                    text: "Add New"
-                    onClicked: addClicked(question.text, criteriaLevelSelector.currentIndex)
-                }
-
-                TextButton {
-                    id: modifyButton
-                    text: "Modify Existing"
-                    onClicked: modifyClicked(question.text, criteriaLevelSelector.currentIndex)
-                    visible: isModifyVisible
-                }
-
-                TextButton {
-                    id: cancelButton
-                    text: "Cancel"
-                    onClicked: cancelClicked()
-                }
+            function trySecondarySubmit()
+            {
+                //TODO add checking here
+                secondarySubmitted(question.text, criteriaLevelSelector.currentIndex)
+                close()
             }
         }
     }

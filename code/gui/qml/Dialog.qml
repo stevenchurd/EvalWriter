@@ -8,12 +8,15 @@ Rectangle {
     property alias sourceComponent: dialogContent.sourceComponent
     property string headerText: ""
     property string submitButtonText: "OK"
+    property bool secondarySubmitButtonEnabled: false
+    property string secondarySubmitButtonText: ""
     property bool cancelButtonEnabled: false
     property string cancelButtonText: "Cancel"
     property color dialogTextColor: "#DDDDDD"
 
     signal canceled
     signal submitClick
+    signal secondarySubmitClick
     signal close
 
     Keys.onEscapePressed: close()
@@ -95,6 +98,14 @@ Rectangle {
                     id: submitButton
                     text: submitButtonText
                     onClicked: submitClick()
+                }
+
+                TextButton {
+                    id: secondarySubmitButton
+                    text: secondarySubmitButtonText
+                    enabled: secondarySubmitButtonEnabled
+                    visible: secondarySubmitButtonEnabled
+                    onClicked: secondarySubmitClick()
                 }
 
                 TextButton {
