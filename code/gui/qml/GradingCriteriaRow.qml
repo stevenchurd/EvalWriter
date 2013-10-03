@@ -59,7 +59,19 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             visible: buttonsVisible
             onClicked: {
-                dialogContent.sourceComponent = addCriteriaItemDialog
+                dialogContent.setSourceComponentWithSubmit("CriteriaItemEditDialog.qml",
+                                                           { "isModifyVisible": false
+                                                             "explanationText": "Use the following tags to automatically insert text in Evaluations:\n" +
+                                                                                "  <Student_First_Name> = Student's first name\n" +
+                                                                                "  <Student_Middle_Name> = Student's middle name\n" +
+                                                                                "  <Student_Last_Name> = Student's last name\n" +
+                                                                                "  <Student_First_Last_Name> = Student's first and last name (e.g. John Smith)\n" +
+                                                                                "  <Student_he_she> = either \"he\" or \"she\" based on gender\n" +
+                                                                                "  <Student_his_her> = either \"his\" or \"her\" based on gender\n" +
+                                                                                "  <Student_him_her> = either \"him\" or \"her\" based on gender\n" +
+                                                                                "  <Student_himself_herself> = either \"himself\" or \"herself\" based on gender";
+                                                             "headerText": "add grading criteria item"},
+                                                             addNewCriteriaItem)
                 dialogContent.show()
             }
         }
@@ -71,7 +83,13 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             visible: buttonsVisible
             onClicked: {
-                dialogContent.sourceComponent = modifyGradingCriteriaDialog
+                dialogContent.setSourceComponentWithSubmit("SingleLineTextInputDialog.qml",
+                                                           { "startingText": gradingCriteriaString,
+                                                             "explanationText": "Change the category name to:",
+                                                             "headerText": "edit category name",
+                                                             "cancelButtonEnabled": true,
+                                                             "cancelButtonText": "Cancel"},
+                                                            modifyGradingCriteria)
                 dialogContent.show()
             }
         }
@@ -83,7 +101,10 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             visible: buttonsVisible
             onClicked: {
-                dialogContent.sourceComponent = isDeleteGradingCriteriaOkDialog
+                dialogContent.setSourceComponentWithSubmit("YesNoDialog.qml",
+                                                           { "dialogText": "Do you want to delete this item?\n\nIf you delete this item, all evaluations that use these\nelements will be converted to custom text items.",
+                                                             "headerText": "delete category"},
+                                                           deleteGradingCriteria)
                 dialogContent.show()
             }
         }
@@ -102,67 +123,6 @@ Rectangle {
     function modifyGradingCriteria(text)
     {
         model.modifyGradingCriteria(index, text);
-    }
-
-    // dialog component specifications
-    Component {
-        id: isDeleteGradingCriteriaOkDialog
-        YesNoDialog {
-            id: dialog
-            dialogText: "Do you want to delete this item?\n\nIf you delete this item, all evaluations that use these\nelements will be converted to custom text items."
-            headerText: "delete category"
-
-            Component.onCompleted:
-            {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onNoClicked.connect(dialogContent.close)
-                dialog.onYesClicked.connect(deleteGradingCriteria)
-                dialog.onYesClicked.connect(dialogContent.close)
-            }
-        }
-    }
-
-    Component {
-        id: addCriteriaItemDialog
-        CriteriaItemEditDialog {
-            id: dialog
-            isModifyVisible: false
-            explanationText: "Add grading criteria item.  Use the following tags to automatically insert text in Evaluations:\n" +
-                             "  <Student_First_Name> = Student's first name\n" +
-                             "  <Student_Middle_Name> = Student's middle name\n" +
-                             "  <Student_Last_Name> = Student's last name\n" +
-                             "  <Student_First_Last_Name> = Student's first and last name (e.g. John Smith)\n" +
-                             "  <Student_he_she> = either \"he\" or \"she\" based on gender\n" +
-                             "  <Student_his_her> = either \"his\" or \"her\" based on gender\n" +
-                             "  <Student_him_her> = either \"him\" or \"her\" based on gender\n" +
-                             "  <Student_himself_herself> = either \"himself\" or \"herself\" based on gender";
-
-            Component.onCompleted: {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onCancelClicked.connect(dialogContent.close)
-                dialog.onAddClicked.connect(addNewCriteriaItem)
-                dialog.onAddClicked.connect(dialogContent.close)
-            }
-        }
-    }
-
-    Component {
-        id: modifyGradingCriteriaDialog
-        SingleLineTextInputDialog {
-            id: dialog
-            startingText: gradingCriteriaString
-            explanationText: "Change the category name to:"
-            headerText: "edit category name"
-            cancelButtonEnabled: true
-            cancelButtonText: "Cancel"
-
-            Component.onCompleted: {
-                dialog.onCanceled.connect(dialogContent.close)
-                dialog.onCancelClicked.connect(dialogContent.close)
-                dialog.onOkClicked.connect(modifyGradingCriteria)
-                dialog.onOkClicked.connect(dialogContent.close)
-            }
-        }
     }
 
     function calculateTextWidth()
