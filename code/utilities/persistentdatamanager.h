@@ -30,7 +30,7 @@ public:
     static const std::string s_lastReadFileName;
 
     void loadFile(std::string path, std::string filename);
-    void saveFile(std::string path, std::string filename);
+    void saveFile(std::string path, std::string filename, bool crashfile = false);
 
     std::vector<boost::shared_ptr<Student> >::const_iterator studentsBegin(void) const;
     std::vector<boost::shared_ptr<Student> >::const_iterator studentsEnd(void) const;

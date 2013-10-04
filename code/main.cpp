@@ -6,6 +6,7 @@
 #include <QQuickWindow>
 #include <QQmlComponent>
 #include <QStandardPaths>
+#include <QDateTime>
 
 #include "application.h"
 #include "utilities/filelogger.h"
@@ -107,7 +108,8 @@ int main(int argc, char *argv[])
         try {
             //attempt to save the data as an alternate file, if this fails, do nothing
             PDM().saveFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation).toStdString(),
-                           PersistentDataManager::s_crashFileName);
+                           PersistentDataManager::s_crashFileName + QString::number(QDateTime::currentMSecsSinceEpoch()).toStdString(),
+                           true);
         } catch(...) {
             // log an error but otherwise do nothing
             FileLogger::getInst()->log(std::string("FAILSAFE SAVE ERROR: ") + e.what());

@@ -26,7 +26,7 @@
 
 
 const std::string PersistentDataManager::s_saveFileName = "evaldata.ewd";
-const std::string PersistentDataManager::s_crashFileName = "~evaldata.bak";
+const std::string PersistentDataManager::s_crashFileName = "dump.";
 const std::string PersistentDataManager::s_initialWriteFileName = "evalLastWrite.bak";
 const std::string PersistentDataManager::s_lastReadFileName = "evalLastRead.bak";
 
@@ -306,7 +306,7 @@ void PersistentDataManager::setupUuidMap(void)
 }
 
 
-void PersistentDataManager::saveFile(std::string path, std::string filename)
+void PersistentDataManager::saveFile(std::string path, std::string filename, bool crashfile)
 {
     m_savepath = path;
     boost::property_tree::ptree savePt;
@@ -349,14 +349,21 @@ void PersistentDataManager::saveFile(std::string path, std::string filename)
             singleEvalSet->accept(esv);
         });
 
-        SaveVisitor::saveFile(path + "\\" + s_initialWriteFileName, savePt);
+        if(!crashfile)
+        {
+            SaveVisitor::saveFile(path + "\\" + s_initialWriteFileName, savePt);
 
-        QFile oldFile(QString::fromStdString(path + "/" + filename));
-        oldFile.remove();
+            QFile oldFile(QString::fromStdString(path + "/" + filename));
+            oldFile.remove();
 
-        // assuming everything got here fine, copy and overwrite the last save
-        assert(QFile::copy(QString::fromStdString(path + "/" + s_initialWriteFileName),
-                           QString::fromStdString(path + "/" + filename)));
+            // assuming everything got here fine, copy and overwrite the last save
+            assert(QFile::copy(QString::fromStdString(path + "/" + s_initialWriteFileName),
+                               QString::fromStdString(path + "/" + filename)));
+        }
+        else
+        {
+            SaveVisitor::saveFile(path + "\\" + filename, savePt);
+        }
     }
 }
 
