@@ -6,6 +6,31 @@ Item {
     height: parent.height
     width: pageLoader.width
     x: -400
+    state: "closed"
+
+    states: [
+        State {
+            name: "showing"
+            PropertyChanges { target: dialogContainer; x: 0 }
+        },
+        State {
+            name: "closed"
+            PropertyChanges { target: dialogContainer; x: 0-dialogContainer.width }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            from: "showing"
+            to: "closed"
+            PropertyAnimation { properties: "x"; duration: 200; easing.type: Easing.OutQuad }
+        },
+        Transition {
+            from: "closed"
+            to: "showing"
+            PropertyAnimation { properties: "x"; duration: 200; easing.type: Easing.OutQuad }
+        }
+    ]
 
     Loader {
         id:pageLoader
@@ -13,18 +38,12 @@ Item {
         focus: true
 
         onSourceChanged: {
-            console.log("source component changed " + (0 - dialogContainer.width))
             dialogContainer.x = (0 - dialogContainer.width)
         }
     }
 
-    Behavior on x {
-        NumberAnimation{ duration: 200; easing.type: Easing.OutQuad }
-    }
-
     Component.onCompleted: {
         screenOverlay.enabled = false
-        x = 0 - width
     }
 
     function show()
@@ -33,12 +52,12 @@ Item {
         navBar.enabled = false
         aboutButton.enabled = false
         screenOverlay.enabled = true
-        x = 0
+        dialogContainer.state = "showing"
    }
 
     function close()
     {
-        x = 0-width
+        dialogContainer.state = "closed"
         pageStack.enabled = true
         navBar.enabled = true
         aboutButton.enabled = true

@@ -60,7 +60,7 @@ Rectangle {
             visible: buttonsVisible
             onClicked: {
                 dialogContent.setSourceComponentWithSubmit("CriteriaItemEditDialog.qml",
-                                                           { "isModifyVisible": false
+                                                           { "isModifyVisible": false,
                                                              "explanationText": "Use the following tags to automatically insert text in Evaluations:\n" +
                                                                                 "  <Student_First_Name> = Student's first name\n" +
                                                                                 "  <Student_Middle_Name> = Student's middle name\n" +
@@ -69,7 +69,7 @@ Rectangle {
                                                                                 "  <Student_he_she> = either \"he\" or \"she\" based on gender\n" +
                                                                                 "  <Student_his_her> = either \"his\" or \"her\" based on gender\n" +
                                                                                 "  <Student_him_her> = either \"him\" or \"her\" based on gender\n" +
-                                                                                "  <Student_himself_herself> = either \"himself\" or \"herself\" based on gender";
+                                                                                "  <Student_himself_herself> = either \"himself\" or \"herself\" based on gender",
                                                              "headerText": "add grading criteria item"},
                                                              addNewCriteriaItem)
                 dialogContent.show()

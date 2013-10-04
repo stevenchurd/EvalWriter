@@ -93,10 +93,10 @@ Rectangle {
                 dialogContent.setSourceComponentWithSecondarySubmit("CriteriaItemEditDialog.qml",
                                                                    {"explanationText": "Modifying existing items will change them in all evaluations\ninwhich they are used.  If you do not with to do this\nyou may add this as a new item.",
                                                                     "startingText": text,
+                                                                    "headerText":  "modify grading criteria item",
                                                                     "currentLevel": criteriaLevelValue},
                                                                     sendAddCriteriaItem,
                                                                     modifyCriteriaItem)
-                dialogContent.sourceComponent = modifyCriteriaItemDialog
                 dialogContent.show()
             }
         }

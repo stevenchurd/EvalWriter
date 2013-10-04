@@ -34,6 +34,7 @@ Dialog {
 
             Text {
                 text: explanationText
+                color: dialogTextColor
                 renderType: Text.NativeRendering
             }
 
