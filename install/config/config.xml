@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
     <Name>EvalWriter</Name>
-    <Version>beta 1.0</Version>
+    <Version>beta 1.02</Version>
     <Title>EvalWriter Installer</Title>
     <Publisher>Steven Hurd</Publisher>
     <StartMenuDir>EvalWriter</StartMenuDir>
