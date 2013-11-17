@@ -5,16 +5,16 @@
 QStudentsListModel::QStudentsListModel(QObject* parent) :
     QGenericListModel(parent)
 {
-    assert(QObject::connect(&PDM(), SIGNAL(studentDataChanged(std::string)),
-                     this, SLOT(onStudentDataChanged(std::string))));
+    QObject::connect(&PDM(), SIGNAL(studentDataChanged(std::string)),
+                     this, SLOT(onStudentDataChanged(std::string)));
 }
 
 
 QStudentsListModel::QStudentsListModel(boost::shared_ptr<Course> course, QObject* parent) :
     QGenericListModel(parent), m_course(course)
 {
-    assert(QObject::connect(&PDM(), SIGNAL(studentDataChanged(std::string)),
-                     this, SLOT(onStudentDataChanged(std::string))));
+    QObject::connect(&PDM(), SIGNAL(studentDataChanged(std::string)),
+                     this, SLOT(onStudentDataChanged(std::string)));
 }
 
 

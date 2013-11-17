@@ -10,6 +10,10 @@ TARGET = EvalWriter
 TEMPLATE = app
 
 DEFINES += _SCL_SECURE_NO_WARNINGS
+QMAKE_CFLAGS_RELEASE    = -O2 -MD -zi
+QMAKE_LFLAGS_RELEASE    = /INCREMENTAL:NO /DEBUG
+
+
 
 SOURCES += main.cpp\
     model/student.cpp \

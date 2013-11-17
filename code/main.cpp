@@ -33,8 +33,7 @@ int main(int argc, char *argv[])
         a.setApplicationName("EvalWriter");
         a.setApplicationVersion(QString::fromStdString(applicationDefinitions::appVersion));
 
-        PDM().loadFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation).toStdString(),
-                       PersistentDataManager::s_saveFileName);
+        PDM().loadFile(PersistentDataManager::s_saveFileName);
 
         qmlRegisterUncreatableType<QCoursesListModel>("CppEnums", 1, 0, "QCoursesListModel", "Need enum types");
         qmlRegisterUncreatableType<QEvalSetsListModel>("CppEnums", 1, 0, "QEvalSetsListModel", "Need enum types");
@@ -100,6 +99,9 @@ int main(int argc, char *argv[])
             }
             settings.setValue("windowState", window->windowState());
         }
+
+        PDM().saveFile(PersistentDataManager::s_saveFileName);
+
         return retVal;
 
     } catch(std::exception& e) {
@@ -107,9 +109,7 @@ int main(int argc, char *argv[])
 
         try {
             //attempt to save the data as an alternate file, if this fails, do nothing
-            PDM().saveFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation).toStdString(),
-                           PersistentDataManager::s_crashFileName + QString::number(QDateTime::currentMSecsSinceEpoch()).toStdString(),
-                           true);
+            PDM().saveFile(PersistentDataManager::s_crashFileName + QString::number(QDateTime::currentMSecsSinceEpoch()).toStdString(), true);
         } catch(...) {
             // log an error but otherwise do nothing
             FileLogger::getInst()->log(std::string("FAILSAFE SAVE ERROR: ") + e.what());

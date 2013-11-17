@@ -131,7 +131,10 @@ void QGradingCriteriaModel::addItem(QString itemName)
                                          PDM().gradingCriteriaEnd());
     // created grading criteria, now add it to PDM
     beginInsertRows(QModelIndex(), newRow, newRow);
-    assert(PDM().add(newGc) == newRow);
+    if(PDM().add(newGc) != newRow)
+    {
+        assert(false);
+    }
 
     // now add the model and connect the signal
     auto newModel = std::make_tuple(new QCriteriaItemListModel(newGc, m_criteriaItemListModels.size(), this), false);

@@ -29,8 +29,8 @@ public:
     static const std::string s_initialWriteFileName;
     static const std::string s_lastReadFileName;
 
-    void loadFile(std::string path, std::string filename);
-    void saveFile(std::string path, std::string filename, bool crashfile = false);
+    void loadFile(std::string filename);
+    void saveFile(std::string filename, bool crashfile = false);
 
     std::vector<boost::shared_ptr<Student> >::const_iterator studentsBegin(void) const;
     std::vector<boost::shared_ptr<Student> >::const_iterator studentsEnd(void) const;
@@ -70,7 +70,7 @@ private:
     template <typename T, typename C>
     int add(T& item, C& container);
 
-    std::string m_savepath;
+    const static std::string s_savepath;
 
     std::vector<boost::shared_ptr<Student> > m_allStudents;
     std::vector<boost::shared_ptr<Course> > m_allCourses;

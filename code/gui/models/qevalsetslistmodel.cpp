@@ -8,22 +8,22 @@
 QEvalSetsListModel::QEvalSetsListModel(QObject* parent) :
     QGenericListModel(parent)
 {
-    assert(QObject::connect(&PDM(), SIGNAL(evalSetDataChanged(std::string)),
-                            this, SLOT(onEvalSetDataChanged(std::string))));
+    QObject::connect(&PDM(), SIGNAL(evalSetDataChanged(std::string)),
+                            this, SLOT(onEvalSetDataChanged(std::string)));
 
-    assert(QObject::connect(&PDM(), SIGNAL(evalDataChanged(std::string)),
-                            this, SLOT(onEvalDataChanged(std::string))));
+    QObject::connect(&PDM(), SIGNAL(evalDataChanged(std::string)),
+                            this, SLOT(onEvalDataChanged(std::string)));
 }
 
 
 QEvalSetsListModel::QEvalSetsListModel(boost::shared_ptr<EvalSet> evalSet, QObject* parent) :
     QGenericListModel(parent), m_evalSet(evalSet)
 {
-    assert(QObject::connect(&PDM(), SIGNAL(evalSetDataChanged(std::string)),
-                            this, SLOT(onEvalSetDataChanged(std::string))));
+    QObject::connect(&PDM(), SIGNAL(evalSetDataChanged(std::string)),
+                            this, SLOT(onEvalSetDataChanged(std::string)));
 
-    assert(QObject::connect(&PDM(), SIGNAL(evalDataChanged(std::string)),
-                            this, SLOT(onEvalDataChanged(std::string))));
+    QObject::connect(&PDM(), SIGNAL(evalDataChanged(std::string)),
+                            this, SLOT(onEvalDataChanged(std::string)));
 }
 
 

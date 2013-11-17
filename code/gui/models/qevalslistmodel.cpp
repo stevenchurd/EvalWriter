@@ -9,15 +9,15 @@
 QEvalsListModel::QEvalsListModel(boost::shared_ptr<Student> student, QObject* parent) :
     QGenericListModel(parent), m_student(student)
 {
-    assert(QObject::connect(&PDM(), SIGNAL(evalDataChanged(std::string)),
-                            this, SLOT(onEvalDataChanged(std::string))));
+    QObject::connect(&PDM(), SIGNAL(evalDataChanged(std::string)),
+                            this, SLOT(onEvalDataChanged(std::string)));
 }
 
 QEvalsListModel::QEvalsListModel(boost::shared_ptr<EvalSet> evalSet, QObject* parent) :
     QGenericListModel(parent), m_evalSet(evalSet)
 {
-    assert(QObject::connect(&PDM(), SIGNAL(evalDataChanged(std::string)),
-                            this, SLOT(onEvalDataChanged(std::string))));
+    QObject::connect(&PDM(), SIGNAL(evalDataChanged(std::string)),
+                            this, SLOT(onEvalDataChanged(std::string)));
 }
 
 
